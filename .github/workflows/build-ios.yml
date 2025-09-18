@@ -1,43 +1,43 @@
-   name: Build Cordova iOS App
+name: Build Cordova iOS App
 
-   on:
-     push:
-       branches:
-         - main
+on:
+  push:
+    branches:
+      - main
 
-   jobs:
-     build:
-       runs-on: macos-latest
+jobs:
+  build:
+    runs-on: macos-latest
 
-       steps:
-         - name: Checkout code
-           uses: actions/checkout@v3
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-         - name: Set up Node
-           uses: actions/setup-node@v3
-           with:
-             node-version: '18'
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
 
-         - name: Install Cordova
-           run: npm install -g cordova
+      - name: Install Cordova
+        run: npm install -g cordova
 
-         - name: Install dependencies
-           run: npm install
+      - name: Install dependencies
+        run: npm install
 
-         - name: Add iOS platform
-           run: cordova platform add ios@latest
+      - name: Add iOS platform
+        run: cordova platform add ios@latest
 
-         - name: Build iOS App
-           run: cordova build ios --release
+      - name: Build iOS App (Release)
+        run: cordova build ios --release
 
-         - name: Archive IPA
-           run: |
-             mkdir -p release
-             cp -R platforms/ios/build/device/*.ipa release/
-           shell: bash
+      - name: Archive IPA
+        run: |
+          mkdir -p release
+          cp -R platforms/ios/build/device/*.ipa release/
+        shell: bash
 
-         - name: Upload artifact
-           uses: actions/upload-artifact@v3
-           with:
-             name: ios-app
-             path: release/*.ipa
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-app
+          path: release/*.ipa
