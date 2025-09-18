@@ -1,0 +1,82 @@
+body {
+    margin: 0;
+    font-family: sans-serif;
+    background: #f8f8f8;
+}
+
+.status-bar, .header, .search-container, .page-header, .filters {
+    padding: 10px;
+    background: white;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    background: #efefef;
+    border-radius: 20px;
+    padding: 5px 10px;
+}
+
+.villas-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    padding: 10px;
+}
+
+.villa-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.villa-image {
+    position: relative;
+    height: 100px;
+    background: #ddd;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.free-badge {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: #4caf50;
+    color: white;
+    padding: 2px 6px;
+    border-radius: 8px;
+    font-size: 12px;
+}
+
+.price-rating {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 10px 0 10px;
+}
+
+.rating {
+    background: #ccc;
+    padding: 2px 6px;
+    border-radius: 999px;
+}
+
+.features {
+    display: flex;
+    justify-content: space-around;
+    padding: 5px;
+}
+
+.bottom-nav {
+    position: fixed;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #eee;
+    border-radius: 30px;
+    padding: 10px 20px;
+    display: flex;
+    gap: 40px;
+}

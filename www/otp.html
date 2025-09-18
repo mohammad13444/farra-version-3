@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTP</title>
+    <link rel="stylesheet" href="./css/otp.css">
+</head>
+<body>
+    <div class="frame">
+        <div class="container">
+            <h1>OTP</h1>
+            <p class="description">
+                Enter the OTP code we just sent you on your registered Email/Phone number.
+            </p>
+            <br>
+            <br>
+            <br>
+            <div class="otp-boxes">
+                <input type="text" maxlength="1" pattern="[0-9]*" inputmode="numeric">
+                <input type="text" maxlength="1" pattern="[0-9]*" inputmode="numeric">
+                <input type="text" maxlength="1" pattern="[0-9]*" inputmode="numeric">
+                <input type="text" maxlength="1" pattern="[0-9]*" inputmode="numeric">
+                <input type="text" maxlength="1" pattern="[0-9]*" inputmode="numeric">
+                <input type="text" maxlength="1" pattern="[0-9]*" inputmode="numeric">
+            </div>
+
+            <button class="continue-btn" onclick="goToInfo()">Continue</button>
+            <br>
+            <a href="#" class="link">I did not get the code</a>
+        </div>
+    </div>
+
+    <script>
+        const inputs = document.querySelectorAll('.otp-boxes input');
+
+        inputs.forEach((input, index) => {
+            input.addEventListener('input', (e) => {
+                const val = e.target.value.replace(/[^0-9]/g, '');
+                e.target.value = val;
+
+                if (val && index < inputs.length - 1) {
+                    inputs[index + 1].focus();
+                }
+            });
+
+            input.addEventListener('keydown', (e) => {
+                if (e.key === "Backspace" && !e.target.value && index > 0) {
+                    inputs[index - 1].focus();
+                }
+            });
+        });
+
+        function goToInfo() {
+            window.location.href = "info.html";
+        }
+    </script>
+</body>
+</html>

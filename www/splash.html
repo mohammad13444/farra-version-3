@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Farra Splash</title>
+  <link rel="stylesheet" href="./css/splash.css">
+</head>
+<body>
+  <div class="container">
+    <div class="logo">Farra</div>
+    <div class="tagline">finds the place</div>
+    <div class="version">Ver 0.1</div>
+  </div>
+
+  <script>
+    // بعد از انیمیشن، کاربر را به صفحه بعد هدایت کن
+    setTimeout(() => {
+      window.location.href = "signup.html"; // اینو بگذار به صفحه بعدت
+    }, 4000); // زمان کل ۴ ثانیه
+  </script>
+  <script>
+document.addEventListener("deviceready", function() {
+    StatusBar.hide();
+});
+</script>
+
+</body>
+</html>

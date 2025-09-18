@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.example.farra" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>Farra</name>
+    <description>Farra App - finds the place</description>
+    <author email="dev@cordova.apache.org" href="https://cordova.apache.org">
+        Apache Cordova Team
+    </author>
+
+    <!-- صفحه اولیه (مسیر واقعی فایل اسپلش تو پروژه) -->
+    <content src="splash.html" />
+
+    <!-- تنظیمات مجوزها -->
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+
+    <!-- تنظیمات رنگ و وضعیت -->
+    <preference name="StatusBarBackgroundColor" value="#383838ff" />
+    <preference name="StatusBarStyle" value="default" />
+    <preference name="Fullscreen" value="true" />
+    <preference name="Orientation" value="portrait" />
+
+    <!-- غیرفعال کردن اسپلش/صفحه سیاه پیش‌فرض Cordova -->
+    <preference name="ShowSplashScreen" value="false" />
+    <preference name="AutoHideSplashScreen" value="true" />
+    <preference name="SplashScreenDelay" value="0" />
+</widget>

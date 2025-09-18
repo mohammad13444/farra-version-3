@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Onboarding</title>
+    <link rel="stylesheet" href="./css/onboarding.css">
+</head>
+<body>
+    <div class="frame">
+        <div class="container">
+            <br>
+            <br>
+
+            <!-- متن بالا -->
+            <div class="text-area">
+                <h1 id="slide-title">Book All Places</h1>
+                <p class="description" id="slide-text">
+                    Explore all homes and hotels, compare them and book them easily online with no need to call!
+                </p>
+            </div>
+            <!-- دایره و آیکون -->
+            <div class="image-circle">
+                <img id="slide-image" src="./img/4.png" alt="Slide Image">
+            </div>
+
+            <!-- ناوبری پایین -->
+            <div class="bottom-nav">
+                <span class="skip" onclick="skipOnboarding()">Skip</span>
+                <div class="dots">
+                    <span class="dot active"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                </div>
+                <span class="next" onclick="nextSlide()">Next</span>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const slides = [
+            {
+                title: "Book All Places",
+                text: "Explore all homes and hotels, compare them and book them easily online with no need to call!",
+                image: "img/2.png" // آیکون تقویم
+            },
+            {
+                title: "Pay Cashless",
+                text: "Pay hotels, homes and resorts via FIB or visa card easily with no need to cash.",
+                image: "img/3.png" // آیکون کارت بانکی
+            },
+            {
+                title: "Read Reviews",
+                text: "You can see the real photos, read other users reviews, put your review and choose the best ones.",
+                image: "img/2.png" // آیکون گفت‌وگو
+            }
+        ];
+
+        let currentSlide = 0;
+
+        function updateSlide() {
+            document.getElementById("slide-title").textContent = slides[currentSlide].title;
+            document.getElementById("slide-text").textContent = slides[currentSlide].text;
+            document.getElementById("slide-image").src = slides[currentSlide].image;
+
+            document.querySelectorAll(".dot").forEach((dot, index) => {
+                dot.classList.toggle("active", index === currentSlide);
+            });
+        }
+
+        function nextSlide() {
+            if (currentSlide < slides.length - 1) {
+                currentSlide++;
+                updateSlide();
+            } else {
+                // window.location.href = "home.html"; // رفتن به صفحه اصلی یا هر صفحه‌ای که بخوای
+            }
+        }
+
+        function skipOnboarding() {
+            // window.location.href = "home.html";
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup</title>
+    <link rel="stylesheet" href="./css/signup.css">
+</head>
+<body>
+    <div class="frame">
+        <div class="container">
+            <h1>Signup</h1>
+            <p class="description">
+                To register in the app, please enter your phone number. 
+                you can skip this step and complete it later.
+            </p>
+
+            <input type="tel" placeholder="Enter your phone number" class="phone-input">
+
+            <button class="signup-btn" onclick="nextStep()">Signup</button>
+
+            <a href="#" class="link">I already have an account</a>
+
+            <div class="divider">
+                <span>or signup via</span>
+            </div>
+
+            <div class="social-buttons">
+                <button class="social-button">G</button>
+                <button class="social-button">f</button>
+                <button class="social-button"></button>
+            </div>
+
+            <a href="#" class="skip-link">Skip This</a>
+        </div>
+    </div>
+
+    <script>
+        function nextStep() {
+            window.location.href = "otp.html";
+        }
+    </script>
+    <script>
+document.addEventListener("deviceready", function() {
+    StatusBar.hide();
+});
+</script>
+
+</body>
+</html>
