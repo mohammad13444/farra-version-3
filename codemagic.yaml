@@ -1,6 +1,6 @@
 # =================================================================
 # Codemagic CI/CD Configuration for Cordova/Ionic Project
-# FINAL FINAL ATTEMPT - Re-introduce CordovaLib Fix and use -i ''
+# FINAL FINAL FINAL ATTEMPT - Remove SED, use xcodebuild parameters
 # =================================================================
 workflows:
   cordova-build-workflow:
@@ -15,7 +15,7 @@ workflows:
         NODE_VERSION: 20
         CORDOVA_VERSION: 12
         ANDROID_PLATFORM_VERSION: 13.0.0
-        IOS_TEAM_ID: 72M97MR8UU     # Team ID شما
+        IOS_TEAM_ID: 72M97MR8UU     # Team ID شما (از Codemagic)
         IOS_SCHEME_NAME: Farra      # نام Scheme پروژه شما
         
       node: $NODE_VERSION
@@ -33,60 +33,39 @@ workflows:
           # افزودن پلتفرم‌ها
           cordova platform add ios --save || true
           cordova platform add android@$ANDROID_PLATFORM_VERSION --save || true
+          
+          # این دستور Cordova Deployment Target را به 12.0 در config.xml به‌روز می‌کند
+          # و آماده‌سازی را انجام می‌دهد
           cordova prepare
           
-      - name: CRITICAL-FIX-Aggressively-Clean-Xcode-Project-Files
+      - name: CRITICAL-FIX-Deployment-Target
         script: |
-          echo "Applying AGGRESSIVE fix to both project files..."
-          
-          # تعریف مسیر هر دو فایل پروژه (Farra و CordovaLib)
-          PROJ_FILES="platforms/ios/${IOS_SCHEME_NAME}.xcodeproj/project.pbxproj platforms/ios/CordovaLib/CordovaLib.xcodeproj/project.pbxproj"
-          
-          # اجرای دستورات sed برای هر دو فایل
-          for PROJ_FILE in $PROJ_FILES; do
-            if [ -f "$PROJ_FILE" ]; then
-              echo "Processing $PROJ_FILE"
-              
-              # 1. FORCE Provisioning Style to Automatic
-              # تغییر ProvisioningStyle از Manual به Automatic
-              # از پرچم -i '' استفاده می‌کنیم تا تغییرات در macOS/Linux به درستی اعمال شوند
-              sed -i '' 's/ProvisioningStyle = Manual;/ProvisioningStyle = Automatic;/g' $PROJ_FILE
-
-              # 2. Neutralize ALL Code Signing Identity settings (تغییر به مقدار خالی)
-              # این شامل تمام مقادیری مثل "iPhone Distribution" می‌شود.
-              sed -i '' 's/CODE_SIGN_IDENTITY = .*;/CODE_SIGN_IDENTITY = ""/g' $PROJ_FILE
-              
-              # 3. Remove all Provisioning Profile Specifier/Team entries
-              # حذف تنظیمات مربوط به پروفایل‌های دستی و Team ID ذخیره شده در فایل
-              sed -i '' '/PROVISIONING_PROFILE_SPECIFIER/d' $PROJ_FILE
-              sed -i '' '/PROVISIONING_PROFILE/d' $PROJ_FILE
-              sed -i '' '/DEVELOPMENT_TEAM/d' $PROJ_FILE
-              
-              # 4. Fix iOS Deployment Target warning (11.0 to 12.0)
-              sed -i '' 's/IPHONEOS_DEPLOYMENT_TARGET = 11.0;/IPHONEOS_DEPLOYMENT_TARGET = 12.0;/g' $PROJ_FILE
-              sed -i '' 's/IPHONEOS_DEPLOYMENT_TARGET = 10.0;/IPHONEOS_DEPLOYMENT_TARGET = 12.0;/g' $PROJ_FILE
-              
-              echo "Finished cleaning $PROJ_FILE."
-            else
-              echo "Error: Project file $PROJ_FILE not found."
-            fi
-          done
+          echo "Forcing Deployment Target to 12.0 to clear warnings (Farra.xcodeproj)..."
+          PROJ_FILE="platforms/ios/${IOS_SCHEME_NAME}.xcodeproj/project.pbxproj"
+          # تنظیم IPHONEOS_DEPLOYMENT_TARGET در Farra.xcodeproj به 12.0
+          sed -i '' 's/IPHONEOS_DEPLOYMENT_TARGET = 11.0;/IPHONEOS_DEPLOYMENT_TARGET = 12.0;/g' $PROJ_FILE
           
       - name: Build iOS Release (Direct Xcode Archive)
         script: | 
           echo "Starting iOS Archive build for Distribution..."
-          # تزریق DEVELOPMENT_TEAM برای استفاده از API Key Codemagic
+          # استفاده از xcodebuild با تزریق کامل تنظیمات امضا
+          # CODE_SIGN_IDENTITY="iPhone Distribution" برای امضای تولیدی/API Key
+          # PROVISIONING_PROFILE_SPECIFIER="" برای اجبار به استفاده از پروفایل Codemagic
           xcodebuild -workspace platforms/ios/${IOS_SCHEME_NAME}.xcworkspace \
             -scheme ${IOS_SCHEME_NAME} \
             -configuration Release \
             -sdk iphoneos \
             -archivePath $CM_BUILD_DIR/build/${IOS_SCHEME_NAME}.xcarchive \
             archive \
-            DEVELOPMENT_TEAM=${IOS_TEAM_ID}
+            DEVELOPMENT_TEAM=${IOS_TEAM_ID} \
+            CODE_SIGN_IDENTITY="iPhone Distribution" \
+            PROVISIONING_PROFILE_SPECIFIER="" \
+            IPHONEOS_DEPLOYMENT_TARGET="12.0" # تکرار تنظیم Deployment Target
           
       - name: Export IPA from Archive
         script: |
           echo "Exporting IPA..."
+          # اطمینان حاصل می‌کنیم که ExportOptions.plist برای App Store/Distribution تنظیم شده باشد
           xcodebuild -exportArchive -archivePath $CM_BUILD_DIR/build/${IOS_SCHEME_NAME}.xcarchive -exportPath $CM_BUILD_DIR/build/Release-iphoneos -exportOptionsPlist platforms/ios/exportOptions.plist
           
       - name: Build Android Release (AAB for Google Play)
