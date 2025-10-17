@@ -1,14 +1,12 @@
 # =================================================================
-# Codemagic CI/CD Configuration for Cordova/Ionic Project (Final Fix)
+# Codemagic CI/CD Configuration for Cordova/Ionic Project (Final, Final Fix)
 # =================================================================
 workflows:
   cordova-build-workflow:
     name: Cordova iOS & Android CI/CD
     
-    # 1. تنظیم سخت‌افزار (در سطح workflow)
+    # 1. تنظیم سخت‌افزار: فقط instance_type کافی است. (بلوک macos حذف شد)
     instance_type: mac_mini_m1
-    macos:
-      version: 13
       
     # 2. تنظیم محیط (Environment)
     environment:
@@ -56,7 +54,6 @@ workflows:
       email:
         recipients: 
           - mohammad.babelly@example.com # ایمیل خودت رو اینجا بگذار
-        # اصلاح خطا: به جای 'triggering' از 'notify' استفاده می‌شود.
         notify:
           success: true
           failure: true
