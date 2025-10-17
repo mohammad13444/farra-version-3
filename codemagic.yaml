@@ -1,0 +1,58 @@
+workflows:
+  # این اسمِ فرایند بیلد شما در Codemagic خواهد بود
+  cordova-ios-and-android-build:
+    name: Cordova iOS & Android Build
+    max_build_duration: 120 # زمان حداکثر بیلد (دقیقه)
+
+    # محیط بیلد
+    instance_type: mac_mini_m1
+    macos:
+      version: 13 # نسخه macOS
+    
+    environment:
+      # تنظیمات Node و NPM
+      vars:
+        NODE_VERSION: 20
+      node:
+        version: $NODE_VERSION
+      
+      # ابزارها
+      android:
+        # Codemagic به صورت خودکار Android SDK رو مدیریت میکنه
+      cordova:
+        version: 12 # نسخه Cordova CLI که استفاده میکنی (توجه: اگه از 13 استفاده میکنی اینجا رو هم عوض کن)
+
+    # مراحل بیلد
+    scripts:
+      - name: Install dependencies
+        script: | 
+          npm install
+      
+      - name: Add platforms (if not already added)
+        script: | 
+          cordova platform add ios --save || true
+          cordova platform add android@13.0.0 --save || true
+
+      - name: Build Cordova for iOS
+        script: | 
+          # ساخت خروجی iOS (IPA)
+          cordova build ios --release --buildFlag='-allowProvisioningUpdates'
+      
+      - name: Build Cordova for Android
+        script: |
+          # ساخت خروجی Android (APK)
+          cordova build android --release
+          
+    # خروجی‌ها
+    artifacts:
+      - build/Release-iphoneos/*.ipa
+      - platforms/android/app/build/outputs/apk/release/*.apk
+      - /tmp/codemagic-temp/build_log_*.txt
+      
+    # تنظیمات انتشار iOS (Code Signing) - برای اولین بیلد اولیه فعلا خاموش باشه
+    publishing:
+      scripts:
+        # این بخش باید فعال بشه و Certificate ها در Codemagic آپلود بشن
+        - name: Upload iOS Code Signing files (Disabled for initial setup)
+          script: |
+            echo "Initial build - Code signing will be configured later."
