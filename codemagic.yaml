@@ -1,38 +1,26 @@
 # =================================================================
-# Codemagic CI/CD Configuration for Cordova/Ionic Project
+# Codemagic CI/CD Configuration for Cordova/Ionic Project (Final Fix)
 # =================================================================
 workflows:
   cordova-build-workflow:
     name: Cordova iOS & Android CI/CD
     
-    # نوع سخت‌افزار مورد استفاده برای بیلد (معمولاً Mac Mini M1 برای بیلد iOS لازم است)
+    # 1. تنظیم سخت‌افزار (در سطح workflow)
     instance_type: mac_mini_m1
-    
-    # تعریف نسخه سیستم‌عامل مک و ابزارهای مورد نیاز
-    # macOS و Xcode باید مستقیماً زیر workflow باشند، نه زیر environment
     macos:
       version: 13
       
+    # 2. تنظیم محیط (Environment)
     environment:
-      # تنظیمات متغیرهای محیطی
       vars:
-        # نسخه Node.js (برای Cordova/NPM)
         NODE_VERSION: 20
-        # نسخه Cordova CLI
         CORDOVA_VERSION: 12
-        # نسخه Android Platform (معمولاً 13.0.0 پایدار است)
         ANDROID_PLATFORM_VERSION: 13.0.0
         
       # تعریف ابزارها در سطح environment
       node: $NODE_VERSION
       
-      # ابزارهای اضافی که Codemagic باید آماده کند
-      # این ابزارها به صورت خودکار نصب و در دسترس قرار می‌گیرند.
-      # فقط نیاز است که نسخه‌شان به صورت متغیر در scripts استفاده شود.
-
-    # ------------------
-    # مراحل بیلد
-    # ------------------
+    # 3. مراحل بیلد (Scripts)
     scripts:
       - name: Install Cordova CLI
         script: npm install -g cordova@$CORDOVA_VERSION
@@ -42,38 +30,33 @@ workflows:
         
       - name: Add Platforms
         script: | 
-          # افزودن پلتفرم iOS
           cordova platform add ios --save || true
-          # افزودن پلتفرم Android
           cordova platform add android@$ANDROID_PLATFORM_VERSION --save || true
 
       - name: Build iOS Release
         script: | 
-          # توجه: برای بیلد موفق iOS باید Code Signing در تنظیمات Codemagic انجام شود.
           echo "Starting iOS build..."
+          # پرچم -allowProvisioningUpdates برای مدیریت خودکار گواهی‌ها در Xcode است.
           cordova build ios --release --buildFlag='-allowProvisioningUpdates'
       
       - name: Build Android Release
         script: |
           echo "Starting Android build..."
+          # توجه: برای بیلد Android نهایی، لازم است KeyStore را در Codemagic آپلود و در این اسکریپت استفاده کنیم.
           cordova build android --release
           
-    # ------------------
-    # خروجی‌ها (Artifacts)
-    # ------------------
+    # 4. خروجی‌ها (Artifacts)
     artifacts:
-      - build/Release-iphoneos/*.ipa # خروجی iOS
-      - platforms/android/app/build/outputs/apk/release/*.apk # خروجی Android
-      - /tmp/codemagic-temp/build_log_*.txt # فایل گزارش
+      - build/Release-iphoneos/*.ipa
+      - platforms/android/app/build/outputs/apk/release/*.apk
+      - /tmp/codemagic-temp/build_log_*.txt
       
-    # ------------------
-    # تنظیمات انتشار (Publishing)
-    # ------------------
+    # 5. تنظیمات انتشار (Publishing)
     publishing:
-      # بخش Code Signing برای iOS باید پس از تکمیل تنظیمات در Codemagic فعال شود.
       email:
         recipients: 
           - mohammad.babelly@example.com # ایمیل خودت رو اینجا بگذار
-        triggering:
-          - success
-          - failure
+        # اصلاح خطا: به جای 'triggering' از 'notify' استفاده می‌شود.
+        notify:
+          success: true
+          failure: true
