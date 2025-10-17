@@ -35,7 +35,7 @@ workflows:
           cordova platform add android@$ANDROID_PLATFORM_VERSION --save || true
           cordova prepare
           
-      - name: CRITICAL FIX: Aggressively Clean Xcode Project File
+      - name: CRITICAL-FIX-Aggressively-Clean-Xcode-Project-File 
         script: |
           echo "Applying AGGRESSIVE fix to Farra.xcodeproj to clear Code Signing conflicts..."
           
@@ -46,12 +46,9 @@ workflows:
             echo "Processing $PROJ_FILE"
             
             # 1. FORCE Provisioning Style to Automatic
-            # تغییر ProvisioningStyle از Manual به Automatic
-            # استفاده از پرچم -i که سازگارتر است (بدون پسوند)
             sed -i 's/ProvisioningStyle = Manual;/ProvisioningStyle = Automatic;/g' $PROJ_FILE
 
             # 2. Neutralize ALL Code Signing Identity settings (تغییر به مقدار خالی)
-            # این قوی‌ترین راه برای پاک کردن تداخل "iPhone Distribution" است.
             sed -i 's/CODE_SIGN_IDENTITY = .*;/CODE_SIGN_IDENTITY = ""/g' $PROJ_FILE
             
             # 3. Fix iOS Deployment Target warning (11.0 to 12.0)
