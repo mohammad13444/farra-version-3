@@ -1,6 +1,6 @@
 # =================================================================
 # Codemagic CI/CD Configuration for Cordova/Ionic Project
-# FINAL ATTEMPT - Simplified and Targeted Aggressive Code Signing Fix
+# FINAL FINAL ATTEMPT - Re-introduce CordovaLib Fix and use -i ''
 # =================================================================
 workflows:
   cordova-build-workflow:
@@ -35,29 +35,42 @@ workflows:
           cordova platform add android@$ANDROID_PLATFORM_VERSION --save || true
           cordova prepare
           
-      - name: CRITICAL-FIX-Aggressively-Clean-Xcode-Project-File 
+      - name: CRITICAL-FIX-Aggressively-Clean-Xcode-Project-Files
         script: |
-          echo "Applying AGGRESSIVE fix to Farra.xcodeproj to clear Code Signing conflicts..."
+          echo "Applying AGGRESSIVE fix to both project files..."
           
-          # مسیر فایل پروژه اصلی
-          PROJ_FILE="platforms/ios/${IOS_SCHEME_NAME}.xcodeproj/project.pbxproj"
+          # تعریف مسیر هر دو فایل پروژه (Farra و CordovaLib)
+          PROJ_FILES="platforms/ios/${IOS_SCHEME_NAME}.xcodeproj/project.pbxproj platforms/ios/CordovaLib/CordovaLib.xcodeproj/project.pbxproj"
           
-          if [ -f "$PROJ_FILE" ]; then
-            echo "Processing $PROJ_FILE"
-            
-            # 1. FORCE Provisioning Style to Automatic
-            sed -i 's/ProvisioningStyle = Manual;/ProvisioningStyle = Automatic;/g' $PROJ_FILE
+          # اجرای دستورات sed برای هر دو فایل
+          for PROJ_FILE in $PROJ_FILES; do
+            if [ -f "$PROJ_FILE" ]; then
+              echo "Processing $PROJ_FILE"
+              
+              # 1. FORCE Provisioning Style to Automatic
+              # تغییر ProvisioningStyle از Manual به Automatic
+              # از پرچم -i '' استفاده می‌کنیم تا تغییرات در macOS/Linux به درستی اعمال شوند
+              sed -i '' 's/ProvisioningStyle = Manual;/ProvisioningStyle = Automatic;/g' $PROJ_FILE
 
-            # 2. Neutralize ALL Code Signing Identity settings (تغییر به مقدار خالی)
-            sed -i 's/CODE_SIGN_IDENTITY = .*;/CODE_SIGN_IDENTITY = ""/g' $PROJ_FILE
-            
-            # 3. Fix iOS Deployment Target warning (11.0 to 12.0)
-            sed -i 's/IPHONEOS_DEPLOYMENT_TARGET = 11.0;/IPHONEOS_DEPLOYMENT_TARGET = 12.0;/g' $PROJ_FILE
-            
-            echo "Finished cleaning $PROJ_FILE."
-          else
-            echo "Error: Project file $PROJ_FILE not found."
-          fi
+              # 2. Neutralize ALL Code Signing Identity settings (تغییر به مقدار خالی)
+              # این شامل تمام مقادیری مثل "iPhone Distribution" می‌شود.
+              sed -i '' 's/CODE_SIGN_IDENTITY = .*;/CODE_SIGN_IDENTITY = ""/g' $PROJ_FILE
+              
+              # 3. Remove all Provisioning Profile Specifier/Team entries
+              # حذف تنظیمات مربوط به پروفایل‌های دستی و Team ID ذخیره شده در فایل
+              sed -i '' '/PROVISIONING_PROFILE_SPECIFIER/d' $PROJ_FILE
+              sed -i '' '/PROVISIONING_PROFILE/d' $PROJ_FILE
+              sed -i '' '/DEVELOPMENT_TEAM/d' $PROJ_FILE
+              
+              # 4. Fix iOS Deployment Target warning (11.0 to 12.0)
+              sed -i '' 's/IPHONEOS_DEPLOYMENT_TARGET = 11.0;/IPHONEOS_DEPLOYMENT_TARGET = 12.0;/g' $PROJ_FILE
+              sed -i '' 's/IPHONEOS_DEPLOYMENT_TARGET = 10.0;/IPHONEOS_DEPLOYMENT_TARGET = 12.0;/g' $PROJ_FILE
+              
+              echo "Finished cleaning $PROJ_FILE."
+            else
+              echo "Error: Project file $PROJ_FILE not found."
+            fi
+          done
           
       - name: Build iOS Release (Direct Xcode Archive)
         script: | 
