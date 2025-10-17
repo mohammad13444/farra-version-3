@@ -1,6 +1,6 @@
 # =================================================================
 # Codemagic CI/CD Configuration for Cordova/Ionic Project
-# FINAL FIX - Clears conflicting Xcode Code Signing settings
+# AGGRESSIVE FIX: Clears ALL conflicting Code Signing settings
 # =================================================================
 workflows:
   cordova-build-workflow:
@@ -36,25 +36,43 @@ workflows:
           cordova platform add android@$ANDROID_PLATFORM_VERSION --save || true
           cordova prepare
           
-      - name: Clean Xcode Code Signing Settings (CRITICAL FIX)
+      - name: Clean Xcode Code Signing Settings & Fix Warnings (CRITICAL FIX)
         script: |
-          echo "Removing conflicting Code Signing settings from Xcode project files..."
-          # این دستورات تمام تنظیمات تداخلی دستی Code Signing را از project.pbxproj پاک می‌کنند.
-          # این کار تضمین می‌کند که Codemagic کنترل کامل امضا را در دست بگیرد.
-          PROJ_FILE="platforms/ios/${IOS_SCHEME_NAME}.xcodeproj/project.pbxproj"
+          echo "Applying AGGRESSIVE fix to Xcode project files to clear Code Signing conflicts..."
           
-          # حذف تنظیمات قدیمی Code Signing Identity
-          sed -i '' '/CODE_SIGN_IDENTITY = \"iPhone Distribution\"/d' $PROJ_FILE
-          sed -i '' '/CODE_SIGN_IDENTITY = \"iPhone Developer\"/d' $PROJ_FILE
-          sed -i '' '/PROVISIONING_PROFILE_SPECIFIER/d' $PROJ_FILE
+          # تعریف مسیر هر دو فایل پروژه (Farra و CordovaLib)
+          PROJ_FILES="platforms/ios/${IOS_SCHEME_NAME}.xcodeproj/project.pbxproj platforms/ios/CordovaLib/CordovaLib.xcodeproj/project.pbxproj"
           
-          # اطمینان از تنظیم استایل امضا روی Automatic
-          sed -i '' 's/ProvisioningStyle = Manual;/ProvisioningStyle = Automatic;/g' $PROJ_FILE
+          # اجرای دستورات sed برای هر دو فایل
+          for PROJ_FILE in $PROJ_FILES; do
+            if [ -f "$PROJ_FILE" ]; then
+              echo "Processing $PROJ_FILE"
+              
+              # 1. FORCE Provisioning Style to Automatic
+              # تغییر ProvisioningStyle از Manual به Automatic
+              sed -i '' 's/ProvisioningStyle = Manual;/ProvisioningStyle = Automatic;/g' $PROJ_FILE
+
+              # 2. AGGRESSIVE Clean: Neutralize ALL Code Signing Identity settings
+              # تنظیم CODE_SIGN_IDENTITY روی یک مقدار خالی برای همه حالت‌ها
+              sed -i '' 's/CODE_SIGN_IDENTITY = .*;/CODE_SIGN_IDENTITY = ""/g' $PROJ_FILE
+              sed -i '' 's/CODE_SIGN_IDENTITY\[sdk=iphoneos\*\] = .*;/CODE_SIGN_IDENTITY\[sdk=iphoneos\*\] = ""/g' $PROJ_FILE
+              
+              # 3. Remove all Provisioning Profile Specifier/Team entries
+              # حذف تنظیمات مربوط به پروفایل‌های دستی و Team ID ذخیره شده در فایل
+              sed -i '' '/PROVISIONING_PROFILE_SPECIFIER/d' $PROJ_FILE
+              sed -i '' '/PROVISIONING_PROFILE/d' $PROJ_FILE
+              sed -i '' '/DEVELOPMENT_TEAM/d' $PROJ_FILE
+              
+              # 4. Fix iOS Deployment Target warning (11.0 to 12.0)
+              sed -i '' 's/IPHONEOS_DEPLOYMENT_TARGET = 11.0;/IPHONEOS_DEPLOYMENT_TARGET = 12.0;/g' $PROJ_FILE
+              sed -i '' 's/IPHONEOS_DEPLOYMENT_TARGET = 10.0;/IPHONEOS_DEPLOYMENT_TARGET = 12.0;/g' $PROJ_FILE
+            fi
+          done
           
       - name: Build iOS Release (Direct Xcode Archive)
         script: | 
           echo "Starting iOS Archive build for Distribution..."
-          # تزریق DEVELOPMENT_TEAM برای رفع خطای "requires a development team"
+          # تزریق DEVELOPMENT_TEAM برای استفاده از API Key Codemagic
           xcodebuild -workspace platforms/ios/${IOS_SCHEME_NAME}.xcworkspace \
             -scheme ${IOS_SCHEME_NAME} \
             -configuration Release \
@@ -66,7 +84,7 @@ workflows:
       - name: Export IPA from Archive
         script: |
           echo "Exporting IPA..."
-          # برای موفقیت این مرحله، فایل exportOptions.plist باید در مسیر platforms/ios/ موجود باشد.
+          # فرض بر این است که exportOptions.plist در مسیر platforms/ios/ موجود است.
           xcodebuild -exportArchive -archivePath $CM_BUILD_DIR/build/${IOS_SCHEME_NAME}.xcarchive -exportPath $CM_BUILD_DIR/build/Release-iphoneos -exportOptionsPlist platforms/ios/exportOptions.plist
           
       - name: Build Android Release (AAB for Google Play)
