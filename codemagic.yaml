@@ -1,58 +1,79 @@
+# =================================================================
+# Codemagic CI/CD Configuration for Cordova/Ionic Project
+# =================================================================
 workflows:
-  # این اسمِ فرایند بیلد شما در Codemagic خواهد بود
-  cordova-ios-and-android-build:
-    name: Cordova iOS & Android Build
-    max_build_duration: 120 # زمان حداکثر بیلد (دقیقه)
-
-    # محیط بیلد
-    instance_type: mac_mini_m1
-    macos:
-      version: 13 # نسخه macOS
+  cordova-build-workflow:
+    name: Cordova iOS & Android CI/CD
     
+    # نوع سخت‌افزار مورد استفاده برای بیلد (معمولاً Mac Mini M1 برای بیلد iOS لازم است)
+    instance_type: mac_mini_m1
+    
+    # تعریف نسخه سیستم‌عامل مک و ابزارهای مورد نیاز
+    # macOS و Xcode باید مستقیماً زیر workflow باشند، نه زیر environment
+    macos:
+      version: 13
+      
     environment:
-      # تنظیمات Node و NPM
+      # تنظیمات متغیرهای محیطی
       vars:
+        # نسخه Node.js (برای Cordova/NPM)
         NODE_VERSION: 20
-      node:
-        version: $NODE_VERSION
+        # نسخه Cordova CLI
+        CORDOVA_VERSION: 12
+        # نسخه Android Platform (معمولاً 13.0.0 پایدار است)
+        ANDROID_PLATFORM_VERSION: 13.0.0
+        
+      # تعریف ابزارها در سطح environment
+      node: $NODE_VERSION
       
-      # ابزارها
-      android:
-        # Codemagic به صورت خودکار Android SDK رو مدیریت میکنه
-      cordova:
-        version: 12 # نسخه Cordova CLI که استفاده میکنی (توجه: اگه از 13 استفاده میکنی اینجا رو هم عوض کن)
+      # ابزارهای اضافی که Codemagic باید آماده کند
+      # این ابزارها به صورت خودکار نصب و در دسترس قرار می‌گیرند.
+      # فقط نیاز است که نسخه‌شان به صورت متغیر در scripts استفاده شود.
 
+    # ------------------
     # مراحل بیلد
+    # ------------------
     scripts:
-      - name: Install dependencies
-        script: | 
-          npm install
-      
-      - name: Add platforms (if not already added)
-        script: | 
-          cordova platform add ios --save || true
-          cordova platform add android@13.0.0 --save || true
+      - name: Install Cordova CLI
+        script: npm install -g cordova@$CORDOVA_VERSION
 
-      - name: Build Cordova for iOS
+      - name: Install Project Dependencies
+        script: npm install
+        
+      - name: Add Platforms
         script: | 
-          # ساخت خروجی iOS (IPA)
+          # افزودن پلتفرم iOS
+          cordova platform add ios --save || true
+          # افزودن پلتفرم Android
+          cordova platform add android@$ANDROID_PLATFORM_VERSION --save || true
+
+      - name: Build iOS Release
+        script: | 
+          # توجه: برای بیلد موفق iOS باید Code Signing در تنظیمات Codemagic انجام شود.
+          echo "Starting iOS build..."
           cordova build ios --release --buildFlag='-allowProvisioningUpdates'
       
-      - name: Build Cordova for Android
+      - name: Build Android Release
         script: |
-          # ساخت خروجی Android (APK)
+          echo "Starting Android build..."
           cordova build android --release
           
-    # خروجی‌ها
+    # ------------------
+    # خروجی‌ها (Artifacts)
+    # ------------------
     artifacts:
-      - build/Release-iphoneos/*.ipa
-      - platforms/android/app/build/outputs/apk/release/*.apk
-      - /tmp/codemagic-temp/build_log_*.txt
+      - build/Release-iphoneos/*.ipa # خروجی iOS
+      - platforms/android/app/build/outputs/apk/release/*.apk # خروجی Android
+      - /tmp/codemagic-temp/build_log_*.txt # فایل گزارش
       
-    # تنظیمات انتشار iOS (Code Signing) - برای اولین بیلد اولیه فعلا خاموش باشه
+    # ------------------
+    # تنظیمات انتشار (Publishing)
+    # ------------------
     publishing:
-      scripts:
-        # این بخش باید فعال بشه و Certificate ها در Codemagic آپلود بشن
-        - name: Upload iOS Code Signing files (Disabled for initial setup)
-          script: |
-            echo "Initial build - Code signing will be configured later."
+      # بخش Code Signing برای iOS باید پس از تکمیل تنظیمات در Codemagic فعال شود.
+      email:
+        recipients: 
+          - mohammad.babelly@example.com # ایمیل خودت رو اینجا بگذار
+        triggering:
+          - success
+          - failure
