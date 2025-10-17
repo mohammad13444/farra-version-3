@@ -1,16 +1,17 @@
 # =================================================================
 # Codemagic CI/CD Configuration for Cordova/Ionic Project - iOS ONLY
-# RADICAL ATTEMPT - Total Code Signing Wipe in project.pbxproj
+# ULTIMATE FIX - Clean Start and Codemagic Automatic Signing Tools
 # =================================================================
 workflows:
   cordova-ios-build-workflow:
-    name: Cordova iOS CI/CD (Focus Build)
+    name: Cordova iOS CI/CD (Ultimate Code Signing Fix)
     
     # 1. تنظیم سخت‌افزار
     instance_type: mac_mini_m1
       
     # 2. تنظیم محیط (Environment)
     environment:
+      # مطمئن شوید CM_AUTOMATIC_CODE_SIGNING: true در تنظیمات Codemagic فعال است.
       vars:
         NODE_VERSION: 20
         CORDOVA_VERSION: 12
@@ -21,84 +22,67 @@ workflows:
       
     # 3. مراحل بیلد (Scripts)
     scripts:
-      - name: Install Cordova CLI
-        script: npm install -g cordova@$CORDOVA_VERSION
-
-      - name: Install Project Dependencies
-        script: npm install
+      - name: Install Cordova CLI & Dependencies
+        script: | 
+          npm install -g cordova@$CORDOVA_VERSION
+          npm install
         
-      - name: Add iOS Platform and Prepare
+      - name: CRITICAL-STEP-Clean-iOS-Platform-Folder
+        # این مرحله کل پوشه platforms/ios را حذف می‌کند تا از یک شروع کاملاً تمیز مطمئن شویم.
+        script: |
+          echo "Removing platforms/ios folder for a clean start..."
+          rm -rf platforms/ios
+          
+      - name: Add iOS Platform
         script: | 
           # افزودن پلتفرم iOS و آماده‌سازی
-          cordova platform add ios --save || true
-          cordova prepare
+          cordova platform add ios --save
+          # نیازی به 'cordova prepare' نیست زیرا 'cordova build' آن را انجام خواهد داد.
           
       - name: CRITICAL-FIX-RADICAL-Xcode-Project-Cleanup 
+        # پاکسازی رادیکال دوباره برای حذف تنظیمات پیش‌فرض Cordova
         script: |
-          echo "RADICAL CLEANUP: Wiping all Code Signing and Provisioning settings from project files."
+          echo "RADICAL CLEANUP: Wiping all Code Signing and Provisioning settings from newly created project files."
           
-          # فایل پروژه اصلی
           PROJ_FILE_FARRA="platforms/ios/${IOS_SCHEME_NAME}.xcodeproj/project.pbxproj"
-          
-          # فایل پروژه CordovaLib (فقط برای Deployment Target)
           PROJ_FILE_CORDOVA="platforms/ios/CordovaLib/CordovaLib.xcodeproj/project.pbxproj"
           
-          # اجرای پاکسازی رادیکال
           for PROJ_FILE in $PROJ_FILE_FARRA $PROJ_FILE_CORDOVA; do
             if [ -f "$PROJ_FILE" ]; then
               echo "Processing $PROJ_FILE"
-              
-              # 1. تنظیم IPHONEOS_DEPLOYMENT_TARGET به 12.0
-              # این تنها دستور sed غیرحذفی است که برای رفع اخطار باقی می‌ماند.
+              # تنظیم IPHONEOS_DEPLOYMENT_TARGET به 12.0
               sed -i '' 's/IPHONEOS_DEPLOYMENT_TARGET = 11.0;/IPHONEOS_DEPLOYMENT_TARGET = 12.0;/g' $PROJ_FILE
               
-              # **پاکسازی رادیکال فقط برای Farra.xcodeproj:**
               if [ "$PROJ_FILE" = "$PROJ_FILE_FARRA" ]; then
                   echo "Applying radical signing wipe to Farra.xcodeproj..."
-                  
-                  # حذف هرگونه رفرنس به Code Signing Identity (Development, Distribution, ...)
+                  # حذف رفرنس‌های امضا و Team ID
                   sed -i '' '/CODE_SIGN_IDENTITY/d' $PROJ_FILE
-                  
-                  # حذف رفرنس به Provisioning Profile
                   sed -i '' '/PROVISIONING_PROFILE_SPECIFIER/d' $PROJ_FILE
-                  
-                  # حذف رفرنس به Code Sign Style (Manual/Automatic)
                   sed -i '' '/ProvisioningStyle/d' $PROJ_FILE
-                  
-                  # حذف رفرنس به Team ID (DevelopmentTeam)
                   sed -i '' '/DevelopmentTeam/d' $PROJ_FILE
               fi
-              
-              echo "Finished processing $PROJ_FILE."
-            else
-              echo "Error: Project file $PROJ_FILE not found (this should not happen)."
             fi
           done
           
-      - name: Build iOS Release (Direct Xcode Archive)
-        script: | 
-          echo "Starting iOS Archive build for Distribution with pure parameters..."
-          # تزریق تنظیمات امضا: اکنون که پروژه پاکسازی شده، xcodebuild باید این مقادیر را بپذیرد
-          xcodebuild -workspace platforms/ios/${IOS_SCHEME_NAME}.xcworkspace \
-            -scheme ${IOS_SCHEME_NAME} \
-            -configuration Release \
-            -sdk iphoneos \
-            -archivePath $CM_BUILD_DIR/build/${IOS_SCHEME_NAME}.xcarchive \
-            archive \
-            DEVELOPMENT_TEAM=${IOS_TEAM_ID} \
-            CODE_SIGN_STYLE="Automatic" \
-            CODE_SIGN_IDENTITY="Apple Distribution" \
-            IPHONEOS_DEPLOYMENT_TARGET="12.0"
-          
-      - name: Export IPA from Archive
+      - name: Codemagic Automatic Code Signing
+        # این دو دستور به Codemagic اجازه می‌دهند که تنظیمات پروژه را به صورت Automatic تغییر دهد.
         script: |
-          echo "Exporting IPA..."
-          # مطمئن شوید که یک فایل platforms/ios/exportOptions.plist در مخزن شما وجود دارد
-          xcodebuild -exportArchive -archivePath $CM_BUILD_DIR/build/${IOS_SCHEME_NAME}.xcarchive -exportPath $CM_BUILD_DIR/build/Release-iphoneos -exportOptionsPlist platforms/ios/exportOptions.plist
+          echo "Applying Codemagic Automatic Code Signing logic..."
+          # 1. بازیابی فایل‌های امضا از App Store Connect
+          app-store-connect fetch-signing-files "$IOS_SCHEME_NAME" --type IOS_APP_STORE --team-id "$IOS_TEAM_ID"
+          
+          # 2. تغییر پروژه به Automatic Signing
+          xcode-project use-automatic-signing 
+          
+      - name: Build iOS Release (Cordova Standard)
+        script: | 
+          echo "Starting final iOS Cordova build..."
+          # اجرای بیلد Cordova. اکنون که فایل پروژه توسط Codemagic به Automatic تغییر یافته است، این دستور باید موفق شود.
+          cordova build ios --release 
           
     # 4. خروجی‌ها (Artifacts)
     artifacts:
-      - $CM_BUILD_DIR/build/Release-iphoneos/*.ipa
+      - platforms/ios/build/device/*.ipa
       - /tmp/codemagic-temp/build_log_*.txt
       
     # 5. تنظیمات انتشار (Publishing)
