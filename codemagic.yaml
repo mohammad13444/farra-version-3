@@ -1,5 +1,6 @@
 # =================================================================
 # Codemagic CI/CD Configuration for Cordova/Ionic Project
+# FINAL FIX FOR CODE SIGNING (DEVELOPMENT_TEAM INJECTION)
 # =================================================================
 workflows:
   cordova-build-workflow:
@@ -14,6 +15,8 @@ workflows:
         NODE_VERSION: 20
         CORDOVA_VERSION: 12
         ANDROID_PLATFORM_VERSION: 13.0.0
+        IOS_TEAM_ID: 72M97MR8UU # Team ID شما برای تزریق آسان
+        IOS_SCHEME_NAME: Farra   # نام Scheme پروژه شما
         
       # تعریف ابزارها در سطح environment
       node: $NODE_VERSION
@@ -34,20 +37,26 @@ workflows:
           # مطمئن شدن از آماده سازی پلتفرم‌ها برای بیلد
           cordova prepare
           
-      - name: Build iOS Release (Direct Xcode Archive)
+      - name: Build iOS Release (Direct Xcode Archive) - Code Signing Fix
         script: | 
           echo "Starting iOS Archive build for Distribution..."
-          # از آنجایی که دستور Cordova درست عمل نمی‌کرد، مستقیما از xcodebuild استفاده می‌کنیم.
-          # -sdk iphoneos: بیلد برای دستگاه واقعی (نه شبیه‌ساز)
-          # -scheme Farra: شما باید نام شمای پروژه خود را اینجا وارد کنید (فرض شده 'Farra' است، بر اساس اطلاعات قبلی)
-          # -workspace platforms/ios/Farra.xcworkspace: مسیر و نام فضای کاری Xcode
-          xcodebuild -workspace platforms/ios/Farra.xcworkspace -scheme Farra -configuration Release -sdk iphoneos -archivePath $CM_BUILD_DIR/build/Farra.xcarchive archive
+          # تزریق DEVELOPMENT_TEAM برای رفع خطای "requires a development team"
+          # از متغیرهای تعریف شده در Environment استفاده می‌کنیم.
+          xcodebuild -workspace platforms/ios/${IOS_SCHEME_NAME}.xcworkspace \
+            -scheme ${IOS_SCHEME_NAME} \
+            -configuration Release \
+            -sdk iphoneos \
+            -archivePath $CM_BUILD_DIR/build/${IOS_SCHEME_NAME}.xcarchive \
+            archive \
+            DEVELOPMENT_TEAM=${IOS_TEAM_ID}
           
       - name: Export IPA from Archive
         script: |
           echo "Exporting IPA..."
           # این مرحله آرشیو را با استفاده از API Key ذخیره شده در Codemagic به فایل IPA تبدیل می‌کند.
-          xcodebuild -exportArchive -archivePath $CM_BUILD_DIR/build/Farra.xcarchive -exportPath $CM_BUILD_DIR/build/Release-iphoneos -exportOptionsPlist platforms/ios/exportOptions.plist
+          # توجه: نام فایل archivePath باید با مرحله قبل یکسان باشد.
+          # همچنین exportOptions.plist باید موجود باشد.
+          xcodebuild -exportArchive -archivePath $CM_BUILD_DIR/build/${IOS_SCHEME_NAME}.xcarchive -exportPath $CM_BUILD_DIR/build/Release-iphoneos -exportOptionsPlist platforms/ios/exportOptions.plist
           
       - name: Build Android Release (AAB for Google Play)
         script: |
@@ -68,7 +77,7 @@ workflows:
     publishing:
       email:
         recipients: 
-          - farokgraphic@gmail.com # ایمیل شما (از حافظه قبلی)
+          - farokgraphic@gmail.com # ایمیل شما
         notify:
           success: true
           failure: true
