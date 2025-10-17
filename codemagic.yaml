@@ -1,88 +1,64 @@
 # =================================================================
-# Codemagic CI/CD Configuration for Cordova/Ionic Project - iOS ONLY
-# ULTIMATE FIX - Clean Start and Codemagic Automatic Signing Tools
+# Codemagic CI/CD Configuration - FINAL FIX based on NEW TOOL API
 # =================================================================
 workflows:
-  cordova-ios-build-workflow:
-    name: Cordova iOS CI/CD (Ultimate Code Signing Fix)
+  cordova-ios-final-automatic-workflow-v2:
+    name: Cordova iOS Final Automatic Signing Fix (v2)
     
-    # 1. تنظیم سخت‌افزار
     instance_type: mac_mini_m1
       
-    # 2. تنظیم محیط (Environment)
     environment:
-      # مطمئن شوید CM_AUTOMATIC_CODE_SIGNING: true در تنظیمات Codemagic فعال است.
       vars:
         NODE_VERSION: 20
         CORDOVA_VERSION: 12
-        IOS_TEAM_ID: 72M97MR8UU     # Team ID شما
-        IOS_SCHEME_NAME: Farra      # نام Scheme پروژه شما
+        IOS_SCHEME_NAME: Farra
         
       node: $NODE_VERSION
       
-    # 3. مراحل بیلد (Scripts)
     scripts:
-      - name: Install Cordova CLI & Dependencies
+      - name: Install Dependencies
         script: | 
           npm install -g cordova@$CORDOVA_VERSION
           npm install
         
-      - name: CRITICAL-STEP-Clean-iOS-Platform-Folder
-        # این مرحله کل پوشه platforms/ios را حذف می‌کند تا از یک شروع کاملاً تمیز مطمئن شویم.
+      - name: Prepare iOS Project from a Clean Slate
         script: |
-          echo "Removing platforms/ios folder for a clean start..."
+          echo "Removing platforms/ios for a fresh start..."
           rm -rf platforms/ios
-          
-      - name: Add iOS Platform
-        script: | 
-          # افزودن پلتفرم iOS و آماده‌سازی
           cordova platform add ios --save
-          # نیازی به 'cordova prepare' نیست زیرا 'cordova build' آن را انجام خواهد داد.
+          # نیازی به cordova prepare نیست چون build آن را انجام می‌دهد
           
-      - name: CRITICAL-FIX-RADICAL-Xcode-Project-Cleanup 
-        # پاکسازی رادیکال دوباره برای حذف تنظیمات پیش‌فرض Cordova
+      - name: Codemagic Code Signing (Fetching Files Only)
+        # 1. بازیابی فایل‌های امضا 
+        # حذف پارامتر --team-id که دیگر شناخته نمی‌شود.
+        # Codemagic انتظار دارد Team ID را از متغیر محیطی یا API Key بخواند.
         script: |
-          echo "RADICAL CLEANUP: Wiping all Code Signing and Provisioning settings from newly created project files."
+          echo "Fetching Code Signing Files..."
+          app-store-connect fetch-signing-files "$IOS_SCHEME_NAME" --type IOS_APP_STORE
           
-          PROJ_FILE_FARRA="platforms/ios/${IOS_SCHEME_NAME}.xcodeproj/project.pbxproj"
-          PROJ_FILE_CORDOVA="platforms/ios/CordovaLib/CordovaLib.xcodeproj/project.pbxproj"
-          
-          for PROJ_FILE in $PROJ_FILE_FARRA $PROJ_FILE_CORDOVA; do
-            if [ -f "$PROJ_FILE" ]; then
-              echo "Processing $PROJ_FILE"
-              # تنظیم IPHONEOS_DEPLOYMENT_TARGET به 12.0
-              sed -i '' 's/IPHONEOS_DEPLOYMENT_TARGET = 11.0;/IPHONEOS_DEPLOYMENT_TARGET = 12.0;/g' $PROJ_FILE
-              
-              if [ "$PROJ_FILE" = "$PROJ_FILE_FARRA" ]; then
-                  echo "Applying radical signing wipe to Farra.xcodeproj..."
-                  # حذف رفرنس‌های امضا و Team ID
-                  sed -i '' '/CODE_SIGN_IDENTITY/d' $PROJ_FILE
-                  sed -i '' '/PROVISIONING_PROFILE_SPECIFIER/d' $PROJ_FILE
-                  sed -i '' '/ProvisioningStyle/d' $PROJ_FILE
-                  sed -i '' '/DevelopmentTeam/d' $PROJ_FILE
-              fi
-            fi
-          done
-          
-      - name: Codemagic Automatic Code Signing
-        # این دو دستور به Codemagic اجازه می‌دهند که تنظیمات پروژه را به صورت Automatic تغییر دهد.
-        script: |
-          echo "Applying Codemagic Automatic Code Signing logic..."
-          # 1. بازیابی فایل‌های امضا از App Store Connect
-          app-store-connect fetch-signing-files "$IOS_SCHEME_NAME" --type IOS_APP_STORE --team-id "$IOS_TEAM_ID"
-          
-          # 2. تغییر پروژه به Automatic Signing
-          xcode-project use-automatic-signing 
-          
-      - name: Build iOS Release (Cordova Standard)
+      - name: Build iOS Release (Using Cordova and Codemagic Fix)
         script: | 
           echo "Starting final iOS Cordova build..."
-          # اجرای بیلد Cordova. اکنون که فایل پروژه توسط Codemagic به Automatic تغییر یافته است، این دستور باید موفق شود.
+          # Cordova از فایل‌های دانلود شده توسط Codemagic استفاده خواهد کرد.
+          # توجه: در نسخه‌های جدید، xcode-project use-automatic-signing
+          # جای خود را به استفاده خودکار Cordova از گواهی‌های دانلود شده داده است.
           cordova build ios --release 
+          
+      - name: Export IPA Artifacts
+        script: |
+          echo "Exporting IPA with Codemagic's export utility..."
+          # این دستور (use-profiles) به Xcode کمک می کند تا از گواهی های دانلود شده استفاده کند.
+          xcode-project use-profiles 
+          
+          # اجرای دستور Export استاندارد
+          xcodebuild -exportArchive \
+            -archivePath platforms/ios/build/Farra.xcarchive \
+            -exportPath $CM_BUILD_DIR/output \
+            -exportOptionsPlist $CM_BUILD_DIR/codemagic/export_options.plist
           
     # 4. خروجی‌ها (Artifacts)
     artifacts:
-      - platforms/ios/build/device/*.ipa
+      - $CM_BUILD_DIR/output/*.ipa
       - /tmp/codemagic-temp/build_log_*.txt
       
     # 5. تنظیمات انتشار (Publishing)
