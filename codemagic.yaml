@@ -1,6 +1,6 @@
 # =================================================================
 # Codemagic CI/CD Configuration for Cordova/Ionic Project
-# FINAL FINAL FINAL ATTEMPT - Remove SED, use xcodebuild parameters
+# FINAL FINAL FINAL FINAL ATTEMPT - Advanced Clean + Apple Distribution
 # =================================================================
 workflows:
   cordova-build-workflow:
@@ -33,24 +33,52 @@ workflows:
           # افزودن پلتفرم‌ها
           cordova platform add ios --save || true
           cordova platform add android@$ANDROID_PLATFORM_VERSION --save || true
-          
-          # این دستور Cordova Deployment Target را به 12.0 در config.xml به‌روز می‌کند
-          # و آماده‌سازی را انجام می‌دهد
           cordova prepare
           
-      - name: CRITICAL-FIX-Deployment-Target
+      - name: CRITICAL-FIX-Advanced-Xcode-Project-Cleanup 
         script: |
-          echo "Forcing Deployment Target to 12.0 to clear warnings (Farra.xcodeproj)..."
-          PROJ_FILE="platforms/ios/${IOS_SCHEME_NAME}.xcodeproj/project.pbxproj"
-          # تنظیم IPHONEOS_DEPLOYMENT_TARGET در Farra.xcodeproj به 12.0
-          sed -i '' 's/IPHONEOS_DEPLOYMENT_TARGET = 11.0;/IPHONEOS_DEPLOYMENT_TARGET = 12.0;/g' $PROJ_FILE
+          echo "Applying Advanced Cleanup to project files to resolve Code Signing conflicts..."
+          
+          # فایل پروژه اصلی
+          PROJ_FILE_FARRA="platforms/ios/${IOS_SCHEME_NAME}.xcodeproj/project.pbxproj"
+          
+          # فایل پروژه CordovaLib (در این مرحله فقط Deployment Target را فیکس می‌کنیم)
+          PROJ_FILE_CORDOVA="platforms/ios/CordovaLib/CordovaLib.xcodeproj/project.pbxproj"
+          
+          # استفاده از for برای اعمال اصلاحات
+          for PROJ_FILE in $PROJ_FILE_FARRA $PROJ_FILE_CORDOVA; do
+            if [ -f "$PROJ_FILE" ]; then
+              echo "Processing $PROJ_FILE"
+              
+              # 1. تنظیم IPHONEOS_DEPLOYMENT_TARGET به 12.0
+              sed -i '' 's/IPHONEOS_DEPLOYMENT_TARGET = 11.0;/IPHONEOS_DEPLOYMENT_TARGET = 12.0;/g' $PROJ_FILE
+              
+              # **فقط برای Farra.xcodeproj:** حذف تنظیمات تداخلی
+              if [ "$PROJ_FILE" = "$PROJ_FILE_FARRA" ]; then
+                  echo "Applying signing cleanups to Farra.xcodeproj..."
+                  # 2. حذف کامل تمام رفرنس‌های Manual Signing
+                  sed -i '' '/ProvisioningStyle = Manual;/d' $PROJ_FILE
+                  
+                  # 3. حذف رفرنس‌های قدیمی iPhone Distribution (به صورت تهاجمی)
+                  sed -i '' '/CODE_SIGN_IDENTITY = "iPhone Distribution"/d' $PROJ_FILE
+                  
+                  # 4. حذف رفرنس‌های تیم (احتمالی)
+                  sed -i '' '/DevelopmentTeam/d' $PROJ_FILE
+              fi
+              
+              echo "Finished processing $PROJ_FILE."
+            else
+              echo "Error: Project file $PROJ_FILE not found (this should not happen)."
+            fi
+          done
           
       - name: Build iOS Release (Direct Xcode Archive)
         script: | 
           echo "Starting iOS Archive build for Distribution..."
-          # استفاده از xcodebuild با تزریق کامل تنظیمات امضا
-          # CODE_SIGN_IDENTITY="iPhone Distribution" برای امضای تولیدی/API Key
-          # PROVISIONING_PROFILE_SPECIFIER="" برای اجبار به استفاده از پروفایل Codemagic
+          # تزریق تنظیمات امضا:
+          # - DEVELOPMENT_TEAM: اجبار به استفاده از Team ID شما (که با API Key در Codemagic ست شده است)
+          # - CODE_SIGN_STYLE: اجبار به Automatic (اگر Xcode آن را دستی می‌بیند)
+          # - CODE_SIGN_IDENTITY: استفاده از "Apple Distribution" که هویت صحیح برای توزیع API Key است
           xcodebuild -workspace platforms/ios/${IOS_SCHEME_NAME}.xcworkspace \
             -scheme ${IOS_SCHEME_NAME} \
             -configuration Release \
@@ -58,9 +86,9 @@ workflows:
             -archivePath $CM_BUILD_DIR/build/${IOS_SCHEME_NAME}.xcarchive \
             archive \
             DEVELOPMENT_TEAM=${IOS_TEAM_ID} \
-            CODE_SIGN_IDENTITY="iPhone Distribution" \
-            PROVISIONING_PROFILE_SPECIFIER="" \
-            IPHONEOS_DEPLOYMENT_TARGET="12.0" # تکرار تنظیم Deployment Target
+            CODE_SIGN_STYLE="Automatic" \
+            CODE_SIGN_IDENTITY="Apple Distribution" \
+            IPHONEOS_DEPLOYMENT_TARGET="12.0"
           
       - name: Export IPA from Archive
         script: |
