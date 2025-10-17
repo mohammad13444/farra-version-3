@@ -1,12 +1,12 @@
 # =================================================================
 # Codemagic CI/CD Configuration for Cordova/Ionic Project
-# FINAL FIX FOR CODE SIGNING (DEVELOPMENT_TEAM INJECTION)
+# FINAL FIX - Clears conflicting Xcode Code Signing settings
 # =================================================================
 workflows:
   cordova-build-workflow:
     name: Cordova iOS & Android CI/CD
     
-    # 1. تنظیم سخت‌افزار: mac_mini_m1 برای بیلد iOS الزامی است.
+    # 1. تنظیم سخت‌افزار
     instance_type: mac_mini_m1
       
     # 2. تنظیم محیط (Environment)
@@ -15,8 +15,8 @@ workflows:
         NODE_VERSION: 20
         CORDOVA_VERSION: 12
         ANDROID_PLATFORM_VERSION: 13.0.0
-        IOS_TEAM_ID: 72M97MR8UU # Team ID شما برای تزریق آسان
-        IOS_SCHEME_NAME: Farra   # نام Scheme پروژه شما
+        IOS_TEAM_ID: 72M97MR8UU     # Team ID شما
+        IOS_SCHEME_NAME: Farra      # نام Scheme پروژه شما
         
       # تعریف ابزارها در سطح environment
       node: $NODE_VERSION
@@ -31,17 +31,30 @@ workflows:
         
       - name: Add Platforms
         script: | 
-          # استفاده از '|| true' برای جلوگیری از خطا اگر پلتفرم قبلا وجود داشت
+          # افزودن پلتفرم‌ها
           cordova platform add ios --save || true
           cordova platform add android@$ANDROID_PLATFORM_VERSION --save || true
-          # مطمئن شدن از آماده سازی پلتفرم‌ها برای بیلد
           cordova prepare
           
-      - name: Build iOS Release (Direct Xcode Archive) - Code Signing Fix
+      - name: Clean Xcode Code Signing Settings (CRITICAL FIX)
+        script: |
+          echo "Removing conflicting Code Signing settings from Xcode project files..."
+          # این دستورات تمام تنظیمات تداخلی دستی Code Signing را از project.pbxproj پاک می‌کنند.
+          # این کار تضمین می‌کند که Codemagic کنترل کامل امضا را در دست بگیرد.
+          PROJ_FILE="platforms/ios/${IOS_SCHEME_NAME}.xcodeproj/project.pbxproj"
+          
+          # حذف تنظیمات قدیمی Code Signing Identity
+          sed -i '' '/CODE_SIGN_IDENTITY = \"iPhone Distribution\"/d' $PROJ_FILE
+          sed -i '' '/CODE_SIGN_IDENTITY = \"iPhone Developer\"/d' $PROJ_FILE
+          sed -i '' '/PROVISIONING_PROFILE_SPECIFIER/d' $PROJ_FILE
+          
+          # اطمینان از تنظیم استایل امضا روی Automatic
+          sed -i '' 's/ProvisioningStyle = Manual;/ProvisioningStyle = Automatic;/g' $PROJ_FILE
+          
+      - name: Build iOS Release (Direct Xcode Archive)
         script: | 
           echo "Starting iOS Archive build for Distribution..."
           # تزریق DEVELOPMENT_TEAM برای رفع خطای "requires a development team"
-          # از متغیرهای تعریف شده در Environment استفاده می‌کنیم.
           xcodebuild -workspace platforms/ios/${IOS_SCHEME_NAME}.xcworkspace \
             -scheme ${IOS_SCHEME_NAME} \
             -configuration Release \
@@ -53,23 +66,17 @@ workflows:
       - name: Export IPA from Archive
         script: |
           echo "Exporting IPA..."
-          # این مرحله آرشیو را با استفاده از API Key ذخیره شده در Codemagic به فایل IPA تبدیل می‌کند.
-          # توجه: نام فایل archivePath باید با مرحله قبل یکسان باشد.
-          # همچنین exportOptions.plist باید موجود باشد.
+          # برای موفقیت این مرحله، فایل exportOptions.plist باید در مسیر platforms/ios/ موجود باشد.
           xcodebuild -exportArchive -archivePath $CM_BUILD_DIR/build/${IOS_SCHEME_NAME}.xcarchive -exportPath $CM_BUILD_DIR/build/Release-iphoneos -exportOptionsPlist platforms/ios/exportOptions.plist
           
       - name: Build Android Release (AAB for Google Play)
         script: |
           echo "Starting Android AAB build for Google Play..."
-          # بیلد AAB (Android App Bundle) فرمت ترجیحی Google Play است
-          # برای موفقیت، Keystore باید در تنظیمات Codemagic آپلود شده باشد.
           cordova build android --release -- -- --packageType=bundle
           
     # 4. خروجی‌ها (Artifacts)
     artifacts:
-      # مسیر فایل IPA خروجی گرفته شده از مرحله Export IPA
       - $CM_BUILD_DIR/build/Release-iphoneos/*.ipa
-      # مسیر فایل AAB برای Google Play
       - platforms/android/app/build/outputs/bundle/release/*.aab
       - /tmp/codemagic-temp/build_log_*.txt
       
@@ -77,7 +84,7 @@ workflows:
     publishing:
       email:
         recipients: 
-          - farokgraphic@gmail.com # ایمیل شما
+          - farokgraphic@gmail.com
         notify:
           success: true
           failure: true
