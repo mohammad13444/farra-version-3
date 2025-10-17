@@ -1,11 +1,11 @@
 # =================================================================
-# Codemagic CI/CD Configuration for Cordova/Ionic Project (Final, Final Fix)
+# Codemagic CI/CD Configuration for Cordova/Ionic Project
 # =================================================================
 workflows:
   cordova-build-workflow:
     name: Cordova iOS & Android CI/CD
     
-    # 1. تنظیم سخت‌افزار: فقط instance_type کافی است. (بلوک macos حذف شد)
+    # 1. تنظیم سخت‌افزار: mac_mini_m1 برای بیلد iOS الزامی است.
     instance_type: mac_mini_m1
       
     # 2. تنظیم محیط (Environment)
@@ -28,32 +28,47 @@ workflows:
         
       - name: Add Platforms
         script: | 
+          # استفاده از '|| true' برای جلوگیری از خطا اگر پلتفرم قبلا وجود داشت
           cordova platform add ios --save || true
           cordova platform add android@$ANDROID_PLATFORM_VERSION --save || true
-
-      - name: Build iOS Release
+          # مطمئن شدن از آماده سازی پلتفرم‌ها برای بیلد
+          cordova prepare
+          
+      - name: Build iOS Release (Direct Xcode Archive)
         script: | 
-          echo "Starting iOS build..."
-          # پرچم -allowProvisioningUpdates برای مدیریت خودکار گواهی‌ها در Xcode است.
-          cordova build ios --release --buildFlag='-allowProvisioningUpdates'
-      
-      - name: Build Android Release
+          echo "Starting iOS Archive build for Distribution..."
+          # از آنجایی که دستور Cordova درست عمل نمی‌کرد، مستقیما از xcodebuild استفاده می‌کنیم.
+          # -sdk iphoneos: بیلد برای دستگاه واقعی (نه شبیه‌ساز)
+          # -scheme Farra: شما باید نام شمای پروژه خود را اینجا وارد کنید (فرض شده 'Farra' است، بر اساس اطلاعات قبلی)
+          # -workspace platforms/ios/Farra.xcworkspace: مسیر و نام فضای کاری Xcode
+          xcodebuild -workspace platforms/ios/Farra.xcworkspace -scheme Farra -configuration Release -sdk iphoneos -archivePath $CM_BUILD_DIR/build/Farra.xcarchive archive
+          
+      - name: Export IPA from Archive
         script: |
-          echo "Starting Android build..."
-          # توجه: برای بیلد Android نهایی، لازم است KeyStore را در Codemagic آپلود و در این اسکریپت استفاده کنیم.
-          cordova build android --release
+          echo "Exporting IPA..."
+          # این مرحله آرشیو را با استفاده از API Key ذخیره شده در Codemagic به فایل IPA تبدیل می‌کند.
+          xcodebuild -exportArchive -archivePath $CM_BUILD_DIR/build/Farra.xcarchive -exportPath $CM_BUILD_DIR/build/Release-iphoneos -exportOptionsPlist platforms/ios/exportOptions.plist
+          
+      - name: Build Android Release (AAB for Google Play)
+        script: |
+          echo "Starting Android AAB build for Google Play..."
+          # بیلد AAB (Android App Bundle) فرمت ترجیحی Google Play است
+          # برای موفقیت، Keystore باید در تنظیمات Codemagic آپلود شده باشد.
+          cordova build android --release -- -- --packageType=bundle
           
     # 4. خروجی‌ها (Artifacts)
     artifacts:
-      - build/Release-iphoneos/*.ipa
-      - platforms/android/app/build/outputs/apk/release/*.apk
+      # مسیر فایل IPA خروجی گرفته شده از مرحله Export IPA
+      - $CM_BUILD_DIR/build/Release-iphoneos/*.ipa
+      # مسیر فایل AAB برای Google Play
+      - platforms/android/app/build/outputs/bundle/release/*.aab
       - /tmp/codemagic-temp/build_log_*.txt
       
     # 5. تنظیمات انتشار (Publishing)
     publishing:
       email:
         recipients: 
-          - mohammad.babelly@example.com # ایمیل خودت رو اینجا بگذار
+          - farokgraphic@gmail.com # ایمیل شما (از حافظه قبلی)
         notify:
           success: true
           failure: true
