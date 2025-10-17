@@ -1,6 +1,6 @@
 # =================================================================
 # Codemagic CI/CD Configuration for Cordova/Ionic Project
-# AGGRESSIVE FIX: Clears ALL conflicting Code Signing settings
+# FINAL ATTEMPT - Simplified and Targeted Aggressive Code Signing Fix
 # =================================================================
 workflows:
   cordova-build-workflow:
@@ -18,7 +18,6 @@ workflows:
         IOS_TEAM_ID: 72M97MR8UU     # Team ID شما
         IOS_SCHEME_NAME: Farra      # نام Scheme پروژه شما
         
-      # تعریف ابزارها در سطح environment
       node: $NODE_VERSION
       
     # 3. مراحل بیلد (Scripts)
@@ -29,45 +28,39 @@ workflows:
       - name: Install Project Dependencies
         script: npm install
         
-      - name: Add Platforms
+      - name: Add Platforms and Prepare
         script: | 
           # افزودن پلتفرم‌ها
           cordova platform add ios --save || true
           cordova platform add android@$ANDROID_PLATFORM_VERSION --save || true
           cordova prepare
           
-      - name: Clean Xcode Code Signing Settings & Fix Warnings (CRITICAL FIX)
+      - name: CRITICAL FIX: Aggressively Clean Xcode Project File
         script: |
-          echo "Applying AGGRESSIVE fix to Xcode project files to clear Code Signing conflicts..."
+          echo "Applying AGGRESSIVE fix to Farra.xcodeproj to clear Code Signing conflicts..."
           
-          # تعریف مسیر هر دو فایل پروژه (Farra و CordovaLib)
-          PROJ_FILES="platforms/ios/${IOS_SCHEME_NAME}.xcodeproj/project.pbxproj platforms/ios/CordovaLib/CordovaLib.xcodeproj/project.pbxproj"
+          # مسیر فایل پروژه اصلی
+          PROJ_FILE="platforms/ios/${IOS_SCHEME_NAME}.xcodeproj/project.pbxproj"
           
-          # اجرای دستورات sed برای هر دو فایل
-          for PROJ_FILE in $PROJ_FILES; do
-            if [ -f "$PROJ_FILE" ]; then
-              echo "Processing $PROJ_FILE"
-              
-              # 1. FORCE Provisioning Style to Automatic
-              # تغییر ProvisioningStyle از Manual به Automatic
-              sed -i '' 's/ProvisioningStyle = Manual;/ProvisioningStyle = Automatic;/g' $PROJ_FILE
+          if [ -f "$PROJ_FILE" ]; then
+            echo "Processing $PROJ_FILE"
+            
+            # 1. FORCE Provisioning Style to Automatic
+            # تغییر ProvisioningStyle از Manual به Automatic
+            # استفاده از پرچم -i که سازگارتر است (بدون پسوند)
+            sed -i 's/ProvisioningStyle = Manual;/ProvisioningStyle = Automatic;/g' $PROJ_FILE
 
-              # 2. AGGRESSIVE Clean: Neutralize ALL Code Signing Identity settings
-              # تنظیم CODE_SIGN_IDENTITY روی یک مقدار خالی برای همه حالت‌ها
-              sed -i '' 's/CODE_SIGN_IDENTITY = .*;/CODE_SIGN_IDENTITY = ""/g' $PROJ_FILE
-              sed -i '' 's/CODE_SIGN_IDENTITY\[sdk=iphoneos\*\] = .*;/CODE_SIGN_IDENTITY\[sdk=iphoneos\*\] = ""/g' $PROJ_FILE
-              
-              # 3. Remove all Provisioning Profile Specifier/Team entries
-              # حذف تنظیمات مربوط به پروفایل‌های دستی و Team ID ذخیره شده در فایل
-              sed -i '' '/PROVISIONING_PROFILE_SPECIFIER/d' $PROJ_FILE
-              sed -i '' '/PROVISIONING_PROFILE/d' $PROJ_FILE
-              sed -i '' '/DEVELOPMENT_TEAM/d' $PROJ_FILE
-              
-              # 4. Fix iOS Deployment Target warning (11.0 to 12.0)
-              sed -i '' 's/IPHONEOS_DEPLOYMENT_TARGET = 11.0;/IPHONEOS_DEPLOYMENT_TARGET = 12.0;/g' $PROJ_FILE
-              sed -i '' 's/IPHONEOS_DEPLOYMENT_TARGET = 10.0;/IPHONEOS_DEPLOYMENT_TARGET = 12.0;/g' $PROJ_FILE
-            fi
-          done
+            # 2. Neutralize ALL Code Signing Identity settings (تغییر به مقدار خالی)
+            # این قوی‌ترین راه برای پاک کردن تداخل "iPhone Distribution" است.
+            sed -i 's/CODE_SIGN_IDENTITY = .*;/CODE_SIGN_IDENTITY = ""/g' $PROJ_FILE
+            
+            # 3. Fix iOS Deployment Target warning (11.0 to 12.0)
+            sed -i 's/IPHONEOS_DEPLOYMENT_TARGET = 11.0;/IPHONEOS_DEPLOYMENT_TARGET = 12.0;/g' $PROJ_FILE
+            
+            echo "Finished cleaning $PROJ_FILE."
+          else
+            echo "Error: Project file $PROJ_FILE not found."
+          fi
           
       - name: Build iOS Release (Direct Xcode Archive)
         script: | 
@@ -84,7 +77,6 @@ workflows:
       - name: Export IPA from Archive
         script: |
           echo "Exporting IPA..."
-          # فرض بر این است که exportOptions.plist در مسیر platforms/ios/ موجود است.
           xcodebuild -exportArchive -archivePath $CM_BUILD_DIR/build/${IOS_SCHEME_NAME}.xcarchive -exportPath $CM_BUILD_DIR/build/Release-iphoneos -exportOptionsPlist platforms/ios/exportOptions.plist
           
       - name: Build Android Release (AAB for Google Play)
