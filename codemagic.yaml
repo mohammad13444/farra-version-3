@@ -1,10 +1,10 @@
 # =================================================================
-# Codemagic CI/CD Configuration for Cordova/Ionic Project
-# FINAL FINAL FINAL FINAL ATTEMPT - Advanced Clean + Apple Distribution
+# Codemagic CI/CD Configuration for Cordova/Ionic Project - iOS ONLY
+# RADICAL ATTEMPT - Total Code Signing Wipe in project.pbxproj
 # =================================================================
 workflows:
-  cordova-build-workflow:
-    name: Cordova iOS & Android CI/CD
+  cordova-ios-build-workflow:
+    name: Cordova iOS CI/CD (Focus Build)
     
     # 1. تنظیم سخت‌افزار
     instance_type: mac_mini_m1
@@ -14,8 +14,7 @@ workflows:
       vars:
         NODE_VERSION: 20
         CORDOVA_VERSION: 12
-        ANDROID_PLATFORM_VERSION: 13.0.0
-        IOS_TEAM_ID: 72M97MR8UU     # Team ID شما (از Codemagic)
+        IOS_TEAM_ID: 72M97MR8UU     # Team ID شما
         IOS_SCHEME_NAME: Farra      # نام Scheme پروژه شما
         
       node: $NODE_VERSION
@@ -28,41 +27,45 @@ workflows:
       - name: Install Project Dependencies
         script: npm install
         
-      - name: Add Platforms and Prepare
+      - name: Add iOS Platform and Prepare
         script: | 
-          # افزودن پلتفرم‌ها
+          # افزودن پلتفرم iOS و آماده‌سازی
           cordova platform add ios --save || true
-          cordova platform add android@$ANDROID_PLATFORM_VERSION --save || true
           cordova prepare
           
-      - name: CRITICAL-FIX-Advanced-Xcode-Project-Cleanup 
+      - name: CRITICAL-FIX-RADICAL-Xcode-Project-Cleanup 
         script: |
-          echo "Applying Advanced Cleanup to project files to resolve Code Signing conflicts..."
+          echo "RADICAL CLEANUP: Wiping all Code Signing and Provisioning settings from project files."
           
           # فایل پروژه اصلی
           PROJ_FILE_FARRA="platforms/ios/${IOS_SCHEME_NAME}.xcodeproj/project.pbxproj"
           
-          # فایل پروژه CordovaLib (در این مرحله فقط Deployment Target را فیکس می‌کنیم)
+          # فایل پروژه CordovaLib (فقط برای Deployment Target)
           PROJ_FILE_CORDOVA="platforms/ios/CordovaLib/CordovaLib.xcodeproj/project.pbxproj"
           
-          # استفاده از for برای اعمال اصلاحات
+          # اجرای پاکسازی رادیکال
           for PROJ_FILE in $PROJ_FILE_FARRA $PROJ_FILE_CORDOVA; do
             if [ -f "$PROJ_FILE" ]; then
               echo "Processing $PROJ_FILE"
               
               # 1. تنظیم IPHONEOS_DEPLOYMENT_TARGET به 12.0
+              # این تنها دستور sed غیرحذفی است که برای رفع اخطار باقی می‌ماند.
               sed -i '' 's/IPHONEOS_DEPLOYMENT_TARGET = 11.0;/IPHONEOS_DEPLOYMENT_TARGET = 12.0;/g' $PROJ_FILE
               
-              # **فقط برای Farra.xcodeproj:** حذف تنظیمات تداخلی
+              # **پاکسازی رادیکال فقط برای Farra.xcodeproj:**
               if [ "$PROJ_FILE" = "$PROJ_FILE_FARRA" ]; then
-                  echo "Applying signing cleanups to Farra.xcodeproj..."
-                  # 2. حذف کامل تمام رفرنس‌های Manual Signing
-                  sed -i '' '/ProvisioningStyle = Manual;/d' $PROJ_FILE
+                  echo "Applying radical signing wipe to Farra.xcodeproj..."
                   
-                  # 3. حذف رفرنس‌های قدیمی iPhone Distribution (به صورت تهاجمی)
-                  sed -i '' '/CODE_SIGN_IDENTITY = "iPhone Distribution"/d' $PROJ_FILE
+                  # حذف هرگونه رفرنس به Code Signing Identity (Development, Distribution, ...)
+                  sed -i '' '/CODE_SIGN_IDENTITY/d' $PROJ_FILE
                   
-                  # 4. حذف رفرنس‌های تیم (احتمالی)
+                  # حذف رفرنس به Provisioning Profile
+                  sed -i '' '/PROVISIONING_PROFILE_SPECIFIER/d' $PROJ_FILE
+                  
+                  # حذف رفرنس به Code Sign Style (Manual/Automatic)
+                  sed -i '' '/ProvisioningStyle/d' $PROJ_FILE
+                  
+                  # حذف رفرنس به Team ID (DevelopmentTeam)
                   sed -i '' '/DevelopmentTeam/d' $PROJ_FILE
               fi
               
@@ -74,11 +77,8 @@ workflows:
           
       - name: Build iOS Release (Direct Xcode Archive)
         script: | 
-          echo "Starting iOS Archive build for Distribution..."
-          # تزریق تنظیمات امضا:
-          # - DEVELOPMENT_TEAM: اجبار به استفاده از Team ID شما (که با API Key در Codemagic ست شده است)
-          # - CODE_SIGN_STYLE: اجبار به Automatic (اگر Xcode آن را دستی می‌بیند)
-          # - CODE_SIGN_IDENTITY: استفاده از "Apple Distribution" که هویت صحیح برای توزیع API Key است
+          echo "Starting iOS Archive build for Distribution with pure parameters..."
+          # تزریق تنظیمات امضا: اکنون که پروژه پاکسازی شده، xcodebuild باید این مقادیر را بپذیرد
           xcodebuild -workspace platforms/ios/${IOS_SCHEME_NAME}.xcworkspace \
             -scheme ${IOS_SCHEME_NAME} \
             -configuration Release \
@@ -93,18 +93,12 @@ workflows:
       - name: Export IPA from Archive
         script: |
           echo "Exporting IPA..."
-          # اطمینان حاصل می‌کنیم که ExportOptions.plist برای App Store/Distribution تنظیم شده باشد
+          # مطمئن شوید که یک فایل platforms/ios/exportOptions.plist در مخزن شما وجود دارد
           xcodebuild -exportArchive -archivePath $CM_BUILD_DIR/build/${IOS_SCHEME_NAME}.xcarchive -exportPath $CM_BUILD_DIR/build/Release-iphoneos -exportOptionsPlist platforms/ios/exportOptions.plist
-          
-      - name: Build Android Release (AAB for Google Play)
-        script: |
-          echo "Starting Android AAB build for Google Play..."
-          cordova build android --release -- -- --packageType=bundle
           
     # 4. خروجی‌ها (Artifacts)
     artifacts:
       - $CM_BUILD_DIR/build/Release-iphoneos/*.ipa
-      - platforms/android/app/build/outputs/bundle/release/*.aab
       - /tmp/codemagic-temp/build_log_*.txt
       
     # 5. تنظیمات انتشار (Publishing)
