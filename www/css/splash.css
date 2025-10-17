@@ -1,7 +1,7 @@
 body {
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
-  background-color: #efefef;
+  background: var(--Surface-Primary-Default, #706DF2);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -25,7 +25,7 @@ body {
   letter-spacing: -1px;
   text-transform: uppercase;
   color: #000;
-  margin-top: 40vh;
+  margin-top: 45vh;
   font-family: monospace;
   opacity: 0;
   animation: fadeIn 1.5s ease-in-out forwards;
@@ -41,7 +41,7 @@ body {
 
 .version {
   font-size: 12px;
-  color: #aaa;
+  color: var(--Text-Primary-On-Color, #E2E2FC);
   position: absolute;
   bottom: 20px;
   left: 45%;

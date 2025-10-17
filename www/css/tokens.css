@@ -1,0 +1,41 @@
+:root {
+    /* COLORS */
+    --surface-page: #E6E5FF;
+    --primary-500: #706DF2;
+    --text-default-heading: #1F1F24;
+
+    /* FONTS */
+    --fonts-en-primary: "Bonyade Koodak VF", sans-serif;
+
+    /* HEADING H4 */
+    --font-headings-h4-text-size: 32px;
+    --font-headings-h4-line-height: 48px;
+    --font-headings-h4-weight: 700;
+
+    /* BODY LCopy */
+    --font-copy-body-lg-text-size: 20px;
+    --font-copy-body-lg-line-height: 24px;
+    --font-copy-body-lg-weight: 400;
+
+    /* SPACING */
+    --spacing-600: 24px;
+    --gap-sm: 10px;
+
+    /* RADIUS */
+    --radius-pill: 40px;
+
+    /* WIDTHS */
+    --btn-primary-width: 344px;
+    --btn-secondary-width: 224px;
+    --btn-text-width: 72px;
+
+    /* PADDINGS */
+    --btn-primary-padding: 20px 16px;
+    --btn-secondary-padding: 4px 8px;
+    --btn-text-padding-primary: 0 1px;
+    --btn-text-padding-secondary: 0 9px 0 10px;
+
+    /* CONTAINER DIMENSIONS */
+    --container-width: 378.303px;
+    --container-height: 654.303px;
+}
