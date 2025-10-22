@@ -1,65 +1,94 @@
-name: Build Cordova iOS App
+name: iOS Cordova Build and Sign (Farra)
 
 on:
-  push:
-    branches:
-      - main
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
 
 jobs:
   build:
-    runs-on: macos-latest
+    runs-on: macos-14 # Required for iOS build
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+    - name: ⬇️ Checkout Repository
+      uses: actions/checkout@v4
+      # Since your repo structure is now flat, no need for path: argument.
+      # If your files are still inside a subdirectory, add:
+      # with:
+      #   path: farra-version-3 
+      # We assume they are at root now.
 
-      - name: Set up Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18'
+    - name: 🐍 Setup Python for Base64 Decryption
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.x'
 
-      - name: Install Cordova
-        run: npm install -g cordova
+    - name: 📥 Install Dependencies
+      # Assuming package.json is in the root of the checked out directory
+      run: npm install
 
-      - name: Install dependencies
-        run: npm install
+    - name: 📱 Add iOS Platform
+      run: npx cordova platform add ios --save --no-fetch
 
-      - name: Add iOS platform
-        run: cordova platform add ios@latest
+    - name: 🔑 Set up Signing Credentials
+      env:
+        P12_B64: ${{ secrets.CERT_P12 }}
+        P12_PASSWORD: ${{ secrets.P12_PASSWORD }}
+        PP_B64: ${{ secrets.PROVISIONING_PROFILE }}
+        
+      run: |
+        # Decrypt P12 Certificate
+        echo "$P12_B64" | base64 --decode > ios_distribution.p12
+        # Decrypt Provisioning Profile
+        echo "$PP_B64" | base64 --decode > Farra_iOS_AppStore_72M97MR8UU.mobileprovision
+        
+        # Create a temporary keychain
+        security create-keychain -p "" build.keychain
+        security default-keychain -s build.keychain
+        security unlock-keychain -p "" build.keychain
+        security set-keychain-settings -lut 7200 build.keychain
 
-      - name: Build iOS App (Release)
-        run: |
-          set -e
-          echo "Starting Cordova iOS build..."
-          cordova build ios --release
-          mkdir -p release
-          
-          echo "Looking for generated IPA..."
-          IPA_PATH=$(find "platforms/ios/build" -type f -name "*.ipa" | head -n 1 || true)
-          
-          if [ -n "$IPA_PATH" ]; then
-            echo "IPA found: $IPA_PATH"
-            cp "$IPA_PATH" release/
-          else
-            echo "No IPA found, searching for .app directory..."
-            APP_PATH=$(find "platforms/ios/build" -type d -name "*.app" | head -n 1 || true)
-            
-            if [ -n "$APP_PATH" ]; then
-              echo ".app found: $APP_PATH"
-              mkdir Payload
-              cp -R "$APP_PATH" Payload/
-              zip -r release/app_unsigned.ipa Payload
-              rm -rf Payload
-              echo "Unsigned IPA created from .app"
-            else
-              echo "No .app found either. Build may have failed."
-              exit 1
-            fi
-          fi
-        shell: bash
+        # Import P12 certificate into the keychain
+        security import ios_distribution.p12 -k build.keychain -P "$P12_PASSWORD" -T /usr/bin/codesign -T /usr/bin/security
+        
+        # Determine the UUID of the provisioning profile and move it to the correct location
+        PP_UUID=$(/usr/libexec/PlistBuddy -c "Print UUID" /dev/stdin <<< "$(security cms -D -i Farra_iOS_AppStore_72M97MR8UU.mobileprovision)")
+        mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+        mv Farra_iOS_AppStore_72M97MR8UU.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/$PP_UUID.mobileprovision
 
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: ios-app
-          path: release/*.ipa
+    - name: 🛠️ Clean and Prepare Cordova Build
+      run: |
+        # Fix build directory paths for signing
+        echo "ios-signing.entitlements" > entitlements.filelist
+        
+        # Set the correct configuration for Xcode build (using the secrets for signing)
+        sed -i '' "s/DEVELOPMENT_TEAM =.*/DEVELOPMENT_TEAM = ${{ secrets.TEAM_ID }};/" platforms/ios/cordova/build.xcconfig
+        sed -i '' "s/PROVISIONING_PROFILE_SPECIFIER =.*/PROVISIONING_PROFILE_SPECIFIER = Farra_iOS_AppStore_72M97MR8UU;/" platforms/ios/cordova/build.xcconfig
+        sed -i '' "s/CODE_SIGN_IDENTITY =.*/CODE_SIGN_IDENTITY = Apple Distribution;/" platforms/ios/cordova/build.xcconfig
+        sed -i '' "s/CODE_SIGN_STYLE =.*/CODE_SIGN_STYLE = Manual;/" platforms/ios/cordova/build.xcconfig
+
+    - name: 🏗️ Cordova Build iOS (for Distribution)
+      run: |
+        # Use the cordova command line to perform the build for distribution
+        npx cordova build ios --release --device \
+          --buildConfig=platforms/ios/build.json 
+        # Note: Cordova uses the settings we set in the previous step.
+
+    - name: 📦 Locate and Rename IPA
+      run: |
+        # The IPA file is usually located in a deep path after a successful build
+        IPA_PATH=$(find platforms/ios/build/ -name "*.ipa" -print -quit)
+        # We assume the build was successful, and we rename the output to the standard name
+        if [ -n "$IPA_PATH" ]; then
+          mv "$IPA_PATH" farra-signed.ipa
+        fi
+        
+    - name: 📤 Upload Artifact (Final IPA)
+      uses: actions/upload-artifact@v4
+      with:
+        name: farra-app-store-ipa
+        path: farra-signed.ipa
+        retention-days: 7
+
+    - name: 🗑️ Cleanup Keychain
+      if: always()
+      run: security delete-keychain build.keychain
