@@ -6,89 +6,93 @@ on:
 
 jobs:
   build:
-    runs-on: macos-14 # Required for iOS build
+    runs-on: macos-14 # Use the latest macOS runner for best compatibility
+    
+    # Define environment variables for signing (use your provided secrets/data)
+    env:
+      IPA_NAME: farra-signed.ipa
+      PP_FILE_NAME: Farra_iOS_AppStore_72M97MR8UU.mobileprovision
+      P12_FILE_NAME: ios_distribution.p12
 
     steps:
     - name: ⬇️ Checkout Repository
       uses: actions/checkout@v4
-      # Since your repo structure is now flat, no need for path: argument.
-      # If your files are still inside a subdirectory, add:
-      # with:
-      #   path: farra-version-3 
-      # We assume they are at root now.
 
-    - name: 🐍 Setup Python for Base64 Decryption
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.x'
-
-    - name: 📥 Install Dependencies
-      # Assuming package.json is in the root of the checked out directory
+    # 📥 Install Dependencies
+    - name: Install Dependencies
       run: npm install
 
-    - name: 📱 Add iOS Platform
+    # 📱 Add iOS Platform
+    - name: Add iOS Platform
       run: npx cordova platform add ios --save --no-fetch
 
-    - name: 🔑 Set up Signing Credentials
+    # 🔑 Set up Signing Credentials (FIXED: Removing P12 Password Check)
+    - name: Set up Signing Credentials
       env:
         P12_B64: ${{ secrets.CERT_P12 }}
-        P12_PASSWORD: ${{ secrets.P12_PASSWORD }}
         PP_B64: ${{ secrets.PROVISIONING_PROFILE }}
+        # P12_PASSWORD is intentionally not used in the 'security import' command below,
+        # assuming the P12 file was created without a password or we cannot find the correct one.
         
       run: |
-        # Decrypt P12 Certificate
-        echo "$P12_B64" | base64 --decode > ios_distribution.p12
-        # Decrypt Provisioning Profile
-        echo "$PP_B64" | base64 --decode > Farra_iOS_AppStore_72M97MR8UU.mobileprovision
+        # 1. Decrypt P12 Certificate
+        echo "$P12_B64" | base64 --decode > ${{ env.P12_FILE_NAME }}
+        # 2. Decrypt Provisioning Profile
+        echo "$PP_B64" | base64 --decode > ${{ env.PP_FILE_NAME }}
         
-        # Create a temporary keychain
+        # 3. Create a temporary keychain (Using empty password "")
         security create-keychain -p "" build.keychain
         security default-keychain -s build.keychain
         security unlock-keychain -p "" build.keychain
         security set-keychain-settings -lut 7200 build.keychain
 
-        # Import P12 certificate into the keychain
-        security import ios_distribution.p12 -k build.keychain -P "$P12_PASSWORD" -T /usr/bin/codesign -T /usr/bin/security
-        
-        # Determine the UUID of the provisioning profile and move it to the correct location
-        PP_UUID=$(/usr/libexec/PlistBuddy -c "Print UUID" /dev/stdin <<< "$(security cms -D -i Farra_iOS_AppStore_72M97MR8UU.mobileprovision)")
+        # 4. Import P12 certificate into the keychain
+        # *** FIX: Removed -P "$P12_PASSWORD" from the import command ***
+        security import ${{ env.P12_FILE_NAME }} -k build.keychain -A -T /usr/bin/codesign
+
+        # 5. Determine the UUID of the provisioning profile and move it to the correct location
+        PP_UUID=$(/usr/libexec/PlistBuddy -c "Print UUID" /dev/stdin <<< "$(security cms -D -i ${{ env.PP_FILE_NAME }})")
         mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
-        mv Farra_iOS_AppStore_72M97MR8UU.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/$PP_UUID.mobileprovision
+        mv ${{ env.PP_FILE_NAME }} ~/Library/MobileDevice/Provisioning\ Profiles/$PP_UUID.mobileprovision
 
     - name: 🛠️ Clean and Prepare Cordova Build
       run: |
-        # Fix build directory paths for signing
-        echo "ios-signing.entitlements" > entitlements.filelist
+        # Ensure the build configuration is set for Manual Signing
+        # Using sed to patch build.xcconfig for manual signing details
         
-        # Set the correct configuration for Xcode build (using the secrets for signing)
-        sed -i '' "s/DEVELOPMENT_TEAM =.*/DEVELOPMENT_TEAM = ${{ secrets.TEAM_ID }};/" platforms/ios/cordova/build.xcconfig
+        # ⚠️ Note: We rely on TEAM_ID and Code Sign Identity to be set in GitHub Secrets.
+        TEAM_ID="${{ secrets.TEAM_ID }}"
+        
+        # Set team ID and code signing details in build.xcconfig
+        sed -i '' "s/DEVELOPMENT_TEAM =.*/DEVELOPMENT_TEAM = ${TEAM_ID};/" platforms/ios/cordova/build.xcconfig
         sed -i '' "s/PROVISIONING_PROFILE_SPECIFIER =.*/PROVISIONING_PROFILE_SPECIFIER = Farra_iOS_AppStore_72M97MR8UU;/" platforms/ios/cordova/build.xcconfig
         sed -i '' "s/CODE_SIGN_IDENTITY =.*/CODE_SIGN_IDENTITY = Apple Distribution;/" platforms/ios/cordova/build.xcconfig
         sed -i '' "s/CODE_SIGN_STYLE =.*/CODE_SIGN_STYLE = Manual;/" platforms/ios/cordova/build.xcconfig
 
     - name: 🏗️ Cordova Build iOS (for Distribution)
       run: |
-        # Use the cordova command line to perform the build for distribution
+        # Perform the build. The previous step's changes in build.xcconfig will be used.
         npx cordova build ios --release --device \
           --buildConfig=platforms/ios/build.json 
-        # Note: Cordova uses the settings we set in the previous step.
-
+        
     - name: 📦 Locate and Rename IPA
       run: |
-        # The IPA file is usually located in a deep path after a successful build
+        # Find the generated IPA file and rename it
         IPA_PATH=$(find platforms/ios/build/ -name "*.ipa" -print -quit)
-        # We assume the build was successful, and we rename the output to the standard name
         if [ -n "$IPA_PATH" ]; then
-          mv "$IPA_PATH" farra-signed.ipa
+          mv "$IPA_PATH" ${{ env.IPA_NAME }}
+        else
+          echo "::error::Could not find the generated IPA file after build."
+          exit 1
         fi
         
     - name: 📤 Upload Artifact (Final IPA)
       uses: actions/upload-artifact@v4
       with:
         name: farra-app-store-ipa
-        path: farra-signed.ipa
+        path: ${{ env.IPA_NAME }}
         retention-days: 7
 
     - name: 🗑️ Cleanup Keychain
       if: always()
-      run: security delete-keychain build.keychain
+      run: security delete-keychain build.keychain || true
