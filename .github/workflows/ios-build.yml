@@ -31,9 +31,11 @@ jobs:
         
       run: |
         # 1. Decrypt P12 Certificate
-        echo "$P12_B64" | base64 --decode > ${{ env.P12_FILE_NAME }}
+        # FIX: استفاده از tr -d '\n' برای حذف هرگونه کاراکتر Newline از Secret که باعث خطای 'unsupported format' می‌شود.
+        echo "$P12_B64" | tr -d '\n' | base64 --decode > ${{ env.P12_FILE_NAME }}
+        
         # 2. Decrypt Provisioning Profile
-        echo "$PP_B64" | base64 --decode > ${{ env.PP_FILE_NAME }}
+        echo "$PP_B64" | tr -d '\n' | base64 --decode > ${{ env.PP_FILE_NAME }}
         
         # 3. Create a temporary keychain with fixed password
         security create-keychain -p $KEYCHAIN_PASSWORD build.keychain
@@ -42,13 +44,11 @@ jobs:
         security set-keychain-settings -lut 7200 build.keychain
 
         # 4. Import P12 certificate into the keychain
-        # اصلاح حیاتی: استفاده از رمز P12 (که آن را 'actions-keychain-pass' تنظیم کردیم)
-        # این کار مشکل 'Import/Export format unsupported' را که ناشی از رمزگشایی غلط است، برطرف می کند.
-        # -P $KEYCHAIN_PASSWORD رمز فایل P12 است
+        # استفاده از رمز P12 (actions-keychain-pass) در پارامتر -P برای رمزگشایی صحیح فایل
         security import ${{ env.P12_FILE_NAME }} -k build.keychain -P $KEYCHAIN_PASSWORD -A -t cert -T /usr/bin/codesign
         
         # 5. Grant apps access to certificate
-        # این دستور تضمین می کند که فرآیند امضا به گواهی دسترسی کامل دارد.
+        # اعطای دسترسی کامل به گواهی در Keychain موقت
         security set-key-partition-list -S apple-tool: -S apple: -k $KEYCHAIN_PASSWORD -D "Apple Distribution" build.keychain
         
         # 6. Install Provisioning Profile
