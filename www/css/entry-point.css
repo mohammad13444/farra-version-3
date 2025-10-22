@@ -1,0 +1,117 @@
+body {
+    margin: 0;
+    background: var(--surface-page);
+    font-family: var(--fonts-en-primary);
+}
+
+.container {
+    display: flex;
+    width: var(--container-width);
+    height: var(--container-height);
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+    margin: auto;
+}
+
+.top-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-600);
+    align-self: stretch;
+}
+
+.image-title-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-600);
+    align-self: stretch;
+}
+
+.location-image {
+    width: 100%;
+    height: auto;
+}
+
+.text-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--gap-sm);
+    align-self: stretch;
+}
+
+.location-title {
+    color: var(--text-default-heading);
+    text-align: center;
+    font-size: var(--font-headings-h4-text-size);
+    line-height: var(--font-headings-h4-line-height);
+    font-weight: var(--font-headings-h4-weight);
+    margin: 0;
+}
+
+.location-subtitle {
+    color: var(--text-default-heading);
+    text-align: center;
+    font-size: var(--font-copy-body-lg-text-size);
+    line-height: var(--font-copy-body-lg-line-height);
+    font-weight: var(--font-copy-body-lg-weight);
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--gap-sm);
+    align-self: stretch;
+}
+
+.button-container {
+    display: flex;
+    width: var(--btn-primary-width);
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-600);
+}
+
+.btn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: var(--radius-pill);
+    text-decoration: none;
+    color: inherit;
+}
+
+.btn-primary {
+    width: var(--btn-primary-width);
+    padding: var(--btn-primary-padding);
+    background: var(--primary-500);
+    color: #fff;
+}
+
+.btn-primary .btn-text {
+    display: flex;
+    width: var(--btn-text-width);
+    padding: var(--btn-text-padding-primary);
+    justify-content: center;
+    align-items: center;
+    align-self: stretch;
+}
+
+.btn-secondary {
+    width: var(--btn-secondary-width);
+    padding: var(--btn-secondary-padding);
+    background: none; /* طبق توضیح تو */
+    color: var(--text-default-heading);
+}
+
+.btn-secondary .btn-text {
+    display: flex;
+    width: var(--btn-text-width);
+    height: 20px;
+    padding: var(--btn-text-padding-secondary);
+    justify-content: center;
+    align-items: center;
+}

@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/tokens.css">
+    <link rel="stylesheet" href="./css/otp.css">
+    <title>OTP Verification</title>
+</head>
+
+<body>
+
+    <div class="otp-wrapper">
+        <!-- Alert -->
+        <!-- 🚨 باکس هشدار OTP -->
+        <div class="otp-alert" id="otpAlert">
+            <svg style="margin-top: 3.50%;" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                viewBox="0 0 24 24" fill="none">
+                <path
+                    d="M11.9732 3C13.2857 7.31246 16.6605 10.6874 20.9728 12C16.6605 13.3126 13.2857 16.6875 11.9732 21C10.6607 16.6875 7.28588 13.3126 2.97363 12C7.28588 10.6874 10.6607 7.31246 11.9732 3Z"
+                    stroke="#FF595B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <div class="otp-alert-content">
+                <div class="otp-alert-title">Wrong code?</div>
+                <div class="otp-alert-message">Please double check and try again</div>
+            </div>
+        </div>
+
+        <div class="otp-alert success" id="otpAlertSuccess">
+            <svg style="margin-top: 3.50%;" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                viewBox="0 0 20 20" fill="none">
+                <path
+                    d="M9.9732 1C11.2857 5.31246 14.6605 8.6874 18.9728 10C14.6605 11.3126 11.2857 14.6875 9.9732 19C8.6607 14.6875 5.28588 11.3126 0.973633 10C5.28588 8.6874 8.6607 5.31246 9.9732 1Z"
+                    stroke="#44CD54" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <div class="otp-alert-content">
+
+                <div class="sss">New OTP sent.</div>
+            </div>
+        </div>
+
+
+
+        <br>
+        <br>
+        <!-- Top Icon -->
+        <div style="display: inline-flex;
+padding: 8px;
+align-items: center;
+gap: 10px;">
+            <svg style="width: 24px;
+height: 24px;
+flex-shrink: 0; stroke-width: 1.5px;
+stroke: var(--Icon-Primary-Default, #706DF2);" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                viewBox="0 0 20 20" fill="none">
+                <path
+                    d="M9.9732 1C11.2857 5.31246 14.6605 8.6874 18.9728 10C14.6605 11.3126 11.2857 14.6875 9.9732 19C8.6607 14.6875 5.28588 11.3126 0.973633 10C5.28588 8.6874 8.6607 5.31246 9.9732 1Z"
+                    stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+
+        </div>
+
+        <!-- Header -->
+        <div class="title">Got message?</div>
+        <div class="description">Enter the code I sent to the phone number you gave me.</div>
+
+        <!-- Phone Info -->
+        <div class="phone-info">
+            <div class="phone-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path
+                        d="M11.9732 3C13.2857 7.31246 16.6605 10.6874 20.9728 12C16.6605 13.3126 13.2857 16.6875 11.9732 21C10.6607 16.6875 7.28588 13.3126 2.97363 12C7.28588 10.6874 10.6607 7.31246 11.9732 3Z"
+                        stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </div>
+            <span class="phone-number">0777 151 6178</span>
+            <a href="./signup.html" class="change-number">Not your number?</a>
+        </div>
+
+        <!-- OTP Inputs -->
+        <div class="otp-inputs">
+            <input type="text" id="otp1" class="otp-input" maxlength="1">
+            <input type="text" id="otp2" class="otp-input" maxlength="1">
+            <input type="text" id="otp3" class="otp-input" maxlength="1">
+            <input type="text" id="otp4" class="otp-input" maxlength="1">
+            <input type="text" id="otp5" class="otp-input" maxlength="1">
+        </div>
+
+        <!-- Resend -->
+        <div id="resendText" class="resend">Resend code in 120 secs</div>
+
+        <!-- Continue Button -->
+        <button id="continueBtn" class="continue-button" disabled>Continue</button>
+        <br>
+        <a href="./onboarding.html">2</a>
+
+    </div>
+    <script>
+        const correctCode = "12345";
+        let otpCode = "";
+
+        // عناصر
+        const inputs = document.querySelectorAll(".otp-input");
+        const continueBtn = document.getElementById("continueBtn");
+        const alertBoxError = document.getElementById("otpAlert");
+        const alertBoxSuccess = document.getElementById("otpAlertSuccess");
+        const resendEl = document.getElementById("resendText");
+
+        // فیلدهای OTP
+        inputs.forEach((inp, idx) => {
+            inp.addEventListener("input", () => {
+                inp.value = inp.value.replace(/[^0-9]/g, '');
+                if (inp.value && idx < inputs.length - 1) {
+                    inputs[idx + 1].focus();
+                }
+                updateCode();
+            });
+
+            inp.addEventListener("focus", () => {
+                inputs.forEach(el => {
+                    el.classList.remove("success", "error");
+                    el.classList.add("focus");
+                });
+            });
+
+            inp.addEventListener("blur", () => {
+                inp.classList.remove("focus");
+            });
+        });
+
+        // بروزرسانی وضعیت کد و فعال‌سازی دکمه
+      function updateCode() {
+  otpCode = Array.from(inputs).map(el => el.value).join("");
+  
+  if (otpCode.length === inputs.length) {
+    continueBtn.classList.remove("disabled");
+    continueBtn.disabled = false;
+  } else {
+    continueBtn.classList.add("disabled");
+    continueBtn.disabled = true;
+  }
+}
+
+
+        // کلیک روی Continue
+        continueBtn.addEventListener("click", () => {
+            if (otpCode.length < 5) return;
+
+            inputs.forEach(inp => inp.classList.remove("success", "error", "focus"));
+
+            if (otpCode === correctCode) {
+                inputs.forEach(inp => inp.classList.add("success"));
+                showOtpAlert("success");
+            } else {
+                inputs.forEach(inp => inp.classList.add("error"));
+                showOtpAlert("error");
+            }
+        });
+
+        // نمایش پیام
+        function showOtpAlert(type) {
+            const alertEl = type === "success" ? alertBoxSuccess : alertBoxError;
+            alertEl.classList.add("show");
+            setTimeout(() => {
+                alertEl.classList.remove("show");
+            }, 3000);
+        }
+
+        // ======================
+        // تایمر 120 ثانیه‌ای Resend
+        // ======================
+        let timer = 120;
+        let countdown;
+
+        function startTimer() {
+            clearInterval(countdown);
+            resendEl.classList.remove("resend-link"); // حالت آبی حذف
+            resendEl.classList.add("resend"); // حالت طوسی
+            resendEl.style.pointerEvents = "none";
+            resendEl.style.marginBottom = "28px";
+            timer = 120;
+            updateResendText();
+
+            countdown = setInterval(() => {
+                timer--;
+                updateResendText();
+
+                if (timer <= 0) {
+                    clearInterval(countdown);
+                    resendEl.textContent = "Resend code";
+                    resendEl.classList.remove("resend");
+                    resendEl.classList.add("resend-link");
+                    resendEl.style.pointerEvents = "auto";
+                }
+            }, 1000);
+        }
+
+        function updateResendText() {
+            resendEl.textContent = `Resend code in ${timer} secs`;
+        }
+
+        // کلیک روی متن آبی برای ارسال مجدد
+        resendEl.addEventListener("click", () => {
+            if (resendEl.classList.contains("resend-link")) {
+                console.log("📨 OTP resend triggered");
+                startTimer();
+                // اینجا درخواست OTP به سرور هم می‌تونی بزنی
+            }
+        });
+
+        // شروع تایمر از همون اول
+        startTimer();
+
+
+
+    </script>
+
+</body>
+
+</html>

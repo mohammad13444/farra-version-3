@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Welcoming Screen</title>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-end;
+        background: #706DF2;
+        width: 100%;
+        min-height: 100vh;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    .welcome-container {
+        width: 564.447px;
+        height: 575.631px;
+        background: #434191;
+        border-radius: 282.224px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 40px;
+    }
+
+    .title {
+        font-size: 22px;
+        font-weight: 700;
+        color: #fff;
+        margin-bottom: 8px;
+    }
+    .description {
+        font-size: 14px;
+        color: rgba(255, 255, 255, 0.85);
+        line-height: 1.4;
+        margin-bottom: 24px;
+    }
+    .signin {
+        font-size: 14px;
+        color: rgba(255, 255, 255, 0.5);
+        text-decoration: none;
+    }
+    .signin:hover {
+        color: rgba(255, 255, 255, 0.7);
+    }
+</style>
+</head>
+<body>
+
+    <div class="welcome-container">
+        <h1 class="title">Feature</h1>
+        <p class="description">
+            I am happy to have you in Farra.<br>
+            Where you can make best memories.
+        </p>
+        <a href="signin.html" class="signin">Signin</a>
+    </div>
+
+</body>
+</html>
