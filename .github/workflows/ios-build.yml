@@ -13,6 +13,7 @@ jobs:
       IPA_NAME: farra-signed.ipa
       PP_FILE_NAME: Farra_iOS_AppStore_72M97MR8UU.mobileprovision
       P12_FILE_NAME: ios_distribution.p12
+      KEYCHAIN_PASSWORD: actions-keychain-pass # 👈 FIX 1: رمز ثابت برای پایداری Keychain در CI
 
     steps:
     - name: ⬇️ Checkout Repository
@@ -26,13 +27,11 @@ jobs:
     - name: Add iOS Platform
       run: npx cordova platform add ios --save --no-fetch
 
-    # 🔑 Set up Signing Credentials (FIXED: Removing P12 Password Check)
+    # 🔑 Set up Signing Credentials (FIXED: Stabilizing Keychain and Granting Access)
     - name: Set up Signing Credentials
       env:
         P12_B64: ${{ secrets.CERT_P12 }}
         PP_B64: ${{ secrets.PROVISIONING_PROFILE }}
-        # P12_PASSWORD is intentionally not used in the 'security import' command below,
-        # assuming the P12 file was created without a password or we cannot find the correct one.
         
       run: |
         # 1. Decrypt P12 Certificate
@@ -40,17 +39,21 @@ jobs:
         # 2. Decrypt Provisioning Profile
         echo "$PP_B64" | base64 --decode > ${{ env.PP_FILE_NAME }}
         
-        # 3. Create a temporary keychain (Using empty password "")
-        security create-keychain -p "" build.keychain
+        # 3. Create a temporary keychain with a strong, known password
+        security create-keychain -p $KEYCHAIN_PASSWORD build.keychain # استفاده از رمز ثابت
         security default-keychain -s build.keychain
-        security unlock-keychain -p "" build.keychain
+        security unlock-keychain -p $KEYCHAIN_PASSWORD build.keychain # استفاده از رمز ثابت
         security set-keychain-settings -lut 7200 build.keychain
 
         # 4. Import P12 certificate into the keychain
-        # *** FIX: Removed -P "$P12_PASSWORD" from the import command ***
-        security import ${{ env.P12_FILE_NAME }} -k build.keychain -A -T /usr/bin/codesign
-
-        # 5. Determine the UUID of the provisioning profile and move it to the correct location
+        # Still assuming P12 has no password or it's handled.
+        security import ${{ env.P12_FILE_NAME }} -k build.keychain -A 
+        
+        # 5. Make the imported certificate accessible to all applications (👈 FIX 2: دستور حیاتی اعطای دسترسی)
+        # این دستور تضمین می‌کند که 'codesign' در مرحله بیلد می‌تواند به کلید دسترسی داشته باشد.
+        security set-key-partition-list -S apple-tool: -S apple: -k build.keychain -D "Apple Distribution" -t access
+        
+        # 6. Determine the UUID of the provisioning profile and move it to the correct location
         PP_UUID=$(/usr/libexec/PlistBuddy -c "Print UUID" /dev/stdin <<< "$(security cms -D -i ${{ env.PP_FILE_NAME }})")
         mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
         mv ${{ env.PP_FILE_NAME }} ~/Library/MobileDevice/Provisioning\ Profiles/$PP_UUID.mobileprovision
@@ -58,12 +61,10 @@ jobs:
     - name: 🛠️ Clean and Prepare Cordova Build
       run: |
         # Ensure the build configuration is set for Manual Signing
-        # Using sed to patch build.xcconfig for manual signing details
-        
-        # ⚠️ Note: We rely on TEAM_ID and Code Sign Identity to be set in GitHub Secrets.
         TEAM_ID="${{ secrets.TEAM_ID }}"
         
         # Set team ID and code signing details in build.xcconfig
+        # Note: 'sed -i ""' is used for macOS compatibility
         sed -i '' "s/DEVELOPMENT_TEAM =.*/DEVELOPMENT_TEAM = ${TEAM_ID};/" platforms/ios/cordova/build.xcconfig
         sed -i '' "s/PROVISIONING_PROFILE_SPECIFIER =.*/PROVISIONING_PROFILE_SPECIFIER = Farra_iOS_AppStore_72M97MR8UU;/" platforms/ios/cordova/build.xcconfig
         sed -i '' "s/CODE_SIGN_IDENTITY =.*/CODE_SIGN_IDENTITY = Apple Distribution;/" platforms/ios/cordova/build.xcconfig
@@ -71,7 +72,7 @@ jobs:
 
     - name: 🏗️ Cordova Build iOS (for Distribution)
       run: |
-        # Perform the build. The previous step's changes in build.xcconfig will be used.
+        # Perform the build.
         npx cordova build ios --release --device \
           --buildConfig=platforms/ios/build.json 
         
