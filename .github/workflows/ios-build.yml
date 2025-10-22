@@ -1,34 +1,29 @@
 name: iOS Cordova Build and Sign (Farra)
 
 on:
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 jobs:
   build:
-    runs-on: macos-14 # Use the latest macOS runner for best compatibility
+    runs-on: macos-14
     
-    # Define environment variables for signing (use your provided secrets/data)
     env:
       IPA_NAME: farra-signed.ipa
       PP_FILE_NAME: Farra_iOS_AppStore_72M97MR8UU.mobileprovision
       P12_FILE_NAME: ios_distribution.p12
-      KEYCHAIN_PASSWORD: actions-keychain-pass # 👈 FIX 1: رمز ثابت برای پایداری Keychain در CI
+      KEYCHAIN_PASSWORD: actions-keychain-pass
 
     steps:
     - name: ⬇️ Checkout Repository
       uses: actions/checkout@v4
 
-    # 📥 Install Dependencies
-    - name: Install Dependencies
+    - name: 📥 Install Dependencies
       run: npm install
 
-    # 📱 Add iOS Platform
-    - name: Add iOS Platform
+    - name: 📱 Add iOS Platform
       run: npx cordova platform add ios --save --no-fetch
 
-    # 🔑 Set up Signing Credentials (FIXED: Stabilizing Keychain and Granting Access)
-    - name: Set up Signing Credentials
+    - name: 🔑 Set up Signing Credentials
       env:
         P12_B64: ${{ secrets.CERT_P12 }}
         PP_B64: ${{ secrets.PROVISIONING_PROFILE }}
@@ -39,32 +34,26 @@ jobs:
         # 2. Decrypt Provisioning Profile
         echo "$PP_B64" | base64 --decode > ${{ env.PP_FILE_NAME }}
         
-        # 3. Create a temporary keychain with a strong, known password
-        security create-keychain -p $KEYCHAIN_PASSWORD build.keychain # استفاده از رمز ثابت
+        # 3. Create a temporary keychain with fixed password
+        security create-keychain -p $KEYCHAIN_PASSWORD build.keychain
         security default-keychain -s build.keychain
-        security unlock-keychain -p $KEYCHAIN_PASSWORD build.keychain # استفاده از رمز ثابت
+        security unlock-keychain -p $KEYCHAIN_PASSWORD build.keychain
         security set-keychain-settings -lut 7200 build.keychain
 
         # 4. Import P12 certificate into the keychain
-        # Still assuming P12 has no password or it's handled.
-        security import ${{ env.P12_FILE_NAME }} -k build.keychain -A 
+        security import ${{ env.P12_FILE_NAME }} -k build.keychain -A -t cert -T /usr/bin/codesign
         
-        # 5. Make the imported certificate accessible to all applications (👈 FIX 2: دستور حیاتی اعطای دسترسی)
-        # این دستور تضمین می‌کند که 'codesign' در مرحله بیلد می‌تواند به کلید دسترسی داشته باشد.
+        # 5. Grant apps access to certificate
         security set-key-partition-list -S apple-tool: -S apple: -k build.keychain -D "Apple Distribution" -t access
         
-        # 6. Determine the UUID of the provisioning profile and move it to the correct location
+        # 6. Install Provisioning Profile
         PP_UUID=$(/usr/libexec/PlistBuddy -c "Print UUID" /dev/stdin <<< "$(security cms -D -i ${{ env.PP_FILE_NAME }})")
         mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
         mv ${{ env.PP_FILE_NAME }} ~/Library/MobileDevice/Provisioning\ Profiles/$PP_UUID.mobileprovision
 
     - name: 🛠️ Clean and Prepare Cordova Build
       run: |
-        # Ensure the build configuration is set for Manual Signing
         TEAM_ID="${{ secrets.TEAM_ID }}"
-        
-        # Set team ID and code signing details in build.xcconfig
-        # Note: 'sed -i ""' is used for macOS compatibility
         sed -i '' "s/DEVELOPMENT_TEAM =.*/DEVELOPMENT_TEAM = ${TEAM_ID};/" platforms/ios/cordova/build.xcconfig
         sed -i '' "s/PROVISIONING_PROFILE_SPECIFIER =.*/PROVISIONING_PROFILE_SPECIFIER = Farra_iOS_AppStore_72M97MR8UU;/" platforms/ios/cordova/build.xcconfig
         sed -i '' "s/CODE_SIGN_IDENTITY =.*/CODE_SIGN_IDENTITY = Apple Distribution;/" platforms/ios/cordova/build.xcconfig
@@ -72,13 +61,11 @@ jobs:
 
     - name: 🏗️ Cordova Build iOS (for Distribution)
       run: |
-        # Perform the build.
         npx cordova build ios --release --device \
           --buildConfig=platforms/ios/build.json 
         
     - name: 📦 Locate and Rename IPA
       run: |
-        # Find the generated IPA file and rename it
         IPA_PATH=$(find platforms/ios/build/ -name "*.ipa" -print -quit)
         if [ -n "$IPA_PATH" ]; then
           mv "$IPA_PATH" ${{ env.IPA_NAME }}
