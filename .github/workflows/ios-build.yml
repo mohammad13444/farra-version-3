@@ -11,6 +11,7 @@ jobs:
       IPA_NAME: farra-signed.ipa
       PP_FILE_NAME: Farra_iOS_AppStore_72M97MR8UU.mobileprovision
       P12_FILE_NAME: ios_distribution.p12
+      # رمز ثابت Keychain و P12
       KEYCHAIN_PASSWORD: actions-keychain-pass
 
     steps:
@@ -41,10 +42,14 @@ jobs:
         security set-keychain-settings -lut 7200 build.keychain
 
         # 4. Import P12 certificate into the keychain
-        security import ${{ env.P12_FILE_NAME }} -k build.keychain -A -t cert -T /usr/bin/codesign
+        # اصلاح حیاتی: استفاده از رمز P12 (که آن را 'actions-keychain-pass' تنظیم کردیم)
+        # این کار مشکل 'Import/Export format unsupported' را که ناشی از رمزگشایی غلط است، برطرف می کند.
+        # -P $KEYCHAIN_PASSWORD رمز فایل P12 است
+        security import ${{ env.P12_FILE_NAME }} -k build.keychain -P $KEYCHAIN_PASSWORD -A -t cert -T /usr/bin/codesign
         
         # 5. Grant apps access to certificate
-        security set-key-partition-list -S apple-tool: -S apple: -k build.keychain -D "Apple Distribution" -t access
+        # این دستور تضمین می کند که فرآیند امضا به گواهی دسترسی کامل دارد.
+        security set-key-partition-list -S apple-tool: -S apple: -k $KEYCHAIN_PASSWORD -D "Apple Distribution" build.keychain
         
         # 6. Install Provisioning Profile
         PP_UUID=$(/usr/libexec/PlistBuddy -c "Print UUID" /dev/stdin <<< "$(security cms -D -i ${{ env.PP_FILE_NAME }})")
@@ -61,6 +66,7 @@ jobs:
 
     - name: 🏗️ Cordova Build iOS (for Distribution)
       run: |
+        # ساختار build.json باید در مسیر ریشه باشد تا cordova آن را پیدا کند.
         npx cordova build ios --release --device \
           --buildConfig=platforms/ios/build.json 
         
