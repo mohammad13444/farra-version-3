@@ -62,19 +62,16 @@ jobs:
           echo "✅ P12 integrity verified successfully! Size: ${P12_SIZE} B"
 
       - name: 🔑 Configure Keychain and Import Artifacts
-        shell: bash
+        env:
+          P12_PASSWORD: ${{ secrets.P12_PASSWORD }}
         run: |
           echo "🔐 Unlock login.keychain"
           security unlock-keychain -p "$KEYCHAIN_PASSWORD" ~/Library/Keychains/login.keychain
           security set-keychain-settings -lut 14400 ~/Library/Keychains/login.keychain
 
-          # 🚨 رفع خطای MAC verification failed: نوشتن رمز در فایل موقت
-          echo "💬 Writing P12 password to temporary file..."
-          printf "%s" "$KEYCHAIN_PASSWORD" > p12pass.txt
-
           echo "📥 Import certificate"
           security import "${P12_FILE_NAME}" -k ~/Library/Keychains/login.keychain \
-            -P "$(cat p12pass.txt)" -A -t cert -f pkcs12 -T /usr/bin/codesign || {
+            -P "${{ env.P12_PASSWORD }}" -A -t cert -f pkcs12 -T /usr/bin/codesign || {
             echo "::error::❌ Failed to import certificate."; exit 1; }
 
           echo "🔓 Allow codesign access"
@@ -86,9 +83,6 @@ jobs:
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
           mv "${PP_FILE_NAME}" ~/Library/MobileDevice/Provisioning\ Profiles/"$PP_UUID".mobileprovision
           echo "✅ Profile installed with UUID: $PP_UUID"
-          
-          rm -f p12pass.txt
-
 
       - name: 🛠️ Configure Xcode Signing Parameters
         run: |
