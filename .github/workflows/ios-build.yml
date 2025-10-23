@@ -1,156 +1,70 @@
-name: iOS Cordova Build and Sign (Farra)
+- name: 🔑 Set up Signing Credentials (Final Fix)
+  shell: bash
+  run: |
+    echo "🧩 Step 1: Decode and Prepare Certificates"
 
-on:
-  push:
-    branches: [ main ]
-  workflow_dispatch:
+    CERT_P12_B64="${{ secrets.CERT_P12 }}"
+    P12_PASS="${{ secrets.P12_PASSWORD }}"
+    PP_B64="${{ secrets.PROVISIONING_PROFILE }}"
 
-jobs:
-  build:
-    runs-on: macos-14
+    # Decode P12
+    echo "$CERT_P12_B64" | tr -d '\n' | base64 --decode > "${P12_FILE_NAME}" || {
+        echo "::error::❌ Failed to decode P12. Check CERT_P12 secret content.";
+        exit 1;
+    }
 
-    env:
-      IPA_NAME: farra-signed.ipa
-      PP_FILE_NAME: Farra_iOS_AppStore_72M97MR8UU.mobileprovision
-      P12_FILE_NAME: ios_distribution.p12
-      KEYCHAIN_PASSWORD: actions-keychain-pass
-      # متغیرهای ضروری برای Xcode که در مراحل بعدی استفاده می‌شوند
-      TEAM_ID: 72M97MR8UU
-      BUNDLE_IDENTIFIER: com.example.farra # از روی profile.txt استخراج شد
+    # Decode Provisioning Profile
+    echo "$PP_B64" | tr -d '\n' | base64 --decode > "${PP_FILE_NAME}" || {
+        echo "❌ Failed to decode Provisioning Profile";
+        exit 1;
+    }
 
-    steps:
-    - name: ⬇️ Checkout Repository
-      uses: actions/checkout@v4
+    echo "---- 🔍 P12 INTEGRITY CHECK ----"
+    ls -lah "${P12_FILE_NAME}"
+    file "${P12_FILE_NAME}"
 
-    - name: 📥 Install Dependencies
-      run: |
-        # تنظیم ورژن نود ۲۰
-        npm install -g cordova
-        npm install
+    # Check size
+    P12_SIZE=$(stat -f%z "${P12_FILE_NAME}")
+    if [ "$P12_SIZE" -lt 4000 ]; then
+      echo "::error::❌ CRITICAL: Decoded P12 too small (${P12_SIZE} B). Secret is incomplete or corrupt. Expected size ~4.8K."
+      exit 1
+    fi
 
-    - name: 📱 Add iOS Platform
-      run: |
-        # حذف و اضافه کردن پلتفرم iOS برای اطمینان از ساختار تمیز
-        npx cordova platform remove ios || true
-        npx cordova platform add ios --save --no-fetch
+    # Check with OpenSSL
+    openssl pkcs12 -in "${P12_FILE_NAME}" -noout -info -passin pass:"$P12_PASS" > /dev/null 2>&1
+    if [ $? -ne 0 ]; then
+      echo "::error::❌ CRITICAL: OpenSSL cannot read the P12 file. The file is corrupt."
+      echo "::error::Re-upload CERT_P12 secret with correct Base64."
+      exit 1
+    fi
 
-    - name: 🔑 Set up Signing Credentials (Final Fix)
-      # 🚨 انتقال تمام سکرت‌ها به env مخصوص این Step
-      env:
-        CERT_P12_B64: ${{ secrets.CERT_P12 }}
-        P12_PASS: ${{ secrets.P12_PASSWORD }}
-        PP_B64: ${{ secrets.PROVISIONING_PROFILE }}
-      shell: bash
-      run: |
-        echo "🧩 Step 1: Decode and Prepare Certificates"
+    echo "✅ OpenSSL verified P12 integrity!"
+    echo "------------------------------------"
 
-        # --------------------------------------------------
-        # استفاده از متغیر محیطی (بدون ${{ }}) برای جلوگیری از خطای سینتکسی YAML
-        # و دیکد کردن Base64 (ترجیحاً باید مطمئن باشی که CERT_P12 تک خطیه)
-        echo "$CERT_P12_B64" | tr -d '\n' | base64 --decode > "${P12_FILE_NAME}" || {
-            echo "::error::❌ Failed to decode P12. Check CERT_P12 secret content.";
-            exit 1;
-        }
+    echo "🔐 Step 2: Create Temporary Keychain"
+    security create-keychain -p "$KEYCHAIN_PASSWORD" build.keychain
+    security default-keychain -s build.keychain
+    security unlock-keychain -p "$KEYCHAIN_PASSWORD" build.keychain
+    security set-keychain-settings -lut 7200 build.keychain
 
-        # دیکد کردن Provisioning Profile
-        echo "$PP_B64"  | tr -d '\n' | base64 --decode > "${PP_FILE_NAME}" || { echo "❌ Failed to decode Provisioning Profile"; exit 1; }
-        # --------------------------------------------------
+    echo "📥 Step 3: Import Certificates"
+    security import "${P12_FILE_NAME}" \
+      -k build.keychain \
+      -P "$P12_PASS" \
+      -A -t cert -T /usr/bin/codesign || {
+      echo "::error::❌ Failed to import certificate (Keychain Error).";
+      exit 1;
+    }
+    echo "✅ Certificate imported successfully."
 
-        echo "---- 🔍 P12 INTEGRITY CHECK ----"
-        ls -lah "${P12_FILE_NAME}"
-        file "${P12_FILE_NAME}"
-        
-        # چک حجم
-        P12_SIZE=$(stat -f%z "${P12_FILE_NAME}")
-        if [ "$P12_SIZE" -lt 4000 ]; then
-          echo "::error::❌ CRITICAL: Decoded P12 too small (${P12_SIZE} B). Secret is incomplete or corrupt. Expected size ~4.8K."
-          exit 1
-        fi
-        
-        # چک فرمت با OpenSSL
-        openssl pkcs12 -in "${P12_FILE_NAME}" -noout -info -passin pass:"$P12_PASS" > /dev/null 2>&1
-        OPENSSL_EXIT_CODE=$?
+    echo "🔓 Step 4: Grant Codesign Access"
+    security set-key-partition-list -S apple-tool: -S apple: \
+      -k "$KEYCHAIN_PASSWORD" \
+      -D "Apple Distribution" \
+      build.keychain
 
-        if [ $OPENSSL_EXIT_CODE -ne 0 ]; then
-          echo "::error::❌ CRITICAL: OpenSSL cannot read the P12 file. The file is corrupt. Exit Code: $OPENSSL_EXIT_CODE"
-          echo "::error::You must re-upload the CERT_P12 secret with correct base64 data."
-          exit 1
-        fi
-        
-        echo "✅ OpenSSL verified P12 integrity!"
-        echo "------------------------------------"
-
-        echo "🔐 Step 2: Create Temporary Keychain"
-        security create-keychain -p "$KEYCHAIN_PASSWORD" build.keychain
-        security default-keychain -s build.keychain
-        security unlock-keychain -p "$KEYCHAIN_PASSWORD" build.keychain
-        security set-keychain-settings -lut 7200 build.keychain
-
-        echo "📥 Step 3: Import Certificates"
-        security import "${P12_FILE_NAME}" \
-          -k build.keychain \
-          -P "$P12_PASS" \
-          -A -t cert -T /usr/bin/codesign || {
-          echo "::error::❌ Failed to import certificate (Keychain Error).";
-          exit 1;
-        }
-        echo "✅ Certificate imported successfully."
-
-        echo "🔓 Step 4: Grant Codesign Access"
-        security set-key-partition-list -S apple-tool: -S apple: \
-          -k "$KEYCHAIN_PASSWORD" \
-          -D "Apple Distribution" \
-          build.keychain
-
-        echo "📲 Step 5: Install Provisioning Profile"
-        PP_UUID=$(/usr/libexec/PlistBuddy -c "Print UUID" /dev/stdin <<< "$(security cms -D -i "${PP_FILE_NAME}")")
-        mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
-        mv "${PP_FILE_NAME}" ~/Library/MobileDevice/Provisioning\ Profiles/"$PP_UUID".mobileprovision
-        echo "✅ Profile installed with UUID: $PP_UUID"
-
-    - name: 🛠️ Configure Xcode Signing Parameters
-      run: |
-        echo "⚙️ Injecting Signing Config into build.xcconfig..."
-        
-        # استفاده از متغیر محیطی TEAM_ID تعریف شده در ابتدای Job
-        sed -i '' "s/DEVELOPMENT_TEAM =.*/DEVELOPMENT_TEAM = ${{ env.TEAM_ID }};/" platforms/ios/cordova/build.xcconfig || exit 1
-        # استفاده از متغیر محیطی BUNDLE_IDENTIFIER تعریف شده در ابتدای Job
-        sed -i '' "s/PRODUCT_BUNDLE_IDENTIFIER =.*/PRODUCT_BUNDLE_IDENTIFIER = ${{ env.BUNDLE_IDENTIFIER }};/" platforms/ios/cordova/build.xcconfig
-        sed -i '' "s/PROVISIONING_PROFILE_SPECIFIER =.*/PROVISIONING_PROFILE_SPECIFIER = Farra_iOS_AppStore_72M97MR8UU;/" platforms/ios/cordova/build.xcconfig
-        sed -i '' "s/CODE_SIGN_IDENTITY =.*/CODE_SIGN_IDENTITY = Apple Distribution;/" platforms/ios/cordova/build.xcconfig
-        sed -i '' "s/CODE_SIGN_STYLE =.*/CODE_SIGN_STYLE = Manual;/" platforms/ios/cordova/build.xcconfig
-
-    - name: 🏗️ Cordova Build iOS (App Store)
-      run: |
-        echo "🏗️ Building iOS Release..."
-        npx cordova build ios --release --device || { echo "::error::❌ Cordova build failed"; exit 1; }
-
-    - name: 📦 Locate and Rename IPA
-      run: |
-        echo "🔎 Locating IPA Export..."
-        IPA_PATH=$(find platforms/ios/build/ -name "*.ipa" -print -quit)
-        if [ -n "$IPA_PATH" ]; then
-          mv "$IPA_PATH" "${IPA_NAME}"
-          echo "✅ IPA exported successfully: ${IPA_NAME}"
-        else
-          echo "::error::❌ Could not find the generated IPA file. Did signing fail?"
-          exit 1
-        fi
-
-    - name: 📤 Upload Signed IPA Artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: farra-app-store-ipa
-        path: ${{ env.IPA_NAME }}
-        retention-days: 7
-
-    - name: 🧹 Cleanup Keychain and Temps
-      if: always()
-      run: |
-        echo "🧹 Cleaning up temporary files and keychain..."
-        security delete-keychain build.keychain 2>/dev/null || true
-        security list-keychains -s login.keychain
-        rm -f "${P12_FILE_NAME}" 2>/dev/null || true
-        # حذف temp_p12_b64.txt (اگر در نسخه فعلی وجود داشته باشد)
-        rm -f temp_p12_b64.txt 2>/dev/null || true 
-        echo "✅ Cleanup completed"
+    echo "📲 Step 5: Install Provisioning Profile"
+    PP_UUID=$(/usr/libexec/PlistBuddy -c "Print UUID" /dev/stdin <<< "$(security cms -D -i "${PP_FILE_NAME}")")
+    mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+    mv "${PP_FILE_NAME}" ~/Library/MobileDevice/Provisioning\ Profiles/"$PP_UUID".mobileprovision
+    echo "✅ Profile installed with UUID: $PP_UUID"
