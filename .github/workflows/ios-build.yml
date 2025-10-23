@@ -62,28 +62,39 @@ jobs:
 
         echo "✅ P12 integrity verified successfully! Size: ${P12_SIZE} B"
 
-    - name: 🔑 Configure Keychain and Import Artifacts
-      env:
-        P12_PASSWORD: ${{ secrets.P12_PASSWORD }}
-      run: |
-        echo "🔐 Unlock login.keychain"
-        security unlock-keychain -p "$KEYCHAIN_PASSWORD" ~/Library/Keychains/login.keychain
-        security set-keychain-settings -lut 14400 ~/Library/Keychains/login.keychain
+    - name: 🔑 Configure Keychain and Import Artifacts (Temporary Hardcoded Password)
+  shell: bash
+  run: |
+    # ⚠️ WARNING: Hardcoded password for testing only. Replace with secret after fix.
+    # The actual password is: actions-keychain-pass
+    P12_PASSWORD_HARDCODED="actions-keychain-pass" # 👈 اینجاست که رمز شما وارد شده
 
-        echo "📥 Import certificate"
-        security import "${P12_FILE_NAME}" -k ~/Library/Keychains/login.keychain \
-          -P "${{ env.P12_PASSWORD }}" -A -t cert -f pkcs12 -T /usr/bin/codesign || {
-          echo "::error::❌ Failed to import certificate."; exit 1; }
+    echo "🔑 Creating temporary keychain..."
+    security create-keychain -p "$KEYCHAIN_PASSWORD" build.keychain
+    security set-keychain-settings -lut 21600 build.keychain
+    security unlock-keychain -p "$KEYCHAIN_PASSWORD" build.keychain
 
-        echo "🔓 Allow codesign access"
-        security set-key-partition-list -S apple-tool:,apple:,codesign: \
-          -k "$KEYCHAIN_PASSWORD" -D "Apple Distribution" ~/Library/Keychains/login.keychain
+    echo "💬 Writing hardcoded P12 password into temporary file..."
+    # استفاده از رمز وارد شده مستقیم (Hardcoded)
+    printf "%s" "$P12_PASSWORD_HARDCODED" > p12pass.txt 
 
-        echo "📲 Install provisioning profile"
-        PP_UUID=$(/usr/libexec/PlistBuddy -c "Print UUID" /dev/stdin <<< "$(security cms -D -i "${PP_FILE_NAME}")")
-        mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
-        mv "${PP_FILE_NAME}" ~/Library/MobileDevice/Provisioning\ Profiles/"$PP_UUID".mobileprovision
-        echo "✅ Profile installed with UUID: $PP_UUID"
+    echo "📦 Importing P12 into keychain..."
+    security import "${P12_FILE_NAME}" \
+      -k ~/Library/Keychains/build.keychain \
+      -P "$(cat p12pass.txt)" \
+      -A -t cert -f pkcs12 \
+      -T /usr/bin/codesign \
+      -T /usr/bin/security || {
+        echo "::error::❌ Failed to import certificate."
+        exit 1
+      }
+
+    echo "✅ Certificate imported successfully with hardcoded password."
+    rm -f p12pass.txt
+  env:
+    KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
+    P12_FILE_NAME: ios_distribution.p12
+
 
     - name: 🛠️ Configure Xcode Signing Parameters
       run: |
