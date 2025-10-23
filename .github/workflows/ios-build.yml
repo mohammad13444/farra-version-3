@@ -14,6 +14,9 @@ jobs:
       PP_FILE_NAME: Farra_iOS_AppStore_72M97MR8UU.mobileprovision
       P12_FILE_NAME: ios_distribution.p12
       KEYCHAIN_PASSWORD: actions-keychain-pass
+      # متغیرهای ضروری برای Xcode که در مراحل بعدی استفاده می‌شوند
+      TEAM_ID: 72M97MR8UU
+      BUNDLE_IDENTIFIER: com.example.farra # از روی profile.txt استخراج شد
 
     steps:
     - name: ⬇️ Checkout Repository
@@ -99,10 +102,11 @@ jobs:
     - name: 🛠️ Configure Xcode Signing Parameters
       run: |
         echo "⚙️ Injecting Signing Config into build.xcconfig..."
-        TEAM_ID="${{ secrets.TEAM_ID }}"
         
-        # استفاده از sed -i '' برای مک macOS
-        sed -i '' "s/DEVELOPMENT_TEAM =.*/DEVELOPMENT_TEAM = ${TEAM_ID};/" platforms/ios/cordova/build.xcconfig || exit 1
+        # استفاده از متغیر محیطی TEAM_ID تعریف شده در ابتدای Job
+        sed -i '' "s/DEVELOPMENT_TEAM =.*/DEVELOPMENT_TEAM = ${{ env.TEAM_ID }};/" platforms/ios/cordova/build.xcconfig || exit 1
+        # استفاده از متغیر محیطی BUNDLE_IDENTIFIER تعریف شده در ابتدای Job
+        sed -i '' "s/PRODUCT_BUNDLE_IDENTIFIER =.*/PRODUCT_BUNDLE_IDENTIFIER = ${{ env.BUNDLE_IDENTIFIER }};/" platforms/ios/cordova/build.xcconfig
         sed -i '' "s/PROVISIONING_PROFILE_SPECIFIER =.*/PROVISIONING_PROFILE_SPECIFIER = Farra_iOS_AppStore_72M97MR8UU;/" platforms/ios/cordova/build.xcconfig
         sed -i '' "s/CODE_SIGN_IDENTITY =.*/CODE_SIGN_IDENTITY = Apple Distribution;/" platforms/ios/cordova/build.xcconfig
         sed -i '' "s/CODE_SIGN_STYLE =.*/CODE_SIGN_STYLE = Manual;/" platforms/ios/cordova/build.xcconfig
@@ -126,17 +130,27 @@ jobs:
           exit 1
         fi
 
-    - name: 📤 Upload Signed IPA
+    - name: 📤 Upload Signed IPA Artifact
       uses: actions/upload-artifact@v4
       with:
         name: farra-app-store-ipa
         path: ${{ env.IPA_NAME }}
         retention-days: 7
 
-    - name: 🗑️ Cleanup Keychain and Temps
+    - name: 🧹 Cleanup Keychain and Temps
       if: always()
       run: |
-        echo "🧹 Cleaning temporary files..."
-        security delete-keychain build.keychain || true
-        rm -f "${P12_FILE_NAME}" || true
-        rm -f "${PP_FILE_NAME}" || true
+        echo "🧹 Cleaning up temporary files and keychain..."
+        
+        # پاک کردن keychain موقت
+        security delete-keychain build.keychain 2>/dev/null || true
+        
+        # بازگرداندن keychain پیش‌فرض
+        security list-keychains -s login.keychain
+        
+        # پاک کردن فایل‌های موقت
+        rm -f "${P12_FILE_NAME}" 2>/dev/null || true
+        # نیازی به حذف PP_FILE_NAME نیست چون move شده، اما برای اطمینان دستور را میگذاریم
+        rm -f "${PP_FILE_NAME}" 2>/dev/null || true
+        
+        echo "✅ Cleanup completed"
