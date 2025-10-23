@@ -37,15 +37,17 @@ jobs:
     - name: 🔑 Set up Signing Credentials (FINAL FIX: Use Heredoc for P12)
       env:
         PP_B64: ${{ secrets.PROVISIONING_PROFILE }}
+      # از سینتکس | برای اسکریپت چند خطی استفاده شده که باعث نمایش صحیح در IDE می شود
       run: |
         echo "🧩 Step 1: Decode and Prepare Certificates (Using Heredoc for P12)"
         
         # --- روش امن Heredoc برای ذخیره P12 در فایل موقت ---
         # این روش تضمین می‌کند که Base64 کامل و بدون نقل‌قول‌های شل دیکد شود.
+        # محتوای سکرت مستقیماً به فایل temp_p12_b64.txt نوشته می‌شود
         cat <<EOF > temp_p12_b64.txt
 ${{ secrets.CERT_P12 }}
 EOF
-        # دیکد کردن P12 از فایل موقت
+        # دیکد کردن P12 از فایل موقت (بدون کاراکتر Newline)
         cat temp_p12_b64.txt | tr -d '\n' | base64 --decode > "${P12_FILE_NAME}" || { echo "❌ Failed to decode P12. Check CERT_P12 secret content."; exit 1; }
         
         # دیکد کردن Provisioning Profile
