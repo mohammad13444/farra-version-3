@@ -63,8 +63,6 @@ jobs:
         echo "✅ P12 integrity verified successfully! Size: ${P12_SIZE} B"
 
     - name: 🔑 Configure Keychain and Import Artifacts
-  env:
-    P12_PASSWORD: ${{ secrets.P12_PASSWORD }}
   run: |
     set -e
 
@@ -81,7 +79,7 @@ jobs:
       -k ~/Library/Keychains/login.keychain \
       -P "$(cat p12pass.txt)" \
       -A -t cert -f pkcs12 -T /usr/bin/codesign || {
-      echo "::error::❌ Certificate import failed!"; cat p12pass.txt; exit 1; }
+      echo "::error::❌ Certificate import failed!"; exit 1; }
 
     echo "🔓 Allow codesign access..."
     security set-key-partition-list -S apple-tool:,apple:,codesign: \
@@ -92,6 +90,8 @@ jobs:
     mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
     mv "${PP_FILE_NAME}" ~/Library/MobileDevice/Provisioning\ Profiles/"${PP_UUID}".mobileprovision
     echo "✅ Profile installed with UUID: ${PP_UUID}"
+  env:
+    P12_PASSWORD: ${{ secrets.P12_PASSWORD }}
 
     - name: 🛠️ Configure Xcode Signing Parameters
       run: |
