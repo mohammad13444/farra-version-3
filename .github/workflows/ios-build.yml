@@ -30,13 +30,13 @@ jobs:
       run: |
         echo "🧩 Step 1: Decode and Prepare Certificates"
 
-        # ✅ Decode P12 (با استفاده از printf تا newline اضافه نشود)
+        # ✅ Decode P12 with printf to avoid newline corruption
         printf "%s" "$P12_B64" | base64 --decode > "${P12_FILE_NAME}"
 
         # ✅ Decode Provisioning Profile
         printf "%s" "$PP_B64" | base64 --decode > "${PP_FILE_NAME}"
 
-        # 🕵️ Debug P12 file integrity before import
+        # 🕵️ Debug P12 file integrity
         echo "---- Debugging P12 file ----"
         ls -lah "${P12_FILE_NAME}"
         file "${P12_FILE_NAME}"
