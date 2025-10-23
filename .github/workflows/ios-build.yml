@@ -34,17 +34,22 @@ jobs:
         npx cordova platform remove ios || true
         npx cordova platform add ios --save --no-fetch
 
-    - name: 🔑 Set up Signing Credentials (Final Check)
+    - name: 🔑 Set up Signing Credentials (Final Fix)
       env:
-        P12_B64: ${{ secrets.CERT_P12 }}
+        # P12_B64 حذف شد تا مستقیماً از ${{ secrets.CERT_P12 }} در Run استفاده شود
+        # استفاده مستقیم از PP_B64 برای Provisioning Profile همچنان امن است
         PP_B64: ${{ secrets.PROVISIONING_PROFILE }}
       run: |
         echo "🧩 Step 1: Decode and Prepare Certificates"
 
-        # پاک کردن newline و دیکد (باید فایل کامل 4.8K بسازه)
-        # Note: We use tr -d '\n' to ensure clean base64 decoding on macOS runner
-        echo "$P12_B64" | tr -d '\n' | base64 --decode > "${P12_FILE_NAME}" || { echo "❌ Failed to decode P12"; exit 1; }
+        # --- روش امن دیکد کردن P12 با ایجاد فایل موقت ---
+        # این روش تضمین می‌کند که Base64 کامل و بدون نقل‌قول‌های شل دیکد شود.
+        echo "${{ secrets.CERT_P12 }}" > temp_p12_b64.txt
+        cat temp_p12_b64.txt | tr -d '\n' | base64 --decode > "${P12_FILE_NAME}" || { echo "❌ Failed to decode P12. Check CERT_P12 secret content."; exit 1; }
+        
+        # دیکد کردن Provisioning Profile (همچنان روش قبلی)
         echo "$PP_B64"  | tr -d '\n' | base64 --decode > "${PP_FILE_NAME}" || { echo "❌ Failed to decode Provisioning Profile"; exit 1; }
+        # --------------------------------------------------
 
         echo "---- 🔍 P12 INTEGRITY CHECK ----"
         ls -lah "${P12_FILE_NAME}"
@@ -150,7 +155,6 @@ jobs:
         
         # پاک کردن فایل‌های موقت
         rm -f "${P12_FILE_NAME}" 2>/dev/null || true
-        # نیازی به حذف PP_FILE_NAME نیست چون move شده، اما برای اطمینان دستور را میگذاریم
-        rm -f "${PP_FILE_NAME}" 2>/dev/null || true
+        rm -f temp_p12_b64.txt 2>/dev/null || true
         
         echo "✅ Cleanup completed"
