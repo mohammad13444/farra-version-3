@@ -34,20 +34,21 @@ jobs:
         npx cordova platform remove ios || true
         npx cordova platform add ios --save --no-fetch
 
-    - name: 🔑 Set up Signing Credentials (Final Fix)
+    - name: 🔑 Set up Signing Credentials (FINAL FIX: Use Heredoc for P12)
       env:
-        # P12_B64 حذف شد تا مستقیماً از ${{ secrets.CERT_P12 }} در Run استفاده شود
-        # استفاده مستقیم از PP_B64 برای Provisioning Profile همچنان امن است
         PP_B64: ${{ secrets.PROVISIONING_PROFILE }}
       run: |
-        echo "🧩 Step 1: Decode and Prepare Certificates"
-
-        # --- روش امن دیکد کردن P12 با ایجاد فایل موقت ---
+        echo "🧩 Step 1: Decode and Prepare Certificates (Using Heredoc for P12)"
+        
+        # --- روش امن Heredoc برای ذخیره P12 در فایل موقت ---
         # این روش تضمین می‌کند که Base64 کامل و بدون نقل‌قول‌های شل دیکد شود.
-        echo "${{ secrets.CERT_P12 }}" > temp_p12_b64.txt
+        cat <<EOF > temp_p12_b64.txt
+${{ secrets.CERT_P12 }}
+EOF
+        # دیکد کردن P12 از فایل موقت
         cat temp_p12_b64.txt | tr -d '\n' | base64 --decode > "${P12_FILE_NAME}" || { echo "❌ Failed to decode P12. Check CERT_P12 secret content."; exit 1; }
         
-        # دیکد کردن Provisioning Profile (همچنان روش قبلی)
+        # دیکد کردن Provisioning Profile
         echo "$PP_B64"  | tr -d '\n' | base64 --decode > "${PP_FILE_NAME}" || { echo "❌ Failed to decode Provisioning Profile"; exit 1; }
         # --------------------------------------------------
 
@@ -62,7 +63,7 @@ jobs:
           exit 1
         fi
         
-        # چک فرمت با OpenSSL (اگر این مرحله Fail شود، سکرت شما در GitHub خراب است)
+        # چک فرمت با OpenSSL
         openssl pkcs12 -in "${P12_FILE_NAME}" -noout -info -passin pass:"${{ secrets.P12_PASSWORD }}" > /dev/null 2>&1
         OPENSSL_EXIT_CODE=$?
 
