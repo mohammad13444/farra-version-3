@@ -34,46 +34,38 @@ jobs:
         npx cordova platform remove ios || true
         npx cordova platform add ios --save --no-fetch
 
-    - name: 🔑 Set up Signing Credentials (Final Fix)
-      env:
-        # P12_B64 حذف شد تا مستقیماً از ${{ secrets.CERT_P12 }} در Run استفاده شود
-        # استفاده مستقیم از PP_B64 برای Provisioning Profile همچنان امن است
-        PP_B64: ${{ secrets.PROVISIONING_PROFILE }}
-      run: |
-        echo "🧩 Step 1: Decode and Prepare Certificates"
+          - name: Inject Full P12 Content and Decode (Bypassing GitHub Secrets)
+        # توجه: این Base64 کامل و یک‌خطی شماست که در p12_singleline.txt بود.
+        env:
+          FULL_P12_B64: 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
+        run: |
+          echo "Debug: Using embedded Base64 string for P12."
+          # 1. Base64 را دیکد کرده و در فایل ذخیره می‌کند.
+          echo "${FULL_P12_B64}" | tr -d '\n' | base64 --decode > "${P12_FILE_NAME}" || { echo "❌ Failed to decode P12."; exit 1; }
+          
+          # 2. بررسی حجم فایل و تست با OpenSSL
+          echo "---- 🔍 P12 INTEGRITY CHECK (Embedded) ----"
+          ls -lah "${P12_FILE_NAME}"
+          # استفاده از دستور 'stat' در macOS برای خواندن سایز
+          P12_SIZE=$(stat -f%z "${P12_FILE_NAME}")
+          
+          if [ "$P12_SIZE" -lt 4000 ]; then
+            echo "::error::❌ CRITICAL: P12 still small (${P12_SIZE} B) even with embedded content! (Expected ~4800 B)"
+            exit 1
+          fi
+          
+          # چک کردن سالم بودن P12 با OpenSSL
+          openssl pkcs12 -in "${P12_FILE_NAME}" -noout -info -passin pass:"${{ env.P12_PASSWORD }}" > /dev/null 2>&1
+          OPENSSL_EXIT_CODE=$?
+          
+          if [ $OPENSSL_EXIT_CODE -ne 0 ]; then
+            echo "::error::❌ CRITICAL: OpenSSL cannot read the P12 (Embedded Content). Exit Code: $OPENSSL_EXIT_CODE"
+            exit 1
+          fi
+          
+          echo "✅ OpenSSL verified P12 integrity with Embedded Content! Size: ${P12_SIZE} B"
+          echo "--------------------------------------------------------"
 
-        # --- روش امن دیکد کردن P12 با ایجاد فایل موقت ---
-        # این روش تضمین می‌کند که Base64 کامل و بدون نقل‌قول‌های شل دیکد شود.
-        echo "${{ secrets.CERT_P12 }}" > temp_p12_b64.txt
-        cat temp_p12_b64.txt | tr -d '\n' | base64 --decode > "${P12_FILE_NAME}" || { echo "❌ Failed to decode P12. Check CERT_P12 secret content."; exit 1; }
-        
-        # دیکد کردن Provisioning Profile (همچنان روش قبلی)
-        echo "$PP_B64"  | tr -d '\n' | base64 --decode > "${PP_FILE_NAME}" || { echo "❌ Failed to decode Provisioning Profile"; exit 1; }
-        # --------------------------------------------------
-
-        echo "---- 🔍 P12 INTEGRITY CHECK ----"
-        ls -lah "${P12_FILE_NAME}"
-        file "${P12_FILE_NAME}"
-        
-        # چک حجم (تنظیم شده روی بالای 4000 بایت برای تضمین سلامت)
-        P12_SIZE=$(stat -f%z "${P12_FILE_NAME}")
-        if [ "$P12_SIZE" -lt 4000 ]; then
-          echo "::error::❌ CRITICAL: Decoded P12 too small (${P12_SIZE} B). Secret is incomplete or corrupt. Expected size ~4.8K."
-          exit 1
-        fi
-        
-        # چک فرمت با OpenSSL (اگر این مرحله Fail شود، سکرت شما در GitHub خراب است)
-        openssl pkcs12 -in "${P12_FILE_NAME}" -noout -info -passin pass:"${{ secrets.P12_PASSWORD }}" > /dev/null 2>&1
-        OPENSSL_EXIT_CODE=$?
-
-        if [ $OPENSSL_EXIT_CODE -ne 0 ]; then
-          echo "::error::❌ CRITICAL: OpenSSL cannot read the P12 file. The file is corrupt. Exit Code: $OPENSSL_EXIT_CODE"
-          echo "::error::You must re-upload the CERT_P12 secret with correct base64 data."
-          exit 1
-        fi
-        
-        echo "✅ OpenSSL verified P12 integrity!"
-        echo "------------------------------------"
 
         echo "🔐 Step 2: Create Temporary Keychain"
         security create-keychain -p "$KEYCHAIN_PASSWORD" build.keychain
