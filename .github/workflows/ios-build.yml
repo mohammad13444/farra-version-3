@@ -100,18 +100,35 @@ jobs:
 
 
       - name: 🛠️ Configure Xcode Signing Parameters
+        shell: bash
         run: |
-          echo "⚙️ Injecting Signing Config into build.xcconfig..."
-          sed -i '' "s/DEVELOPMENT_TEAM =.*/DEVELOPMENT_TEAM = ${{ env.TEAM_ID }};/" platforms/ios/cordova/build.xcconfig
-          sed -i '' "s/PRODUCT_BUNDLE_IDENTIFIER =.*/PRODUCT_BUNDLE_IDENTIFIER = ${{ env.BUNDLE_IDENTIFIER }};/" platforms/ios/cordova/build.xcconfig
-          sed -i '' "s/PROVISIONING_PROFILE_SPECIFIER =.*/PROVISIONING_PROFILE_SPECIFIER = Farra_iOS_AppStore_72M97MR8UU;/" platforms/ios/cordova/build.xcconfig
-          sed -i '' "s/CODE_SIGN_IDENTITY =.*/CODE_SIGN_IDENTITY = Apple Distribution;/" platforms/ios/cordova/build.xcconfig
-          sed -i '' "s/CODE_SIGN_STYLE =.*/CODE_SIGN_STYLE = Manual;/" platforms/ios/cordova/build.xcconfig
+          echo "⚙️ Injecting signing config into build.xcconfig and project.pbxproj..."
+
+          IOS_XCODEPROJ="platforms/ios/فرهَ.xcodeproj/project.pbxproj"
+          IOS_XCCONFIG="platforms/ios/cordova/build.xcconfig"
+
+          # --- build.xcconfig ---
+          sed -i '' "s/DEVELOPMENT_TEAM =.*/DEVELOPMENT_TEAM = ${TEAM_ID};/" "$IOS_XCCONFIG"
+          sed -i '' "s/PRODUCT_BUNDLE_IDENTIFIER =.*/PRODUCT_BUNDLE_IDENTIFIER = ${BUNDLE_IDENTIFIER};/" "$IOS_XCCONFIG"
+          sed -i '' "s/PROVISIONING_PROFILE_SPECIFIER =.*/PROVISIONING_PROFILE_SPECIFIER = Farra_iOS_AppStore_${TEAM_ID};/" "$IOS_XCCONFIG"
+          sed -i '' "s/CODE_SIGN_IDENTITY =.*/CODE_SIGN_IDENTITY = Apple Distribution;/" "$IOS_XCCONFIG"
+          sed -i '' "s/CODE_SIGN_STYLE =.*/CODE_SIGN_STYLE = Manual;/" "$IOS_XCCONFIG"
+
+          # --- project.pbxproj ---
+          sed -i '' '/DEVELOPMENT_TEAM =/d' "$IOS_XCODEPROJ"
+          sed -i '' "s/IPHONEOS_DEPLOYMENT_TARGET = 11.0;/IPHONEOS_DEPLOYMENT_TARGET = 12.0;/" "$IOS_XCODEPROJ"
+          sed -i '' "s/CODE_SIGN_STYLE = Automatic;/CODE_SIGN_STYLE = Manual;\n\t\tDEVELOPMENT_TEAM = ${TEAM_ID};/" "$IOS_XCODEPROJ"
+          sed -i '' "s/PRODUCT_BUNDLE_IDENTIFIER = .*/PRODUCT_BUNDLE_IDENTIFIER = ${BUNDLE_IDENTIFIER};/" "$IOS_XCODEPROJ"
+
+          echo "📋 Verifying injection in pbxproj:"
+          grep DEVELOPMENT_TEAM "$IOS_XCODEPROJ"
+
 
       - name: 🏗️ Cordova Build iOS (App Store)
         run: |
           echo "🏗️ Building iOS release..."
           npx cordova build ios --release --device || { echo "::error::❌ Cordova build failed"; exit 1; }
+
 
       - name: 📦 Locate and Rename IPA
         run: |
