@@ -125,26 +125,30 @@ jobs:
 
           # --- project.pbxproj inject (fallback safe method) ---
           if grep -q "DevelopmentTeam" "$IOS_XCODEPROJ"; then
-           echo "✅ DevelopmentTeam already present. Updating..."
-           sed -i '' "s/DevelopmentTeam = .*/DevelopmentTeam = ${TEAM_ID};/" "$IOS_XCODEPROJ"
+          echo "✅ DevelopmentTeam already present. Updating..."
+          sed -i '' "s/DevelopmentTeam = .*/DevelopmentTeam = ${TEAM_ID};/" "$IOS_XCODEPROJ"
           else
-          echo "⚠️ DevelopmentTeam not found. Injecting precisely inside TargetAttributes block..."
-  
-          # استخراج Target ID به صورت سازگار با macOS (بدون awk regex)
-          TARGET_ID=$(grep -A1 "TargetAttributes" "$IOS_XCODEPROJ" | grep "={" | head -n 1 | cut -d' ' -f1 | tr -d '\t ')
-          echo "🔹 Detected Target ID: $TARGET_ID"
+            echo "⚠️ DevelopmentTeam not found. Injecting precisely inside TargetAttributes block..."
 
-          if [ -n "$TARGET_ID" ]; then
-          sed -i '' "/${TARGET_ID}[[:space:]]*=[[:space:]]*{/a\\
-          DevelopmentTeam = ${TEAM_ID};\\
-          ProvisioningStyle = Manual;
-          " "$IOS_XCODEPROJ"
-          echo "✅ DevelopmentTeam injected inside TargetAttributes → ${TARGET_ID}"
-          else
+           # استخراج Target ID با grep + cut (سازگار با macOS)
+           TARGET_ID=$(grep -A1 "TargetAttributes" "$IOS_XCODEPROJ" | grep "={" | head -n 1 | cut -d' ' -f1 | tr -d '\t ')
+           echo "🔹 Detected Target ID: $TARGET_ID"
+
+           if [ -n "$TARGET_ID" ]; then
+             # تزریق چندخطی امن در macOS (escaping کامل برای گرددگی sed و YAML)
+           sed -i '' "/${TARGET_ID}[[:space:]]*=[[:space:]]*{/{
+               a\\
+             DevelopmentTeam = ${TEAM_ID};\\
+             ProvisioningStyle = Manual;
+            }" "$IOS_XCODEPROJ"
+
+           echo "✅ DevelopmentTeam injected inside TargetAttributes → ${TARGET_ID}"
+           else
           echo "::error::❌ Could not detect Target ID — injection skipped."
-          exit 1
-          fi
-          fi
+            exit 1
+           fi
+           fi
+
 
 
           # update other parameters if exist
