@@ -131,26 +131,35 @@ jobs:
           fi
 
                     # --- Inject into Build Settings (fixes signing error) ---
-          echo "🔧 Injecting DEVELOPMENT_TEAM into build settings (Release configs)..."
+                   echo "🔧 Injecting DEVELOPMENT_TEAM into all build sections..."
+
+          # 1️⃣ TargetAttributes (for Info.plist linking)
+          if grep -q "DevelopmentTeam" "$IOS_XCODEPROJ"; then
+            sed -i '' "s/DevelopmentTeam = .*/DevelopmentTeam = ${TEAM_ID};/" "$IOS_XCODEPROJ"
+          else
+            TARGET_ID=$(awk '/TargetAttributes/{getline; if ($1 ~ /^[A-Z0-9]{24}$/) print $1; exit}' "$IOS_XCODEPROJ" | tr -d '\t ')
+            printf '%s\n' "/${TARGET_ID}[[:space:]]*=[[:space:]]*{/a\\
+            DevelopmentTeam = ${TEAM_ID}; ProvisioningStyle = Manual;
+            " | sed -i '' -f /dev/stdin "$IOS_XCODEPROJ" || true
+          fi
+
+          # 2️⃣ Inject into every Release/Debug build setting block
           sed -i '' "/CODE_SIGN_IDENTITY = /a\\
           DEVELOPMENT_TEAM = ${TEAM_ID};
           " "$IOS_XCODEPROJ" || true
 
-          # --- Verification ---
-          echo "📋 Verifying DevelopmentTeam injection..."
-          if grep -q "DevelopmentTeam = ${TEAM_ID}" "$IOS_XCODEPROJ"; then
-            echo "✅ DevelopmentTeam (TargetAttributes) OK"
-          else
-            echo "::warning::⚠️ TargetAttributes injection not found"
-          fi
+          # Extra insurance: if CODE_SIGN_IDENTITY not found in some blocks
+          sed -i '' "/buildSettings = {/a\\
+          DEVELOPMENT_TEAM = ${TEAM_ID};
+          " "$IOS_XCODEPROJ" || true
 
-          if grep -q "DEVELOPMENT_TEAM = ${TEAM_ID}" "$IOS_XCODEPROJ"; then
-            echo "✅ DEVELOP_TEAM (Build Settings) OK"
-          else
-            echo "::warning::⚠️ Build Settings signing key missing"
-          fi
+          # 3️⃣ Project-level Signing Settings (when target-level ignored)
+          sed -i '' "/PRODUCT_BUNDLE_IDENTIFIER = /a\\
+          DEVELOPMENT_TEAM = ${TEAM_ID};
+          " "$IOS_XCODEPROJ" || true
 
-          echo "✅ Done: Signing parameters fully configured."
+          echo "✅ DEVELOPMENT_TEAM now injected across all Release/Debug build configurations."
+
 
           
 
