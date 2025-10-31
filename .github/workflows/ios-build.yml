@@ -98,7 +98,6 @@ jobs:
 
           rm -f p12pass.txt
 
-
       - name: 🛠️ Configure Xcode Signing Parameters
         shell: bash
         run: |
@@ -135,16 +134,16 @@ jobs:
              echo "🔹 Detected Target ID: $TARGET_ID"
 
              if [ -n "$TARGET_ID" ]; then
-               # تزریق چندخطی ایمن با escape به صورت یک‌خطی برای BSD sed
-              sed -i '' "/${TARGET_ID}[[:space:]]*=[[:space:]]*{/a\\
-              DevelopmentTeam = ${TEAM_ID}; ProvisioningStyle = Manual;
-              " "$IOS_XCODEPROJ"
-
-              echo "✅ DevelopmentTeam injected inside TargetAttributes → ${TARGET_ID}"
+            echo "🔹 Using printf-based injection (macOS-safe)..."
+            printf '%s\n' "/${TARGET_ID}[[:space:]]*=[[:space:]]*{/a\\
+            DevelopmentTeam = ${TEAM_ID}; ProvisioningStyle = Manual;
+            " | sed -i '' -f /dev/stdin "$IOS_XCODEPROJ"
+             echo "✅ DevelopmentTeam injected inside TargetAttributes → ${TARGET_ID}"
             else
-                echo "::error::❌ Could not detect Target ID — injection skipped."
-             exit 1
-                 fi
+            echo "::error::❌ Could not detect Target ID — injection skipped."
+            exit 1
+            fi
+
              fi
 
 
@@ -162,16 +161,10 @@ jobs:
 
           echo "✅ DEVELOPMENT_TEAM successfully injected!"
 
-
-          
-
-
-
       - name: 🏗️ Cordova Build iOS (App Store)
         run: |
           echo "🏗️ Building iOS release..."
           npx cordova build ios --release --device || { echo "::error::❌ Cordova build failed"; exit 1; }
-
 
       - name: 📦 Locate and Rename IPA
         run: |
