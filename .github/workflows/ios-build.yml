@@ -123,17 +123,29 @@ jobs:
           sed -i '' "s/CODE_SIGN_IDENTITY =.*/CODE_SIGN_IDENTITY = Apple Distribution;/" "$IOS_XCCONFIG" || true
           sed -i '' "s/CODE_SIGN_STYLE =.*/CODE_SIGN_STYLE = Manual;/" "$IOS_XCCONFIG" || true
 
-          # --- project.pbxproj ---
-          sed -i '' '/DEVELOPMENT_TEAM =/d' "$IOS_XCODEPROJ" || true
-          sed -i '' "s/IPHONEOS_DEPLOYMENT_TARGET = 11.0;/IPHONEOS_DEPLOYMENT_TARGET = 12.0;/" "$IOS_XCODEPROJ" || true
-          sed -i '' "s/CODE_SIGN_STYLE = Automatic;/CODE_SIGN_STYLE = Manual;\n\t\tDEVELOPMENT_TEAM = ${TEAM_ID};/" "$IOS_XCODEPROJ" || true
+          # --- project.pbxproj inject (fallback safe method) ---
+          if grep -q "DEVELOPMENT_TEAM" "$IOS_XCODEPROJ"; then
+            echo "✅ DEVELOPMENT_TEAM already present. Updating..."
+            sed -i '' "s/DEVELOPMENT_TEAM = .*/DEVELOPMENT_TEAM = ${TEAM_ID};/" "$IOS_XCODEPROJ"
+          else
+            echo "⚠️ DEVELOPMENT_TEAM not found. Injecting after TargetAttributes..."
+            sed -i '' "/TargetAttributes = {/a\\
+                DEVELOPMENT_TEAM = ${TEAM_ID};
+            " "$IOS_XCODEPROJ"
+          fi
+
+          # update other parameters if exist
+          sed -i '' "s/IPHONEOS_DEPLOYMENT_TARGET = [0-9.]\\+;/IPHONEOS_DEPLOYMENT_TARGET = 12.0;/" "$IOS_XCODEPROJ" || true
+          sed -i '' "s/CODE_SIGN_STYLE = Automatic;/CODE_SIGN_STYLE = Manual;/" "$IOS_XCODEPROJ" || true
           sed -i '' "s/PRODUCT_BUNDLE_IDENTIFIER = .*/PRODUCT_BUNDLE_IDENTIFIER = ${BUNDLE_IDENTIFIER};/" "$IOS_XCODEPROJ" || true
 
           echo "📋 Verifying injection in pbxproj..."
           grep -A2 "DEVELOPMENT_TEAM" "$IOS_XCODEPROJ" || {
-            echo "::error::❌ DEVELOPMENT_TEAM not injected — check sed syntax or target text."
+            echo "::error::❌ DEVELOPMENT_TEAM not injected — check pbxproj target location."
             exit 1
           }
+
+          echo "✅ DEVELOPMENT_TEAM successfully injected!"
 
 
           fi
