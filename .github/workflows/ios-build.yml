@@ -104,7 +104,7 @@ jobs:
         run: |
           echo "⚙️ Injecting signing config into build.xcconfig and project.pbxproj..."
 
-          IOS_XCODEPROJ="platforms/ios/فرهَ.xcodeproj/project.pbxproj"
+          IOS_XCODEPROJ="platforms/ios/farra.xcodeproj/project.pbxproj"
           IOS_XCCONFIG="platforms/ios/cordova/build.xcconfig"
 
           if [ ! -f "$IOS_XCODEPROJ" ]; then
