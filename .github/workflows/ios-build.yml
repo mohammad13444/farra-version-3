@@ -131,26 +131,31 @@ jobs:
           fi
 
                     # --- Inject into Build Settings (fixes signing error) ---
-                   echo "🔧 Resolving final signing conflict (forcing Manual mode)..."
+                   echo "🔐 Injecting manual provisioning & signing params..."
 
-          # 1️⃣ Fix CODE_SIGN_STYLE
-          sed -i '' "s/CODE_SIGN_STYLE = Automatic;/CODE_SIGN_STYLE = Manual;/" "$IOS_XCODEPROJ" || true
-          sed -i '' "s/CODE_SIGN_STYLE = automatic;/CODE_SIGN_STYLE = Manual;/" "$IOS_XCODEPROJ" || true
+          # مسیر پروژه iOS
+          IOS_XCODEPROJ="platforms/ios/Farra.xcodeproj/project.pbxproj"
 
-          # 2️⃣ Force provisioning + team
-          sed -i '' "/buildSettings = {/a\\
-          DEVELOPMENT_TEAM = ${TEAM_ID};
-          PROVISIONING_PROFILE_SPECIFIER = ${PP_FILE_NAME};
-          CODE_SIGN_IDENTITY = Apple Distribution;
-          " "$IOS_XCODEPROJ" || true
+          # ۱️⃣ اطمینان از Manual Signing و تزریق تیم و امضا
+          sed -i '' "s/CODE_SIGN_STYLE = Automatic;/CODE_SIGN_STYLE = Manual;/g" "$IOS_XCODEPROJ" || true
+          sed -i '' "s/ProvisioningStyle = Automatic;/ProvisioningStyle = Manual;/g" "$IOS_XCODEPROJ" || true
 
-          # 3️⃣ Ensure Target ProvisioningStyle = Manual
-          sed -i '' "s/ProvisioningStyle = Automatic;/ProvisioningStyle = Manual;/" "$IOS_XCODEPROJ" || true
+          # ۲️⃣ تزریق پارامترهای دستی امضا در بلاک buildSettings
+          awk -v team="${TEAM_ID}" -v profile="${PP_FILE_NAME}" '
+            /buildSettings = {/ {
+              print;
+              print "                    DEVELOPMENT_TEAM = " team ";";
+              print "                    CODE_SIGN_IDENTITY = Apple Distribution;";
+              print "                    PROVISIONING_PROFILE_SPECIFIER = " profile ";";
+              next
+            }
+            1
+          ' "$IOS_XCODEPROJ" > tmp && mv tmp "$IOS_XCODEPROJ"
 
-          # 4️⃣ Normalize deployment target
+          # ۳️⃣ اصلاح مینیمم ورژن iOS
           sed -i '' "s/IPHONEOS_DEPLOYMENT_TARGET = [0-9.]\\+;/IPHONEOS_DEPLOYMENT_TARGET = 12.0;/" "$IOS_XCODEPROJ" || true
 
-          echo "✅ Manual signing finalized. All conflicting auto-sign lines neutralized."
+          echo "✅ Manual provisioning fully injected for Farra target."
 
 
           
