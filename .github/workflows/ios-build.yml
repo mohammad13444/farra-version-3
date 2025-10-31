@@ -131,24 +131,24 @@ jobs:
           fi
 
                     # --- Inject into Build Settings (fixes signing error) ---
-                   echo "🔧 Fixing signing conflicts (manual Apple Distribution)..."
+                   echo "🔐 Injecting provisioning profile specifier..."
 
-          # 1️⃣ Apply manual signing globally
+          # ۱️⃣ تزریق نام فایل پروفایل در همه بلاک‌های buildSettings
+          sed -i '' "/buildSettings = {/a\\
+          PROVISIONING_PROFILE_SPECIFIER = ${PP_FILE_NAME};
+          " "$IOS_XCODEPROJ" || true
+
+          # ۲️⃣ اگر CODE_SIGN_STYLE اتوماته، اجباری کن به Manual
           sed -i '' "s/CODE_SIGN_STYLE = Automatic;/CODE_SIGN_STYLE = Manual;/" "$IOS_XCODEPROJ" || true
           sed -i '' "s/CODE_SIGN_STYLE = automatic;/CODE_SIGN_STYLE = Manual;/" "$IOS_XCODEPROJ" || true
 
-          # 2️⃣ Ensure correct distribution identity
+          # ۳️⃣ مطمئن شو CodeSign و Team هم هماهنگه
           sed -i '' "s/CODE_SIGN_IDENTITY = .*;/CODE_SIGN_IDENTITY = Apple Distribution;/" "$IOS_XCODEPROJ" || true
-
-          # 3️⃣ Force DevelopmentTeam into all build settings
           sed -i '' "/buildSettings = {/a\\
           DEVELOPMENT_TEAM = ${TEAM_ID};
           " "$IOS_XCODEPROJ" || true
 
-          # 4️⃣ Optional safety (make sure provisioning style = Manual)
-          sed -i '' "s/ProvisioningStyle = Automatic;/ProvisioningStyle = Manual;/" "$IOS_XCODEPROJ" || true
-
-          echo "✅ Code signing unified: Manual mode + Apple Distribution identity."
+          echo "✅ Provisioning profile and signing unified successfully."
 
 
           
