@@ -129,7 +129,7 @@ jobs:
            sed -i '' "s/DevelopmentTeam = .*/DevelopmentTeam = ${TEAM_ID};/" "$IOS_XCODEPROJ"
           else
            echo "⚠️ DevelopmentTeam not found. Injecting precisely inside TargetAttributes block..."
-           TARGET_ID=$(awk '/TargetAttributes/,/};/ {if($0 ~ /=[[:space:]]*{/) {match($0, /([A-Z0-9]{24})/, arr); if (arr[1] != "") print arr[1];}}' "$IOS_XCODEPROJ" | head -n 1)
+           TARGET_ID=$(awk '/TargetAttributes/{flag=1;next}/};/{flag=0}flag && $0 ~ /=[[:space:]]*{/ {if (match($0, "[A-Z0-9][A-Z0-9][A-Z0-9][A-Z0-9][A-Z0-9][A-Z0-9][A-Z0-9][A-Z0-9][A-Z0-9][A-Z0-9][A-Z0-9][A-Z0-9][A-Z0-9][A-Z0-9][A-Z0-9][A-Z0-9][A-Z0-9][A-Z0-9][A-Z0-9][A-Z0-9][A-Z0-9][A-Z0-9][A-Z0-9][A-Z0-9]", m)) print m[0];}' "$IOS_XCODEPROJ" | head -n 1)
            echo "🔹 Detected Target ID: $TARGET_ID"
 
            if [ -n "$TARGET_ID" ]; then
