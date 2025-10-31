@@ -128,21 +128,24 @@ jobs:
            echo "✅ DevelopmentTeam already present. Updating..."
            sed -i '' "s/DevelopmentTeam = .*/DevelopmentTeam = ${TEAM_ID};/" "$IOS_XCODEPROJ"
           else
-           echo "⚠️ DevelopmentTeam not found. Injecting precisely inside TargetAttributes block..."
-           TARGET_ID=$(awk '/TargetAttributes/{flag=1;next}/};/{flag=0}flag && $0 ~ /=[[:space:]]*{/ {if (match($0, "[A-Z0-9][A-Z0-9][A-Z0-9][A-Z0-9][A-Z0-9][A-Z0-9][A-Z0-9][A-Z0-9][A-Z0-9][A-Z0-9][A-Z0-9][A-Z0-9][A-Z0-9][A-Z0-9][A-Z0-9][A-Z0-9][A-Z0-9][A-Z0-9][A-Z0-9][A-Z0-9][A-Z0-9][A-Z0-9][A-Z0-9][A-Z0-9]", m)) print m[0];}' "$IOS_XCODEPROJ" | head -n 1)
-           echo "🔹 Detected Target ID: $TARGET_ID"
+          echo "⚠️ DevelopmentTeam not found. Injecting precisely inside TargetAttributes block..."
+  
+          # استخراج Target ID به صورت سازگار با macOS (بدون awk regex)
+          TARGET_ID=$(grep -A1 "TargetAttributes" "$IOS_XCODEPROJ" | grep "={" | head -n 1 | cut -d' ' -f1 | tr -d '\t ')
+          echo "🔹 Detected Target ID: $TARGET_ID"
 
-           if [ -n "$TARGET_ID" ]; then
-           sed -i '' "/${TARGET_ID}[[:space:]]*=[[:space:]]*{/a\\
-           DevelopmentTeam = ${TEAM_ID};\\
-           ProvisioningStyle = Manual;
+          if [ -n "$TARGET_ID" ]; then
+          sed -i '' "/${TARGET_ID}[[:space:]]*=[[:space:]]*{/a\\
+          DevelopmentTeam = ${TEAM_ID};\\
+          ProvisioningStyle = Manual;
           " "$IOS_XCODEPROJ"
-           echo "✅ DevelopmentTeam injected inside TargetAttributes → ${TARGET_ID}"
-           else
-           echo "::error::❌ Could not detect Target ID — injection skipped."
-           exit 1
-           fi
-           fi
+          echo "✅ DevelopmentTeam injected inside TargetAttributes → ${TARGET_ID}"
+          else
+          echo "::error::❌ Could not detect Target ID — injection skipped."
+          exit 1
+          fi
+          fi
+
 
           # update other parameters if exist
           sed -i '' "s/IPHONEOS_DEPLOYMENT_TARGET = [0-9.]\\+;/IPHONEOS_DEPLOYMENT_TARGET = 12.0;/" "$IOS_XCODEPROJ" || true
