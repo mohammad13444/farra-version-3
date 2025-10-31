@@ -131,34 +131,24 @@ jobs:
           fi
 
                     # --- Inject into Build Settings (fixes signing error) ---
-                   echo "🔧 Injecting DEVELOPMENT_TEAM into all build sections..."
+                   echo "🔧 Fixing signing conflicts (manual Apple Distribution)..."
 
-          # 1️⃣ TargetAttributes (for Info.plist linking)
-          if grep -q "DevelopmentTeam" "$IOS_XCODEPROJ"; then
-            sed -i '' "s/DevelopmentTeam = .*/DevelopmentTeam = ${TEAM_ID};/" "$IOS_XCODEPROJ"
-          else
-            TARGET_ID=$(awk '/TargetAttributes/{getline; if ($1 ~ /^[A-Z0-9]{24}$/) print $1; exit}' "$IOS_XCODEPROJ" | tr -d '\t ')
-            printf '%s\n' "/${TARGET_ID}[[:space:]]*=[[:space:]]*{/a\\
-            DevelopmentTeam = ${TEAM_ID}; ProvisioningStyle = Manual;
-            " | sed -i '' -f /dev/stdin "$IOS_XCODEPROJ" || true
-          fi
+          # 1️⃣ Apply manual signing globally
+          sed -i '' "s/CODE_SIGN_STYLE = Automatic;/CODE_SIGN_STYLE = Manual;/" "$IOS_XCODEPROJ" || true
+          sed -i '' "s/CODE_SIGN_STYLE = automatic;/CODE_SIGN_STYLE = Manual;/" "$IOS_XCODEPROJ" || true
 
-          # 2️⃣ Inject into every Release/Debug build setting block
-          sed -i '' "/CODE_SIGN_IDENTITY = /a\\
-          DEVELOPMENT_TEAM = ${TEAM_ID};
-          " "$IOS_XCODEPROJ" || true
+          # 2️⃣ Ensure correct distribution identity
+          sed -i '' "s/CODE_SIGN_IDENTITY = .*;/CODE_SIGN_IDENTITY = Apple Distribution;/" "$IOS_XCODEPROJ" || true
 
-          # Extra insurance: if CODE_SIGN_IDENTITY not found in some blocks
+          # 3️⃣ Force DevelopmentTeam into all build settings
           sed -i '' "/buildSettings = {/a\\
           DEVELOPMENT_TEAM = ${TEAM_ID};
           " "$IOS_XCODEPROJ" || true
 
-          # 3️⃣ Project-level Signing Settings (when target-level ignored)
-          sed -i '' "/PRODUCT_BUNDLE_IDENTIFIER = /a\\
-          DEVELOPMENT_TEAM = ${TEAM_ID};
-          " "$IOS_XCODEPROJ" || true
+          # 4️⃣ Optional safety (make sure provisioning style = Manual)
+          sed -i '' "s/ProvisioningStyle = Automatic;/ProvisioningStyle = Manual;/" "$IOS_XCODEPROJ" || true
 
-          echo "✅ DEVELOPMENT_TEAM now injected across all Release/Debug build configurations."
+          echo "✅ Code signing unified: Manual mode + Apple Distribution identity."
 
 
           
