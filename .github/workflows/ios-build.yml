@@ -131,24 +131,26 @@ jobs:
           fi
 
                     # --- Inject into Build Settings (fixes signing error) ---
-                   echo "🔐 Injecting provisioning profile specifier..."
+                   echo "🔧 Resolving final signing conflict (forcing Manual mode)..."
 
-          # ۱️⃣ تزریق نام فایل پروفایل در همه بلاک‌های buildSettings
-          sed -i '' "/buildSettings = {/a\\
-          PROVISIONING_PROFILE_SPECIFIER = ${PP_FILE_NAME};
-          " "$IOS_XCODEPROJ" || true
-
-          # ۲️⃣ اگر CODE_SIGN_STYLE اتوماته، اجباری کن به Manual
+          # 1️⃣ Fix CODE_SIGN_STYLE
           sed -i '' "s/CODE_SIGN_STYLE = Automatic;/CODE_SIGN_STYLE = Manual;/" "$IOS_XCODEPROJ" || true
           sed -i '' "s/CODE_SIGN_STYLE = automatic;/CODE_SIGN_STYLE = Manual;/" "$IOS_XCODEPROJ" || true
 
-          # ۳️⃣ مطمئن شو CodeSign و Team هم هماهنگه
-          sed -i '' "s/CODE_SIGN_IDENTITY = .*;/CODE_SIGN_IDENTITY = Apple Distribution;/" "$IOS_XCODEPROJ" || true
+          # 2️⃣ Force provisioning + team
           sed -i '' "/buildSettings = {/a\\
           DEVELOPMENT_TEAM = ${TEAM_ID};
+          PROVISIONING_PROFILE_SPECIFIER = ${PP_FILE_NAME};
+          CODE_SIGN_IDENTITY = Apple Distribution;
           " "$IOS_XCODEPROJ" || true
 
-          echo "✅ Provisioning profile and signing unified successfully."
+          # 3️⃣ Ensure Target ProvisioningStyle = Manual
+          sed -i '' "s/ProvisioningStyle = Automatic;/ProvisioningStyle = Manual;/" "$IOS_XCODEPROJ" || true
+
+          # 4️⃣ Normalize deployment target
+          sed -i '' "s/IPHONEOS_DEPLOYMENT_TARGET = [0-9.]\\+;/IPHONEOS_DEPLOYMENT_TARGET = 12.0;/" "$IOS_XCODEPROJ" || true
+
+          echo "✅ Manual signing finalized. All conflicting auto-sign lines neutralized."
 
 
           
