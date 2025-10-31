@@ -128,14 +128,22 @@ jobs:
             echo "✅ DEVELOPMENT_TEAM already present. Updating..."
             sed -i '' "s/DEVELOPMENT_TEAM = .*/DEVELOPMENT_TEAM = ${TEAM_ID};/" "$IOS_XCODEPROJ"
           else
-            echo "⚠️ DEVELOPMENT_TEAM not found. Injecting inside TargetAttributes block..."
+            echo "⚠️ DEVELOPMENT_TEAM not found. Injecting precisely inside TargetAttributes block..."
             TARGET_ID=$(grep -A1 "TargetAttributes" "$IOS_XCODEPROJ" | grep -o '[A-Z0-9]\{24\}' | head -n 1)
-           echo "🔹 Detected Target ID: $TARGET_ID"
-          sed -i '' "/$TARGET_ID = {/a\\
-           DevelopmentTeam = ${TEAM_ID};\\
-           ProvisioningStyle = Manual;
-           " "$IOS_XCODEPROJ"
-          fi
+            echo "🔹 Detected Target ID: $TARGET_ID"
+
+            if [ -n "$TARGET_ID" ]; then
+            # Replicate exact TargetAttributes pattern with flexible spacing
+            sed -i '' "/${TARGET_ID}[[:space:]]*=[[:space:]]*{/a\\
+            DevelopmentTeam = ${TEAM_ID};\\
+             ProvisioningStyle = Manual;
+                " "$IOS_XCODEPROJ"
+             echo "✅ DEVELOPMENT_TEAM injected inside TargetAttributes → ${TARGET_ID}"
+            else
+             echo "::error::❌ Could not detect Target ID — injection skipped."
+             exit 1
+             fi
+             fi
 
 
           # update other parameters if exist
