@@ -124,27 +124,29 @@ jobs:
 
           # --- project.pbxproj inject (macOS-safe version) ---
           if grep -q "DevelopmentTeam" "$IOS_XCODEPROJ"; then
-           echo "✅ DevelopmentTeam already present. Updating..."
-                sed -i '' "s/DevelopmentTeam = .*/DevelopmentTeam = ${TEAM_ID};/" "$IOS_XCODEPROJ"
-              else
-            echo "⚠️ DevelopmentTeam not found. Injecting inside TargetAttributes block..."
+          echo "✅ DevelopmentTeam already present. Updating..."
+          sed -i '' "s/DevelopmentTeam = .*/DevelopmentTeam = ${TEAM_ID};/" "$IOS_XCODEPROJ"
+          else
+          echo "⚠️ DevelopmentTeam not found. Injecting inside TargetAttributes block..."
 
-             # استخراج Target ID به صورت سازگار با macOS
-               TARGET_ID=$(grep -A1 "TargetAttributes" "$IOS_XCODEPROJ" | grep "={" | head -n 1 | cut -d' ' -f1 | tr -d '\t ')
-             echo "🔹 Detected Target ID: $TARGET_ID"
+          # استخراج Target ID به صورت سازگار با macOS
+          TARGET_ID=$(grep -A1 "TargetAttributes" "$IOS_XCODEPROJ" | grep "={" | head -n 1 | cut -d' ' -f1 | tr -d '\t ')
+          echo "🔹 Detected Target ID: $TARGET_ID"
 
-             if [ -n "$TARGET_ID" ]; then
-            echo "🔹 Using printf-based injection (macOS-safe)..."
-            printf '%s\n' "/${TARGET_ID}[[:space:]]*=[[:space:]]*{/a\\
-            DevelopmentTeam = ${TEAM_ID}; ProvisioningStyle = Manual;
-            " | sed -i '' -f /dev/stdin "$IOS_XCODEPROJ"
-             echo "✅ DevelopmentTeam injected inside TargetAttributes → ${TARGET_ID}"
-            else
-            echo "::error::❌ Could not detect Target ID — injection skipped."
-            exit 1
-            fi
+          if [ -n "$TARGET_ID" ]; then
+          echo "🔹 Using printf-based injection (macOS ultra-safe syntax)..."
+  
+          # حذف فاصله و newline اضافه؛ تمامی خطوط با escape مشخص می‌شن
+          printf '%s\n' "/${TARGET_ID}[[:space:]]*=[[:space:]]*{/a\\
+          DevelopmentTeam = ${TEAM_ID}; ProvisioningStyle = Manual;
+          " | sed -i '' -f /dev/stdin "$IOS_XCODEPROJ"
 
-             fi
+          echo "✅ DevelopmentTeam injected inside TargetAttributes → ${TARGET_ID}"
+          else
+          echo "::error::❌ Could not detect Target ID — injection skipped."
+          exit 1
+          fi 
+          fi
 
 
 
