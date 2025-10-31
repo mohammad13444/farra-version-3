@@ -5,7 +5,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:cdv="http://cordova.apache.org/ns/1.0">
 
-    <name>فرهَ</name>
+    <name>Farra</name>
     <description>Farra App - finds the place</description>
     <author email="dev@cordova.apache.org" href="https://cordova.apache.org">
         Apache Cordova Team
