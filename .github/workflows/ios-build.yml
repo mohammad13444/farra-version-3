@@ -106,10 +106,6 @@ jobs:
           IOS_XCODEPROJ="platforms/ios/farra.xcodeproj/project.pbxproj"
           IOS_XCCONFIG="platforms/ios/cordova/build.xcconfig"
 
-          echo "🔍 Checking if project.pbxproj exists..."
-          ls -la platforms/ios | grep xcodeproj || true
-          ls -la "$IOS_XCODEPROJ" || true
-
           if [ ! -f "$IOS_XCODEPROJ" ]; then
             echo "::error::❌ File not found at: $IOS_XCODEPROJ"
             exit 1
@@ -128,32 +124,30 @@ jobs:
             sed -i '' "s/DevelopmentTeam = .*/DevelopmentTeam = ${TEAM_ID};/" "$IOS_XCODEPROJ"
           else
             echo "⚠️ DevelopmentTeam not found. Injecting inside TargetAttributes block..."
-
             TARGET_ID=$(awk '/TargetAttributes/{getline; if ($1 ~ /^[A-Z0-9]{24}$/) print $1; exit}' "$IOS_XCODEPROJ" | tr -d '\t ')
             echo "🔹 Detected Target ID: ${TARGET_ID:-<none>}"
 
-            if [ -z "$TARGET_ID" ]; then
-              echo "::warning::⚠️ Target ID not detected — safe skip (no failure)."
-            else
-              echo "🔹 Using printf‑based injection (BSD/macOS ultra‑safe)..."
+            if [ -n "$TARGET_ID" ]; then
               printf '%s\n' "/${TARGET_ID}[[:space:]]*=[[:space:]]*{/a\\
-              DevelopmentTeam = ${TEAM_ID}; ProvisioningStyle = Manual;
-              " | sed -i '' -f /dev/stdin "$IOS_XCODEPROJ" || {
-                echo "::warning::⚠️ sed injection fallback skipped (non‑fatal)."
-              }
+            DevelopmentTeam = ${TEAM_ID}; ProvisioningStyle = Manual;
+            " | sed -i '' -f /dev/stdin "$IOS_XCODEPROJ" || echo "::warning::⚠️ sed injection fallback skipped (non‑fatal)."
               echo "✅ Injected DevelopmentTeam inside TargetAttributes (${TARGET_ID})"
+            else
+              echo "::warning::⚠️ Target ID not detected — skipping injection."
             fi
           fi
 
-          # --- update other params ---
+          # --- fix remaining signing params ---
           sed -i '' "s/IPHONEOS_DEPLOYMENT_TARGET = [0-9.]\\+;/IPHONEOS_DEPLOYMENT_TARGET = 12.0;/" "$IOS_XCODEPROJ" || true
           sed -i '' "s/CODE_SIGN_STYLE = Automatic;/CODE_SIGN_STYLE = Manual;/" "$IOS_XCODEPROJ" || true
           sed -i '' "s/PRODUCT_BUNDLE_IDENTIFIER = .*/PRODUCT_BUNDLE_IDENTIFIER = ${BUNDLE_IDENTIFIER};/" "$IOS_XCODEPROJ" || true
 
           echo "📋 Verifying DevelopmentTeam injection..."
-          grep -A2 "DevelopmentTeam" "$IOS_XCODEPROJ" || {
-            echo "::warning::⚠️ DevelopmentTeam not detected in pbxproj — check manually."
-          }
+          if grep -A2 "DevelopmentTeam" "$IOS_XCODEPROJ" >/dev/null; then
+            echo "✅ DevelopmentTeam appears correctly in pbxproj;"
+          else
+            echo "::warning::⚠️ DevelopmentTeam not visible yet — continue anyway."
+          fi
 
           echo "✅ Done: Signing config safely applied."
 
