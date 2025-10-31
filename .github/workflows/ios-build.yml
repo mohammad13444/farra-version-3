@@ -123,31 +123,29 @@ jobs:
           sed -i '' "s/CODE_SIGN_IDENTITY =.*/CODE_SIGN_IDENTITY = Apple Distribution;/" "$IOS_XCCONFIG" || true
           sed -i '' "s/CODE_SIGN_STYLE =.*/CODE_SIGN_STYLE = Manual;/" "$IOS_XCCONFIG" || true
 
-          # --- project.pbxproj inject (fallback safe method) ---
+          # --- project.pbxproj inject (macOS-safe version) ---
           if grep -q "DevelopmentTeam" "$IOS_XCODEPROJ"; then
-          echo "✅ DevelopmentTeam already present. Updating..."
-          sed -i '' "s/DevelopmentTeam = .*/DevelopmentTeam = ${TEAM_ID};/" "$IOS_XCODEPROJ"
-          else
-            echo "⚠️ DevelopmentTeam not found. Injecting precisely inside TargetAttributes block..."
+           echo "✅ DevelopmentTeam already present. Updating..."
+                sed -i '' "s/DevelopmentTeam = .*/DevelopmentTeam = ${TEAM_ID};/" "$IOS_XCODEPROJ"
+              else
+            echo "⚠️ DevelopmentTeam not found. Injecting inside TargetAttributes block..."
 
-           # استخراج Target ID با grep + cut (سازگار با macOS)
-           TARGET_ID=$(grep -A1 "TargetAttributes" "$IOS_XCODEPROJ" | grep "={" | head -n 1 | cut -d' ' -f1 | tr -d '\t ')
-           echo "🔹 Detected Target ID: $TARGET_ID"
+             # استخراج Target ID به صورت سازگار با macOS
+               TARGET_ID=$(grep -A1 "TargetAttributes" "$IOS_XCODEPROJ" | grep "={" | head -n 1 | cut -d' ' -f1 | tr -d '\t ')
+             echo "🔹 Detected Target ID: $TARGET_ID"
 
-           if [ -n "$TARGET_ID" ]; then
-             # تزریق چندخطی امن در macOS (escaping کامل برای گرددگی sed و YAML)
-           sed -i '' "/${TARGET_ID}[[:space:]]*=[[:space:]]*{/{
-               a\\
-             DevelopmentTeam = ${TEAM_ID};\\
-             ProvisioningStyle = Manual;
-            }" "$IOS_XCODEPROJ"
+             if [ -n "$TARGET_ID" ]; then
+               # تزریق چندخطی ایمن با escape به صورت یک‌خطی برای BSD sed
+              sed -i '' "/${TARGET_ID}[[:space:]]*=[[:space:]]*{/a\\
+              DevelopmentTeam = ${TEAM_ID}; ProvisioningStyle = Manual;
+              " "$IOS_XCODEPROJ"
 
-           echo "✅ DevelopmentTeam injected inside TargetAttributes → ${TARGET_ID}"
-           else
-          echo "::error::❌ Could not detect Target ID — injection skipped."
-            exit 1
-           fi
-           fi
+              echo "✅ DevelopmentTeam injected inside TargetAttributes → ${TARGET_ID}"
+            else
+                echo "::error::❌ Could not detect Target ID — injection skipped."
+             exit 1
+                 fi
+             fi
 
 
 
