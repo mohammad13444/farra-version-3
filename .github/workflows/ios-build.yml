@@ -129,7 +129,6 @@ jobs:
           else
             echo "⚠️ DevelopmentTeam not found. Injecting inside TargetAttributes block..."
 
-            # استخراج Target ID به‌صورت کاملاً سازگار با BSD awk
             TARGET_ID=$(awk '/TargetAttributes/{getline; if ($1 ~ /^[A-Z0-9]{24}$/) print $1; exit}' "$IOS_XCODEPROJ" | tr -d '\t ')
             echo "🔹 Detected Target ID: ${TARGET_ID:-<none>}"
 
@@ -146,16 +145,17 @@ jobs:
             fi
           fi
 
-          # --- update other params if exist ---
+          # --- update other params ---
           sed -i '' "s/IPHONEOS_DEPLOYMENT_TARGET = [0-9.]\\+;/IPHONEOS_DEPLOYMENT_TARGET = 12.0;/" "$IOS_XCODEPROJ" || true
           sed -i '' "s/CODE_SIGN_STYLE = Automatic;/CODE_SIGN_STYLE = Manual;/" "$IOS_XCODEPROJ" || true
           sed -i '' "s/PRODUCT_BUNDLE_IDENTIFIER = .*/PRODUCT_BUNDLE_IDENTIFIER = ${BUNDLE_IDENTIFIER};/" "$IOS_XCODEPROJ" || true
 
           echo "📋 Verifying DevelopmentTeam injection..."
-          grep -A2 "DevelopmentTeam" "$IOS_XCODEPROJ" || echo "ℹ️ DEVELOPMENT_TEAM not yet visible — check Xcode build output manually."
+          grep -A2 "DevelopmentTeam" "$IOS_XCODEPROJ" || {
+            echo "::warning::⚠️ DevelopmentTeam not detected in pbxproj — check manually."
+          }
 
           echo "✅ Done: Signing config safely applied."
-
 
 
 
