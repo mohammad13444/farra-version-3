@@ -124,25 +124,25 @@ jobs:
           sed -i '' "s/CODE_SIGN_STYLE =.*/CODE_SIGN_STYLE = Manual;/" "$IOS_XCCONFIG" || true
 
           # --- project.pbxproj inject (fallback safe method) ---
-          if grep -q "DEVELOPMENT_TEAM" "$IOS_XCODEPROJ"; then
-            echo "✅ DEVELOPMENT_TEAM already present. Updating..."
-            sed -i '' "s/DEVELOPMENT_TEAM = .*/DEVELOPMENT_TEAM = ${TEAM_ID};/" "$IOS_XCODEPROJ"
-           else
-             echo "⚠️ DevelopmentTeam not found. Injecting precisely inside TargetAttributes block..."
-               TARGET_ID=$(grep -A1 "TargetAttributes" "$IOS_XCODEPROJ" | grep -o '[A-Z0-9]\\{24\\}' | head -n 1)
-              echo "🔹 Detected Target ID: $TARGET_ID"
+          if grep -q "DevelopmentTeam" "$IOS_XCODEPROJ"; then
+           echo "✅ DevelopmentTeam already present. Updating..."
+           sed -i '' "s/DevelopmentTeam = .*/DevelopmentTeam = ${TEAM_ID};/" "$IOS_XCODEPROJ"
+          else
+           echo "⚠️ DevelopmentTeam not found. Injecting precisely inside TargetAttributes block..."
+           TARGET_ID=$(awk '/TargetAttributes/,/};/ {if($0 ~ /=[[:space:]]*{/) {match($0, /([A-Z0-9]{24})/, arr); if (arr[1] != "") print arr[1];}}' "$IOS_XCODEPROJ" | head -n 1)
+           echo "🔹 Detected Target ID: $TARGET_ID"
 
-              if [ -n "$TARGET_ID" ]; then
-                sed -i '' "/${TARGET_ID}[[:space:]]*=[[:space:]]*{/a\\
-                DevelopmentTeam = ${TEAM_ID};\\
-                ProvisioningStyle = Manual;
-                  " "$IOS_XCODEPROJ"
-                echo "✅ DevelopmentTeam injected inside TargetAttributes → ${TARGET_ID}"
-                  else
-                   echo "::error::❌ Could not detect Target ID — injection skipped."
-                  exit 1
-                     fi
-                   fi
+           if [ -n "$TARGET_ID" ]; then
+           sed -i '' "/${TARGET_ID}[[:space:]]*=[[:space:]]*{/a\\
+           DevelopmentTeam = ${TEAM_ID};\\
+           ProvisioningStyle = Manual;
+          " "$IOS_XCODEPROJ"
+           echo "✅ DevelopmentTeam injected inside TargetAttributes → ${TARGET_ID}"
+           else
+           echo "::error::❌ Could not detect Target ID — injection skipped."
+           exit 1
+           fi
+           fi
 
           # update other parameters if exist
           sed -i '' "s/IPHONEOS_DEPLOYMENT_TARGET = [0-9.]\\+;/IPHONEOS_DEPLOYMENT_TARGET = 12.0;/" "$IOS_XCODEPROJ" || true
