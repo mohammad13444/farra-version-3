@@ -61,28 +61,25 @@ jobs:
 
           echo "✅ P12 integrity verified successfully! Size: ${P12_SIZE} B"
 
-      - name: 🔑 Configure Keychain and Import Artifacts
+      - name: 🔑 Configure Keychain and Import Artifacts (Clean)
         shell: bash
         run: |
+          # 1. تنظیمات Keychain
           echo "🔐 Unlock login.keychain"
           security unlock-keychain -p "$KEYCHAIN_PASSWORD" ~/Library/Keychains/login.keychain
           security set-keychain-settings -lut 14400 ~/Library/Keychains/login.keychain
 
-          echo "💬 Creating password file safely..."
-           cat <<'EOF' > p12pass.txt
-               $KEYCHAIN_PASSWORD
-                EOF
-          cat p12pass.txt | wc -c | xargs echo "🔑 Password length:"
-
-          echo "📥 Import certificate"
+          # 2. وارد کردن گواهی P12 (بدون فایل موقت رمز)
+          echo "📥 Import certificate directly using \$KEYCHAIN_PASSWORD"
           security import "${P12_FILE_NAME}" \
             -k ~/Library/Keychains/login.keychain \
-            -P "$(cat p12pass.txt)" \
+            -P "$KEYCHAIN_PASSWORD" \
             -A -t cert -f pkcs12 \
             -T /usr/bin/codesign \
             -T /usr/bin/security || {
-            echo "::error::❌ Failed during P12 import"; exit 1; }
+            echo "::error::❌ Failed during P12 import. This means the \$KEYCHAIN_PASSWORD does not match the P12's password."; exit 1; }
 
+          # 3. دسترسی codesign
           echo "🔓 Allow codesign access"
           security set-key-partition-list \
             -S apple-tool:,apple:,codesign: \
@@ -90,6 +87,7 @@ jobs:
             -D "Apple Distribution" \
             ~/Library/Keychains/login.keychain
 
+          # 4. نصب Provisioning Profile
           echo "📲 Install provisioning profile"
           PP_UUID=$(/usr/libexec/PlistBuddy -c "Print UUID" /dev/stdin <<< "$(security cms -D -i "${PP_FILE_NAME}")")
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
