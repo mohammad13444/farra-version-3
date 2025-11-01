@@ -64,20 +64,15 @@ jobs:
       - name: 🔑 Configure Keychain and Import Artifacts
         shell: bash
         run: |
-          echo "🔐 Unlock login.keychain and make it default"
-          # 1. مطمئن می‌شویم که Keychain مورد نظر، پیش‌فرض جلسه شود.
-          security default-keychain -s ~/Library/Keychains/login.keychain
+          echo "🔐 Unlock login.keychain"
           security unlock-keychain -p "$KEYCHAIN_PASSWORD" ~/Library/Keychains/login.keychain
-          
-          # 2. تنظیمات: timeout روی 4 ساعت (14400 ثانیه) و غیرفعال کردن قفل در حالت خواب
-          security set-keychain-settings -t 14400 -l ~/Library/Keychains/login.keychain
+          security set-keychain-settings -lut 14400 ~/Library/Keychains/login.keychain
 
-          echo "💬 Creating password file safely..."
-          # از قوی‌ترین دستور برای رمز عبور استفاده می‌کنیم:
-          echo -n "$KEYCHAIN_PASSWORD" | tr -d '[:cntrl:]' | tr -d ' ' > p12pass.txt
-          cat p12pass.txt | wc -c | xargs echo "🔑 Password file length (Expected 20):"
-          cat p12pass.txt | wc -c | xargs echo "🔑 Password file length:"
-          
+          echo "💬 Creating password file safely (20 chars guaranteed)..."
+          # اصلاحیه حیاتی: تضمین دقیق ۲۰ کاراکتر بودن رمز عبور
+          printf "%s" "$KEYCHAIN_PASSWORD" | cut -c 1-20 > p12pass.txt
+          cat p12pass.txt | wc -c | xargs echo "🔑 Password file length (MUST be 20):"
+
           echo "📥 Import certificate"
           security import "${P12_FILE_NAME}" \
             -k ~/Library/Keychains/login.keychain \
@@ -88,7 +83,6 @@ jobs:
             echo "::error::❌ Failed during P12 import"; exit 1; }
 
           echo "🔓 Allow codesign access"
-          # 3. اطمینان از دسترسی codesign به گواهی
           security set-key-partition-list \
             -S apple-tool:,apple:,codesign: \
             -k "$KEYCHAIN_PASSWORD" \
@@ -96,7 +90,6 @@ jobs:
             ~/Library/Keychains/login.keychain
 
           echo "📲 Install provisioning profile"
-          # ... (ادامه نصب پروفایل)
           PP_UUID=$(/usr/libexec/PlistBuddy -c "Print UUID" /dev/stdin <<< "$(security cms -D -i "${PP_FILE_NAME}")")
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
           mv "${PP_FILE_NAME}" ~/Library/MobileDevice/Provisioning\ Profiles/"$PP_UUID".mobileprovision
@@ -104,6 +97,13 @@ jobs:
 
           rm -f p12pass.txt
 
+
+      # - name: ♻️ Reset iOS Platform Completely
+      #   run: |
+      #    echo "♻️ Removing and rebuilding iOS platform..."
+      #    rm -rf platforms/ios
+      #    npx cordova platform add ios --save --no-fetch
+      #    npx cordova prepare ios
 
       - name: 🛠️ Safe Configure Xcode Signing (no sed)
         shell: bash
