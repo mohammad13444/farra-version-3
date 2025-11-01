@@ -71,9 +71,9 @@ jobs:
 
 
           echo "💬 Creating password file safely..."
-           cat <<'EOF' > p12pass.txt
-               $KEYCHAIN_PASSWORD
-                EOF
+          cat <<'EOF' > p12pass.txt # <--- شروع بلاک
+          $KEYCHAIN_PASSWORD
+          EOF # <--- پایان بلاک باید کاملا چسبیده به چپ باشد
           cat p12pass.txt | wc -c | xargs echo "🔑 Password length:"
 
           echo "📥 Import certificate"
@@ -106,6 +106,7 @@ jobs:
           echo "✅ Profile installed with UUID: $PP_UUID"
 
           rm -f p12pass.txt
+
 
 
       # - name: ♻️ Reset iOS Platform Completely
@@ -155,14 +156,6 @@ jobs:
 
       - name: 🏗️ Cordova Build iOS (App Store)
         run: |
-          echo "🔓 Re‑unlocking keychain for build session..."
-          security list-keychains -d user -s ~/Library/Keychains/login.keychain
-          security unlock-keychain -p "$KEYCHAIN_PASSWORD" ~/Library/Keychains/login.keychain
-          security set-keychain-settings -lut 14400 ~/Library/Keychains/login.keychain
-
-          echo "🔍 Verifying signing identities before build..."
-          security find-identity -v -p codesigning ~/Library/Keychains/login.keychain || true
-
           echo "🏗️ Building iOS release..."
           npx cordova build ios --release --device || { echo "::error::❌ Cordova build failed"; exit 1; }
 
