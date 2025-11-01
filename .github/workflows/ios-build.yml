@@ -13,8 +13,7 @@ jobs:
       IPA_NAME: farra-signed.ipa
       PP_FILE_NAME: Farra_iOS_AppStore_72M97MR8UU.mobileprovision
       P12_FILE_NAME: ios_distribution.p12
-      # رمز عبور شما که باید 18 کاراکتر باشد.
-      KEYCHAIN_PASSWORD: actions-keychain-pass 
+      KEYCHAIN_PASSWORD: actions-keychain-pass
       TEAM_ID: 72M97MR8UU
       BUNDLE_IDENTIFIER: com.example.farra
 
@@ -38,8 +37,9 @@ jobs:
           npx cordova platform add ios --save --no-fetch
 
       - name: 🔐 Combine P12 Parts, Decode, and Verify Integrity
-        # در این مرحله از KEYCHAIN_PASSWORD که در env تعریف کردید استفاده می‌کنیم، 
-        # نه از secret.P12_PASSWORD. این باعث وحدت رمز می‌شود.
+        env:
+          P12_PASSWORD: ${{ secrets.P12_PASSWORD }}
+          PROVISIONING_PROFILE: ${{ secrets.PROVISIONING_PROFILE }}
         run: |
           echo "Starting P12 reconstruction and decode using 3 parts..."
 
@@ -47,37 +47,41 @@ jobs:
           echo "$FULL_P12_B64" | tr -d '\n' | base64 --decode > "${P12_FILE_NAME}" \
             || { echo "❌ Failed to decode P12."; exit 1; }
 
-          echo "${{ secrets.PROVISIONING_PROFILE }}" | tr -d '\n' | base64 --decode > "${PP_FILE_NAME}" \
+          echo "${{ env.PROVISIONING_PROFILE }}" | tr -d '\n' | base64 --decode > "${PP_FILE_NAME}" \
             || { echo "❌ Failed to decode Provisioning Profile"; exit 1; }
 
           P12_SIZE=$(stat -f%z "${P12_FILE_NAME}")
           echo "::notice::Decoded P12 size is ${P12_SIZE} bytes."
 
-          # OpenSSL را وادار می‌کنیم از KEYCHAIN_PASSWORD استفاده کند.
-          openssl pkcs12 -in "${P12_FILE_NAME}" -noout -info -passin pass:"$KEYCHAIN_PASSWORD" > /dev/null 2>&1
+          openssl pkcs12 -in "${P12_FILE_NAME}" -noout -info -passin pass:"${{ env.P12_PASSWORD }}" > /dev/null 2>&1
           if [ $? -ne 0 ]; then
-            echo "::error::❌ CRITICAL: OpenSSL cannot read the P12. The KEYCHAIN_PASSWORD is incorrect."
+            echo "::error::❌ CRITICAL: OpenSSL cannot read the P12."
             exit 1
           fi
 
           echo "✅ P12 integrity verified successfully! Size: ${P12_SIZE} B"
 
-      - name: 🔑 Configure Keychain and Import Artifacts (Cleanest Version)
+      - name: 🔑 Configure Keychain and Import Artifacts
         shell: bash
         run: |
           echo "🔐 Unlock login.keychain"
           security unlock-keychain -p "$KEYCHAIN_PASSWORD" ~/Library/Keychains/login.keychain
           security set-keychain-settings -lut 14400 ~/Library/Keychains/login.keychain
 
-          echo "📥 Import certificate directly using \$KEYCHAIN_PASSWORD"
-          # از KEYCHAIN_PASSWORD به صورت مستقیم استفاده می‌کنیم تا هیچ کاراکتر اضافی‌ای وارد نشود.
+          echo "💬 Creating password file safely..."
+           cat <<'EOF' > p12pass.txt
+               $KEYCHAIN_PASSWORD
+                EOF
+          cat p12pass.txt | wc -c | xargs echo "🔑 Password length:"
+
+          echo "📥 Import certificate"
           security import "${P12_FILE_NAME}" \
             -k ~/Library/Keychains/login.keychain \
-            -P "$KEYCHAIN_PASSWORD" \
+            -P "$(cat p12pass.txt)" \
             -A -t cert -f pkcs12 \
             -T /usr/bin/codesign \
             -T /usr/bin/security || {
-            echo "::error::❌ Failed during P12 import. If this happens, your P12 password is definitively wrong."; exit 1; }
+            echo "::error::❌ Failed during P12 import"; exit 1; }
 
           echo "🔓 Allow codesign access"
           security set-key-partition-list \
@@ -91,13 +95,11 @@ jobs:
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
           mv "${PP_FILE_NAME}" ~/Library/MobileDevice/Provisioning\ Profiles/"$PP_UUID".mobileprovision
           echo "✅ Profile installed with UUID: $PP_UUID"
-          
-          # حذف فایل موقت P12 password (فقط برای اطمینان)
-          rm -f p12pass.txt 2>/dev/null || true
+
+          rm -f p12pass.txt
 
 
       - name: ♻️ Reset iOS Platform Completely
-        # ... (این مرحله ثابت است)
         run: |
          echo "♻️ Removing and rebuilding iOS platform..."
          rm -rf platforms/ios
@@ -106,7 +108,6 @@ jobs:
 
 
       - name: 🛠️ Safe Configure Xcode Signing (no sed)
-        # ... (این مرحله ثابت است)
         shell: bash
         run: |
          echo "⚙️ Creating build.xcconfig safely..."
@@ -140,14 +141,17 @@ jobs:
 
          echo "✅ build.xcconfig created and provisioning profile installed successfully."
 
+
+
+
+
       - name: 🏗️ Cordova Build iOS (App Store)
         run: |
           echo "🏗️ Building iOS release..."
-          # در اینجا از -i برای تعیین هویت امضا استفاده می‌کنیم
-          npx cordova build ios --release --device -- --codeSignIdentity="Apple Distribution" || { echo "::error::❌ Cordova build failed"; exit 1; }
+          npx cordova build ios --release --device || { echo "::error::❌ Cordova build failed"; exit 1; }
+
 
       - name: 📦 Locate and Rename IPA
-        # ... (بقیه مراحل)
         run: |
           IPA_PATH=$(find platforms/ios/build/ -name "*.ipa" -print -quit)
           if [ -n "$IPA_PATH" ]; then
@@ -171,5 +175,5 @@ jobs:
         run: |
           echo "🧹 Cleaning up temporary files..."
           rm -f "${P12_FILE_NAME}" 2>/dev/null || true
-          # p12pass.txt حذف شده است
+          rm -f temp_p12_b64.txt 2>/dev/null || true
           echo "✅ Cleanup completed (non-blocking)"
