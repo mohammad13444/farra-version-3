@@ -69,16 +69,16 @@ jobs:
           security set-keychain-settings -lut 14400 ~/Library/Keychains/login.keychain
 
           echo "💬 Creating password file safely..."
-           cat <<'EOF' > p12pass.txt
-               $KEYCHAIN_PASSWORD
-                EOF
+          cat <<'EOF' > p12pass.txt
+          $KEYCHAIN_PASSWORD
+          EOF
           cat p12pass.txt | wc -c | xargs echo "🔑 Password length:"
 
-          echo "📥 Import certificate"
+          echo "📥 Import certificate (P12)"
           security import "${P12_FILE_NAME}" \
             -k ~/Library/Keychains/login.keychain \
-            -P "$(cat p12pass.txt)" \
-            -A -t cert -f pkcs12 \
+            -P "$KEYCHAIN_PASSWORD" \
+            -A \
             -T /usr/bin/codesign \
             -T /usr/bin/security || {
             echo "::error::❌ Failed during P12 import"; exit 1; }
