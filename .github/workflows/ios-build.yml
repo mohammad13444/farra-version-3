@@ -10,14 +10,12 @@ jobs:
     runs-on: macos-14
 
     env:
-      # متغیرهای محیطی که در سراسر جاب (Job) استفاده می‌شوند
       IPA_NAME: farra-signed.ipa
       PP_FILE_NAME: Farra_iOS_AppStore_72M97MR8UU.mobileprovision
       P12_FILE_NAME: ios_distribution.p12
       KEYCHAIN_PASSWORD: actions-keychain-pass
       TEAM_ID: 72M97MR8UU
       BUNDLE_IDENTIFIER: com.example.farra
-      CODE_SIGN_IDENTITY: "iPhone Distribution: Farok Omar (72M97MR8UU)" # هویت کامل گواهی
 
       # Base64 P12 تقسیم‌شده برای دور زدن محدودیت محیطی
       P12_PART1: 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
@@ -55,7 +53,6 @@ jobs:
           P12_SIZE=$(stat -f%z "${P12_FILE_NAME}")
           echo "::notice::Decoded P12 size is ${P12_SIZE} bytes."
 
-          # برای باز کردن P12 از رمز P12_PASSWORD استفاده می‌شود
           openssl pkcs12 -in "${P12_FILE_NAME}" -noout -info -passin pass:"${{ env.P12_PASSWORD }}" > /dev/null 2>&1
           if [ $? -ne 0 ]; then
             echo "::error::❌ CRITICAL: OpenSSL cannot read the P12."
@@ -64,29 +61,22 @@ jobs:
 
           echo "✅ P12 integrity verified successfully! Size: ${P12_SIZE} B"
 
-
-      - name: 🔑 Configure Keychain and Import Artifacts (Final Fixed)
-        id: keychain_setup
+      - name: 🔑 Configure Keychain and Import Artifacts
         shell: bash
-        env:
-          # توجه: ما این متغیرها را در اینجا نگه می‌داریم تا از secrets و env.KEYCHAIN_PASSWORD در این Step استفاده کنیم.
-          # CODE_SIGN_IDENTITY حذف شد زیرا در سطح Jobs:build:env تعریف شده است.
-          KEYCHAIN_PASSWORD: ${{ env.KEYCHAIN_PASSWORD }}
-          P12_PASSWORD: ${{ secrets.P12_PASSWORD }}
-          P12_FILE_NAME: ${{ env.P12_FILE_NAME }}
         run: |
           echo "🔐 Unlock login.keychain"
           security unlock-keychain -p "$KEYCHAIN_PASSWORD" ~/Library/Keychains/login.keychain
           security set-keychain-settings -lut 14400 ~/Library/Keychains/login.keychain
 
-          echo "💬 Writing precise P12 password (FIXED: using printf)..."
-          # این خط حیاتی است: رمز را بدون کاراکترهای اضافی در فایل می‌نویسد تا خطای MAC verification حل شود.
-          printf "%s" "$P12_PASSWORD" > p12pass.txt
-          echo "🔑 Password file length:"
-          wc -c < p12pass.txt
+          echo "💬 Creating password file safely..."
+            printf "%s" "$KEYCHAIN_PASSWORD" > p12pass.txt
+            dos2unix p12pass.txt 2>/dev/null || true
+            wc -c p12pass.txt | xargs echo "🔑 Password length:"
 
-          echo "📥 Import certificate into login.keychain..."
-          security import "$P12_FILE_NAME" \
+          cat p12pass.txt | wc -c | xargs echo "🔑 Password length:"
+
+          echo "📥 Import certificate"
+          security import "${P12_FILE_NAME}" \
             -k ~/Library/Keychains/login.keychain \
             -P "$(cat p12pass.txt)" \
             -A -t cert -f pkcs12 \
@@ -94,63 +84,66 @@ jobs:
             -T /usr/bin/security || {
             echo "::error::❌ Failed during P12 import"; exit 1; }
 
-          echo "🔑 Verify imported identity:"
-          security find-identity -v ~/Library/Keychains/login.keychain
-
-          echo "🔓 Granting codesign access..."
-          # از متغیر CODE_SIGN_IDENTITY که در سطح Job تعریف شده استفاده می‌کند.
+          echo "🔓 Allow codesign access"
           security set-key-partition-list \
             -S apple-tool:,apple:,codesign: \
             -k "$KEYCHAIN_PASSWORD" \
-            -D "${{ env.CODE_SIGN_IDENTITY }}" \
+            -D "Apple Distribution" \
             ~/Library/Keychains/login.keychain
 
-          echo "✅ Keychain configuration and import complete."
+          echo "📲 Install provisioning profile"
+          PP_UUID=$(/usr/libexec/PlistBuddy -c "Print UUID" /dev/stdin <<< "$(security cms -D -i "${PP_FILE_NAME}")")
+          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+          mv "${PP_FILE_NAME}" ~/Library/MobileDevice/Provisioning\ Profiles/"$PP_UUID".mobileprovision
+          echo "✅ Profile installed with UUID: $PP_UUID"
+
           rm -f p12pass.txt
 
-          # حذف فایل رمز عبور
-          rm -f p12pass.txt
+
+      
 
 
-
-      - name: 🛠️ Configure Xcode Signing (build.xcconfig) and Install Profile
+      - name: 🛠️ Safe Configure Xcode Signing (no sed)
         shell: bash
         run: |
-          echo "⚙️ Creating build.xcconfig and installing provisioning profile..."
-          IOS_XCCONFIG="platforms/ios/cordova/build.xcconfig"
+         echo "⚙️ Creating build.xcconfig safely..."
+         IOS_XCCONFIG="platforms/ios/cordova/build.xcconfig"
 
-          # 1. استخراج UUID و نصب پروفایل
-          mkdir -p "$HOME/Library/MobileDevice/Provisioning Profiles"
-          PP_UUID=$(/usr/libexec/PlistBuddy -c "Print UUID" /dev/stdin <<< "$(security cms -D -i "${{ env.PP_FILE_NAME }}")")
-          
-          if [ -z "$PP_UUID" ]; then
-            echo "::error::❌ Failed to extract Provisioning Profile UUID."
-            exit 1
-          fi
-          
-          echo "🔍 Provisioning UUID detected: $PP_UUID"
+         mkdir -p "$HOME/Library/MobileDevice/Provisioning Profiles"
+    
+         # Extract provisioning profile UUID
+         PP_UUID=$(/usr/libexec/PlistBuddy -c "Print UUID" /dev/stdin <<< "$(security cms -D -i "${PP_FILE_NAME}")")
 
-          # نصب پروفایل به مسیر استاندارد Xcode
-          mv "${{ env.PP_FILE_NAME }}" "$HOME/Library/MobileDevice/Provisioning Profiles/${PP_UUID}.mobileprovision"
-          echo "✅ Profile installed as: ${PP_UUID}.mobileprovision"
+         echo "🔍 Provisioning UUID detected: $PP_UUID"
+
+         # Install the profile to the official Xcode directory
+         cp "${PP_FILE_NAME}" "$HOME/Library/MobileDevice/Provisioning Profiles/${PP_UUID}.mobileprovision"
+
+         # If not installed, fail fast
+         if [ ! -f "$HOME/Library/MobileDevice/Provisioning Profiles/${PP_UUID}.mobileprovision" ]; then
+         echo "::error::❌ Failed to install provisioning profile"
+         exit 1
+         fi
+
+         # Generate clean build.xcconfig
+         cat > "$IOS_XCCONFIG" <<EOF
+         CODE_SIGN_STYLE = Manual
+         CODE_SIGN_IDENTITY = Apple Distribution
+         PROVISIONING_PROFILE_SPECIFIER = ${PP_UUID}
+         DEVELOPMENT_TEAM = ${TEAM_ID}
+         PRODUCT_BUNDLE_IDENTIFIER = ${BUNDLE_IDENTIFIER}
+         IPHONEOS_DEPLOYMENT_TARGET = 12.0
+         EOF
+
+         echo "✅ build.xcconfig created and provisioning profile installed successfully."
 
 
-          # 2. تولید build.xcconfig
-          cat > "$IOS_XCCONFIG" <<EOF
-          CODE_SIGN_STYLE = Manual
-          CODE_SIGN_IDENTITY = ${{ env.CODE_SIGN_IDENTITY }}
-          PROVISIONING_PROFILE_SPECIFIER = ${PP_UUID} # UUID پروفایل
-          DEVELOPMENT_TEAM = ${{ env.TEAM_ID }}
-          PRODUCT_BUNDLE_IDENTIFIER = ${{ env.BUNDLE_IDENTIFIER }}
-          IPHONEOS_DEPLOYMENT_TARGET = 12.0 # رفع اخطار Deployment Target
-          EOF
-          echo "✅ build.xcconfig created successfully."
+
 
 
       - name: 🏗️ Cordova Build iOS (App Store)
         run: |
           echo "🏗️ Building iOS release..."
-          # از آنجا که تنظیمات در build.xcconfig انجام شده، خط فرمان ساده‌تر می‌شود.
           npx cordova build ios --release --device || { echo "::error::❌ Cordova build failed"; exit 1; }
 
 
@@ -158,8 +151,8 @@ jobs:
         run: |
           IPA_PATH=$(find platforms/ios/build/ -name "*.ipa" -print -quit)
           if [ -n "$IPA_PATH" ]; then
-            mv "$IPA_PATH" "${{ env.IPA_NAME }}"
-            echo "✅ IPA exported successfully: ${{ env.IPA_NAME }}"
+            mv "$IPA_PATH" "${IPA_NAME}"
+            echo "✅ IPA exported successfully: ${IPA_NAME}"
           else
             echo "::error::❌ Could not find generated IPA."
             exit 1
@@ -177,6 +170,6 @@ jobs:
         continue-on-error: true
         run: |
           echo "🧹 Cleaning up temporary files..."
-          rm -f "${{ env.P12_FILE_NAME }}" 2>/dev/null || true
+          rm -f "${P12_FILE_NAME}" 2>/dev/null || true
           rm -f temp_p12_b64.txt 2>/dev/null || true
           echo "✅ Cleanup completed (non-blocking)"
