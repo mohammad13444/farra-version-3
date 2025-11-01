@@ -71,9 +71,9 @@ jobs:
 
 
           echo "💬 Creating password file safely..."
-          cat <<'EOF' > p12pass.txt # <--- شروع بلاک
+          cat <<'EOF' > p12pass.txt
           $KEYCHAIN_PASSWORD
-          EOF # <--- پایان بلاک باید کاملا چسبیده به چپ باشد
+          EOF # <--- این EOF چسبیده به سمت چپ، الزامی است.
           cat p12pass.txt | wc -c | xargs echo "🔑 Password length:"
 
           echo "📥 Import certificate"
@@ -106,15 +106,6 @@ jobs:
           echo "✅ Profile installed with UUID: $PP_UUID"
 
           rm -f p12pass.txt
-
-
-
-      # - name: ♻️ Reset iOS Platform Completely
-      #   run: |
-      #    echo "♻️ Removing and rebuilding iOS platform..."
-      #    rm -rf platforms/ios
-      #    npx cordova platform add ios --save --no-fetch
-      #    npx cordova prepare ios
 
       - name: 🛠️ Safe Configure Xcode Signing (no sed)
         shell: bash
@@ -150,16 +141,10 @@ jobs:
 
          echo "✅ build.xcconfig created and provisioning profile installed successfully."
 
-
-
-
-
       - name: 🏗️ Cordova Build iOS (App Store)
         run: |
           echo "🏗️ Building iOS release..."
           npx cordova build ios --release --device || { echo "::error::❌ Cordova build failed"; exit 1; }
-
-
 
       - name: 📦 Locate and Rename IPA
         run: |
