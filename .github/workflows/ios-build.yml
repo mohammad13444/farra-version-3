@@ -113,19 +113,34 @@ jobs:
          echo "⚙️ Creating build.xcconfig safely..."
          IOS_XCCONFIG="platforms/ios/cordova/build.xcconfig"
 
+         mkdir -p "$HOME/Library/MobileDevice/Provisioning Profiles"
+    
+         # Extract provisioning profile UUID
          PP_UUID=$(/usr/libexec/PlistBuddy -c "Print UUID" /dev/stdin <<< "$(security cms -D -i "${PP_FILE_NAME}")")
 
-         mkdir -p "$(dirname "$IOS_XCCONFIG")"
+         echo "🔍 Provisioning UUID detected: $PP_UUID"
 
+         # Install the profile to the official Xcode directory
+         cp "${PP_FILE_NAME}" "$HOME/Library/MobileDevice/Provisioning Profiles/${PP_UUID}.mobileprovision"
+
+         # If not installed, fail fast
+         if [ ! -f "$HOME/Library/MobileDevice/Provisioning Profiles/${PP_UUID}.mobileprovision" ]; then
+         echo "::error::❌ Failed to install provisioning profile"
+         exit 1
+         fi
+
+         # Generate clean build.xcconfig
          cat > "$IOS_XCCONFIG" <<EOF
          CODE_SIGN_STYLE = Manual
          CODE_SIGN_IDENTITY = Apple Distribution
          PROVISIONING_PROFILE_SPECIFIER = ${PP_UUID}
          DEVELOPMENT_TEAM = ${TEAM_ID}
          PRODUCT_BUNDLE_IDENTIFIER = ${BUNDLE_IDENTIFIER}
+         IPHONEOS_DEPLOYMENT_TARGET = 12.0
          EOF
 
-         echo "✅ build.xcconfig created cleanly with ${PP_UUID}"
+         echo "✅ build.xcconfig created and provisioning profile installed successfully."
+
 
 
 
