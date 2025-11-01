@@ -65,49 +65,48 @@ jobs:
           echo "✅ P12 integrity verified successfully! Size: ${P12_SIZE} B"
 
 
-      - name: 🔑 Configure Keychain and Import Artifacts (Use password file)
+      - name: 🔑 Configure Keychain and Import Artifacts (Final Fixed)
         id: keychain_setup
         shell: bash
         env:
-          KEYCHAIN_PASSWORD: ${{ env.KEYCHAIN_PASSWORD }} # actions-keychain-pass
-          P12_PASSWORD: ${{ secrets.P12_PASSWORD }} # رمز P12 واقعی شما
+          # توجه: ما این متغیرها را در اینجا نگه می‌داریم تا از secrets و env.KEYCHAIN_PASSWORD در این Step استفاده کنیم.
+          # CODE_SIGN_IDENTITY حذف شد زیرا در سطح Jobs:build:env تعریف شده است.
+          KEYCHAIN_PASSWORD: ${{ env.KEYCHAIN_PASSWORD }}
+          P12_PASSWORD: ${{ secrets.P12_PASSWORD }}
+          P12_FILE_NAME: ${{ env.P12_FILE_NAME }}
         run: |
           echo "🔐 Unlock login.keychain"
           security unlock-keychain -p "$KEYCHAIN_PASSWORD" ~/Library/Keychains/login.keychain
           security set-keychain-settings -lut 14400 ~/Library/Keychains/login.keychain
 
-          echo "💬 Creating P12 password file safely..."
-          # رمز P12 شما از Secret گرفته شده و درون فایل موقت قرار می‌گیرد.
-          cat > p12pass.txt <<EOF
-          ${{ env.P12_PASSWORD }}
-          EOF
-          # حذف خطوط اضافی و مطمئن شدن از وجود رمز در فایل
-          sed -i '' '/^$/d' p12pass.txt 
-          echo "🔑 Password file content (length):"
-          cat p12pass.txt | wc -c
+          echo "💬 Writing precise P12 password (FIXED: using printf)..."
+          # این خط حیاتی است: رمز را بدون کاراکترهای اضافی در فایل می‌نویسد تا خطای MAC verification حل شود.
+          printf "%s" "$P12_PASSWORD" > p12pass.txt
+          echo "🔑 Password file length:"
+          wc -c < p12pass.txt
 
-          echo "📥 Import certificate"
-          # -P از رمز داخل فایل p12pass.txt استفاده می‌کند
-          security import "${{ env.P12_FILE_NAME }}" \
+          echo "📥 Import certificate into login.keychain..."
+          security import "$P12_FILE_NAME" \
             -k ~/Library/Keychains/login.keychain \
             -P "$(cat p12pass.txt)" \
             -A -t cert -f pkcs12 \
             -T /usr/bin/codesign \
             -T /usr/bin/security || {
             echo "::error::❌ Failed during P12 import"; exit 1; }
-            
-          echo "🔑 Verify import (Look for the 'iPhone Distribution: Farok Omar...' identity):"
+
+          echo "🔑 Verify imported identity:"
           security find-identity -v ~/Library/Keychains/login.keychain
 
-          echo "🔓 Allow codesign access"
-          # تنظیم لیست پارتیشن کلید با استفاده از هویت کامل گواهی شما
+          echo "🔓 Granting codesign access..."
+          # از متغیر CODE_SIGN_IDENTITY که در سطح Job تعریف شده استفاده می‌کند.
           security set-key-partition-list \
             -S apple-tool:,apple:,codesign: \
             -k "$KEYCHAIN_PASSWORD" \
-            -D "$CODE_SIGN_IDENTITY" \
+            -D "${{ env.CODE_SIGN_IDENTITY }}" \
             ~/Library/Keychains/login.keychain
 
           echo "✅ Keychain configuration and import complete."
+          rm -f p12pass.txt
 
           # حذف فایل رمز عبور
           rm -f p12pass.txt
