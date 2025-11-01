@@ -13,7 +13,7 @@ jobs:
       IPA_NAME: farra-signed.ipa
       PP_FILE_NAME: Farra_iOS_AppStore_72M97MR8UU.mobileprovision
       P12_FILE_NAME: ios_distribution.p12
-      KEYCHAIN_PASSWORD: actionskeychainpass
+      KEYCHAIN_PASSWORD: actions-keychain-pass
       TEAM_ID: 72M97MR8UU
       BUNDLE_IDENTIFIER: com.example.farra
 
@@ -69,10 +69,9 @@ jobs:
           security set-keychain-settings -lut 14400 ~/Library/Keychains/login.keychain
 
           echo "💬 Creating password file safely..."
-            printf "%s" "$KEYCHAIN_PASSWORD" > p12pass.txt
-            dos2unix p12pass.txt 2>/dev/null || true
-            wc -c p12pass.txt | xargs echo "🔑 Password length:"
-
+           cat <<'EOF' > p12pass.txt
+               $KEYCHAIN_PASSWORD
+                EOF
           cat p12pass.txt | wc -c | xargs echo "🔑 Password length:"
 
           echo "📥 Import certificate"
