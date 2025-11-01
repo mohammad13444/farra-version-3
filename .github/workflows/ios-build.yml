@@ -62,40 +62,53 @@ jobs:
           echo "✅ P12 integrity verified successfully! Size: ${P12_SIZE} B"
 
       - name: 🔑 Configure Keychain and Import Artifacts
-        id: keychain
+        shell: bash
         env:
-          P12_BASE64_PART1: ${{ secrets.P12_BASE64_PART1 }}
-          P12_BASE64_PART2: ${{ secrets.P12_BASE64_PART2 }}
-          P12_BASE64_PART3: ${{ secrets.P12_BASE64_PART3 }}
-          P12_PASSWORD: "actions-keychain-pass"
+          # متغیرهای مورد نیاز برای این استپ:
           KEYCHAIN_PASSWORD: "actions-keychain-pass"
-          PROVISIONING_PROFILE: ${{ secrets.PROVISIONING_PROFILE }}
-          PP_UUID: "YOUR_PROFILE_UUID" # UUID پروفایل خودت رو بذار اینجا
-          CODE_SIGN_IDENTITY: "iPhone Distribution: Farok Omar (72M97MR8UU)"
+          P12_FILE_NAME: ios_distribution.p12 # نام فایل P12 رمزگشایی شده از استپ قبلی
+          PP_FILE_NAME: Farra_iOS_AppStore_72M97MR8UU.mobileprovision # نام فایل پروفایل رمزگشایی شده از استپ قبلی
+          # NOTE: Provisioning profile must be decoded into this file name in a previous step!
+          # NOTE: P12 must be decoded into P12_FILE_NAME in a previous step!
         run: |
-          echo "💬 Setting up temporary keychain..."
-          KEYCHAIN_NAME="build-keychain"
-          security create-keychain -p "$KEYCHAIN_PASSWORD" "$KEYCHAIN_NAME.keychain"
-          security default-keychain -s "$KEYCHAIN_NAME.keychain"
-          security unlock-keychain -p "$KEYCHAIN_PASSWORD" "$KEYCHAIN_NAME.keychain"
-          security set-keychain-settings -lut 7200 "$KEYCHAIN_NAME.keychain"
+          echo "🔐 Unlock login.keychain"
+          security unlock-keychain -p "$KEYCHAIN_PASSWORD" ~/Library/Keychains/login.keychain
+          security set-keychain-settings -lut 14400 ~/Library/Keychains/login.keychain
 
-          echo "💬 Decoding P12 Certificate..."
-          # Reconstruct and decode P12
-          echo "$P12_BASE64_PART1$P12_BASE64_PART2$P12_BASE64_PART3" | base64 --decode > ios_distribution.p12
-          
-          echo "💬 Importing P12 into Keychain using direct password..."
-          security import ios_distribution.p12 -k "$KEYCHAIN_NAME.keychain" -P "$P12_PASSWORD" -T /usr/bin/codesign -T /usr/bin/security
+          echo "💬 Creating password file safely..."
+           cat > p12pass.txt <<EOF
+             $KEYCHAIN_PASSWORD
+             EOF
+          cat p12pass.txt | wc -c | xargs echo "🔑 Password length:"
 
-          # Optional: Verify import
-          echo "🔑 Keychain content after import:"
-          security find-identity -v "$KEYCHAIN_NAME.keychain"
+          echo "📥 Import certificate"
+          security import "${P12_FILE_NAME}" \
+            -k ~/Library/Keychains/login.keychain \
+            -P "$(cat p12pass.txt)" \
+            -A -t cert -f pkcs12 \
+            -T /usr/bin/codesign \
+            -T /usr/bin/security || {
+            echo "::error::❌ Failed during P12 import"; exit 1; }
+            
+          echo "🔑 Verify import (Look for the 'iPhone Distribution: Farok Omar...' identity):"
+          security find-identity -v ~/Library/Keychains/login.keychain
+            
+          echo "🔓 Allow codesign access"
+          # NOTE: Using 'Apple Distribution' is often a generic catch-all, but the CN is what matters.
+          security set-key-partition-list \
+            -S apple-tool:,apple:,codesign: \
+            -k "$KEYCHAIN_PASSWORD" \
+            -D "Apple Distribution" \
+            ~/Library/Keychains/login.keychain
 
-          echo "💬 Installing Provisioning Profile..."
+          echo "📲 Install provisioning profile"
+          # استخراج UUID پروفایل و انتقال آن به مسیر استاندارد
+          PP_UUID=$(/usr/libexec/PlistBuddy -c "Print UUID" /dev/stdin <<< "$(security cms -D -i "${PP_FILE_NAME}")")
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
-          echo "$PROVISIONING_PROFILE" | base64 --decode > ~/Library/MobileDevice/Provisioning\ Profiles/"$PP_UUID".mobileprovision
-          
-          rm -f ios_distribution.p12
+          mv "${PP_FILE_NAME}" ~/Library/MobileDevice/Provisioning\ Profiles/"$PP_UUID".mobileprovision
+          echo "✅ Profile installed with UUID: $PP_UUID"
+
+          rm -f p12pass.txt
 
 
 
