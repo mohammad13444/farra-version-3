@@ -99,47 +99,34 @@ jobs:
           rm -f p12pass.txt
 
 
-      - name: 🧹 Clean and Rebuild iOS Platform
-        shell: bash
+      - name: ♻️ Reset iOS Platform Completely
         run: |
-          echo "♻️ Cleaning existing iOS platform..."
-          rm -rf platforms/ios
-          npx cordova platform add ios --save --no-fetch
-          npx cordova prepare ios
-          echo "✅ iOS platform rebuilt successfully."
+         echo "♻️ Removing and rebuilding iOS platform..."
+         rm -rf platforms/ios
+         npx cordova platform add ios --save --no-fetch
+         npx cordova prepare ios
+
 
       - name: 🛠️ Safe Configure Xcode Signing (no sed)
         shell: bash
         run: |
-          echo "⚙️ Setting safe Xcode signing configuration..."
-          IOS_XCODEPROJ="platforms/ios/Farra.xcodeproj/project.pbxproj"
-          IOS_XCCONFIG="platforms/ios/cordova/build.xcconfig"
-          PP_UUID=$(/usr/libexec/PlistBuddy -c "Print UUID" /dev/stdin <<< "$(security cms -D -i "${PP_FILE_NAME}")")
+         echo "⚙️ Creating build.xcconfig safely..."
+         IOS_XCCONFIG="platforms/ios/cordova/build.xcconfig"
 
-          if [ -z "$PP_UUID" ]; then
-            echo "::error::❌ Provisioning UUID not found"
-            exit 1
-          fi
+         PP_UUID=$(/usr/libexec/PlistBuddy -c "Print UUID" /dev/stdin <<< "$(security cms -D -i "${PP_FILE_NAME}")")
 
-          echo "🔍 Found provisioning UUID: $PP_UUID"
+         mkdir -p "$(dirname "$IOS_XCCONFIG")"
 
-          # Rebuild xcconfig cleanly
-          cat > "$IOS_XCCONFIG" <<EOF
-          CODE_SIGN_STYLE = Manual
-          CODE_SIGN_IDENTITY = Apple Distribution
-          PROVISIONING_PROFILE_SPECIFIER = ${PP_UUID}
-          DEVELOPMENT_TEAM = ${TEAM_ID}
-          PRODUCT_BUNDLE_IDENTIFIER = ${BUNDLE_IDENTIFIER}
-          EOF
+         cat > "$IOS_XCCONFIG" <<EOF
+         CODE_SIGN_STYLE = Manual
+         CODE_SIGN_IDENTITY = Apple Distribution
+         PROVISIONING_PROFILE_SPECIFIER = ${PP_UUID}
+         DEVELOPMENT_TEAM = ${TEAM_ID}
+         PRODUCT_BUNDLE_IDENTIFIER = ${BUNDLE_IDENTIFIER}
+         EOF
 
-          # Use PlistBuddy for pbxproj (structure-safe)
-          /usr/libexec/PlistBuddy -c "Set :objects:13B07F941A680F5B00A75B9A:buildSettings:CODE_SIGN_STYLE Manual" "$IOS_XCODEPROJ" || true
-          /usr/libexec/PlistBuddy -c "Set :objects:13B07F941A680F5B00A75B9A:buildSettings:CODE_SIGN_IDENTITY Apple Distribution" "$IOS_XCODEPROJ" || true
-          /usr/libexec/PlistBuddy -c "Set :objects:13B07F941A680F5B00A75B9A:buildSettings:PROVISIONING_PROFILE_SPECIFIER ${PP_UUID}" "$IOS_XCODEPROJ" || true
-          /usr/libexec/PlistBuddy -c "Set :objects:13B07F941A680F5B00A75B9A:buildSettings:DEVELOPMENT_TEAM ${TEAM_ID}" "$IOS_XCODEPROJ" || true
-          /usr/libexec/PlistBuddy -c "Set :objects:13B07F941A680F5B00A75B9A:buildSettings:IPHONEOS_DEPLOYMENT_TARGET 12.0" "$IOS_XCODEPROJ" || true
+         echo "✅ build.xcconfig created cleanly with ${PP_UUID}"
 
-          echo "✅ Safe configuration completed (plist structure clean)."
 
 
 
