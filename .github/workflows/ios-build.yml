@@ -64,44 +64,39 @@ jobs:
       - name: 🔑 Configure Keychain and Import Artifacts
         shell: bash
         run: |
-         echo "🔐 Create and unlock custom keychain..."
-         security create-keychain -p "$KEYCHAIN_PASSWORD" build.keychain
-         security set-keychain-settings -lut 14400 build.keychain
-         security unlock-keychain -p "$KEYCHAIN_PASSWORD" build.keychain
+          echo "🔐 Unlock login.keychain"
+          security unlock-keychain -p "$KEYCHAIN_PASSWORD" ~/Library/Keychains/login.keychain
+          security set-keychain-settings -lut 14400 ~/Library/Keychains/login.keychain
 
-         echo "💬 Save P12 password temporarily..."
-         echo "$KEYCHAIN_PASSWORD" > p12pass.txt
-         cat p12pass.txt | wc -c | xargs echo "🔑 Password length:"
+          echo "💬 Creating password file safely..."
+           cat <<'EOF' > p12pass.txt
+               $KEYCHAIN_PASSWORD
+                EOF
+          cat p12pass.txt | wc -c | xargs echo "🔑 Password length:"
 
-         echo "📥 Import certificate into custom keychain..."
-         security import "${P12_FILE_NAME}" \
-          -k build.keychain \
-          -P "$(cat p12pass.txt)" \
-          -A -t cert -f pkcs12 \
-          -T /usr/bin/codesign \
-          -T /usr/bin/security || {
+          echo "📥 Import certificate"
+          security import "${P12_FILE_NAME}" \
+            -k ~/Library/Keychains/login.keychain \
+            -P "$(cat p12pass.txt)" \
+            -A -t cert -f pkcs12 \
+            -T /usr/bin/codesign \
+            -T /usr/bin/security || {
             echo "::error::❌ Failed during P12 import"; exit 1; }
 
-         echo "🔓 Allow codesign and Xcode access to the key..."
-         security set-key-partition-list \
-          -S apple-tool:,apple:,codesign: \
-          -k "$KEYCHAIN_PASSWORD" build.keychain
+          echo "🔓 Allow codesign access"
+          security set-key-partition-list \
+            -S apple-tool:,apple:,codesign: \
+            -k "$KEYCHAIN_PASSWORD" \
+            -D "Apple Distribution" \
+            ~/Library/Keychains/login.keychain
 
-         echo "🔧 Set search list to include our build keychain..."
-         security list-keychains -s build.keychain ~/Library/Keychains/login.keychain
-         security default-keychain -s build.keychain
+          echo "📲 Install provisioning profile"
+          PP_UUID=$(/usr/libexec/PlistBuddy -c "Print UUID" /dev/stdin <<< "$(security cms -D -i "${PP_FILE_NAME}")")
+          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+          mv "${PP_FILE_NAME}" ~/Library/MobileDevice/Provisioning\ Profiles/"$PP_UUID".mobileprovision
+          echo "✅ Profile installed with UUID: $PP_UUID"
 
-         echo "🔍 Verify available signing identities:"
-         security find-identity -v -p codesigning build.keychain || true
-
-         echo "📲 Install provisioning profile..."
-         PP_UUID=$(/usr/libexec/PlistBuddy -c "Print UUID" /dev/stdin <<< "$(security cms -D -i "${PP_FILE_NAME}")")
-         mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
-         mv "${PP_FILE_NAME}" ~/Library/MobileDevice/Provisioning\ Profiles/"$PP_UUID".mobileprovision
-         echo "✅ Profile installed with UUID: $PP_UUID"
-
-         rm -f p12pass.txt
-
+          rm -f p12pass.txt
 
       # - name: ♻️ Reset iOS Platform Completely
       #   run: |
