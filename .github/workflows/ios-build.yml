@@ -74,7 +74,8 @@ jobs:
 
           echo "💬 Creating password file safely..."
           # از قوی‌ترین دستور برای رمز عبور استفاده می‌کنیم:
-          echo "$KEYCHAIN_PASSWORD" | tr -d '[:cntrl:]' | tr -d ' ' > p12pass.txt
+          echo -n "$KEYCHAIN_PASSWORD" | tr -d '[:cntrl:]' | tr -d ' ' > p12pass.txt
+          cat p12pass.txt | wc -c | xargs echo "🔑 Password file length (Expected 20):"
           cat p12pass.txt | wc -c | xargs echo "🔑 Password file length:"
           
           echo "📥 Import certificate"
