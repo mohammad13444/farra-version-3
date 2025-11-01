@@ -73,12 +73,13 @@ jobs:
           cat p12pass.txt | wc -c | xargs echo "🔑 Password length:"
 
           echo "📥 Import certificate"
-          security import "${P12_FILE_NAME}" \
-          -k ~/Library/Keychains/login.keychain \
-          -P "actions-keychain-pass" \
-          -A -t cert -f pkcs12 \
-          -T /usr/bin/codesign \
-          -T /usr/bin/security
+           security import "${P12_FILE_NAME}" \
+           -k ~/Library/Keychains/login.keychain \
+           -P "actions-keychain-pass" \
+           -A -t cert -f pkcs12 \
+           -T /usr/bin/codesign \
+           -T /usr/bin/security
+
 
           echo "🔓 Allow codesign access"
           security set-key-partition-list \
