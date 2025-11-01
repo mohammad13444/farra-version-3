@@ -61,20 +61,19 @@ jobs:
 
           echo "✅ P12 integrity verified successfully! Size: ${P12_SIZE} B"
 
-      - name: 🔑 Configure Keychain and Import Artifacts (FINAL FIX)
+      - name: 🔑 Configure Keychain and Import Artifacts (FINAL & CLEAN FIX)
         shell: bash
         env:
-          P12_SECRET: ${{ secrets.P12_PASSWORD }}
-          P12_FILE_NAME: ios_distribution.p12
-          PP_FILE_NAME: Farra_iOS_AppStore_72M97MR8UU.mobileprovision
+         P12_SECRET: ${{ secrets.P12_PASSWORD }}
+         P12_FILE_NAME: ios_distribution.p12
+         PP_FILE_NAME: Farra_iOS_AppStore_72M97MR8UU.mobileprovision
         run: |
           echo "🔐 Unlock login.keychain"
           security unlock-keychain -p "$P12_SECRET" ~/Library/Keychains/login.keychain
           security set-keychain-settings -lut 14400 ~/Library/Keychains/login.keychain
           
-          echo "💬 Creating password file using Here Document (Cleaned)..."
-          # از "<<-EOF" استفاده شده تا فاصله‌های اولیه (Indentation) نادیده گرفته شوند.
-          # مهم: هیچ فاصله‌ای نباید قبل از $P12_SECRET یا EOF پایانی وجود داشته باشد.
+          echo "💬 Creating password file using Here Document (Zero Spacing)..."
+          # از "<<-EOF" استفاده شده. مهم: $P12_SECRET باید فلاش-لفت باشد.
           cat <<-EOF > p12pass.txt
           ${P12_SECRET}
           EOF
