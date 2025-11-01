@@ -148,12 +148,12 @@ jobs:
       - name: 🏗️ Cordova Build iOS (App Store)
         run: |
           echo "🔓 Re‑unlocking keychain for build session..."
-          security list-keychains -d user -s ~/Library/Keychains/login.keychain-db
-          security unlock-keychain -p "$KEYCHAIN_PASSWORD" ~/Library/Keychains/login.keychain-db
-          security set-keychain-settings -lut 14400 ~/Library/Keychains/login.keychain-db
+          security list-keychains -d user -s ~/Library/Keychains/login.keychain
+          security unlock-keychain -p "$KEYCHAIN_PASSWORD" ~/Library/Keychains/login.keychain
+          security set-keychain-settings -lut 14400 ~/Library/Keychains/login.keychain
 
           echo "🔍 Verifying signing identities before build..."
-          security find-identity -v -p codesigning ~/Library/Keychains/login.keychain-db || true
+          security find-identity -v -p codesigning ~/Library/Keychains/login.keychain || true
 
           echo "🏗️ Building iOS release..."
           npx cordova build ios --release --device || { echo "::error::❌ Cordova build failed"; exit 1; }
