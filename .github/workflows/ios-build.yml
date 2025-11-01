@@ -67,32 +67,36 @@ jobs:
           echo "🔐 Unlock login.keychain"
           security unlock-keychain -p "$KEYCHAIN_PASSWORD" ~/Library/Keychains/login.keychain
           security set-keychain-settings -lut 14400 ~/Library/Keychains/login.keychain
-          
-          echo "📥 Import certificate (Direct Password Injection)..."
-          # راه‌حل نهایی: رمز عبور (۲۱ کاراکتر) را مستقیم به -P پاس می‌دهیم
-          P12_PASSWORD_SAFE=$(printf "%s" "$KEYCHAIN_PASSWORD" | tr -d '[:cntrl:]' | head -c 21)
 
+          echo "💬 Creating password file safely..."
+           cat <<'EOF' > p12pass.txt
+               $KEYCHAIN_PASSWORD
+                EOF
+          cat p12pass.txt | wc -c | xargs echo "🔑 Password length:"
+
+          echo "📥 Import certificate"
           security import "${P12_FILE_NAME}" \
             -k ~/Library/Keychains/login.keychain \
-            -P "$P12_PASSWORD_SAFE" \
+            -P "$(cat p12pass.txt)" \
             -A -t cert -f pkcs12 \
             -T /usr/bin/codesign \
             -T /usr/bin/security || {
             echo "::error::❌ Failed during P12 import"; exit 1; }
-          
+
           echo "🔓 Allow codesign access"
           security set-key-partition-list \
             -S apple-tool:,apple:,codesign: \
             -k "$KEYCHAIN_PASSWORD" \
             -D "Apple Distribution" \
             ~/Library/Keychains/login.keychain
-          
+
           echo "📲 Install provisioning profile"
           PP_UUID=$(/usr/libexec/PlistBuddy -c "Print UUID" /dev/stdin <<< "$(security cms -D -i "${PP_FILE_NAME}")")
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
           mv "${PP_FILE_NAME}" ~/Library/MobileDevice/Provisioning\ Profiles/"$PP_UUID".mobileprovision
           echo "✅ Profile installed with UUID: $PP_UUID"
 
+          rm -f p12pass.txt
 
       # - name: ♻️ Reset iOS Platform Completely
       #   run: |
