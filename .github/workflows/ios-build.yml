@@ -61,6 +61,15 @@ jobs:
 
           echo "✅ P12 integrity verified successfully! Size: ${P12_SIZE} B"
 
+      - name: 🧩 Reconstruct P12 file
+        run: |
+          echo "Rebuilding iOS Distribution P12 from base64 parts..."
+          echo "$P12_PART1$P12_PART2$P12_PART3" | base64 --decode > ios_distribution.p12
+          ls -lh ios_distribution.p12
+          file ios_distribution.p12
+          echo "✅ P12 reconstructed"
+
+
       - name: 🔑 Configure Keychain and Import Artifacts
         shell: bash
         run: |
