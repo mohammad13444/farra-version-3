@@ -147,8 +147,14 @@ jobs:
 
       - name: 🏗️ Cordova Build iOS (App Store)
         run: |
+          echo "🔓 Re‑unlocking keychain for build session..."
+          security unlock-keychain -p "$KEYCHAIN_PASSWORD" ~/Library/Keychains/login.keychain
+          security set-keychain-settings -lut 14400 ~/Library/Keychains/login.keychain
+
           echo "🏗️ Building iOS release..."
           npx cordova build ios --release --device || { echo "::error::❌ Cordova build failed"; exit 1; }
+
+          echo "✅ Cordova build completed successfully!"
 
 
       - name: 📦 Locate and Rename IPA
