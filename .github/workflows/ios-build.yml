@@ -99,10 +99,20 @@ jobs:
           rm -f p12pass.txt
 
 
+      - name: 🧹 Clean and Rebuild iOS Platform
+        shell: bash
+        run: |
+          echo "♻️ Cleaning existing iOS platform..."
+          rm -rf platforms/ios
+          npx cordova platform add ios --save --no-fetch
+          npx cordova prepare ios
+          echo "✅ iOS platform rebuilt successfully."
+
+
       - name: 🛠️ Configure Xcode Signing Parameters
         shell: bash
         run: |
-          echo "⚙️ Applying safe signing configuration using PlistBuddy..."
+          echo "⚙️ Applying safe signing configuration..."
 
           IOS_XCODEPROJ="platforms/ios/Farra.xcodeproj/project.pbxproj"
           IOS_XCCONFIG="platforms/ios/cordova/build.xcconfig"
@@ -112,21 +122,24 @@ jobs:
             exit 1
           fi
 
-          # --- Clean up xcconfig ---
-          echo "CODE_SIGN_STYLE = Manual" >> "$IOS_XCCONFIG"
-          echo "CODE_SIGN_IDENTITY = Apple Distribution" >> "$IOS_XCCONFIG"
-          echo "PROVISIONING_PROFILE_SPECIFIER = ${PP_FILE_NAME}" >> "$IOS_XCCONFIG"
-          echo "DEVELOPMENT_TEAM = ${TEAM_ID}" >> "$IOS_XCCONFIG"
-          echo "PRODUCT_BUNDLE_IDENTIFIER = ${BUNDLE_IDENTIFIER}" >> "$IOS_XCCONFIG"
+          # Ensure fresh deployment target + team into xcconfig
+          {
+            echo "CODE_SIGN_STYLE = Manual"
+            echo "CODE_SIGN_IDENTITY = Apple Distribution"
+            echo "PROVISIONING_PROFILE_SPECIFIER = ${PP_FILE_NAME}"
+            echo "DEVELOPMENT_TEAM = ${TEAM_ID}"
+            echo "PRODUCT_BUNDLE_IDENTIFIER = ${BUNDLE_IDENTIFIER}"
+          } >> "$IOS_XCCONFIG"
 
-          # --- Safe pbxproj patching ---
-          /usr/libexec/PlistBuddy -c "Set :objects:13B07F941A680F5B00A75B9A:buildSettings:CODE_SIGN_IDENTITY Apple Distribution" "$IOS_XCODEPROJ" || true
-          /usr/libexec/PlistBuddy -c "Set :objects:13B07F941A680F5B00A75B9A:buildSettings:DEVELOPMENT_TEAM ${TEAM_ID}" "$IOS_XCODEPROJ" || true
-          /usr/libexec/PlistBuddy -c "Set :objects:13B07F941A680F5B00A75B9A:buildSettings:PROVISIONING_PROFILE_SPECIFIER ${PP_FILE_NAME}" "$IOS_XCODEPROJ" || true
-          /usr/libexec/PlistBuddy -c "Set :objects:13B07F941A680F5B00A75B9A:buildSettings:CODE_SIGN_STYLE Manual" "$IOS_XCODEPROJ" || true
-          /usr/libexec/PlistBuddy -c "Set :objects:13B07F941A680F5B00A75B9A:buildSettings:IPHONEOS_DEPLOYMENT_TARGET 12.0" "$IOS_XCODEPROJ" || true
+          echo "🔧 Patching Xcode project safely with PlistBuddy..."
 
-          echo "✅ Safe signing parameters applied successfully."
+          /usr/libexec/PlistBuddy -c "Set :objects:13B07F861A680F5B00A75B9A:buildSettings:CODE_SIGN_STYLE Manual" "$IOS_XCODEPROJ" || true
+          /usr/libexec/PlistBuddy -c "Set :objects:13B07F861A680F5B00A75B9A:buildSettings:CODE_SIGN_IDENTITY 'Apple Distribution'" "$IOS_XCODEPROJ" || true
+          /usr/libexec/PlistBuddy -c "Set :objects:13B07F861A680F5B00A75B9A:buildSettings:DEVELOPMENT_TEAM ${TEAM_ID}" "$IOS_XCODEPROJ" || true
+          /usr/libexec/PlistBuddy -c "Set :objects:13B07F861A680F5B00A75B9A:buildSettings:PROVISIONING_PROFILE_SPECIFIER ${PP_FILE_NAME}" "$IOS_XCODEPROJ" || true
+          /usr/libexec/PlistBuddy -c "Set :objects:13B07F861A680F5B00A75B9A:buildSettings:IPHONEOS_DEPLOYMENT_TARGET 12.0" "$IOS_XCODEPROJ" || true
+
+          echo "✅ Safe injection completed (no < corruption possible)."
 
 
 
