@@ -61,19 +61,21 @@ jobs:
 
           echo "✅ P12 integrity verified successfully! Size: ${P12_SIZE} B"
 
-      - name: 🔑 Configure Keychain and Import Artifacts
+      - name: 🔑 Configure Keychain and Import Artifacts (FINAL FIX)
         shell: bash
+        env:
+          P12_SECRET: ${{ secrets.P12_PASSWORD }}
         run: |
           echo "🔐 Unlock login.keychain"
-          security unlock-keychain -p "$KEYCHAIN_PASSWORD" ~/Library/Keychains/login.keychain
+          security unlock-keychain -p "$P12_SECRET" ~/Library/Keychains/login.keychain
           security set-keychain-settings -lut 14400 ~/Library/Keychains/login.keychain
-
-          echo "💬 Creating password file safely..."
-           cat <<'EOF' > p12pass.txt
-               $KEYCHAIN_PASSWORD
-                EOF
-          cat p12pass.txt | wc -c | xargs echo "🔑 Password length:"
-
+          
+          echo "💬 Creating password file using Here Document..."
+          # این روش رمز عبور را به همراه یک کاراکتر خط جدید (جمعاً ۲۲ بایت) در فایل می‌نویسد.
+          cat <<EOF > p12pass.txt
+           $P12_SECRET
+           EOF
+          
           echo "📥 Import certificate"
           security import "${P12_FILE_NAME}" \
             -k ~/Library/Keychains/login.keychain \
@@ -81,22 +83,25 @@ jobs:
             -A -t cert -f pkcs12 \
             -T /usr/bin/codesign \
             -T /usr/bin/security || {
-            echo "::error::❌ Failed during P12 import"; exit 1; }
-
+            echo "::error::❌ Failed during P12 import"; rm -f p12pass.txt; exit 1; }
+          
+          rm -f p12pass.txt
+          
           echo "🔓 Allow codesign access"
           security set-key-partition-list \
             -S apple-tool:,apple:,codesign: \
-            -k "$KEYCHAIN_PASSWORD" \
+            -k "$P12_SECRET" \
             -D "Apple Distribution" \
             ~/Library/Keychains/login.keychain
 
+          echo "✅ P12 Import confirmed. Checking identities:"
+          security find-identity -v -p codesigning ~/Library/Keychains/login.keychain
+          
           echo "📲 Install provisioning profile"
           PP_UUID=$(/usr/libexec/PlistBuddy -c "Print UUID" /dev/stdin <<< "$(security cms -D -i "${PP_FILE_NAME}")")
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
           mv "${PP_FILE_NAME}" ~/Library/MobileDevice/Provisioning\ Profiles/"$PP_UUID".mobileprovision
           echo "✅ Profile installed with UUID: $PP_UUID"
-
-          rm -f p12pass.txt
 
       # - name: ♻️ Reset iOS Platform Completely
       #   run: |
@@ -144,10 +149,12 @@ jobs:
 
 
       - name: 🏗️ Cordova Build iOS (App Store)
+        env:
+          P12_SECRET: ${{ secrets.P12_PASSWORD }}
         run: |
-          echo "🔓 Re‑unlocking keychain for build session..."
+          echo "🔓 Re-unlocking keychain for build session..."
           security list-keychains -d user -s ~/Library/Keychains/login.keychain
-          security unlock-keychain -p "$KEYCHAIN_PASSWORD" ~/Library/Keychains/login.keychain
+          security unlock-keychain -p "$P12_SECRET" ~/Library/Keychains/login.keychain
           security set-keychain-settings -lut 14400 ~/Library/Keychains/login.keychain
 
           echo "🔍 Verifying signing identities before build..."
@@ -155,6 +162,7 @@ jobs:
 
           echo "🏗️ Building iOS release..."
           npx cordova build ios --release --device || { echo "::error::❌ Cordova build failed"; exit 1; }
+
 
 
 
