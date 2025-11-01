@@ -13,13 +13,13 @@ jobs:
       IPA_NAME: farra-signed.ipa
       PP_FILE_NAME: Farra_iOS_AppStore_72M97MR8UU.mobileprovision
       P12_FILE_NAME: ios_distribution.p12
-      KEYCHAIN_PASSWORD: actions-keychain-pass
+      KEYCHAIN_PASSWORD: actions-keychain-pass # رمز Keychain و در اینجا برای P12 یکسان است
       TEAM_ID: 72M97MR8UU
       BUNDLE_IDENTIFIER: com.example.farra
 
      # Base64 P12 تقسیم‌شده برای دور زدن محدودیت محیطی
-      P12_PART1: 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
-      P12_PART2: +A4xRdsLbd0JfbXJTm8MrmHrHwhR4bG6msWVfJ4zb6JSmg/e9+K5QbYSh50helqRtfE/gK3lmMIIFvQYJKoZIhvcNAQcBoIIFrgSCBaowggWmMIIFogYLKoZIhvcNAQwKAQKgggU5MIIFNTBfBgkqhkiG9w0BBQ0wUjAxBgkqhkiG9w0BBQwwJAQQfF6jll2jr0BvovUuHwafTwICCAAwDAYIKoZIhvcNAgkFADAdBglghkgBZQMEASoEEKV6m093rptwsDzKyevf9fsEggTQeNpkjZDjpTuWFn+ikktoJ+63XYGUIXkLH8FvCTcREz+unoEtOQle1Y3jUf9RSas0gQuIGHZEYfRsUkgNp7EufVHpLNwt3mO04nGgBzOFNlFuQuEDwMyLSZapOgcZu0C9eyiDIItKqirHRkuOBa7b50NUh6qMux6aP3E3wktwh5XiSpaWgvnfckNfaJAQKHpXNf0QttxkXzM40O2FxAfag22dx2RBQYpcxPEVQqfI1mseqPoHlAyb5AKIh2GLf5DcYazNLnGIVOi7OCWrd62ch+9fe5kt2J5F3339gX1ydsJWrMYJR8ozr+BC59vL/US0pO99EbiwG5G1I/k6rNqdNefEFHmbXx9OPjN/fLyidQUhOx9iqLOXZ22AGpd6PjRPIqDyJgpLTdlOLHKVsLHbdWZOfKzZcE5wuieBLCLqGsfxeM84jeVX+JT0Wow2186+qclsqRLSWNsOBmJur8dVS2bunxlKpwMKvf803v/xSX8yiu7Fz2oj9gAseAkcStO4e19YCnT4U7hR9Dj7D7zTtl1/5O5EYV7RbhTzNtcGc9ZKuQ9Fua67TPQoxkzBv+28piOVBhcNuuLNUcm76KXiKWBUyvfDIZSuJwUq4AJuC3Ly+FtPxeQovk2RogXUGYN/4eN0AjLuKjNbLhBA0pv/IEV3Jee8OPu6XjPpQSth8vtbWFGAIs1/mD7VPIrgN/Ne90GEzcYuJzzSAqkuC9uRuHJYasoyAvoWWWY2bHICMOipivYAUjqapD+VXpuoyO0oSPfYIbwIWOXf8bzggXYCOFpxO1iQDt2hH6omHoYGhoqf2M19tkJTCR7awJOSwlGMEv3QJqnx3wiNOh5X42ySkWOb081FHOChw1LXSQuw+eUJbWbBZF/dQEYBuODHsviFlbAEjb0yte6R3sF14+nq0LBP7pAd6JHhDrh9RZQJY8A1CvzB81DqT8k
+      P12_PART1: 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
+      P12_PART2: +A4xRdsLbd0JfbXJTm8MrmHrHwhR4bG6msWVfJ4zb6JSmg/e9+K5QbYSh50helqRtfE/gK3lmMIIFvQYJKoZIhvcNAQcBoIIFrgSCBaowggWmMIIFogYLKoZIhvcNAQwKAQKgggU5MIIFNTBfBgkqhkiG9w0FBQ0wUjAxBgkqhkiG9w0BBQwwJAQQfF6jll2jr0BvovUuHwafTwICCAAwDAYIKoZIhvcNAgkFADAdBglghkgBZQMEASoEEKV6m093rptwsDzKyevf9fsEggTQeNpkjZDjpTuWFn+ikktoJ+63XYGUIXkLH8FvCTcREz+unoEtOQle1Y3jUf9RSas0gQuIGHZEYfRsUkgNp7EufVHpLNwt3mO04nGgBzOFNlFuQuEDwMyLSZapOgcZu0C9eyiDIItKqirHRkuOBa7b50NUh6qMux6aP3E3wktwh5XiSpaWgvnfckNfaJAQKHpXNf0QttxkXzM40O2FxAfag22dx2RBQYpcxPEVQqfI1mseqPoHlAyb5AKIh2GLf5DcYazNLnGIVOi7OCWrd62ch+9fe5kt2J5F3339gX1ydsJWrMYJR8ozr+BC59vL/US0pO99EbiwG5G1I/k6rNqdNefEFHmbXx9OPjN/fLyidQUhOx9iqLOXZ22AGpd6PjRPIqDyJgpLTdlOLHKVsLHbdWZOfKzZcE5wuieBLCLqGsfxeM84jeVX+JT0Wow2186+qclsqRLSWNsOBmJur8dVS2bunxlKpwMKvf803v/xSX8yiu7Fz2oj9gAseAkcStO4e19YCnT4U7hR9Dj7D7zTtl1/5O5EYV7RbhTzNtcGc9ZKuQ9Fua67TPQoxkzBv+28piOVBhcNuuLNUcm76KXiKWBUyvfDIZSuJwUq4AJuC3Ly+FtPxeQovk2RogXUGYN/4eN0AjLuKjNbLhBA0pv/IEV3Jee8OPu6XjPpQSth8vtbWFGAIs1/mD7VPIrgN/Ne90GEzcYuJzzSAqkuC9uRuHJYasoyAvoWWWY2bHICMOipivYAUjqapD+VXpuoyO0oSPfYIbwIWOXf8bzggXYCOJpxO1iQDt2hH6omHoYGhoqf2M19tkJTCR7awJOSwlGMEv3QJqnx3wiNOh5X42ySkWOb081FHOChw1LXSQuw+eUJbWbBZF/dQEYBuODHsviFlbAEjb0yte6R3sF14+nq0LBP7pAd6JHhDrh9RZQJY8A1CvzB81DqT8k
       P12_PART3: +pLIxjR35hD4jT4xuPAQGZCyBNX32WFlx3wl39Su5T/t0WJnc4BTu5ax8nlp6mKHAAK4PMAAuV7xpqhxbGzu41KWjElrIFfOk7CKq8bnJoAJAj4VWKxE/fnysW3F9pQ3W0JMkyLzlhszg9ZAPFE2bclqwZ2G+58U2jem5i6W6gB06+vawRyvdcXdr+KDVr2CkuiVwX2DlbQdnQiCOT5AYmE32wPFFGOrTICjsCtvbUasvVXezXuF065vr3VS7PVJsxtxiq78eTUtumrdjqWCoZHNT0emLUe3m162jHhHxM2Vjm+GLQaVI1R/iVIoWDyhJYvToMZulMZoL6X1NnYd/PFY3so2odHjd6VKpoackahxrRPkhNucPehIKX5QtHIsszuORs8BVKOR+05OXCjjc4GFIISsVQy8eBE0QBJ3myiu0W+JJIYH7lWAqDIa0ZLMe1LugSX6ShwzJ/f4GJUlnpmSej+6Nki5a1aE2rrUVXeSyVfW4W8zww16DqaEOyV4WFy4EhH1/yeHVo4fT0D77n/R6VMKpD1aNX2VzOGSXtKkBOf8oZp0vl8VWPIYXhVdkcnzjjCkJmOkFjMsp7HztnRYF6Iefkr7bxrvpvSPmPuvWOlmmp1P3if709pCcm+sFfYmhaKyJa2W/o/AWeOM/TNilGBunj+IV/hC7Bg6IzlT7JCC7DIsxVjAjBgkqhkiG9w0BCRUxFgQU0Bc5rDZjKB+prRjCRNxqjgsIKlIwLwYJKoZIhvcNAQkUMSIeIABpAE8AUwAgAEQAaQBzAHQAcgBpAGIAdQB0AGkAbwBuMEkwMTANBglghkgBZQMEAgEFAAQgHlVbEfT85BpFMMBiJBilpbUbihoYpkUC8jIVBjtIayIEEJ5ZHDpZ4Zk3lga3cLvRxNsCAggA
 
     steps:
@@ -38,7 +38,8 @@ jobs:
 
       - name: 🔐 Combine P12 Parts, Decode, and Verify Integrity
         env:
-          P12_PASSWORD: ${{ secrets.P12_PASSWORD }}
+          # توجه: در این مرحله باید رمز P12 را از Secret بگیریم، اما از آنجا که در env تعریف کرده‌ای، از متغیر محیطی استفاده می‌کنیم.
+          P12_PASSWORD: ${{ env.KEYCHAIN_PASSWORD }} 
           PROVISIONING_PROFILE: ${{ secrets.PROVISIONING_PROFILE }}
         run: |
           echo "Starting P12 reconstruction and decode using 3 parts..."
@@ -53,6 +54,7 @@ jobs:
           P12_SIZE=$(stat -f%z "${P12_FILE_NAME}")
           echo "::notice::Decoded P12 size is ${P12_SIZE} bytes."
 
+          # OpenSSL test with the known password to confirm integrity before import
           openssl pkcs12 -in "${P12_FILE_NAME}" -noout -info -passin pass:"${{ env.P12_PASSWORD }}" > /dev/null 2>&1
           if [ $? -ne 0 ]; then
             echo "::error::❌ CRITICAL: OpenSSL cannot read the P12."
@@ -67,12 +69,11 @@ jobs:
           echo "🔐 Unlock login.keychain"
           security unlock-keychain -p "$KEYCHAIN_PASSWORD" ~/Library/Keychains/login.keychain
           security set-keychain-settings -lut 14400 ~/Library/Keychains/login.keychain
-
-          echo "💬 Creating password file safely..."
-          echo -n "$KEYCHAIN_PASSWORD" > p12pass.txt
-          cat p12pass.txt | wc -c | xargs echo "🔑 Password length:"
-
+          
+          # 👇 این خطوط قبلی حذف شدند: ساخت و چک کردن فایل رمز
+          
           echo "📥 Import certificate"
+           # 🎯 اصلاح: رمز P12 به صورت مستقیم به security import داده شد تا خطای MAC verification failed برطرف شود
            security import "${P12_FILE_NAME}" \
            -k ~/Library/Keychains/login.keychain \
            -P "actions-keychain-pass" \
@@ -94,7 +95,8 @@ jobs:
           mv "${PP_FILE_NAME}" ~/Library/MobileDevice/Provisioning\ Profiles/"$PP_UUID".mobileprovision
           echo "✅ Profile installed with UUID: $PP_UUID"
 
-          rm -f p12pass.txt
+          # 👇 این خط قبلی حذف شد: حذف فایل رمز واسط
+          # rm -f p12pass.txt 
 
 
 
@@ -147,6 +149,7 @@ jobs:
       - name: 🏗️ Cordova Build iOS (App Store)
         run: |
           echo "🔓 Re‑unlocking keychain for build session..."
+          # از login.keychain-db برای دسترسی Xcode استفاده می‌شود
           security list-keychains -d user -s ~/Library/Keychains/login.keychain-db
           security unlock-keychain -p "$KEYCHAIN_PASSWORD" ~/Library/Keychains/login.keychain-db
           security set-keychain-settings -lut 14400 ~/Library/Keychains/login.keychain-db
@@ -184,4 +187,6 @@ jobs:
           echo "🧹 Cleaning up temporary files..."
           rm -f "${P12_FILE_NAME}" 2>/dev/null || true
           rm -f temp_p12_b64.txt 2>/dev/null || true
-          echo "✅ Cleanup completed (non-blocking)"
+          echo "✅ Cleanup comp
+          ed (non-blocking)"
+
