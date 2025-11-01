@@ -13,7 +13,7 @@ jobs:
       IPA_NAME: farra-signed.ipa
       PP_FILE_NAME: Farra_iOS_AppStore_72M97MR8UU.mobileprovision
       P12_FILE_NAME: ios_distribution.p12
-      KEYCHAIN_PASSWORD: actions-keychain-pass
+      KEYCHAIN_PASSWORD: actionskeychainpass
       TEAM_ID: 72M97MR8UU
       BUNDLE_IDENTIFIER: com.example.farra
 
