@@ -65,16 +65,19 @@ jobs:
         shell: bash
         env:
           P12_SECRET: ${{ secrets.P12_PASSWORD }}
+          P12_FILE_NAME: ios_distribution.p12
+          PP_FILE_NAME: Farra_iOS_AppStore_72M97MR8UU.mobileprovision
         run: |
           echo "🔐 Unlock login.keychain"
           security unlock-keychain -p "$P12_SECRET" ~/Library/Keychains/login.keychain
           security set-keychain-settings -lut 14400 ~/Library/Keychains/login.keychain
           
-          echo "💬 Creating password file using Here Document..."
-          # این روش رمز عبور را به همراه یک کاراکتر خط جدید (جمعاً ۲۲ بایت) در فایل می‌نویسد.
-          cat <<EOF > p12pass.txt
-           $P12_SECRET
-           EOF
+          echo "💬 Creating password file using Here Document (Cleaned)..."
+          # از "<<-EOF" استفاده شده تا فاصله‌های اولیه (Indentation) نادیده گرفته شوند.
+          # مهم: هیچ فاصله‌ای نباید قبل از $P12_SECRET یا EOF پایانی وجود داشته باشد.
+          cat <<-EOF > p12pass.txt
+          ${P12_SECRET}
+          EOF
           
           echo "📥 Import certificate"
           security import "${P12_FILE_NAME}" \
@@ -102,6 +105,7 @@ jobs:
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
           mv "${PP_FILE_NAME}" ~/Library/MobileDevice/Provisioning\ Profiles/"$PP_UUID".mobileprovision
           echo "✅ Profile installed with UUID: $PP_UUID"
+
 
       # - name: ♻️ Reset iOS Platform Completely
       #   run: |
