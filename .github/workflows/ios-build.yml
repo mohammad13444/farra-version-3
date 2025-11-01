@@ -69,19 +69,14 @@ jobs:
           security set-keychain-settings -lut 14400 ~/Library/Keychains/login.keychain
 
           echo "💬 Creating password file safely..."
-          # *** تغییر کلیدی: حذف کوتیشن تکی (') برای جایگذاری متغیر ***
-          cat <<EOF > p12pass.txt
-          $KEYCHAIN_PASSWORD
-          EOF
-          # حذف خطوط خالی از ابتدا و انتهای فایل
-          # cat p12pass.txt | sed 's/^ *//' | sed 's/ *$//' | tr -d '\n' > p12pass_clean.txt
-          # mv p12pass_clean.txt p12pass.txt
+          # *** راه حل نهایی: استفاده از echo -n برای اطمینان از عدم وجود هیچ کاراکتر اضافی ***
+          echo -n "$KEYCHAIN_PASSWORD" > p12pass.txt
 
-          # نمایش طول فایل برای تأیید
-          cat p12pass.txt | wc -c | xargs echo "🔑 Password file length (should be > 1):"
-
+          # نمایش طول فایل برای تأیید (باید 20 باشد)
+          cat p12pass.txt | wc -c | xargs echo "🔑 Password file length (should be 20):"
+          
           echo "📥 Import certificate"
-          # *** استفاده از ورودی استاندارد برای رمز عبور از طریق فایل ***
+          # *** رمز عبور P12 را از فایل بدون هیچ کاراکتر اضافی می‌خواند ***
           security import "${P12_FILE_NAME}" \
             -k ~/Library/Keychains/login.keychain \
             -P "$(cat p12pass.txt)" \
