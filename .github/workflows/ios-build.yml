@@ -56,7 +56,7 @@ jobs:
           fi
           echo "✅ P12 integrity verified successfully! Size: ${P12_SIZE} B"
 
-      - name: 🔑 Configure Keychain and Import Artifacts (FINAL FIX V2)
+      - name: 🔑 Configure Keychain and Import Artifacts (FINAL FIX V3)
         shell: bash
         run: |
           echo "🔐 Create and unlock isolated keychain..."
@@ -64,28 +64,15 @@ jobs:
           security set-keychain-settings -lut 14400 build.keychain
           security unlock-keychain -p "$KEYCHAIN_PASSWORD" build.keychain
 
-          echo "💬 Creating password file safely..."
-          # Fix: Use '<<-' to strip leading tabs/spaces in the heredoc block.
-          # We still need to ensure the final password has no trailing newline.
-          
-          # This creates the file with the password and a single trailing newline.
-          cat <<-'EOF' > p12pass.txt
-          $KEYCHAIN_PASSWORD
-          EOF
-          
-          # Remove the trailing newline character (The password must be exactly 18 characters)
-          tr -d '\n' < p12pass.txt > p12pass.tmp && mv p12pass.tmp p12pass.txt
-
-          cat p12pass.txt | wc -c | xargs echo "🔑 Password length (MUST be 18):"
-
-          echo "📥 Import certificate"
+          echo "📥 Import certificate using direct environment variable"
+          # Using -P "$KEYCHAIN_PASSWORD" to avoid any file reading/newline issues
           security import "${P12_FILE_NAME}" \
             -k build.keychain \
-            -P "$(cat p12pass.txt)" \
+            -P "$KEYCHAIN_PASSWORD" \
             -A -t cert -f pkcs12 \
             -T /usr/bin/codesign \
             -T /usr/bin/security || {
-            echo "::error::❌ Failed during P12 import (wrong password or corrupt P12)"; exit 1; }
+            echo "::error::❌ Failed during P12 import (FINAL check on P12_PASSWORD secret)"; exit 1; }
             
           echo "🔓 Grant codesign access..."
           security set-key-partition-list -S apple-tool:,apple:,codesign: \
@@ -99,7 +86,6 @@ jobs:
           echo "🔍 Verify identity in new keychain (MUST show '1 valid identity found'):"
           security find-identity -v -p codesigning build.keychain
 
-          rm -f p12pass.txt
 
 
       - name: 🛠️ Safe Configure Xcode Signing (no sed)
