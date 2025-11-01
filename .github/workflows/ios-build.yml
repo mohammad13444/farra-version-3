@@ -69,7 +69,9 @@ jobs:
           security set-keychain-settings -lut 14400 ~/Library/Keychains/login.keychain
 
           echo "💬 Creating password file safely..."
-          echo -n "$KEYCHAIN_PASSWORD" > p12pass.txt
+           cat <<'EOF' > p12pass.txt
+               $KEYCHAIN_PASSWORD
+                EOF
           cat p12pass.txt | wc -c | xargs echo "🔑 Password length:"
 
           echo "📥 Import certificate"
@@ -95,7 +97,6 @@ jobs:
           echo "✅ Profile installed with UUID: $PP_UUID"
 
           rm -f p12pass.txt
-
 
 
       - name: ♻️ Reset iOS Platform Completely
