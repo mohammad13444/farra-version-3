@@ -69,9 +69,10 @@ jobs:
           security set-keychain-settings -lut 14400 ~/Library/Keychains/login.keychain
 
           echo "💬 Creating password file safely..."
-           cat <<'EOF' > p12pass.txt
-               $KEYCHAIN_PASSWORD
-                EOF
+            printf "%s" "$KEYCHAIN_PASSWORD" > p12pass.txt
+            dos2unix p12pass.txt 2>/dev/null || true
+            wc -c p12pass.txt | xargs echo "🔑 Password length:"
+
           cat p12pass.txt | wc -c | xargs echo "🔑 Password length:"
 
           echo "📥 Import certificate"
