@@ -68,10 +68,10 @@ jobs:
           security unlock-keychain -p "$KEYCHAIN_PASSWORD" ~/Library/Keychains/login.keychain
           security set-keychain-settings -lut 14400 ~/Library/Keychains/login.keychain
 
-          echo "💬 Creating password file safely (20 chars guaranteed)..."
-          # اصلاحیه حیاتی: تضمین دقیق ۲۰ کاراکتر بودن رمز عبور
-          printf "%s" "$KEYCHAIN_PASSWORD" | cut -c 1-20 > p12pass.txt
-          cat p12pass.txt | wc -c | xargs echo "🔑 Password file length (MUST be 20):"
+          echo "💬 Creating password file safely (21 chars guaranteed)..."
+          # اصلاحیه حیاتی: تضمین دقیق ۲۱ کاراکتر بودن رمز عبور شما
+          printf "%s" "$KEYCHAIN_PASSWORD" | tr -d '[:cntrl:]' | head -c 21 > p12pass.txt
+          cat p12pass.txt | wc -c | xargs echo "🔑 Password file length (MUST be 21):"
 
           echo "📥 Import certificate"
           security import "${P12_FILE_NAME}" \
