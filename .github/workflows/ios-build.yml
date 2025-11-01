@@ -72,7 +72,7 @@ jobs:
 
           echo "💬 Creating password file safely..."
           printf "%s" "$KEYCHAIN_PASSWORD" > p12pass.txt
-          dos2unix p12pass.txt
+          tr -d '\r' < p12pass.txt > p12pass_fixed.txt && mv p12pass_fixed.txt p12pass.txt
 
           cat p12pass.txt | wc -c | xargs echo "🔑 Password length:"
 
