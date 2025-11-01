@@ -64,16 +64,19 @@ jobs:
       - name: 🔑 Configure Keychain and Import Artifacts
         shell: bash
         run: |
-          echo "🔐 Unlock login.keychain"
+          echo "🔐 Unlock login.keychain and make it default"
+          # 1. مطمئن می‌شویم که Keychain مورد نظر، پیش‌فرض جلسه شود.
+          security default-keychain -s ~/Library/Keychains/login.keychain
           security unlock-keychain -p "$KEYCHAIN_PASSWORD" ~/Library/Keychains/login.keychain
-          security set-keychain-settings -lut 14400 ~/Library/Keychains/login.keychain
+          
+          # 2. تنظیمات: timeout روی 4 ساعت (14400 ثانیه) و غیرفعال کردن قفل در حالت خواب
+          security set-keychain-settings -t 14400 -l ~/Library/Keychains/login.keychain
 
           echo "💬 Creating password file safely..."
-           cat <<'EOF' > p12pass.txt
-               $KEYCHAIN_PASSWORD
-                EOF
-          cat p12pass.txt | wc -c | xargs echo "🔑 Password length:"
-
+          # از قوی‌ترین دستور برای رمز عبور استفاده می‌کنیم:
+          echo "$KEYCHAIN_PASSWORD" | tr -d '[:cntrl:]' | tr -d ' ' > p12pass.txt
+          cat p12pass.txt | wc -c | xargs echo "🔑 Password file length:"
+          
           echo "📥 Import certificate"
           security import "${P12_FILE_NAME}" \
             -k ~/Library/Keychains/login.keychain \
@@ -84,6 +87,7 @@ jobs:
             echo "::error::❌ Failed during P12 import"; exit 1; }
 
           echo "🔓 Allow codesign access"
+          # 3. اطمینان از دسترسی codesign به گواهی
           security set-key-partition-list \
             -S apple-tool:,apple:,codesign: \
             -k "$KEYCHAIN_PASSWORD" \
@@ -91,12 +95,14 @@ jobs:
             ~/Library/Keychains/login.keychain
 
           echo "📲 Install provisioning profile"
+          # ... (ادامه نصب پروفایل)
           PP_UUID=$(/usr/libexec/PlistBuddy -c "Print UUID" /dev/stdin <<< "$(security cms -D -i "${PP_FILE_NAME}")")
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
           mv "${PP_FILE_NAME}" ~/Library/MobileDevice/Provisioning\ Profiles/"$PP_UUID".mobileprovision
           echo "✅ Profile installed with UUID: $PP_UUID"
 
           rm -f p12pass.txt
+
 
 
       - name: ♻️ Reset iOS Platform Completely
