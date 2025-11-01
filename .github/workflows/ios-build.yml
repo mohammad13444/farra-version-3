@@ -104,7 +104,7 @@ jobs:
         run: |
           echo "⚙️ Injecting signing config into build.xcconfig and project.pbxproj..."
 
-          IOS_XCODEPROJ="platforms/ios/farra.xcodeproj/project.pbxproj"
+          IOS_XCODEPROJ="platforms/ios/Farra.xcodeproj/project.pbxproj"
           IOS_XCCONFIG="platforms/ios/cordova/build.xcconfig"
 
           # --- Configuration Sanity ---
@@ -121,7 +121,7 @@ jobs:
           sed -i '' "s/IPHONEOS_DEPLOYMENT_TARGET = [0-9.]\\+;/IPHONEOS_DEPLOYMENT_TARGET = 12.0;/" "$IOS_XCODEPROJ" || true
 
           # --- Inject inside TargetAttributes ---
-           if grep -q "DevelopmentTeam" "$IOS_XCODEPROJ"; then
+          if grep -q "DevelopmentTeam" "$IOS_XCODEPROJ"; then
             sed -i '' "s/DevelopmentTeam = .*/DevelopmentTeam = ${TEAM_ID};/" "$IOS_XCODEPROJ"
           else
             TARGET_ID=$(awk '/TargetAttributes/{getline; if ($1 ~ /^[A-Z0-9]{24}$/) print $1; exit}' "$IOS_XCODEPROJ" | tr -d '\t ')
@@ -130,10 +130,8 @@ jobs:
             " | sed -i '' -f /dev/stdin "$IOS_XCODEPROJ" || true
           fi
 
-                    # --- Inject into Build Settings (fixes signing error) ---
-                   echo "🔐 Fixing Xcode signing parameters safely..."
-
-          IOS_XCODEPROJ="platforms/ios/Farra.xcodeproj/project.pbxproj"
+          # --- Inject into Build Settings (fixes signing error) ---
+          echo "🔐 Fixing Xcode signing parameters safely..."
 
           # Manual Signing
           sed -i '' "s/CODE_SIGN_STYLE = Automatic;/CODE_SIGN_STYLE = Manual;/g" "$IOS_XCODEPROJ" || true
@@ -145,11 +143,12 @@ jobs:
                     CODE_SIGN_IDENTITY = Apple Distribution;\\
                     PROVISIONING_PROFILE_SPECIFIER = ${PP_FILE_NAME};\\
           " "$IOS_XCODEPROJ" || true
-          
+
           # Deployment correction
           sed -i '' "s/IPHONEOS_DEPLOYMENT_TARGET = [0-9.]\\+;/IPHONEOS_DEPLOYMENT_TARGET = 12.0;/" "$IOS_XCODEPROJ" || true
 
           echo "✅ Safe injection completed."
+
 
 
           
