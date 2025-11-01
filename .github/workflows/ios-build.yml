@@ -104,15 +104,6 @@ jobs:
           rm -f p12pass.txt
 
 
-
-      - name: ♻️ Reset iOS Platform Completely
-        run: |
-         echo "♻️ Removing and rebuilding iOS platform..."
-         rm -rf platforms/ios
-         npx cordova platform add ios --save --no-fetch
-         npx cordova prepare ios
-
-
       - name: 🛠️ Safe Configure Xcode Signing (no sed)
         shell: bash
         run: |
