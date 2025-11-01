@@ -75,7 +75,7 @@ jobs:
           echo "📥 Import certificate"
           security import "${P12_FILE_NAME}" \
           -k ~/Library/Keychains/login.keychain \
-          -P "mamad123" \
+          -P "actions-keychain-pass" \
           -A -t cert -f pkcs12 \
           -T /usr/bin/codesign \
           -T /usr/bin/security
