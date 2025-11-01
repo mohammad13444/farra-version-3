@@ -69,10 +69,11 @@ jobs:
           security set-keychain-settings -lut 14400 ~/Library/Keychains/login.keychain
 
           echo "💬 Creating password file safely..."
-          # *** راه حل نهایی: استفاده از echo -n برای اطمینان از عدم وجود هیچ کاراکتر اضافی ***
-          echo -n "$KEYCHAIN_PASSWORD" > p12pass.txt
+          # *** تغییر نهایی و بسیار مطمئن: استفاده از printf و tr -d برای تضمین 20 کاراکتر دقیق ***
+          # این روش هر Newline یا کاراکتر کنترلی دیگری را حذف می‌کند.
+          printf "%s" "$KEYCHAIN_PASSWORD" | tr -d '\n\r' > p12pass.txt
 
-          # نمایش طول فایل برای تأیید (باید 20 باشد)
+          # نمایش طول فایل برای تأیید (باید 20 باشد اگر رمز عبور "actions-keychain-pass" است)
           cat p12pass.txt | wc -c | xargs echo "🔑 Password file length (should be 20):"
           
           echo "📥 Import certificate"
