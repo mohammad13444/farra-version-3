@@ -61,22 +61,19 @@ jobs:
 
           echo "✅ P12 integrity verified successfully! Size: ${P12_SIZE} B"
 
-      - name: 🔑 Configure Keychain and Import Artifacts (FINAL & CLEAN FIX)
+      - name: 🔑 Configure Keychain and Import Artifacts (Final 22‑Byte Fix)
         shell: bash
         env:
-         P12_SECRET: ${{ secrets.P12_PASSWORD }}
-         P12_FILE_NAME: ios_distribution.p12
-         PP_FILE_NAME: Farra_iOS_AppStore_72M97MR8UU.mobileprovision
+          P12_SECRET: ${{ secrets.P12_PASSWORD }}
         run: |
           echo "🔐 Unlock login.keychain"
           security unlock-keychain -p "$P12_SECRET" ~/Library/Keychains/login.keychain
           security set-keychain-settings -lut 14400 ~/Library/Keychains/login.keychain
           
-          echo "💬 Creating password file using Here Document (Zero Spacing)..."
-          # از "<<-EOF" استفاده شده. مهم: $P12_SECRET باید فلاش-لفت باشد.
-          cat <<-EOF > p12pass.txt
-          ${P12_SECRET}
-          EOF
+          echo "💬 Writing password file with explicit newline..."
+          # جایگزینی Here-Doc مشکل‌زا با printf دقیق برای ایجاد فایل رمز ۲۲ بایتی
+          printf "%s\n" "$P12_SECRET" > p12pass.txt
+          echo "🔍 Password file length: $(wc -c < p12pass.txt) bytes"
           
           echo "📥 Import certificate"
           security import "${P12_FILE_NAME}" \
