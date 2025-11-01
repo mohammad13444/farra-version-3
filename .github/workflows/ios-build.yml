@@ -38,7 +38,7 @@ jobs:
 
       - name: 🔐 Combine P12 Parts, Decode, and Verify Integrity
         env:
-          P12_PASSWORD: ${{ secrets.P12_PASSWORD }}
+          P12_PASSWORD: actions-keychain-pass
           PROVISIONING_PROFILE: ${{ secrets.PROVISIONING_PROFILE }}
         run: |
           echo "Starting P12 reconstruction and decode using 3 parts..."
@@ -61,46 +61,47 @@ jobs:
 
           echo "✅ P12 integrity verified successfully! Size: ${P12_SIZE} B"
 
-      - name: 🔑 Configure Keychain and Import Artifacts (Final 22‑Byte Fix)
+      - name: 🔑 Configure Keychain and Import Artifacts (Final Fix)
         shell: bash
         env:
-          P12_SECRET: ${{ secrets.P12_PASSWORD }}
+          # فیکس اصلی: رمز واقعی P12 و Keychain را مستقیماً ست می‌کنیم تا مطمئن شویم
+          KEYCHAIN_PASSWORD: actions-keychain-pass
+          P12_SECRET: actions-keychain-pass 
+          
+          # متغیرهای مورد نیاز برای اجرا
+          P12_FILE_NAME: ${{ env.P12_FILE_NAME }}
+          PP_FILE_NAME: ${{ env.PP_FILE_NAME }}
         run: |
-          echo "🔐 Unlock login.keychain"
-          security unlock-keychain -p "$P12_SECRET" ~/Library/Keychains/login.keychain
-          security set-keychain-settings -lut 14400 ~/Library/Keychains/login.keychain
-          
-          echo "💬 Writing password file with explicit newline..."
-          # جایگزینی Here-Doc مشکل‌زا با printf دقیق برای ایجاد فایل رمز ۲۲ بایتی
-          printf "%s\n" "$P12_SECRET" > p12pass.txt
-          echo "🔍 Password file length: $(wc -c < p12pass.txt) bytes"
-          
-          echo "📥 Import certificate"
-          security import "${P12_FILE_NAME}" \
-            -k ~/Library/Keychains/login.keychain \
-            -P "$(cat p12pass.txt)" \
-            -A -t cert -f pkcs12 \
-            -T /usr/bin/codesign \
-            -T /usr/bin/security || {
-            echo "::error::❌ Failed during P12 import"; rm -f p12pass.txt; exit 1; }
-          
-          rm -f p12pass.txt
-          
-          echo "🔓 Allow codesign access"
-          security set-key-partition-list \
-            -S apple-tool:,apple:,codesign: \
-            -k "$P12_SECRET" \
-            -D "Apple Distribution" \
-            ~/Library/Keychains/login.keychain
+          echo "Starting Keychain Configuration and Import..."
 
-          echo "✅ P12 Import confirmed. Checking identities:"
-          security find-identity -v -p codesigning ~/Library/Keychains/login.keychain
+          # 1. ساخت فایل رمز ۲۲ بایتی (شامل کاراکتر خط جدید)
+          # این روش تضمین می‌کند که طول بایت دقیقاً درست باشد و مشکل MAC verification حل شود.
+          printf "%s\n" "$P12_SECRET" > p12pass.txt
           
-          echo "📲 Install provisioning profile"
-          PP_UUID=$(/usr/libexec/PlistBuddy -c "Print UUID" /dev/stdin <<< "$(security cms -D -i "${PP_FILE_NAME}")")
+          # برای اطمینان: چک کردن طول فایل رمز (باید ۲۲ باشد)
+          echo "Verifying p12pass.txt byte count..."
+          wc -c < p12pass.txt
+
+          # 2. ایجاد Keychain جدید و تنظیمات
+          security create-keychain -p "$KEYCHAIN_PASSWORD" "ci.keychain-db"
+          security default-keychain -s "ci.keychain-db"
+          security unlock-keychain -p "$KEYCHAIN_PASSWORD" "ci.keychain-db"
+          security set-keychain-settings -lut 7200 "ci.keychain-db"
+
+          # 3. وارد کردن گواهی P12 با استفاده از فایل رمز ساخته شده
+          security import "${P12_FILE_NAME}" -k "ci.keychain-db" -P "$(cat p12pass.txt)" -T /usr/bin/codesign -T /usr/bin/security
+          
+          # 4. تنظیم Partition List برای دسترسی بدون محدودیت به کلید
+          security set-key-partition-list -S apple-tool:,apple: -k "$KEYCHAIN_PASSWORD" -D "apple-tool:" -t private -i
+
+          # 5. وارد کردن Provisioning Profile
+          echo "Importing Provisioning Profile..."
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
-          mv "${PP_FILE_NAME}" ~/Library/MobileDevice/Provisioning\ Profiles/"$PP_UUID".mobileprovision
-          echo "✅ Profile installed with UUID: $PP_UUID"
+          cp "${PP_FILE_NAME}" ~/Library/MobileDevice/Provisioning\ Profiles/
+
+          # 6. تایید هویت‌های وارد شده (باید یک هویت معتبر نمایش دهد)
+          echo "Verifying identities..."
+          security find-identity -v  codesigning "ci.keychain-db"
 
 
       # - name: ♻️ Reset iOS Platform Completely
