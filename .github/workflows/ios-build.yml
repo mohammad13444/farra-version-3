@@ -63,21 +63,21 @@ jobs:
 
       - name: 🔑 Configure Keychain and Import Artifacts
         shell: bash
-        env:
-          P12_PASSWORD: ${{ secrets.P12_PASSWORD }}
         run: |
           echo "🔐 Unlock login.keychain"
           security unlock-keychain -p "$KEYCHAIN_PASSWORD" ~/Library/Keychains/login.keychain
           security set-keychain-settings -lut 14400 ~/Library/Keychains/login.keychain
 
           echo "💬 Creating password file safely..."
-          echo "$P12_PASSWORD" > p12pass.txt
+           cat <<'EOF' > p12pass.txt
+               $KEYCHAIN_PASSWORD
+                EOF
           cat p12pass.txt | wc -c | xargs echo "🔑 Password length:"
 
-          echo "📥 Import certificate..."
+          echo "📥 Import certificate"
           security import "${P12_FILE_NAME}" \
             -k ~/Library/Keychains/login.keychain \
-            -P "$P12_PASSWORD" \
+            -P "$(cat p12pass.txt)" \
             -A -t cert -f pkcs12 \
             -T /usr/bin/codesign \
             -T /usr/bin/security || {
@@ -87,6 +87,7 @@ jobs:
           security set-key-partition-list \
             -S apple-tool:,apple:,codesign: \
             -k "$KEYCHAIN_PASSWORD" \
+            -D "Apple Distribution" \
             ~/Library/Keychains/login.keychain
 
           echo "📲 Install provisioning profile"
@@ -94,10 +95,6 @@ jobs:
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
           mv "${PP_FILE_NAME}" ~/Library/MobileDevice/Provisioning\ Profiles/"$PP_UUID".mobileprovision
           echo "✅ Profile installed with UUID: $PP_UUID"
-
-          echo "🧩 Verifying imported identities..."
-          security find-identity -v -p codesigning ~/Library/Keychains/login.keychain
-
 
           rm -f p12pass.txt
 
@@ -144,14 +141,16 @@ jobs:
 
          echo "✅ build.xcconfig created and provisioning profile installed successfully."
 
-
-
-
-
       - name: 🏗️ Cordova Build iOS (App Store)
         run: |
+          echo "🔓 Re‑unlocking keychain for build session..."
+          security unlock-keychain -p "$KEYCHAIN_PASSWORD" ~/Library/Keychains/login.keychain
+          security set-keychain-settings -lut 14400 ~/Library/Keychains/login.keychain
+
           echo "🏗️ Building iOS release..."
           npx cordova build ios --release --device || { echo "::error::❌ Cordova build failed"; exit 1; }
+
+          echo "✅ Cordova build completed successfully!"
 
 
       - name: 📦 Locate and Rename IPA
