@@ -56,7 +56,7 @@ jobs:
           fi
           echo "✅ P12 integrity verified successfully! Size: ${P12_SIZE} B"
 
-      - name: 🔑 Configure Keychain and Import Artifacts (FINAL FIX)
+      - name: 🔑 Configure Keychain and Import Artifacts (FINAL FIX V2)
         shell: bash
         run: |
           echo "🔐 Create and unlock isolated keychain..."
@@ -65,11 +65,18 @@ jobs:
           security unlock-keychain -p "$KEYCHAIN_PASSWORD" build.keychain
 
           echo "💬 Creating password file safely..."
-          # CRITICAL FIX: EOF markers must be flush-left to prevent whitespace in the password file
-          cat <<'EOF' > p12pass.txt
+          # Fix: Use '<<-' to strip leading tabs/spaces in the heredoc block.
+          # We still need to ensure the final password has no trailing newline.
+          
+          # This creates the file with the password and a single trailing newline.
+          cat <<-'EOF' > p12pass.txt
           $KEYCHAIN_PASSWORD
           EOF
-          cat p12pass.txt | wc -c | xargs echo "🔑 Password length (must match password length without spaces):"
+          
+          # Remove the trailing newline character (The password must be exactly 18 characters)
+          tr -d '\n' < p12pass.txt > p12pass.tmp && mv p12pass.tmp p12pass.txt
+
+          cat p12pass.txt | wc -c | xargs echo "🔑 Password length (MUST be 18):"
 
           echo "📥 Import certificate"
           security import "${P12_FILE_NAME}" \
@@ -78,7 +85,7 @@ jobs:
             -A -t cert -f pkcs12 \
             -T /usr/bin/codesign \
             -T /usr/bin/security || {
-            echo "::error::❌ Failed during P12 import (likely due to wrong password in file or corrupt P12)"; exit 1; }
+            echo "::error::❌ Failed during P12 import (wrong password or corrupt P12)"; exit 1; }
             
           echo "🔓 Grant codesign access..."
           security set-key-partition-list -S apple-tool:,apple:,codesign: \
@@ -93,6 +100,7 @@ jobs:
           security find-identity -v -p codesigning build.keychain
 
           rm -f p12pass.txt
+
 
       - name: 🛠️ Safe Configure Xcode Signing (no sed)
         shell: bash
