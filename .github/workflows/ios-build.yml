@@ -65,22 +65,32 @@ jobs:
           echo "✅ P12 integrity verified successfully! Size: ${P12_SIZE} B"
 
 
-      - name: 🔑 Configure Keychain and Import Artifacts (Use direct password)
-        id: keychain_setup # برای دریافت خروجی UUID از این استپ استفاده می‌شود
+      - name: 🔑 Configure Keychain and Import Artifacts (Use password file)
+        id: keychain_setup
         shell: bash
         env:
           KEYCHAIN_PASSWORD: ${{ env.KEYCHAIN_PASSWORD }} # actions-keychain-pass
-          P12_PASSWORD: ${{ secrets.P12_PASSWORD }}
+          P12_PASSWORD: ${{ secrets.P12_PASSWORD }} # رمز P12 واقعی شما
         run: |
           echo "🔐 Unlock login.keychain"
           security unlock-keychain -p "$KEYCHAIN_PASSWORD" ~/Library/Keychains/login.keychain
           security set-keychain-settings -lut 14400 ~/Library/Keychains/login.keychain
 
+          echo "💬 Creating P12 password file safely..."
+          # رمز P12 شما از Secret گرفته شده و درون فایل موقت قرار می‌گیرد.
+          cat > p12pass.txt <<EOF
+          ${{ env.P12_PASSWORD }}
+          EOF
+          # حذف خطوط اضافی و مطمئن شدن از وجود رمز در فایل
+          sed -i '' '/^$/d' p12pass.txt 
+          echo "🔑 Password file content (length):"
+          cat p12pass.txt | wc -c
+
           echo "📥 Import certificate"
-          # -P از رمز P12_PASSWORD استفاده می‌کند (که از Secret می‌آید)
+          # -P از رمز داخل فایل p12pass.txt استفاده می‌کند
           security import "${{ env.P12_FILE_NAME }}" \
             -k ~/Library/Keychains/login.keychain \
-            -P "$P12_PASSWORD" \
+            -P "$(cat p12pass.txt)" \
             -A -t cert -f pkcs12 \
             -T /usr/bin/codesign \
             -T /usr/bin/security || {
@@ -90,7 +100,7 @@ jobs:
           security find-identity -v ~/Library/Keychains/login.keychain
 
           echo "🔓 Allow codesign access"
-          # تنظیم لیست پارتیشن کلید با استفاده از رمز KEYCHAIN_PASSWORD
+          # تنظیم لیست پارتیشن کلید با استفاده از هویت کامل گواهی شما
           security set-key-partition-list \
             -S apple-tool:,apple:,codesign: \
             -k "$KEYCHAIN_PASSWORD" \
@@ -99,7 +109,9 @@ jobs:
 
           echo "✅ Keychain configuration and import complete."
 
-          # ⚠️ توجه: نصب پروفایل را به استپ بعدی منتقل می‌کنیم.
+          # حذف فایل رمز عبور
+          rm -f p12pass.txt
+
 
 
       - name: 🛠️ Configure Xcode Signing (build.xcconfig) and Install Profile
