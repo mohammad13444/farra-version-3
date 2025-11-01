@@ -66,40 +66,39 @@ jobs:
       - name: 🔑 Configure Keychain and Import Artifacts
         shell: bash
         run: |
-          echo "🔐 Unlock login.keychain"
-          security unlock-keychain -p "$KEYCHAIN_PASSWORD" ~/Library/Keychains/login.keychain
-          security set-keychain-settings -lut 14400 ~/Library/Keychains/login.keychain
+         echo "🔐 Unlock login.keychain-db"
+         security unlock-keychain -p "$KEYCHAIN_PASSWORD" ~/Library/Keychains/login.keychain-db
+         security set-keychain-settings -lut 14400 ~/Library/Keychains/login.keychain-db
 
-          echo "💬 Creating password file safely..."
-          printf "%s" "$KEYCHAIN_PASSWORD" > p12pass.txt
-          tr -d '\r' < p12pass.txt > p12pass_fixed.txt && mv p12pass_fixed.txt p12pass.txt
+         echo "💬 Creating password file safely..."
+         printf "%s" "$KEYCHAIN_PASSWORD" > p12pass.txt
+         tr -d '\r' < p12pass.txt > p12pass_fixed.txt && mv p12pass_fixed.txt p12pass.txt
 
-          cat p12pass.txt | wc -c | xargs echo "🔑 Password length:"
+         cat p12pass.txt | wc -c | xargs echo "🔑 Password length:"
 
-          echo "📥 Import certificate"
-          security import "${P12_FILE_NAME}" \
-          -k ~/Library/Keychains/login.keychain-db \
-          -P "$(cat p12pass.txt)" \
-          -T /usr/bin/codesign \
-          -T /usr/bin/security \
-          || { echo "::error::❌ Failed during P12 import"; exit 1; }
- 
+         echo "📥 Import certificate"
+         security import "${P12_FILE_NAME}" \
+         -k ~/Library/Keychains/login.keychain-db \
+         -P "$(cat p12pass.txt)" \
+         -T /usr/bin/codesign \
+         -T /usr/bin/security \
+         || { echo "::error::❌ Failed during P12 import"; exit 1; }
 
-          echo "🔓 Allow codesign access"
-          security set-key-partition-list \
-          -S apple-tool:,apple:,codesign: \
-          -k "$KEYCHAIN_PASSWORD" \
-          -D "${CODE_SIGN_IDENTITY}" \
-          ~/Library/Keychains/login.keychain-db
+         echo "🔓 Allow codesign access"
+         security set-key-partition-list \
+         -S apple-tool:,apple:,codesign: \
+         -k "$KEYCHAIN_PASSWORD" \
+         -D "${CODE_SIGN_IDENTITY}" \
+         ~/Library/Keychains/login.keychain-db
 
+         echo "📲 Install provisioning profile"
+         PP_UUID=$(/usr/libexec/PlistBuddy -c "Print UUID" /dev/stdin <<< "$(security cms -D -i "${PP_FILE_NAME}")")
+         mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+         mv "${PP_FILE_NAME}" ~/Library/MobileDevice/Provisioning\ Profiles/"$PP_UUID".mobileprovision
+         echo "✅ Profile installed with UUID: $PP_UUID"
 
-          echo "📲 Install provisioning profile"
-          PP_UUID=$(/usr/libexec/PlistBuddy -c "Print UUID" /dev/stdin <<< "$(security cms -D -i "${PP_FILE_NAME}")")
-          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
-          mv "${PP_FILE_NAME}" ~/Library/MobileDevice/Provisioning\ Profiles/"$PP_UUID".mobileprovision
-          echo "✅ Profile installed with UUID: $PP_UUID"
+         rm -f p12pass.txt
 
-          rm -f p12pass.txt
 
 
       
