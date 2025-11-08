@@ -1,0 +1,24 @@
+{
+  "expo": {
+    "name": "farra",
+    "slug": "farra",
+    "owner": "chatline",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./www/icon.png",
+    "ios": {
+      "bundleIdentifier": "com.example.farra",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
+    },
+    "android": {
+      "package": "com.example.farra"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "90887e49-3759-41ad-b7e5-c6ec4d1f4127"
+      }
+    }
+  }
+}

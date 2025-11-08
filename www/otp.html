@@ -4,364 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/tokens.css">
+    <link rel="stylesheet" href="./css/otp.css">
     <title>OTP Verification</title>
-    <style>
-          @font-face {
-            font-family: "Bonyade Koodak VF";
-            src: url("./fonts/BonyadeKoodakKoochak-Light.ttf") format("truetype")
-        }
-
-        @font-face {
-            font-family: "Bonyade Koodak VF bold";
-            src: url("./fonts/BonyadeKoodakKoochak-Bold.ttf") format("truetype");
-        }
-
-        /* ====== Base Reset ====== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: "Bonyade Koodak VF";
-            background: #EFEFFE;
-            /* Background طبق طرح */
-            display: flex;
-            justify-content: center;
-            min-height: 100vh;
-        }
-
-        .otp-wrapper {
-            width: 100%;
-            
-            padding: 0px 24px;
-            margin-top: 0px;
-        }
-
-        /* ===== Top Icon ===== */
-        .top-icon {
-            margin-bottom: 24px;
-        }
-
-        .diamond-icon {
-            width: 28px;
-            height: 28px;
-            border: 2px solid #8B7AB8;
-            transform: rotate(45deg);
-            border-radius: 5px;
-        }
-
-        /* ===== Title & Description ===== */
-        .title {
-            font-family: "Bonyade Koodak VF bold";
-            color: var(--Text-Default-Heading, #45454D);
-            /* English/Heading/H4 */
-            font-size: var(--Font-Headings-H4-Text-Size, 32px);
-            font-style: normal;
-            font-weight: 700;
-            line-height: var(--Font-Headings-H4-Line-Heigth, 48px);
-            /* 150% */
-            margin-bottom: 8px;
-            margin-top: 25px;
-
-        }
-
-        .description {
-            
-            color: var(--Text-Default-Body, #5C5C66);
-
-            /* English/Body/LCopy */
-            font-size: var(--Font-Copy-Body-Lg-Text-Size, 20px);
-            font-style: normal;
-            font-weight: 400;
-            line-height: var(--Font-Copy-Body-Lg-Line-Heigth, 24px);
-            /* 120% */
-            margin-bottom: 24px;
-        }
-
-        /* ===== Phone Info ===== */
-        .phone-info {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 25px;
-        }
-
-        .phone-icon {
-            width: 20px;
-            height: 20px;
-        }
-
-        .phone-icon-diamond {
-            width: 100%;
-            height: 100%;
-            border: 2px solid #8B7AB8;
-            transform: rotate(45deg);
-            border-radius: 3px;
-        }
-
-        .phone-number {
-            color: var(--Text-Primary-Default, #706DF2);
-            text-align: center;
-
-            /* English/Heading/H6 */
-            font-size: var(--Font-Headings-H6-Text-Size, 16px);
-            font-style: normal;
-            font-weight: bold;
-            line-height: var(--Font-Headings-H6-Line-Heigth, 28px);
-            /* 140% */
-        }
-
-        .change-number {
-            margin-left: 30px;
-            color: #6A4FB2;
-            text-decoration: none;
-            color: var(--Text-Primary-Default, #706DF2);
-            text-align: center;
-
-            /* English/TextButton/Medium */
-
-            font-size: var(--Font-Button-Medium-Text-Button, 16px);
-            font-style: normal;
-            font-weight: 500;
-            line-height: normal;
-        }
-
-        /* ===== OTP Inputs ===== */
-        .otp-inputs {
-            display: flex;
-            gap: 24px;
-            margin-bottom: 24px;
-        }
-
-        .otp-input {
-            width: 36px;
-            border: none;
-            stroke-width: 1px;
-            stroke: var(--Border-Primary-Default, #706DF2);
-            border-bottom: 2px solid #706DF2;
-            background: transparent;
-            text-align: center;
-            font-size: 20px;
-            font-weight: 600;
-            outline: none;
-            color: var(--Text-Default-Body, #5C5C66);
-            transition: border-color .3s, color .3s;
-            line-height: 1.8;
-            /* یا 2 برای موبایل */
-            padding-bottom: 4px;
-            /* فاصله از خط پایین */
-        }
-
-        .otp-input:focus {
-            stroke-width: 2px;
-            stroke: var(--Border-Primary-Default, #706DF2);
-
-        }
-
-        .otp-input.success {
-            border-bottom-color: #44CD54;
-            color: var(--Button-Success-Default, #44CD54);
-        }
-
-        .otp-input.error {
-            border-bottom-color: #EF4444;
-            color: #EF4444;
-            animation: shake .3s ease;
-        }
-
-        @keyframes shake {
-
-            0%,
-            100% {
-                transform: translateX(0);
-            }
-
-            25% {
-                transform: translateX(-3px);
-            }
-
-            50% {
-                transform: translateX(3px);
-            }
-
-            75% {
-                transform: translateX(-2px);
-            }
-        }
-
-        /* ===== Resend Section ===== */
-        .resend {
-            color: var(--Text-Disabled-Default, #8A8999);
-
-            /* English/Body/SCopy */
-            font-size: var(--Font-Copy-Body-Sm-Text-Size, 14px);
-            font-style: normal;
-            font-weight: 400;
-            line-height: var(--Font-Copy-Body-Sm-Line-Heigth, 18px);
-            /* 128.571% */
-            margin-bottom: 28px;
-        }
-
-        /* ===== Continue Button ===== */
-        /* حالت پیش فرض (طوسی، غیرفعال) */
-        .continue-button {
-            background: var(--Surface-Disabled-Default, #8A8999);
-            color: #FFFFFF;
-            border-radius: 40px;
-            width: 345px;
-            height: 64px;
-            padding: 20px 16px;
-            border: none;
-            cursor: not-allowed;
-            color: var(--Text-On-Color-Heading, #E6E5FF);
-text-align: center;
-
-/* English/Button/Large */
-font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
-font-size: var(--Font-Button-Large-Text-Size, 24px);
-font-style: normal;
-font-weight: 500;
-line-height: 24px; /* 100% */
-        }
-
-        /* وقتی فعال شد (آبی اصلی) */
-        .continue-button.active {
-            background: var(--Primary-500, #706DF2);
-            cursor: pointer;
-        }
-
-        /* رنگ hover برای دکمه فعال */
-        .continue-button.active:hover {
-            background: var(--Primary-600, #5A57C2);
-            /* یه درجه روشن‌تر */
-        }
-
-        /* رنگ action (کلیک نگه داشتن) برای دکمه فعال */
-        .continue-button.active:active {
-            background: var(--Primary-700, #434191);
-            /* یه درجه تیره‌تر */
-            transform: scale(0.98);
-        }
-
-        /* ===== Alert Box ===== */
-        .alert-box {
-            position: fixed;
-            top: 15px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: calc(100% - 32px);
-            max-width: 350px;
-            border-radius: 12px;
-            padding: 12px 16px;
-            display: none;
-            align-items: center;
-            gap: 10px;
-            animation: slideDown .3s ease;
-            z-index: 9999;
-        }
-
-        .alert-box.show {
-            display: flex;
-        }
-
-        .alert-box.success {
-            background: #D1FAE5;
-            border: 2px solid #10B981;
-        }
-
-        .alert-box.error {
-            background: #FEE2E2;
-            border: 2px solid #EF4444;
-        }
-
-        @keyframes slideDown {
-            from {
-                transform: translate(-50%, -30px);
-                opacity: 0;
-            }
-
-            to {
-                transform: translate(-50%, 0);
-                opacity: 1;
-            }
-        }
-
-
-        .otp-alert {
-            position: fixed;
-            top: -80px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 353px;
-            min-height: 68px;
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            padding: 10px 20px;
-            background: rgba(255, 89, 91, 0.10);
-            border-radius: var(--Border-Radius-600, 24px);
-            border: var(--Border-Width-25, 1px) solid var(--Icon-Error-Default, #FF595B);
-            background: rgba(255, 89, 91, 0.10);
-
-            backdrop-filter: blur(8px);
-
-            opacity: 0;
-            transition: top 0.4s ease-out, opacity 0.4s ease-out;
-            z-index: 99999;
-        }
-
-        .otp-alert.show {
-            top: 32px;
-            opacity: 1;
-        }
-
-        .otp-alert.success {
-            border-radius: var(--Border-Radius-600, 24px);
-            border: var(--Border-Width-25, 1px) solid var(--Icon-Success-Default, #44CD54);
-            background: rgba(68, 205, 84, 0.10);
-            backdrop-filter: blur(8px);
-
-        }
-
-        .otp-alert-title {
-            font-size: 16px;
-            font-weight: 700;
-            color: #1C1C1E;
-            margin-bottom: 4px;
-            font-family: "Bonyade Koodak VF bold";
-        }
-
-        .otp-alert-message1 {
-            font-size: 13px;
-            color: #48484A;
-            line-height: 1.4;
-        }
-
-        .sss{
-            color: var(--Text-Default-Body, #5C5C66);
-text-align: center;
-
-/* English/Body/Copy */
-font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
-font-size: var(--Font-Copy-Body-Text-Size, 16px);
-font-style: normal;
-font-weight: 400;
-line-height: var(--Font-Copy-Body-Line-Heigth, 20px); /* 125% */
-margin-top: 11%;
-        }
-
-        .resend-link {
-            color: var(--Text-Primary-Default, #706DF2);
-            font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
-            font-size: var(--Font-Button-Medium-Text-Button, 16px);
-            font-style: normal;
-            font-weight: 500;
-            line-height: normal;
-            cursor: pointer;
-        }
-    </style>
 </head>
 
 <body>
@@ -390,7 +35,7 @@ margin-top: 11%;
                     stroke="#44CD54" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
             <div class="otp-alert-content">
-                
+
                 <div class="sss">New OTP sent.</div>
             </div>
         </div>
@@ -417,7 +62,7 @@ stroke: var(--Icon-Primary-Default, #706DF2);" xmlns="http://www.w3.org/2000/svg
         </div>
 
         <!-- Header -->
-        <div class="title" >Got message?</div>
+        <div class="title">Got message?</div>
         <div class="description">Enter the code I sent to the phone number you gave me.</div>
 
         <!-- Phone Info -->
@@ -430,7 +75,7 @@ stroke: var(--Icon-Primary-Default, #706DF2);" xmlns="http://www.w3.org/2000/svg
                 </svg>
             </div>
             <span class="phone-number">0777 151 6178</span>
-            <a href="#" class="change-number">Not your number?</a>
+            <a href="./signup.html" class="change-number">Not your number?</a>
         </div>
 
         <!-- OTP Inputs -->
@@ -446,7 +91,8 @@ stroke: var(--Icon-Primary-Default, #706DF2);" xmlns="http://www.w3.org/2000/svg
         <div id="resendText" class="resend">Resend code in 120 secs</div>
 
         <!-- Continue Button -->
-        <button id="continueBtn" class="continue-button">Continue</button>
+        <button id="continueBtn" class="continue-button" disabled>Continue</button>
+        <br>
         <a href="./onboarding.html">2</a>
 
     </div>
@@ -484,16 +130,18 @@ stroke: var(--Icon-Primary-Default, #706DF2);" xmlns="http://www.w3.org/2000/svg
         });
 
         // بروزرسانی وضعیت کد و فعال‌سازی دکمه
-        function updateCode() {
-            otpCode = Array.from(inputs).map(el => el.value).join("");
-            if (otpCode.length >= 1) { // حداقل یک کاراکتر
-                continueBtn.classList.add("active");
-                continueBtn.disabled = false;
-            } else {
-                continueBtn.classList.remove("active");
-                continueBtn.disabled = true;
-            }
-        }
+      function updateCode() {
+  otpCode = Array.from(inputs).map(el => el.value).join("");
+  
+  if (otpCode.length === inputs.length) {
+    continueBtn.classList.remove("disabled");
+    continueBtn.disabled = false;
+  } else {
+    continueBtn.classList.add("disabled");
+    continueBtn.disabled = true;
+  }
+}
+
 
         // کلیک روی Continue
         continueBtn.addEventListener("click", () => {

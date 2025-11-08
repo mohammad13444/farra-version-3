@@ -2,554 +2,292 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Information - Farra</title>
-    <style>
-        @font-face {
-            font-family: "Bonyade Koodak VF";
-            src: url("./fonts/BonyadeKoodakKoochak-Light.ttf") format("truetype")
-        }
-
-        @font-face {
-            font-family: "Bonyade Koodak VF bold";
-            src: url("./fonts/BonyadeKoodakKoochak-Bold.ttf") format("truetype");
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #EFEFFE;
-            min-height: 100vh;
-            padding: 0 24px;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .container {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            max-width: 400px;
-            margin: 0 auto;
-            width: 100%;
-        }
-
-        .header {
-            margin-top: 35px;
-            margin-bottom: 60px;
-        }
-
-        .title {
-            line-height: 1.2;
-            color: var(--Text-Default-Heading, #45454D);
-
-/* English/Heading/H4 */
-font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF bold");
-font-size: var(--Font-Headings-H4-Text-Size, 32px);
-font-style: normal;
-font-weight: 700;
-line-height: var(--Font-Headings-H4-Line-Heigth, 48px); /* 150% */
-        }
-
-        .subtitle {
-            
-            color: var(--Text-Default-Body, #5C5C66);
-
-/* English/Body/LCopy */
-font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
-font-size: var(--Font-Copy-Body-Lg-Text-Size, 20px);
-font-style: normal;
-font-weight: 400;
-line-height: var(--Font-Copy-Body-Lg-Line-Heigth, 24px); /* 120% */
-        }
-
-        .form-container {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            margin-bottom: 24px;
-        }
-
-        .input-group {
-            position: relative;
-        }
-
-        .input-field {
-            width: 100%;
-            height: 56px;
-            border-radius: 28px;
-            font-size: 16px;
-            outline: none;
-            border-radius: var(--Border-Radius-800, 32px);
-            color: var(--Textbox-Filled-Text, #706DF2);
-
-            /* English/Textbox/Large/Active */
-            font-size: var(--Scale-500, 20px);
-            font-style: normal;
-            font-weight: 500;
-            line-height: normal;
-            border: var(--Border-Width-25, 1px) solid var(--Textbox-Default-Border, #C6C5FA);
-            background: var(--Primitives-White, #F8F7FC);
-            display: flex;
-            height: 64px;
-            min-height: 64px;
-            padding: var(--Spacing-300, 12px) var(--Spacing-300, 12px) var(--Spacing-300, 12px) var(--Spacing-400, 50px);
-            align-items: center;
-            gap: 65px;
-            align-self: stretch;
-        }
-
-        .input-field.focus-border-strong {
-            border-radius: var(--Border-Radius-800, 32px);
-            border: var(--Border-Width-100, 4px) solid var(--Textbox-Active-Border, #706DF2);
-            background: var(--Primitives-White, #F8F7FC);
-        }
-
-        .input-field.focus-border-light {
-            border: 1px solid #706DF2;
-        }
-
-
-
-
-        .input-field::placeholder {
-            color: var(--Textbox-Default-Text, #A9A7F7);
-
-            /* English/Textbox/Large/Default */
-            font-size: var(--Scale-500, 20px);
-            font-style: normal;
-            font-weight: 300;
-            line-height: normal;
-        }
-
-        .input-icon {
-            position: absolute;
-            left: 16px;
-            top: 50%;
-            transform: translateY(-50%);
-        }
-
-        .default-icon {
-            display: block;
-        }
-
-        .focose-icon {
-            display: none;
-        }
-
-        .input-group.focused .default-icon {
-            display: none;
-        }
-
-        .input-group.focused .focose-icon {
-            display: block;
-        }
-
-        /* City dropdown styles */
-        .city-container {
-            position: relative;
-        }
-
-        .city-input {
-            cursor: pointer;
-            position: relative;
-        }
-
-        .city-input::after {
-            content: '◊';
-            position: absolute;
-            right: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #6366F1;
-            font-size: 16px;
-        }
-
-        .city-dropdown {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            background: white;
-            border: 2px solid #6366F1;
-            border-radius: 20px;
-            padding: 20px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-            z-index: 1000;
-            display: none;
-            margin-top: 8px;
-            max-height: 280px;
-            overflow-y: auto;
-        }
-
-        .city-dropdown.show {
-            display: block;
-        }
-
-        .city-option {
-            padding: 12px 0;
-            font-size: 16px;
-            color: #6366F1;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .city-option:hover {
-            color: #4F46E5;
-            padding-left: 10px;
-        }
-
-        .continue-btn {
-
-
-            height: 60px;
-            width: 100%;
-            padding: 20px 16px;
-
-            border-radius: 40px;
-            background: var(--Surface-Disabled-Default, #8A8999);
-            border: none;
-            cursor: pointer;
-            margin-bottom: 48px;
-            transition: all 0.3s ease;
-            color: var(--Text-On-Color-Heading, #E6E5FF);
-            text-align: center;
-
-            /* English/Button/Large */
-            font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
-            font-size: var(--Font-Button-Large-Text-Size, 24px);
-            font-style: normal;
-            line-height: 24px;
-            /* 100% */
-
-
-
-            margin-bottom: 60px;
-            color: var(--Text-On-Color-Heading, #E6E5FF);
-            text-align: center;
-
-            /* English/Button/Large */
-            font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
-            font-size: var(--Font-Button-Large-Text-Size, 24px);
-            font-style: normal;
-            font-weight: 500;
-            line-height: 24px;
-            /* 100% */
-        }
-
-        .continue-btn.active {
-            background: var(--Primary-500, #706DF2);
-            cursor: pointer;
-        }
-
-        .continue-btn.active:hover {
-            background: var(--Primary-600, #5A57C2);
-        }
-
-        .footer-text {
-            font-size: 13px;
-            color: #888;
-            text-align: center;
-            line-height: 1.4;
-            margin-bottom: 40px;
-            padding: 0 10px;
-        }
-
-        /* Responsive adjustments */
-        @media (max-height: 700px) {
-            .header {
-                margin-top: 40px;
-                margin-bottom: 40px;
-            }
-
-            .continue-btn {
-                margin-bottom: 30px;
-            }
-
-            .footer-text {
-                margin-bottom: 20px;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" href="./css/tokens.css">
+    <link rel="stylesheet" href="./css/onboarding.css">
+  <title>User Information - Farra</title>
 </head>
 
 <body>
-    <div class="container">
-        <div style="display: inline-flex;
+  <div class="container">
+    <div style="display: inline-flex;
 padding: 8px;
 align-items: center;
 gap: 10px; margin-top: 52.50px; margin-left: 1.50px;">
-            <svg style="width: 24px;
+      <svg style="width: 24px;
 height: 24px;
 flex-shrink: 0; stroke-width: 1.5px;
 stroke: var(--Icon-Primary-Default, #706DF2);" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                viewBox="0 0 20 20" fill="none">
-                <path
-                    d="M9.9732 1C11.2857 5.31246 14.6605 8.6874 18.9728 10C14.6605 11.3126 11.2857 14.6875 9.9732 19C8.6607 14.6875 5.28588 11.3126 0.973633 10C5.28588 8.6874 8.6607 5.31246 9.9732 1Z"
-                    stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
+        viewBox="0 0 20 20" fill="none">
+        <path
+          d="M9.9732 1C11.2857 5.31246 14.6605 8.6874 18.9728 10C14.6605 11.3126 11.2857 14.6875 9.9732 19C8.6607 14.6875 5.28588 11.3126 0.973633 10C5.28588 8.6874 8.6607 5.31246 9.9732 1Z"
+          stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
 
-        </div>
-        <div class="header">
-            <h1 class="title">Let me know more</h1>
-            <p class="subtitle">I would appreciate if you give me </p>
-            <p class="subtitle">following info ..., it’s safe with me.</p>
-        </div>
-
-        <div class="form-container">
-            <div class="input-group">
-                <span class="input-icon">
-                    <!-- آیکون پیش‌فرض -->
-                    <svg class="default-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                        viewBox="0 0 20 20" fill="none">
-                        <path d="M9.9732 1C11.2857 5.31246 14.6605 8.6874 18.9728 10C14.6605 11.3126 11.2857 14.6875 9.9732 19C8.6607 
-            14.6875 5.28588 11.3126 0.973633 10C5.28588 8.6874 8.6607 5.31246 9.9732 1Z" stroke="#A9A7F7"
-                            stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                    <!-- آیکون فوکوس -->
-                    <svg class="focose-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                        viewBox="0 0 20 20" fill="none">
-                        <path d="M9.9732 1C11.2857 5.31246 14.6605 8.6874 18.9728 10C14.6605 11.3126 11.2857 14.6875 9.9732 19C8.6607 
-            14.6875 5.28588 11.3126 0.973633 10C5.28588 8.6874 8.6607 5.31246 9.9732 1Z" stroke="#706DF2"
-                            stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                </span>
-                <input type="text" class="input-field" placeholder="Name" id="name" />
-            </div>
-
-
-            <div class="input-group">
-                <span class="input-icon">
-                    <!-- آیکون پیش‌فرض -->
-                    <svg class="default-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                        viewBox="0 0 20 20" fill="none">
-                        <path d="M9.9732 1C11.2857 5.31246 14.6605 8.6874 18.9728 10C14.6605 11.3126 11.2857 14.6875 9.9732 19C8.6607 
-            14.6875 5.28588 11.3126 0.973633 10C5.28588 8.6874 8.6607 5.31246 9.9732 1Z" stroke="#A9A7F7"
-                            stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                    <!-- آیکون فوکوس -->
-                    <svg class="focose-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                        viewBox="0 0 20 20" fill="none">
-                        <path d="M9.9732 1C11.2857 5.31246 14.6605 8.6874 18.9728 10C14.6605 11.3126 11.2857 14.6875 9.9732 19C8.6607 
-            14.6875 5.28588 11.3126 0.973633 10C5.28588 8.6874 8.6607 5.31246 9.9732 1Z" stroke="#706DF2"
-                            stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                </span>
-                <input type="number" class="input-field" id="age" placeholder="Age" />
-            </div>
-
-            <div class="input-group city-container">
-                <span class="input-icon">
-                    <!-- آیکون پیش‌فرض -->
-                    <svg class="default-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                        viewBox="0 0 20 20" fill="none">
-                        <path d="M9.9732 1C11.2857 5.31246 14.6605 8.6874 18.9728 10C14.6605 11.3126 11.2857 14.6875 9.9732 19C8.6607 
-            14.6875 5.28588 11.3126 0.973633 10C5.28588 8.6874 8.6607 5.31246 9.9732 1Z" stroke="#A9A7F7"
-                            stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                    <!-- آیکون فوکوس -->
-                    <svg class="focose-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                        viewBox="0 0 20 20" fill="none">
-                        <path d="M9.9732 1C11.2857 5.31246 14.6605 8.6874 18.9728 10C14.6605 11.3126 11.2857 14.6875 9.9732 19C8.6607 
-            14.6875 5.28588 11.3126 0.973633 10C5.28588 8.6874 8.6607 5.31246 9.9732 1Z" stroke="#706DF2"
-                            stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                </span>
-                <input type="text" class="input-field city-input" id="city" placeholder="City" readonly />
-                <div class="city-dropdown" id="cityDropdown">
-                    <div class="city-option" data-city="Baghdad">Baghdad</div>
-                    <div class="city-option" data-city="Mosul">Mosul</div>
-                    <div class="city-option" data-city="Basrah">Basrah</div>
-                    <div class="city-option" data-city="Diyali">Diyali</div>
-                    <div class="city-option" data-city="Karbala">Karbala</div>
-                    <div class="city-option" data-city="Najaf">Najaf</div>
-                    <div class="city-option" data-city="Erbil">Erbil</div>
-                    <div class="city-option" data-city="Sulaymaniyah">Sulaymaniyah</div>
-                    <div class="city-option" data-city="Kirkuk">Kirkuk</div>
-                    <div class="city-option" data-city="Anbar">Anbar</div>
-                </div>
-            </div>
-
-
-            <div class="input-group">
-                <span class="input-icon">
-                    <!-- آیکون پیش‌فرض -->
-                    <svg class="default-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                        viewBox="0 0 20 20" fill="none">
-                        <path d="M9.9732 1C11.2857 5.31246 14.6605 8.6874 18.9728 10C14.6605 11.3126 11.2857 14.6875 9.9732 19C8.6607 
-            14.6875 5.28588 11.3126 0.973633 10C5.28588 8.6874 8.6607 5.31246 9.9732 1Z" stroke="#A9A7F7"
-                            stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                    <!-- آیکون فوکوس -->
-                    <svg class="focose-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                        viewBox="0 0 20 20" fill="none">
-                        <path d="M9.9732 1C11.2857 5.31246 14.6605 8.6874 18.9728 10C14.6605 11.3126 11.2857 14.6875 9.9732 19C8.6607 
-            14.6875 5.28588 11.3126 0.973633 10C5.28588 8.6874 8.6607 5.31246 9.9732 1Z" stroke="#706DF2"
-                            stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                </span>
-                <input type="email" class="input-field" id="email" placeholder="Email" />
-            </div>
-        </div>
-
-        <button class="continue-btn" id="continueBtn">Continue</button>
-
-        <!-- <p class="footer-text">
-            By proceeding, you acknowledge that you have accepted our term of use and privacy policy.
-        </p> -->
+    </div>
+    <div class="header">
+      <h1 class="title">Let me know more</h1>
+      <p class="subtitle">I would appreciate if you give me following info ..., it’s safe with me.</p>
     </div>
 
-    <script>
-        // Form elements
-        const nameInput = document.getElementById('name');
-        const ageInput = document.getElementById('age');
-        const cityInput = document.getElementById('city');
-        const emailInput = document.getElementById('email');
-        const continueBtn = document.getElementById('continueBtn');
-        const cityDropdown = document.getElementById('cityDropdown');
+    <div class="form-container">
+      <div class="input-group">
+        <span class="input-icon">
+          <!-- آیکون پیش‌فرض -->
+          <svg class="default-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"
+            fill="none">
+            <path d="M9.9732 1C11.2857 5.31246 14.6605 8.6874 18.9728 10C14.6605 11.3126 11.2857 14.6875 9.9732 19C8.6607 
+            14.6875 5.28588 11.3126 0.973633 10C5.28588 8.6874 8.6607 5.31246 9.9732 1Z" stroke="#A9A7F7"
+              stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          <!-- آیکون فوکوس -->
+          <svg class="focose-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"
+            fill="none">
+            <path d="M9.9732 1C11.2857 5.31246 14.6605 8.6874 18.9728 10C14.6605 11.3126 11.2857 14.6875 9.9732 19C8.6607 
+            14.6875 5.28588 11.3126 0.973633 10C5.28588 8.6874 8.6607 5.31246 9.9732 1Z" stroke="#706DF2"
+              stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </span>
+        <input type="text" class="input-field" placeholder="Your name" id="name" />
+      </div>
 
-        const allInputs = [nameInput, ageInput, emailInput]; // City جداگانه هندل می‌شود
 
-        // ----- Icon focus/blur handling -----
-        allInputs.forEach(input => {
-            input.addEventListener('focus', function () {
-                const group = this.closest('.input-group');
-                group.classList.add('focused');
-                this.classList.remove('focus-border-light');
-                this.classList.add('focus-border-strong');
-            });
+      <div class="input-group">
+        <span class="input-icon">
+          <!-- آیکون پیش‌فرض -->
+          <svg class="default-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"
+            fill="none">
+            <path d="M9.9732 1C11.2857 5.31246 14.6605 8.6874 18.9728 10C14.6605 11.3126 11.2857 14.6875 9.9732 19C8.6607 
+            14.6875 5.28588 11.3126 0.973633 10C5.28588 8.6874 8.6607 5.31246 9.9732 1Z" stroke="#A9A7F7"
+              stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          <!-- آیکون فوکوس -->
+          <svg class="focose-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"
+            fill="none">
+            <path d="M9.9732 1C11.2857 5.31246 14.6605 8.6874 18.9728 10C14.6605 11.3126 11.2857 14.6875 9.9732 19C8.6607 
+            14.6875 5.28588 11.3126 0.973633 10C5.28588 8.6874 8.6607 5.31246 9.9732 1Z" stroke="#706DF2"
+              stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </span>
+        <input type="number" class="input-field" id="age" placeholder="Age" />
+      </div>
 
-            input.addEventListener('blur', function () {
-                const group = this.closest('.input-group');
-                if (this.value.trim() === '') {
-                    group.classList.remove('focused');
-                    this.classList.remove('focus-border-strong', 'focus-border-light');
-                } else {
-                    this.classList.remove('focus-border-strong');
-                    this.classList.add('focus-border-light');
-                }
-            });
+      <div class="input-group city-container">
+  <div class="city-input" id="cityInput">
+    <div class="city-top">
+      <!-- آیکن سمت چپ -->
+      <span class="city-icon-left">
+        <svg class="default-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+          viewBox="0 0 20 20" fill="none">
+          <path d="M9.9732 1C11.2857 5.31246 14.6605 8.6874 18.9728 10C14.6605 11.3126 11.2857 14.6875 
+            9.9732 19C8.6607 14.6875 5.28588 11.3126 0.973633 10C5.28588 8.6874 8.6607 5.31246 9.9732 1Z"
+            stroke="#A9A7F7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        <svg class="focose-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+          viewBox="0 0 20 20" fill="none">
+          <path d="M9.9732 1C11.2857 5.31246 14.6605 8.6874 18.9728 10C14.6605 11.3126 11.2857 14.6875 
+            9.9732 19C8.6607 14.6875 5.28588 11.3126 0.973633 10C5.28588 8.6874 8.6607 5.31246 9.9732 1Z"
+            stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        <span class="city-label">City</span>
+      </span>
 
-            input.addEventListener('input', function () {
-                const group = this.closest('.input-group');
-                if (this.value.trim() !== '') {
-                    group.classList.add('focused');
-                } else {
-                    group.classList.remove('focused');
-                    this.classList.remove('focus-border-strong', 'focus-border-light');
-                }
-                validateForm();
-            });
-        });
+      <!-- آیکن سمت راست (فلش) -->
+      <span class="city-icon-right">
+        <svg class="default-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+          viewBox="0 0 20 20" fill="none">
+          <path d="M9.9732 1C11.2857 5.31246 14.6605 8.6874 18.9728 10C14.6605 11.3126 11.2857 14.6875 
+            9.9732 19C8.6607 14.6875 5.28588 11.3126 0.973633 10C5.28588 8.6874 8.6607 5.31246 9.9732 1Z"
+            stroke="#A9A7F7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        <svg class="focose-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+          viewBox="0 0 20 20" fill="none">
+          <path d="M9.9732 1C11.2857 5.31246 14.6605 8.6874 18.9728 10C14.6605 11.3126 11.2857 14.6875 
+            9.9732 19C8.6607 14.6875 5.28588 11.3126 0.973633 10C5.28588 8.6874 8.6607 5.31246 9.9732 1Z"
+            stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </span>
+    </div>
 
-        // ----- City input special handling -----
-        cityInput.addEventListener('click', function (e) {
-            e.stopPropagation(); // جلوگیری از اجرا شدن کلیک بیرون
-            cityDropdown.classList.toggle('show');
-
-            const group = this.closest('.input-group');
-            group.classList.add('focused');
-            this.classList.remove('focus-border-light');
-            this.classList.add('focus-border-strong');
-        });
-
-        // بسته شدن dropdown در کلیک بیرون
-        document.addEventListener('click', function (e) {
-            if (e.target.closest('.city-container')) return; // کلیک داخل City → نادیده بگیر
-
-            cityDropdown.classList.remove('show');
-            const group = cityInput.closest('.input-group');
-
-            if (cityInput.value.trim() !== '') {
-                group.classList.add('focused');
-                cityInput.classList.remove('focus-border-strong');
-                cityInput.classList.add('focus-border-light');
-            } else {
-                group.classList.remove('focused');
-                cityInput.classList.remove('focus-border-strong', 'focus-border-light');
-            }
-        });
-
-        // انتخاب شهر از dropdown
-        document.querySelectorAll('.city-option').forEach(option => {
-            option.addEventListener('click', function () {
-                const selectedCity = this.getAttribute('data-city');
-                cityInput.value = selectedCity;
-                cityInput.classList.add('filled');
-
-                const group = cityInput.closest('.input-group');
-                group.classList.add('focused');
-
-                cityInput.classList.remove('focus-border-strong');
-                cityInput.classList.add('focus-border-light');
-
-                cityDropdown.classList.remove('show');
-                validateForm();
-            });
-        });
-
-        // ----- Form validation -----
-        function validateForm() {
-            const isNameFilled = nameInput.value.trim() !== '';
-            const isAgeFilled = ageInput.value.trim() !== '';
-            const isCityFilled = cityInput.value.trim() !== '';
-            const isEmailFilled = emailInput.value.trim() !== '';
-
-            if (isNameFilled && isAgeFilled && isCityFilled && isEmailFilled) {
-                continueBtn.classList.add('active');
-                continueBtn.style.cursor = 'pointer';
-            } else {
-                continueBtn.classList.remove('active');
-                continueBtn.style.cursor = 'not-allowed';
-            }
-        }
-
-        // ----- Continue button click -----
-        continueBtn.addEventListener('click', function () {
-            if (this.classList.contains('active')) {
-                const formData = {
-                    name: nameInput.value.trim(),
-                    age: parseInt(ageInput.value),
-                    city: cityInput.value.trim(),
-                    email: emailInput.value.trim()
-                };
-                console.log('User Information:', formData);
-
-                // به صفحه Welcome هدایت کن
-                window.location.href = "wellcom.html";  // مسیر صفحه ویلکام خودت رو بذار
-            }
-        });
-
-        // ----- Email validation -----
-        emailInput.addEventListener('blur', function () {
-            const email = this.value.trim();
-            if (email && !isValidEmail(email)) {
-                this.style.borderColor = '#EF4444';
-            } else if (email) {
-                this.style.borderColor = '#6366F1';
-            }
-        });
-
-        function isValidEmail(email) {
-            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-        }
-
-        // ----- Age validation -----
-        ageInput.addEventListener('input', function () {
-            let value = parseInt(this.value);
-            if (value < 1) this.value = '';
-            if (value > 120) this.value = 120;
-        });
+    <!-- Dropdown گزینه‌های City -->
+    <div class="city-options">
+      <div class="city-option" data-city="Baghdad">Baghdad</div>
+      <div class="city-option" data-city="Mosul">Mosul</div>
+      <div class="city-option" data-city="Basrah">Basrah</div>
+      <div class="city-option" data-city="Diyali">Diyali</div>
+      <div class="city-option" data-city="Karbala">Karbala</div>
+    </div>
+  </div>
+</div>
 
 
 
-    </script>
+
+      <div class="input-group">
+        <span class="input-icon">
+          <!-- آیکون پیش‌فرض -->
+          <svg class="default-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"
+            fill="none">
+            <path d="M9.9732 1C11.2857 5.31246 14.6605 8.6874 18.9728 10C14.6605 11.3126 11.2857 14.6875 9.9732 19C8.6607 
+            14.6875 5.28588 11.3126 0.973633 10C5.28588 8.6874 8.6607 5.31246 9.9732 1Z" stroke="#A9A7F7"
+              stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          <!-- آیکون فوکوس -->
+          <svg class="focose-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"
+            fill="none">
+            <path d="M9.9732 1C11.2857 5.31246 14.6605 8.6874 18.9728 10C14.6605 11.3126 11.2857 14.6875 9.9732 19C8.6607 
+            14.6875 5.28588 11.3126 0.973633 10C5.28588 8.6874 8.6607 5.31246 9.9732 1Z" stroke="#706DF2"
+              stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </span>
+        <input type="email" class="input-field" id="email" placeholder="Email" />
+      </div>
+    </div>
+
+    <button class="continue-btn" id="continueBtn">Continue</button>
+
+    <!-- <p class="footer-text">
+            By proceeding, you acknowledge that you have accepted our term of use and privacy policy.
+        </p> -->
+  </div>
+
+  <script>
+   // ---------------- Form elements ----------------
+const nameInput = document.getElementById('name');
+const ageInput = document.getElementById('age');
+const emailInput = document.getElementById('email');
+const continueBtn = document.getElementById('continueBtn');
+
+const allInputs = [nameInput, ageInput, emailInput]; // City به‌صورت جداگانه هندل می‌شود
+
+// ---------------- Focus / Blur Handling ----------------
+allInputs.forEach(input => {
+  input.addEventListener('focus', function () {
+    const group = this.closest('.input-group');
+    group.classList.add('focused');
+    this.classList.remove('focus-border-light');
+    this.classList.add('focus-border-strong');
+  });
+
+  input.addEventListener('blur', function () {
+    const group = this.closest('.input-group');
+    if (this.value.trim() === '') {
+      group.classList.remove('focused');
+      this.classList.remove('focus-border-strong', 'focus-border-light', 'filled');
+    } else {
+      this.classList.remove('focus-border-strong');
+      this.classList.add('focus-border-light', 'filled');
+    }
+  });
+
+  input.addEventListener('input', function () {
+    const group = this.closest('.input-group');
+    if (this.value.trim() !== '') {
+      group.classList.add('focused');
+    } else {
+      group.classList.remove('focused');
+      this.classList.remove('focus-border-strong', 'focus-border-light', 'filled');
+    }
+    validateForm();
+  });
+});
+
+// ---------------- City Expandable Input ----------------
+const cityContainer = document.querySelector('.city-container');
+const cityInputBox = document.getElementById('cityInput');
+const cityLabel = cityInputBox.querySelector('.city-label');
+const cityOptions = cityInputBox.querySelectorAll('.city-option');
+
+let cityHasValue = false; // 👈 برای track کردن انتخاب شهر
+
+// باز و بسته‌شدن input
+cityInputBox.addEventListener('click', e => {
+  e.stopPropagation();
+
+  // 👇 اضافه شدن فوکوس هنگام کلیک
+  if (!cityInputBox.classList.contains('expanded')) {
+    cityInputBox.classList.add('focused');
+    cityInputBox.classList.remove('filled');
+  }
+
+  cityInputBox.classList.toggle('expanded');
+});
+
+// بستن هنگام کلیک بیرون
+document.addEventListener('click', e => {
+  if (!e.target.closest('.city-container')) {
+    cityInputBox.classList.remove('expanded');
+
+    // 👇 مدیریت حالت‌ها بعد از بسته شدن
+    if (cityHasValue) {
+      cityInputBox.classList.remove('focused');
+      cityInputBox.classList.add('filled');
+    } else {
+      cityInputBox.classList.remove('focused', 'filled');
+    }
+  }
+});
+
+// انتخاب شهر
+cityOptions.forEach(opt => {
+  opt.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const selectedCity = opt.getAttribute('data-city');
+    cityLabel.textContent = selectedCity;
+    cityContainer.dataset.selected = selectedCity;
+    cityHasValue = true; // 👈 علامت‌گذاری که مقدار داره
+
+    // بستن سریع لیست پس از انتخاب
+    cityInputBox.classList.remove('expanded');
+
+    // 👇 تغییر به حالت filled
+    cityInputBox.classList.remove('focused');
+    cityInputBox.classList.add('filled');
+
+    validateForm();
+  });
+});
+
+// ---------------- Form Validation ----------------
+function validateForm() {
+  const isNameFilled = nameInput.value.trim() !== '';
+  const isAgeFilled = ageInput.value.trim() !== '';
+  const isCityFilled = !!cityContainer.dataset.selected;
+  const isEmailFilled = emailInput.value.trim() !== '';
+
+  if (isNameFilled && isAgeFilled && isCityFilled && isEmailFilled) {
+    continueBtn.classList.add('active');
+    continueBtn.style.cursor = 'pointer';
+  } else {
+    continueBtn.classList.remove('active');
+    continueBtn.style.cursor = 'not-allowed';
+  }
+}
+
+// ---------------- Continue Button ----------------
+continueBtn.addEventListener('click', function () {
+  if (this.classList.contains('active')) {
+    const formData = {
+      name: nameInput.value.trim(),
+      age: parseInt(ageInput.value),
+      city: cityContainer.dataset.selected || '',
+      email: emailInput.value.trim()
+    };
+    console.log('User Information:', formData);
+    window.location.href = "wellcom.html";
+  }
+});
+
+// ---------------- Age Validation ----------------
+ageInput.addEventListener('input', function () {
+  let value = parseInt(this.value);
+  if (value < 1) this.value = '';
+  if (value > 120) this.value = 120;
+});
+
+
+  </script>
 </body>
 
 </html>

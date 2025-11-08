@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fara App Frame</title>
+<style>
+    @font-face {
+        font-family: "Bonyade Koodak VF";
+        src: url("../BonyadeKoodak-VF.ttf") format("truetype");
+        font-weight: 100 900;
+        font-display: swap;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    html, body {
+        width: 100%;
+        height: 100%;
+        background: #EFEFFE;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow-x: hidden;
+        font-family: "Bonyade Koodak VF", sans-serif;
+    }
+
+    .fara-phone-frame {
+        width: 100%;
+        max-width: 420px;
+        height: 100vh;
+        background: #fff;
+        border-radius: 35px;
+        box-shadow: 0 10px 60px rgba(0,0,0,0.25);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+    }
+
+    .fara-phone-frame .bg {
+        flex: 1;
+        background-image: url("./img/33.png");
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        object-fit: cover;
+        transition: opacity 0.4s ease-in-out;
+    }
+
+    /* سه دایره بالای دکمه Skips */
+    .slide-indicators {
+        position: absolute;
+        bottom: 100px;  /* کمی بالاتر از دکمه */
+        left: 15%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 10px;
+        z-index: 10;
+    }
+
+    .slide-indicators .dot {
+        width: 18px;
+        height: 6px;
+        background: rgba(255,255,255,0.4);
+        border-radius: 25px;
+        transition: background .3s ease;
+    }
+
+    .slide-indicators .dot.active {
+        background: #fff;
+    }
+
+    .skip-btn {
+        position: absolute;
+        bottom: 30px;
+        left: 21px;
+        font-size: 16px;
+        color: #706DF2; 
+        font-weight: 600;
+        text-decoration: none;
+        font-family: "Bonyade Koodak VF", sans-serif;
+        transition: color .3s ease;
+        z-index: 10;
+    }
+
+    .skip-btn:hover { color: #5A57C2; }
+
+    @media (max-width: 440px) {
+        .fara-phone-frame { border-radius: 0; box-shadow: none; }
+    }
+</style>
+</head>
+<body>
+
+    <div class="fara-phone-frame">
+        <div class="bg" id="bgFrame"></div>
+
+        <div class="slide-indicators" id="slideDots">
+            <div class="dot active"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+
+        <a href="#" class="skip-btn" id="skipBtn">Skips</a>
+    </div>
+
+<script>
+    const skipBtn = document.getElementById('skipBtn');
+    const bgFrame = document.getElementById('bgFrame');
+    const dots = document.querySelectorAll('.dot');
+    let step = 0;
+
+    skipBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        step++;
+
+        // روشن کردن دایره درست:
+        dots.forEach((dot, i) => {
+            dot.classList.toggle('active', i === step);
+        });
+
+        if (step === 1) {
+            bgFrame.style.backgroundImage = 'url("./img/34.png")';
+        } else if (step === 2) {
+            bgFrame.style.backgroundImage = 'url("./img/35.png")';
+        } else if (step === 3) {
+            window.location.href = "home.html";
+        }
+    });
+</script>
+
+</body>
+</html>

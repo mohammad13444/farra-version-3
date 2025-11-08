@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./www/css/tokens.css">
+  <title>Entry Point - Farra</title>
+
+  <!-- فونت‌ها -->
+  <style>
+    @font-face {
+      font-family: "Bonyade Koodak VF";
+      src: url("./www/fonts/BonyadeKoodak-VF.ttf") format("truetype");
+    }
+
+    @font-face {
+      font-family: "Bonyade Koodak VF bold";
+      src: url("./www/fonts/BonyadeKoodakKoochak-Bold.ttf") format("truetype");
+    }
+/* 🩶 پایهٔ صفحه */
+html,body {
+  margin: 0;
+  padding: 0;
+  background: var(--color-bg);
+  font-family: var(--font-family-base);
+  color: var(--color-text-primary);
+   margin-left: var(--page-margin);
+  margin-right: var(--page-margin);
+  text-align: center; /* برای متمرکزکردن محتواهای inline/inline-flex */
+}
+
+/* 📦 کانتینر اصلی */
+.container {
+ 
+  padding-top: var(--container-gap-y);
+  padding-bottom: var(--container-gap-y);
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* تمام آیتم‌ها از جمله دکمه در وسط */
+  text-align: center;
+}
+
+/* 🖼 تصویر */
+.container img {
+  margin-bottom: var(--spacing-600); /* فاصله بین تصویر و متن‌ها */
+  display: block;
+}
+
+/* 🧾 تیتر اصلی */
+.location-title {
+  font-family: var(--font-family-bold);
+  font-size: var(--font-size-title);
+  margin-bottom: 4px;
+}
+
+/* توضیح زیر تیتر */
+.location-subtitle {
+  font-size: var(--font-size-base);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-500); /* فاصله بین متن‌ها و دکمه */
+}
+
+/* 🟣 دکمه اصلی */
+.btn-primary {
+  display: inline-flex; /* برای تطابق با text-align center و ترازبندی دقیق */
+  justify-content: center;
+  align-items: center;
+  width: 344px;
+  padding: 20px 16px;
+  border: none;
+  border-radius: var(--radius-button);
+  background: var(--color-primary-500);
+  text-decoration: none;
+  transition: background 0.2s ease;
+  cursor: pointer;
+}
+
+/* 🔁 حالت‌های Hover و Active */
+.btn-primary:hover {
+  background: var(--color-primary-600);
+}
+
+.btn-primary:active {
+  background: var(--color-primary-700);
+}
+
+/* ✍️ استایل متن داخل دکمه */
+.btn-primary span,
+.btn-primary {
+  color: var(--color-text-on-color-heading, #E6E5FF);
+  font-family: var(--font-family-base);
+  font-size: var(--font-button-large-text-size);
+  font-style: normal;
+  font-weight: 500;
+  line-height: 24px; /* 100% */
+  text-align: center;
+}
+
+  </style>
+
+  <!-- استایل‌ها -->
+</head>
+
+<body>
+  <!-- تزئین محیط -->
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+
+  <div class="container">
+    <div class="hero-img">
+      <img src="./www/img/7.png" alt="Ahmad Village" width="100%" height="100%">
+    </div>
+
+    <!-- اطلاعات مکان -->
+    <div class="location-info">
+      <h1 class="location-title">Ahmad Village</h1>
+      <p class="location-subtitle">Sulaymaniyah</p>
+    </div>
+
+    <!-- دکمه‌های اکشن -->
+    <div class="action-buttons">
+      <a href="signup.html" class="btn btn-primary">Signup</a>
+      <a href="signin.html" class="btn btn-secondary">Signin</a>
+    </div>
+  </div>
+</body>
+</html>
+
+
+
+.discount-slider {
+    background: linear-gradient(135deg, #3e2ad9, #4b52ff, #00bdf3);
+    border-radius: 24px;
+    position: relative;
+
+    /* این دو رو تغییر بده */
+    overflow: visible;  /* کارت‌ها اجازه دارند بیرون بک‌گراند دیده بشن */
+    max-width: none;    /* کل عرض صفحه را بگیر، محدود نشو */
+    margin: 0px;
+}
+
+
+.slider-title {
+  color: #fff;
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* کارت‌ها و اسکرول مرکزی */
+.slider-cards {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding-left: 100%;
+  scroll-padding-right: 50%;
+  scroll-behavior: smooth;
+  position: relative;
+  padding-bottom: 20px;
+  width: 100vw;        /* عرض کامل صفحه */
+    position: relative;
+    left: 50%;            /* از مرکز خروج کن */
+    margin-left: -30vw;
+ 
+}
+
+/* اسکرول‌بار پنهان */
+.slider-cards::-webkit-scrollbar {
+  display: none;
+}
+
+/* کارت‌ها */
+.hotel-card {
+  flex: 0 0 260px;
+  width: 231px;
+  height: 264px;
+  background: #eae5ff;
+  border-radius: 22px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  scroll-snap-align: center;
+  position: relative;
+}
+
+.hotel-card:hover {
+  transform: translateY(0px);
+}
+
+/* تصویر کارت */
+.card-image {
+  position: relative;
+  width: 100%;
+  height: 180px;
+  overflow: hidden;
+}
+
+.card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.rating {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(60, 60, 70, 0.6);
+  color: #fff;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+}
+
+/* بخش Price پایین تصویر */
+.price-tag {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 80%;
+  background: linear-gradient(90deg, rgba(0, 200, 255, 0.7), rgba(160, 220, 255, 0.5));
+  border-radius: 18px;
+  padding: 8px 14px;
+  color: #333;
+  font-weight: 600;
+  font-size: 1rem;
+  backdrop-filter: blur(4px);
+}
+
+.price-tag small {
+  color: #666;
+  margin-left: 4px;
+}
+
+.price-tag .icon {
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
+  padding: 4px 8px;
+  font-size: 0.8rem;
+}
+
+/* اطلاعات کارت */
+.card-info {
+  padding: 14px;
+  text-align: left;
+}
+
+.card-info h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 4px;
+}
+
+.card-info p {
+  font-size: 0.85rem;
+  color: #777;
+}
+
+/* 📱 ریسپانسیو */
+@media (max-width: 1024px) {
+  .hotel-card {
+    flex: 0 0 250px;
+  }
+}
+
+@media (max-width: 768px) {
+  .slider-title {
+    font-size: 1.4rem;
+  }
+  .hotel-card {
+    flex: 0 0 250px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hotel-card {
+    flex: 0 0 250px;
+  }
+}
+
+
+<div class="discount-slider">
+  <h2 class="slider-title">Last Minute Discount</h2>
+<br>
+<br>
+<br>
+<br>
+  <div class="slider-cards">
+    <div class="hotel-card">
+      <div class="card-image">
+        <img src="https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=600" alt="hotel">
+        <div class="rating">✦ 3.5</div>
+        <div class="price-tag">
+          <span>Price</span> <small>/Night</small>
+          <div class="icon">✦</div>
+        </div>
+      </div>
+      <div class="card-info">
+        <h3>Hotel Name</h3>
+        <p>City • Country</p>
+      </div>
+    </div>
+
+    <div class="hotel-card">
+      <div class="card-image">
+        <img src="https://images.unsplash.com/photo-1501117716987-c8e1ecb2108d?w=600" alt="hotel">
+        <div class="rating">✦ 4.2</div>
+        <div class="price-tag">
+          <span>Price</span> <small>/Night</small>
+          <div class="icon">✦</div>
+        </div>
+      </div>
+      <div class="card-info">
+        <h3>Seaside Resort</h3>
+        <p>Athens • Greece</p>
+      </div>
+    </div>
+
+    <div class="hotel-card">
+      <div class="card-image">
+        <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=600" alt="hotel">
+        <div class="rating">✦ 4.8</div>
+        <div class="price-tag">
+          <span>Price</span> <small>/Night</small>
+          <div class="icon">✦</div>
+        </div>
+      </div>
+      <div class="card-info">
+        <h3>Mountain View</h3>
+        <p>Zermatt • Switzerland</p>
+      </div>
+    </div>
+
+    <div class="hotel-card">
+      <div class="card-image">
+        <img src="https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=600" alt="hotel">
+        <div class="rating">✦ 4.0</div>
+        <div class="price-tag">
+          <span>Price</span> <small>/Night</small>
+          <div class="icon">✦</div>
+        </div>
+      </div>
+      <div class="card-info">
+        <h3>Ocean Breeze</h3>
+        <p>Miami • USA</p>
+      </div>
+    </div>
+  </div>
+</div>

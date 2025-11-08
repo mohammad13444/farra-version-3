@@ -1,41 +1,128 @@
 :root {
-    /* COLORS */
-    --surface-page: #E6E5FF;
-    --primary-500: #706DF2;
-    --text-default-heading: #1F1F24;
+  /* =========================================================
+     🔮 Primary Button – Large (Farra Design System)
+     ========================================================= */
 
-    /* FONTS */
-    --fonts-en-primary: "Bonyade Koodak VF", sans-serif;
+  /* ----- Dimensions ----- */
+  --btn-primary-width: 344px;
+  --btn-primary-height: 62px;
+  --btn-primary-padding-vertical: 20px;
+  --btn-primary-padding-horizontal: 16px;
+  --btn-primary-border-radius: 40px;
 
-    /* HEADING H4 */
-    --font-headings-h4-text-size: 32px;
-    --font-headings-h4-line-height: 48px;
-    --font-headings-h4-weight: 700;
+  /* ----- Background Colors (States) ----- */
+  --btn-primary-bg-default: var(--Primary-500, #706DF2);
+  --btn-primary-bg-hover: var(--Primary-600, #5A57C2);
+  --btn-primary-bg-pressed: var(--Primary-600, #5A57C2);
+  --btn-primary-bg-action: var(--Primary-700, #434191);
+  --btn-primary-bg-disabled: var(--Surface-Disabled-Default, #899989);
+  --btn-primary-bg-loading: var(--Primary-600, #5A57C2);
 
-    /* BODY LCopy */
-    --font-copy-body-lg-text-size: 20px;
-    --font-copy-body-lg-line-height: 24px;
-    --font-copy-body-lg-weight: 400;
+  /* ----- Typography ----- */
+  --btn-primary-text-color: var(--Text-On-Color-Heading, #E6E5FF);
+  --btn-primary-text-disabled: rgba(230, 229, 255, 0.6);
+  --btn-primary-font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+  --btn-primary-font-size: var(--Font-Button-Large-Text-Size, 24px);
+  --btn-primary-font-weight: 500;
+  --btn-primary-line-height: 24px;
 
-    /* SPACING */
-    --spacing-600: 24px;
-    --gap-sm: 10px;
+  /* ----- Layout & Motion ----- */
+  --btn-primary-display: inline-flex;
+  --btn-primary-justify: center;
+  --btn-primary-align: center;
+  --btn-primary-transition: all 0.25s ease;
 
-    /* RADIUS */
-    --radius-pill: 40px;
+  /* =========================================================
+     ✏️ Text Field – Large (Farra Design System)
+     ========================================================= */
 
-    /* WIDTHS */
-    --btn-primary-width: 344px;
-    --btn-secondary-width: 224px;
-    --btn-text-width: 72px;
+  /* ----- Dimensions ----- */
+  --textfield-height-lg: 64px;
+  --textfield-border-radius-lg: 32px;
+  --textfield-padding-x-lg: 50px;
+  --textfield-padding-y-lg: 12px;
 
-    /* PADDINGS */
-    --btn-primary-padding: 20px 16px;
-    --btn-secondary-padding: 4px 8px;
-    --btn-text-padding-primary: 0 1px;
-    --btn-text-padding-secondary: 0 9px 0 10px;
+  /* ----- Typography ----- */
+  --textfield-font-family: "Bonyade Koodak VF";
+  --textfield-font-size: 20px;
+  --textfield-line-height: 24px;
+  --textfield-font-weight-default: 300;
+  --textfield-font-weight-active: 500;
 
-    /* CONTAINER DIMENSIONS */
-    --container-width: 378.303px;
-    --container-height: 654.303px;
+  /* ----- Colors: Text ----- */
+  --textfield-text-default: #A9A7F7;
+  /* Placeholder */
+  --textfield-text-filled: #706DF2;
+
+  /* User Input */
+  --textfield-text-active: #5C5C66;
+  /* Focused */
+  --textfield-text-error: #EF4444;
+  --textfield-text-success: #44CD54;
+  --textfield-text-disabled: #B5B5C8;
+
+  /* ----- Colors: Border (All States) ----- */
+  --textfield-border-default: #C6C5FA;
+  --textfield-border-hover: #706DF2;
+  --textfield-border-focus: #706DF2;
+  --textfield-border-filled: #706DF2;
+  --textfield-border-error: #FF595B;
+  --textfield-border-success: #44CD54;
+  --textfield-border-disabled: #D9D7EB;
+  --Textbox-Filled-Border: #706DF2;
+  --Textbox-Filled-Text: #706DF2;
+
+  /* ----- Backgrounds ----- */
+  --textfield-bg-default: #F8F7FC;
+  --textfield-bg-hover: #F8F7FC;
+  --textfield-bg-focus: #F8F7FC;
+  --textfield-bg-filled: #F8F7FC;
+  --textfield-bg-error: #F8F7FC;
+  --textfield-bg-success: #F8F7FC;
+  --textfield-bg-disabled: #F8F7FC;
+  
+
+  /* ----- Placeholder Text ----- */
+  --textfield-placeholder-default: #A9A7F7;
+  --textfield-placeholder-focus: #706DF2;
+  --textfield-placeholder-disabled: #B5B5C8;
+
+  /* ----- Border Widths ----- */
+  --textfield-border-width-thin: 1px;
+  --textfield-border-width-focus: 4px;
+  --textfield-border-width-strong: 2px;
+
+  /* ----- Motion ----- */
+  --textfield-transition: all 0.2s ease-in-out;
+
+   --state-success-border: #44CD54;
+  --state-success-text: #44CD54;
+  --state-error-border: #FF595B;
+  --state-error-text: #FF595B;
+  /* =========================================================
+     🌈 Shared System Tokens (Core Utilities)
+     ========================================================= */
+  --Primary-500: #706DF2;
+  --Primary-600: #5A57C2;
+  --Primary-700: #434191;
+  --Surface-Disabled-Default: #8A8999;
+  --Text-On-Color-Heading: #E6E5FF;
+  --Border-Error-Default: #FF595B;
+  --Border-Success-Default: #44CD54;
+  --Primitives-White: #F8F7FC;
+  --Text-Default-Heading: #45454D;
+  --Text-Primary-Default: #706DF2;
+  --Button-Success-Default: #44CD54;
+  --Font-Button-Large-Text-Size: 24px;
+  --Font-Headings-H4-Text-Size: 32px;
+  --Font-Copy-Body-Lg-Text-Size: 20px;
+  --Spacing-300: 12px;
+  --Spacing-400: 16px;
+  --Spacing-500: 40px;
+  --Spacing-600: 62px;
+  --Border-Radius-600: 24px;
+  --Border-Radius-800: 32px;
+  --Border-Width-25: 1px;
+  --Border-Width-50: 2px;
+  --Border-Width-100: 4px;
 }

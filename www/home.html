@@ -1,374 +1,2684 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Entry Point - Farra</title>
-    <style>
-         @font-face {
-     font-family: "Bonyade Koodak VF";
-     src: url("./fonts/BonyadeKoodakKoochak-Light.ttf") format("truetype")
-         
-   }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <title>Farra - Home</title>
+  <style>
 
-   @font-face {
-    font-family: "Bonyade Koodak VF bold";
-    src: url("./fonts/BonyadeKoodakKoochak-Bold.ttf") format("truetype");
-   }
+  @font-face {
+      font-family: "Bonyade Koodak VF";
+      src: url("./BonyadeKoodak-VF.ttf") format("truetype");
+      font-weight: 100 900;
+      /* 👈 اجازه بده تمام بازه وزن‌ها فعال بشه */
+      font-display: swap;
+  }
 
-  
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+  @font-face {
+      font-family: "Bonyade Koodak VF bold";
+      src: url("../fonts/BonyadeKoodakKoochak-Bold.ttf") format("truetype");
+      font-weight: 100 900;
+      /* 👈 اجازه بده تمام بازه وزن‌ها فعال بشه */
+      font-display: swap;
+  }
+
+    /* Reset & Base */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+
+    body {
+      font-family: "Bonyade Koodak VF";
+      background: #EFEFFE;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      /* پر کردن ارتفاع کل صفحه */
+      padding: 0 24px;
+      margin: 0;
+      min-height: 100vh;
+      flex-direction: column;
+
+      width: 100%;
+      min-height: 100vh;
+      overflow-x: hidden;
+      /* 🚀 جلوگیری از اسکرول کل صفحه */
+    }
+
+    .home-container {
+      width: 100%;
+      max-width: 420px;
+      height: 100%;
+
+
+    }
+
+    /* Header */
+    .header {
+      width: 100%;
+      background: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 13px;
+      border-radius: 16px;
+      margin-top: 24px;
+    }
+
+    .star {
+      color: #8e83e6;
+      font-size: 24px;
+    }
+
+    .logo {
+      font-size: 28px;
+      font-weight: 700;
+      color: #8877f3;
+    }
+
+    .search-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;            /* آیکن‌ها همیشه راستن */
+    height: 48px;
+    width: 100%;
+    max-width: 500px;
+    border-radius: 50px;
+    border: 1.5px solid #dcd4ff;
+    padding: 0 10px;
+    box-sizing: border-box;
+    background: #F8F7FC;
+}
+
+/* اینپوت وسط و کشیده */
+.search-box input {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-family: "Bonyade Koodak VF", sans-serif;
+    font-size: 16px;
+    color: #5C5C66;
+    min-width: 0;
+    padding-right: 10px;  
+    padding-left: 15px;               /* فاصله از آیکن سمت راست */
+    position: relative;
+}
+
+/* آیکن‌ها در سمت راست سرچ‌باکس */
+.search-box .icon-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;                            /* فاصله بین چند آیکن */
+    flex-shrink: 0;
+    position: absolute;
+    right: 180px;                         /* جایی ثابت کنار راست */
+    top: 50%;
+    transform: translateY(-50%);         /* دقیق وسط عمودی */
+    pointer-events: none;
+}
+
+/* فوکوس: فقط رنگ عوض بشه، موقعیت ثابت بمونه */
+.search-box:focus-within {
+    border: 1.5px solid #706DF2;
+    background: #F8F7FC;
+}
+.search-box:focus-within .default-icon {
+    opacity: 0;
+}
+.search-box:focus-within .focose {
+    opacity: 1;
+}
+
+/* برای جلوگیری از هر پرش ناگهانی SVG */
+.search-box svg {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    display: inline-block;
+}
+
+/* وقتی عرض خیلی کم شد، اندازه باکس ثابت بمونه */
+@media (max-width: 360px) {
+    .search-box {
+        padding: 8px 14px;
+        gap: 8px;
+    }
+    .search-box svg {
+        width: 18px;
+        height: 18px;
+    }
+}
+
+.search-box input::placeholder {
+    color: var(--textfield-placeholder-default, #A9A7F7);
+    transition: opacity 0.25s ease, color 0.25s ease;
+}
+
+/* در هنگام فوکوس placeholder محو شود */
+.search-box:focus-within input::placeholder {
+    opacity: 0;
+}
+
+
+.search-box.active input {
+    color: #000; /* در حال فوکوس یا تایپ، مشکی */
+}
+
+
+    /* ====== حالت Hover ====== */
+    .search-box:hover {
+      border-color: var(--textfield-border-hover, #9795F3);
+      background: var(--textfield-bg-hover, #F8F7FC);
+    }
+
+    /* ====== حالت Focus ====== */
+    .search-box:focus-within {
+      border: var(--textfield-border-width-focus, 2px) solid var(--textfield-border-focus, #706DF2);
+      background: var(--textfield-bg-focus, #F8F7FC);
+    }
+
+    .search-box:focus-within input::placeholder {
+      color: var(--textfield-placeholder-focus, #706DF2);
+    }
+
+    /* ====== حالت Filled ====== */
+    .search-box.filled {
+      border: var(--Border-Width-25, 1px) solid var(--Textbox-Filled-Border, #706DF2);
+      background: var(--Primitives-White, #F8F7FC);
+    }
+
+    .search-box.filled input {
+      color: var(--Textbox-Filled-Text, #706DF2);
+      font-weight: 500;
+    }
+
+    /* ====== حالت‌های خطا و موفقیت ====== */
+    .search-box.error {
+      border: 2px solid var(--textfield-border-error, #FF595B);
+    }
+
+    .search-box.success {
+      border: 2px solid var(--textfield-border-success, #44CD54);
+    }
+
+    /* ====== آیکون‌های دو طرف ====== */
+    .search-box .star img {
+      width: 24px;
+      height: 24px;
+      transition: transform 0.3s ease, filter 0.3s ease;
+    }
+
+    /* Hover انفرادی برای آیکون‌ها */
+    .search-box .star:hover img {
+      transform: scale(1.1);
+      filter: brightness(1.3);
+    }
+
+    /* آیکون سمت چپ همیشه پایدار وسط فیلد */
+    .search-box .star:first-child {
+      margin-left: 4px;
+    }
+
+
+    /* Property Types (Frame 26 version) */
+    .property-types {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 42px 28px;
+      width: 100%;
+      max-width: 600px;
+      margin: 40px auto 60px;
+      text-align: center;
+    }
+
+    .type-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: #7f74e8;
+      transition: transform 0.2s ease;
+    }
+
+    .type-item:hover {
+      transform: translateY(-5px);
+    }
+
+    .type-star {
+      font-size: 30px;
+      color: #8d82f3;
+      margin-bottom: 8px;
+    }
+
+    .type-name {
+      font-size: 16px;
+      font-weight: 500;
+      color: #706DF2;
+    }
+
+    /* Frame 37 – Hero Section */
+    .hero-section {
+      width: 100%;
+      max-width: 900px;
+      height: 264px;
+      position: relative;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 8px 18px rgba(120, 100, 255, 0.25);
+      margin: 0 auto 20px;
+    }
+
+    .hero-section img {
+      width: 100%;
+      display: block;
+      height: 264px;
+
+      border-radius: 20px;
+    }
+
+    .overlay-box {
+      position: absolute;
+      left: 50%;
+      bottom: 7px;
+      transform: translateX(-50%);
+      background: #E2E2FCB2;
+      backdrop-filter: blur(12px);
+      border-radius: 20px;
+      padding: 18px 28px;
+      width: 95%;
+      box-shadow: 0 4px 14px rgba(140, 120, 255, 0.25);
+    }
+
+    .overlay-box h2 {
+      font-size: 18px;
+      font-weight: 700;
+      color: #464153;
+      margin-bottom: 5px;
+    }
+
+    .overlay-box p {
+      font-size: 14px;
+      margin: 0px;
+      color: #68627a;
+    }
+
+    /* بخش کلی Nearby Hotels با Layout کل صفحه */
+    .nearby-section {
+      width: 100%;
+      max-width: calc(100% - 48px);
+      margin: 0 auto 40px;
+      position: relative;
+      overflow: visible;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+    }
+
+    .section-header h2 {
+      font-size: 20px;
+      font-weight: 600;
+      color: #2c2a40;
+    }
+
+    .count {
+      background: #dcd6f9;
+      color: #5a51e0;
+      font-size: 12px;
+      border-radius: 12px;
+      padding: 3px 9px;
+      margin-left: 6px;
+    }
+
+    .show-all {
+      font-size: 14px;
+      color: #5a51e0;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    /* بخش کلی Nearby Hotels اصلاح‌شده */
+    #vvv{
+      width: 100%;
+      max-width: calc(100% - 0px);
+      margin: 0 auto 10px;
+      position: relative;
+      overflow: visible;
+    }
+    .nearby-area {
+      width: 100%;
+      max-width: calc(100% - 0px);
+      margin: 0 auto 10px;
+      position: relative;
+      overflow: visible;
+    }
+
+    .area-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+    }
+
+    .eee{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .area-header h2 {
+      font-size: 24px;
+      padding-top: 3px;
+      font-weight: 500;
+      color: #2c2a40;
+    }
+
+    .area-count {
+      background: #a0a0b1;
+      color: #dfdffd;
+      font-size: 13px;
+      border-radius: 12px;
+      font-weight: 700;
+      padding: 2px 11px;
+      margin-left: 6px;
+    }
+
+    .area-showall {
+      font-size: 15px;
+      color: #3954d0;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+     .area-showall:hover{
+      color: #2f306d;
+     }
+
+    /* ================= اسلایدر دستی ================= */
+    /* 🔹 کانتینر اصلی مستقل از پدینگ‌های body */
+    .fara-slider-zone {
+      position: relative;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100vw;
+      /* کاملاً هم‌عرض با viewport */
+      overflow: hidden;
+      /* هر چی بیرون بره مخفی می‌کنه */
+    }
+
+    /* 🔹 ساختار اسکرول دستی */
+    .fara-scroll-belt {
+      position: relative;
+      width: 100vw;
+      display: flex;
+      overflow-x: scroll;
+      overflow-y: hidden;
+      scroll-behavior: smooth;
+
+      /* 🚀 کل محتوا از پدینگ صفحه بیرون بیاد */
+      padding-left: 24px;
+      padding-right: 24px;
+      margin-right: 0;
+
+      /* ✅ اجازه بده کارت‌ها از هر دو سمت خارج شن */
+      box-sizing: content-box;
+    }
+
+
+    .fff{
+      padding-top: 41px;
+      padding-bottom: 30px;
+      background-color: #5A57C2;
+      border-radius: 25px;
+      background-image: url("./img/26.png");
+      background-size: cover;
+    }
+
+
+    .fara-section-space {
+      padding-top: 41px;
+      padding-bottom: 41px;
+    }
+
+    .fara-scroll-belt::-webkit-scrollbar {
+      display: none;
+    }
+
+    .fara-row-track {
+      display: flex;
+      gap: 15px;
+      padding-left: 0vw;
+      /* شروع از 30٪ سمت چپ */
+
+    }
+
+    .nnn{
+       display: flex;
+      gap: 15px;
+      padding-left: 14vw;
+      /* شروع از 30٪ سمت چپ */
+    }
+
+    /* ================= کارت‌ها ================= */
+   /* ================= کارت‌ها ================= */
+.fara-item-box {
+    width: 231px;
+    height: 269px;
+    background: #E2E2FC;
+    border-radius: 22px;
+    overflow: hidden;              /* حفظ گردی کل قاب کارت */
+    scroll-snap-align: center;
+    position: relative;
+}
+
+.fara-item-box:hover{
+  background: #C6C5FA;
+}
+
+/* تصویر کارت */
+.fara-img-holder {
+    position: relative;
+    width: 100%;
+    height: 180px;
+    border-radius: 22px;  
+    padding: 5px;         /* چهار گوشه کاملاً گرد */
+    overflow: hidden;              /* برش دقیق برای داخل تصویر */
+}
+
+/* تصویر داخل کارت */
+.fara-img-holder img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 22px;           /* روی خود تصویر هم گردی بده */
+    display: block;
+    clip-path: inset(0 round 22px); /* فیکس برای Cordova/Safari */
+}
+
+/* امتیاز */
+.fara-star-mark {
+    position: absolute;
+    width: 25%;
+    top: 10px;
+    right: 10px;
+    background: rgba(60, 60, 70, 0.6);
+    color: #fff;
+    padding: 0px 10px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    margin: 8px;
+}
+
+.fara-star-mark img {
+    width: 5px;                   /* اندازه واقعی آیکن ستاره */
+    height: auto;                  /* حفظ تناسب تصویر */
+    margin-right: 4px;             /* فاصله خیلی کوچیک قبل عدد */
+    vertical-align: middle;
+    object-fit: contain;
+    
+}
+
+/* نوار قیمت پایین تصویر */
+/* .fara-price-bar {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 90%;
+    background-color: #eae5ffb0;
+    border-radius: 25px;
+    padding: 8px 14px;
+    color: #333;
+    font-weight: 600;
+    font-size: 1rem;
+    backdrop-filter: blur(10px);
+} */
+
+.fara-price-sub {
+    color: #666;
+    margin-left: 4px;
+}
+
+.fara-price-icon {
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 50%;
+    padding: 4px 8px;
+    font-size: 0.8rem;
+}
+
+/* اطلاعات زیر کارت */
+.fara-info-panel {
+    padding: 14px;
+    text-align: left;
+}
+
+.fara-info-panel h3 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 4px;
+}
+
+.fara-info-panel p {
+    font-size: 16;
+    font-weight: 400;
+    color: #777;
+    margin: 0px;
+}
+
+
+    /* SECTION – Offers */
+    .offers-section {
+      width: 100%;
+      position: relative;
+      margin: 0 auto;
+      /* هم‌تراز با ساختار اصلی صفحه */
+      overflow: visible;
+    }
+
+    .offers-section h2 {
+      font-size: 20px;
+      font-weight: 600;
+      color: #2c2a40;
+      margin-bottom: 18px;
+      font-family: "Bonyade Koodak VF";
+    }
+
+    /* Slider Offers */
+    .offers-slider {
+      display: flex;
+      flex-direction: row;
+      gap: 16px;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      padding-left: 24px;
+      /* شروع اولین کارت داخل viewport */
+      padding-right: 24px;
+      margin: 0 -24px;
+      /* حذف محدودیت پدینگ والد */
+      width: 100vw;
+      /* تمام عرض صفحه */
+      position: relative;
+    }
+
+    .offers-slider::-webkit-scrollbar {
+      display: none;
+      /* حذف اسکرول‌بار */
+    }
+
+    /* Offer Card Style */
+    .offer-card {
+      flex: 0 0 107px;
+      height: 107px;
+      background: #706DF2;
+      border-radius: 33px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+    }
+
+    .offer-card:hover{
+      background: #5A57C2;
+    }
+
+     .offer-card:active{
+      background: #434191;
+    }
+
+
+    .offer-icon {
+      font-size: 26px;
+      margin-bottom: 6px;
+    }
+
+    .offer-card span {
+      font-size: 17px;
+      font-weight: 400;
+      color: #ffffff;
+    }
+
+
+    /* Group 34 – Info Banner */
+    .info-banner {
+      width: 100%;
+      max-width: calc(100% - 48px);
+      /* هماهنگی با پدینگ صفحه */
+      background: #eeebff;
+      border-radius: 40px;
+      padding: 24px 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 4px 16px rgba(130, 120, 255, 0.20);
+      margin: 0 auto 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+
+    /* .banner-image img {
+            width: 100px;
+            z-index: 2;
         }
 
-        body {
-                 font-family: "Bonyade Koodak VF";
-
-            background: #EFEFFE;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 40px 24px;
-            position: relative;
+        .banner-text {
+            flex: 1;
+            padding-left: 20px;
         }
 
-        .container {
-            width: 100%;
-            max-width: 400px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-        }
-
-        /* Custom blob-shaped image container */
-        .image-container {
-            width: 280px;
-            height: 320px;
-            position: relative;
-            margin-bottom: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .blob-shape {
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #4ADE80 0%, #22D3EE 50%, #A78BFA 100%);
-            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            animation: morphing 8s ease-in-out infinite;
-        }
-
-        .blob-image {
-            width: 85%;
-            height: 85%;
-            object-fit: cover;
-            border-radius: 25% 65% 65% 25% / 25% 25% 65% 65%;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        @keyframes morphing {
-            0%, 100% {
-                border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
-                transform: scale(1) rotate(0deg);
-            }
-            25% {
-                border-radius: 50% 50% 80% 20% / 25% 75% 25% 75%;
-                transform: scale(1.02) rotate(1deg);
-            }
-            50% {
-                border-radius: 80% 20% 50% 50% / 75% 25% 75% 25%;
-                transform: scale(0.98) rotate(-1deg);
-            }
-            75% {
-                border-radius: 20% 80% 30% 70% / 60% 40% 60% 40%;
-                transform: scale(1.01) rotate(0.5deg);
-            }
-        }
-
-        /* Location info */
-        .location-info {
-            margin-top: 40px;
-            margin-bottom: 50px;
-        }
-
-        .location-title {
-            font-family: "Bonyade Koodak VF bold";
-            font-size: 32px;
+        .banner-text h3 {
+            font-size: 18px;
             font-weight: 700;
-            margin-bottom: 8px;
-            letter-spacing: -0.5px;
-            color: var(--Text-Default-Heading, #45454D);
-text-align: center;
-
-
-font-size: var(--Font-Headings-H4-Text-Size, 32px);
-font-style: normal;
-font-weight: 700;
-line-height: var(--Font-Headings-H4-Line-Heigth, 48px); /* 150% */
+            color: #2c2a40;
+            margin-bottom: 6px;
         }
 
-        .location-subtitle {
-            
-            color: var(--Text-Default-Heading, #45454D);
-            
-            text-align: center;
-            font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
-font-size: var(--Font-Button-Large-Text-Size, 24px);
-font-style: normal;
-font-weight: 500;
-line-height: 24px; /* 100% */
+        .banner-text p {
+            font-size: 15px;
+            color: #5a5a77;
+            margin-bottom: 6px;
         }
 
-        /* Action buttons */
-        .action-buttons {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .btn {
-              
-            height: 60px;
-width: 344px;
-padding: 20px 16px;
-
-            border-radius: 40px;
-            background: var(--Primary-500, #706DF2);
-            border: none;
-            cursor: pointer;
-            margin-bottom: 48px;
-            transition: all 0.3s ease;
-            color: var(--Text-On-Color-Heading, #E6E5FF);
-            text-align: center;
+        .banner-text a {
+            font-size: 15px;
+            color: #5a51e0;
+            font-weight: 500;
             text-decoration: none;
-            /* English/Button/Large */
-            font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
-            font-size: var(--Font-Button-Large-Text-Size, 24px);
-            font-style: normal;
-            font-weight: 550;
-            line-height: 24px;
-            /* 100% */
-        }
-
-        .btn-primary {
-            background: #706DF2;
-            color: #E6E5FF;
-            margin-bottom: 0px;
-        }
-
-        .btn-primary:hover {
-            background-color: #5A57C2;
-        }
-
-        .btn-primary:active {
-            
-            background: var(--Primary-700, #434191);
-        }
-
-         .btn-secondary {
-            background: transparent;
-            color: var(--Text-Primary-Default, #706DF2);
-text-align: center;
-
-/* English/TextButton/Large */
-font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
-font-size: var(--Font-Button-Large-Text-Button, 20px);
-font-style: normal;
-font-weight: 500;
-line-height: 20px; /* 100% */
-        }
-/*
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 1);
-            border-color: #6366F1;
-            transform: translateY(-1px);
-            box-shadow: 0 8px 16px rgba(99, 102, 241, 0.15);
         } */
 
-        /* Floating particles for decoration */
-        .particle {
-            position: absolute;
-            background: rgba(255, 255, 255, 0.6);
-            border-radius: 50%;
-            pointer-events: none;
-            animation: float 6s ease-in-out infinite;
-        }
 
-        .particle:nth-child(1) {
-            width: 6px;
-            height: 6px;
-            top: 15%;
-            left: 10%;
-            animation-delay: -1s;
-        }
+    .manual-slider-section {
+      padding-top: 41px;
+      padding-bottom: 41px;
+      background-color: #5A57C2;
+      border-radius: 25px;
+      overflow: hidden;
+      position: relative;
+      background-image: url("img/19.png");
+      background-size: cover;
+      width: 100%;
+    }
 
-        .particle:nth-child(2) {
-            width: 8px;
-            height: 8px;
-            top: 25%;
-            right: 15%;
-            animation-delay: -3s;
-        }
-
-        .particle:nth-child(3) {
-            width: 4px;
-            height: 4px;
-            top: 70%;
-            left: 20%;
-            animation-delay: -2s;
-        }
-
-        .particle:nth-child(4) {
-            width: 10px;
-            height: 10px;
-            top: 80%;
-            right: 10%;
-            animation-delay: -4s;
-        }
-
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0px) rotate(0deg);
-                opacity: 0.4;
-            }
-            50% {
-                transform: translateY(-15px) rotate(180deg);
-                opacity: 0.8;
-            }
-        }
-
-        /* Entrance animations */
-        .container {
-            animation: slideInUp 1s ease-out;
-        }
-
-        @keyframes slideInUp {
-            0% {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .image-container {
-            animation: scaleIn 1.2s ease-out 0.3s both;
-        }
-
-        @keyframes scaleIn {
-            0% {
-                opacity: 0;
-                transform: scale(0.8);
-            }
-            100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        .location-info {
-            animation: fadeInUp 1s ease-out 0.6s both;
-        }
-
-        .action-buttons {
-            animation: fadeInUp 1s ease-out 0.9s both;
-        }
-
-        @keyframes fadeInUp {
-            0% {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Responsive design */
-        @media (max-width: 480px) {
-            .image-container {
-                width: 240px;
-                height: 280px;
-            }
-            
-            .location-title {
-                font-size: 32px;
-            }
-            
-            .location-subtitle {
-                font-size: 20px;
-            }
-            
-            .btn {
-                padding: 20px 16px;
-                font-size: 24px;
-            }
-        }
-
-        @media (max-height: 700px) {
-            body {
-                padding: 20px 24px;
-            }
-            
-            .image-container {
-                width: 220px;
-                height: 250px;
-                margin-bottom: 30px;
-            }
-            
-            .location-info {
-                margin-bottom: 40px;
-            }
-            
-            .location-title {
-                font-size: 26px;
-            }
-        }
-    </style>
-</head>
-<body>
-    <!-- Floating particles for decoration -->
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-
-    <div class="container">
-        <!-- Custom blob-shaped image -->
-            <div class="" style="margin-top: 18%;">
-                <img src="./img/7.png" alt="Ahmad Village" width="100%" height="100%" class="">
-            </div>
-        </div>
-
-        <!-- Location information -->
-        <div class="location-info">
-            <h1 class="location-title">Ahmad Village</h1>
-            <p class="location-subtitle">Sulaymaniyah</p>
-            
-        </div>
-
-        <!-- Action buttons -->
-        <div class="action-buttons">
-            <a href="signup.html" class="btn btn-primary">Signup</a>
-            <a href="signup.html" style="font-size: 20px;" class="btn btn-secondary">Signin</a>
-        </div>
-    </div>
-</body>
-</html>
  
+
+   .fara-bottom-nav {
+    position: fixed;
+    left: 24px;                         /* پدینگ چپ صفحه */
+    right: 24px;                        /* پدینگ راست صفحه */
+    bottom: 35px;
+    background: rgba(211, 224, 255, 0.45);
+    backdrop-filter: blur(20px);
+    border-radius: 50px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    padding: 25px 25px;
+    z-index: 999;
+    width: auto;                        /* 👈 بذار خودش با right و left فاصله بگیره */
+    max-width: 480px;
+    margin: 0 auto;                    
+}
+
+
+    .fara-bottom-container {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+    }
+
+    .fara-bottom-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: #645ef6;
+      /* رنگ آیکون‌ها مشابه تصویر */
+      font-family: "Bonyade Koodak VF", sans-serif;
+      cursor: pointer;
+      transition: color 0.3s ease, transform 0.3s ease;
+    }
+
+    .fara-bottom-item.active {
+      color: #645ef6;
+      transform: scale(1.1);
+    }
+
+    .fara-bottom-item:hover {
+      color: #7e74ff;
+      transform: scale(1.05);
+    }
+
+    .fara-bottom-icon {
+
+      line-height: 1;
+    }
+
+    .fara-bottom-text {
+      font-size: 14px;
+      margin-top: 4px;
+    }
+
+    /* ================= SEARCH OVERLAY FLOATING ================== */
+    .search-overlay {
+      position: fixed;
+      top: 155px;
+      /* جای دقیق زیر سرچ‌باکس */
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 48px);
+      max-width: 480px;
+      background: #ffff;
+      backdrop-filter: blur(14px);
+      border: 2px solid #706DF2;
+      border-radius: 24px;
+      padding: 18px 24px;
+      padding-bottom: 20px;
+      color: #5a51e0;
+      z-index: 998;
+      display: none;
+      /* به طور پیش‌فرض خاموش */
+      opacity: 0;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    /* حالت فعال بعد از فوکوس */
+    .search-overlay.active {
+      display: block;
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+
+    .popup-header h4 {
+      font-size: 18px;
+      font-weight: 600;
+      color: #45454D;
+      font-family: "Bonyade Koodak VF", sans-serif;
+    }
+
+    .clear-btn {
+      background: transparent;
+      border: none;
+      color: #6a61ef;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    .search-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .search-list li {
+      font-size: 20px;
+      color: #706DF2;
+      padding: 10px 0;
+      cursor: pointer;
+      transition: color 0.2s ease;
+    }
+
+    .search-list li:hover {
+      color: #5A57C2;
+    }
+
+    /* های‌لایت کلمه داخل نتیجه */
+    .highlight {
+      color: #4b43c4;
+      font-weight: 600;
+    }
+
+    .no-results {
+      display: none;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      gap: 8px;
+      border-radius: 14px;
+      padding: 0px;
+      text-align: center;
+    }
+
+    .no-results h3 {
+      color: #45454D;
+      font-weight: 700;
+      font-size: 20px;
+      margin: 0;
+    }
+
+    .no-results p {
+      color: #5C5C66;
+      font-size: 17px;
+      font-weight: 400;
+      margin: 2px 0 0;
+    }
+
+    .results {
+      background: #f8f7ff;
+      border-radius: 20px;
+      padding: 0px;
+      color: #333;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 5;
+      font-family: "Bonyade Koodak VF";
+    }
+
+    .results-title {
+      font-size: 1.35rem;
+      font-weight: 600;
+      color: #2c2a40;
+    }
+
+    .category-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: .4rem;
+      padding: 0 .3rem;
+    }
+
+    .count {
+      background: #2D2C6180;
+      color: #E2E2FC;
+      border-radius: 999px;
+      padding: 0 .5rem;
+      padding-top: 2px;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .hotel-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 0;
+      padding-top: 5px;
+      border-bottom: 1px solid #ddd;
+      cursor: pointer;
+      transition: background 0.25s ease;
+    }
+
+  
+
+    .thumb {
+      width: 64px;
+      height: 64px;
+      border-radius: 14px;
+      object-fit: cover;
+    }
+
+    .info h3 {
+      font-size: 15.5px;
+      font-weight: 600;
+      margin: 0;
+      color: #2c2a40;
+    }
+
+    .info p {
+      margin: 2px 0;
+      font-size: 13.5px;
+      color: #6e6b7e;
+    }
+
+    .price {
+      color: #403ab0;
+      font-weight: 500;
+    }
+
+    .show-all-results {
+      text-align: center;
+      margin-top: .8rem;
+      font-size: 15px;
+      color: #4b43c4;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.25s ease;
+    }
+
+    .show-all-results:hover {
+      color: #00ff91;
+      /* نئون سبز — طبق استاندارد تو */
+    }
+
+    /* 🔹 Modal ساختار */
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.4);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .modal {
+      position: fixed;
+      left: 50%;
+      transform: translateX(-50%) translateY(0);
+      bottom: auto;
+      top: calc(50vh - 180px);
+      /* ✅ کمی بالاتر از پایین، وسط صفحـه */
+      background: #ffffff;
+      backdrop-filter: blur(6px);
+      border-radius: 16px;
+      padding: 1.3rem 1rem;
+      width: 340px;
+      max-height: 70vh;
+      /* ✅ ارتفاع محدود تا قابل‌اسکرول بشه */
+      overflow-y: auto;
+      /* ✅ باز شدن اسکرول داخل مودال */
+      text-align: center;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+      z-index: 1001;
+      /* ✅ زیر منو قرار بگیره */
+      transition: all 0.3s ease;
+    }
+
+    /* وقتی کاربر روی Show All Results زد → حالت بزرگ‌تر مودال */
+    .modal.expanded {
+      top: 40px;
+      /* بالاتر بیاد */
+      width: 95%;
+      max-width: 420px;
+      max-height: 85vh;
+      z-index: 9999;
+      /* فقط در حالت expanded بیاد رو منو */
+    }
+
+    .modal-content img {
+      width: 100%;
+      border-radius: 10px;
+      margin: 1rem 0;
+      object-fit: cover;
+    }
+
+    .close-btn {
+      position: absolute;
+      right: 1rem;
+      top: .7rem;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #403ab0;
+      transition: 0.2s;
+    }
+
+    .close-btn:hover {
+      color: #00ff91;
+    }
+
+    .hide-bottom-nav {
+      display: none !important;
+    }
+
+
+
+
+
+
+
+
+
+
+.filter-modal {
+    position: fixed;
+    left: 0;
+    bottom: -100%;
+    width: 100%;
+    height: auto;
+    max-height: 85vh;
+    background: rgba(240, 237, 255, 0.8);
+    backdrop-filter: blur(10px);
+    border-radius: 24px 24px 0 0;
+    box-shadow: 0 -4px 20px rgba(90, 90, 250, 0.15);
+    transition: bottom 0.4s ease;
+    z-index: 999;
+    overflow-y: auto;
+}
+.filter-modal:not(.hidden) { bottom: 0; }
+
+.filter-modal-content {
+    padding: 24px;
+    font-family: "Bonyade Koodak VF", sans-serif;
+    color: #3c3c5a;
+}
+.filter-modal-content h3 {
+    font-size: 24px;
+    font-weight: 500;
+    margin-bottom: 22px;
+}
+.section { margin-bottom: 20px; }
+.section h4 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+/* انتخاب‌ها */
+.options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+/* دکمه اصلی */
+.options button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #b2aefc;
+    border-radius: 32px;
+    background: transparent;
+    padding: 3px 10px;
+    font-size: 16px;
+    font-weight: 400;
+    color: #6a65c9;
+    font-family: "Bonyade Koodak VF", sans-serif;
+    transition: all 0.25s ease; /* ✳️ انیمیشن نرم */
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+/* آیکن اولیه داخل دکمه */
+.options button img {
+    width: 22px;
+    height: 22px;
+    margin-right: 4px;
+}
+
+/* ✅ حالت فعال */
+.options button.active-option {
+    background: #706DF2;
+    color: #fff;
+    border-color: #5A57C2;
+    /* 👇 افکت باز شدن موقع فعال شدن */
+   
+    padding-right: 35px;
+}
+
+/* آیکن چپ و راست در حالت فعال */
+.options button.active-option::before,
+.options button.active-option::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    background: url('./img/23.png') center center / contain no-repeat;
+    transition: opacity 0.2s ease;
+}
+
+/* جداگانه برای سمتین */
+.options button.active-option::before {
+    left: 10px;
+}
+.options button.active-option::after {
+    right: 10px;
+}
+
+
+
+/* متن وسط */
+.options button span {
+    flex: 1;
+    text-align: center;
+    line-height: 1;
+    padding-right: 26px; /* ✳️ کمی فاصله از آیکن راست ایجاد می‌کنه */
+}
+
+/* فاصله دقیق‌تر در حالت فعال */
+.options button.active-option span {
+    padding: 0 34px; /* ✳️ بین دو آیکن متقارن، متن دقیق وسط می‌مونه */
+}
+
+
+
+.options button:hover {
+    border-color: #706DF2;
+}
+
+/* 🔹 ورودی‌ها با آیکن؛ حالت عادی، فوکوس و Filled */
+.input-icon-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+/* عادی */
+.input-icon-wrapper input {
+    width: 100%;
+    height: 48px;
+    border: 1px solid #C6C5FA;
+    border-radius: 32px;
+    padding: 10px 50px;
+    font-size: 16px;
+    background: #F8F7FC;
+    font-family: "Bonyade Koodak VF";
+    color: #A9A7F7;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+.input-icon-wrapper input::placeholder {
+    color: #A9A7F7;
+    transition: opacity 0.25s ease;
+        font-weight: 400;
+        font-size: 16px;
+
+}
+.input-icon-wrapper input:focus::placeholder { opacity: 0; }
+
+/* آیکن‌ها در سه حالت */
+.icon-left, .icon-right, .icon-single {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 22px;
+    height: 22px;
+    cursor: pointer;
+    transition: 0.3s ease;
+    content: url('./img/18.png');
+}
+.icon-left { left: 16px; }
+.icon-right { right: 16px; }
+.icon-single { left: 16px; }
+
+/* فوکوس */
+.input-icon-wrapper:focus-within input {
+    border: 2px solid #706DF2;
+    color: #5C5C66;
+    outline: none;
+    box-shadow: none;
+}
+.input-icon-wrapper:focus-within .icon-left,
+.input-icon-wrapper:focus-within .icon-right,
+.input-icon-wrapper:focus-within .icon-single {
+    content: url('./img/17.png');
+    filter: brightness(1.15);
+}
+
+/* Filled */
+.input-icon-wrapper.filled input {
+    border: 1px solid #706DF2;
+    color: #706DF2;
+    background: #F8F7FC;
+}
+.input-icon-wrapper.filled .icon-left,
+.input-icon-wrapper.filled .icon-right,
+.input-icon-wrapper.filled .icon-single {
+    content: url('./img/17.png');
+    filter: brightness(1.15);
+}
+
+/* افکت کلیک */
+.icon-left.active, .icon-right.active, .icon-single.active {
+    filter: drop-shadow(0 0 8px #00ff91);
+    transform: translateY(-50%) scale(1.1);
+}
+
+/* بخش تاریخ */
+.date {
+    display: flex;
+    gap: 10px;
+}
+
+/* دکمه اعمال */
+.apply {
+    width: 100%;
+    background: #706DF2;
+    color: #E6E5FF;
+    font-size: 20px;
+    border: none;
+    border-radius: 30px;
+    padding: 12px 0;
+    margin-top: 16px;
+    margin-bottom: 12px;
+    transition: all 0.3s ease;
+    font-family: "Bonyade Koodak VF";
+}
+
+.apply:hover {
+    background: #5A57C2;
+}
+
+.apply:active {
+    background: #434191;
+}
+
+
+
+    /* ===== نمایش / مخفی ===== */
+    .hidden {
+      display: none;
+    }
+
+    /* ===== افکت باز شدن ===== */
+
+    .star a {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 50%;
+    }
+
+    /* ✳️ حالت فعال — آبی و نوردار */
+    .star a.active-filter {
+      background-color: #4a6aff;
+      /* آبی */
+      padding: 3px;
+      /* کمی دایره کامل‌تر بشه */
+
+    }
+
+
+
+    #filter {
+      background: transparent;
+      min-height: 100vh;
+      padding: 0px;
+      font-family: "Bonyade Koodak VF", sans-serif;
+      color: #3d3c5a;
+    }
+
+    /* ==== هدر ==== */
+    .filter-results h2 {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+
+    /* ==== چیپ‌ها – حالا افقی و از محدوده پدینگ بیرون ==== */
+    .filter-chips {
+      display: flex;
+      flex-direction: row;
+      gap: 12px;
+      overflow-x: auto;
+      overflow-y: hidden;
+      white-space: nowrap;
+      scroll-behavior: smooth;
+      margin-left: -24px;
+      margin-right: -24px;
+      padding-left: 24px;
+      padding-right: 24px;
+      margin-bottom: 26px;
+      scroll-snap-type: x mandatory;
+    }
+
+    .filter-chips::-webkit-scrollbar {
+      display: none;
+      /* حذف اسکرول‌بار */
+    }
+
+    .filter-chips button {
+      flex: 0 0 auto;
+      border: 1px solid #b2aefc;
+      background: transparent;
+      color: #6a65c9;
+      font-size: 16px;
+      padding: 6px 10px;
+      border-radius: 24px;
+      scroll-snap-align: center;
+      position: relative;
+      font-family: "Bonyade Koodak VF", sans-serif;
+    }
+
+    /* حالت فعال */
+    .filter-chips button.active {
+      background-color: #706DF2;
+      /* آبی */
+      border: 1px solid #5A57C2;
+      color: #fff;
+      text-align: left;
+      padding: 0px;
+      /* 👈 متن می‌ره سمت چپ */
+    }
+    
+
+    /* آیکن چپ */
+    .filter-chips button.active::before {
+      content: "";
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 18px;
+      height: 18px;
+      background: url('./img/23.png') center center / contain no-repeat;
+    }
+
+    /* آیکن راست */
+    .filter-chips button.active::after {
+      content: "";
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 18px;
+      height: 18px;
+      background: url('./img/23.png') center center / contain no-repeat;
+    }
+    
+
+    /* فاصله متن از آیکن‌ها */
+    .filter-chips button.active span,
+    .filter-chips button.active {
+      padding-left: 10px;
+      /* فاصله سمت چپ از آیکن */
+      padding-right: 39px;
+      /* فاصله سمت راست از آیکن */
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      /* 👈 متن چپ‌چین */
+    }
+
+
+
+    /* گروه‌ها */
+    .section-group {
+      margin-bottom: 28px;
+    }
+
+    .group-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .group-title h3 {
+      font-size: 20px;
+      font-weight: 700;
+      color: #45454D;
+      margin: 1px;
+    }
+
+    .group-title span {
+      font-size: 14px;
+      font-weight: 700;
+      color: #E2E2FC;
+      background: #2D2C6180;
+      padding: 2px 10px;
+      border-radius: 12px;
+    }
+
+    /* کارت هتل */
+    .hotel-card {
+      display: flex;
+      align-items: center;
+      background: #E2E2FC;
+      border-radius: 20px;
+      margin-bottom: 12px;
+      padding: 5px;
+
+    }
+
+    .section-group.fara-slider-mode .hotel-card:hover{
+      background: #C6C5FA;
+    }
+
+   .section-group.fara-slider-mode .hotel-card .info h4 {
+    font-size: 16px;
+    font-weight: 700;
+    color: #45454D;
+    margin-bottom: 0px;
+}
+
+
+    .hotel-card img {
+      width: 68px;
+      height: 68px;
+      border-radius: 20px;
+      object-fit: cover;
+      margin-right: 14px;
+    }
+
+    .hotel-card .info h4 {
+      font-size: 16px;
+      font-weight: 700;
+      color: #45454D;
+      margin-bottom: 0px;
+    }
+
+    .hotel-card .info p {
+      font-size: 16px;
+      color: #8A8999;
+      font-weight: 400;
+      margin-bottom: 6px;
+    }
+
+    .hotel-card .info strong {
+      font-size: 16px;
+      font-weight: 400;
+      color: #5C5C66;
+    }
+
+    .results-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      /* نوشته چپ، آیکون راست */
+      gap: 8px;
+      /* فاصله بین متن و تصویر */
+      font-size: 26px;
+      font-weight: 400;
+      color: #45454D;
+      margin-bottom: 16px;
+      padding-bottom: 15px;
+    }
+
+    .hotel-card .info {
+    padding: 0;
+    margin-top: 0;
+}
+
+/* حالت دوم (اسلایدی) — پایین‌تر آوردن نوشته‌ها */
+.section-group.fara-slider-mode .hotel-card .info {
+    margin-top: 8px;     
+    margin-left: 14px;         /* 👈 متن کمی پایین‌تر بیاد */
+    transform: translateY(4px);   /* فیکس ظاهری با انیمیشن نرم */
+    transition: transform 0.3s ease, margin-top 0.3s ease;
+}
+
+    /* ===== حالت اسلایدی گروه‌ها ===== */
+    .section-group.fara-slider-mode {
+      display: block;
+      overflow-x: auto;
+      white-space: nowrap;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+
+      /* 👇 پدینگ صفحه خنثی تا کارت از بیرون بیاد */
+      margin-left: -24px;
+      margin-right: -24px;
+      padding-left: 24px;
+      padding-right: 24px;
+      padding-bottom: 16px;
+
+      /* 💡 فقط کارت‌ها اسکرول می‌شن؛ عنوان ثابت بمونه */
+      position: relative;
+    }
+
+    .section-group.fara-slider-mode::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* ✅ عنوان‌ گروه ثابت بماند بالا */
+    .section-group.fara-slider-mode .group-title {
+      position: sticky;
+      /* چسبیده بالا بماند هنگام اسکرول افقی */
+      top: 0;
+      left: 0;
+      z-index: 5;
+      /* همیشه رو باشه */
+      background: transparent;
+    }
+
+    /* فقط در حالت اسلایدی (افقی) قیمت مخفی شود */
+.section-group.fara-slider-mode .hotel-card .info strong {
+    display: none !important;
+}
+
+
+    /* ===== کارت‌ها به صورت افقی ===== */
+    .section-group.fara-slider-mode .hotel-card {
+      display: inline-block;
+      vertical-align: top;
+      width: 231px;
+      height: 269px;
+      border-radius: 22px;
+      background: #eae5ff;
+      overflow: hidden;
+      margin-right: 20px;
+      scroll-snap-align: center;
+      position: relative;
+      animation: slideInRight 0.5s ease;
+    }
+
+    /* ===== تصویر داخل کارت ===== */
+    .section-group.fara-slider-mode .hotel-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 25px 25px 25px 25px;
+    }
+
+    /* ===== اطلاعات زیر تصویر ===== */
+    .section-group.fara-slider-mode .hotel-card .info {
+      padding: 10px 14px;
+      text-align: left;
+    }
+
+   
+
+    .section-group.fara-slider-mode .hotel-card .info p {
+       font-size: 16px;
+      color: #8A8999;
+      font-weight: 400;
+      margin-bottom: 6px;
+    }
+
+    /* ===== افکت ورود کارت ===== */
+    @keyframes slideInRight {
+      from {
+        transform: translateX(60px);
+        opacity: 0;
+      }
+
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+
+#open-filters {
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* حالت فعال؛ بگراند و عکس 24.PNG */
+#open-filters.active-filter {
+    background-color: #5A57C2;
+      padding: 5px;
+width: 30px;
+height: 30px;
+}
+
+/* اختیاری: وقتی فعال شد رنگ خط SVG سفید شه */
+#open-filters.active-filter path {
+    stroke: #cac3ec;
+}
+
+.hor{
+  border: none;
+   display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 0;
+      padding-top: 5px;
+      cursor: pointer;
+      transition: background 0.25s ease;
+}
+
+
+    /* مخفی و نمایش */
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="home-container">
+    <!-- Header -->
+    <div class="header">
+      <div class="star"><img src="./img/17.png" width="24px" alt=""></div>
+      <div class="logo"><img src="./img/15.png" width="56.94px" alt=""></div>
+      <div class="star"><img src="./img/17.png" width="24px" alt=""></div>
+    </div>
+
+    <!-- Search Box -->
+    <div class="search-box">
+      <svg class="default-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"
+        fill="none">
+        <path
+          d="M9.9732 1C11.2857 5.31246 14.6605 8.6874 18.9728 10C14.6605 11.3126 11.2857 14.6875 9.9732 19C8.6607 14.6875 5.28588 11.3126 0.973633 10C5.28588 8.6874 8.6607 5.31246 9.9732 1Z"
+          stroke="#A9A7F7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+
+      <svg class="focose" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+        <path
+          d="M9.9732 1C11.2857 5.31246 14.6605 8.6874 18.9728 10C14.6605 11.3126 11.2857 14.6875 9.9732 19C8.6607 14.6875 5.28588 11.3126 0.973633 10C5.28588 8.6874 8.6607 5.31246 9.9732 1Z"
+          stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+
+
+      <input type="text" placeholder="Search here">
+
+    
+
+       <a href="" style="padding-left: 5px;"> <svg class="default-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"
+        fill="none">
+        <path
+          d="M9.9732 1C11.2857 5.31246 14.6605 8.6874 18.9728 10C14.6605 11.3126 11.2857 14.6875 9.9732 19C8.6607 14.6875 5.28588 11.3126 0.973633 10C5.28588 8.6874 8.6607 5.31246 9.9732 1Z"
+          stroke="#A9A7F7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+      </svg></a>
+
+     <a href="" style="padding-left: 5px;">
+      <svg class="focose" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+        <path
+          d="M9.9732 1C11.2857 5.31246 14.6605 8.6874 18.9728 10C14.6605 11.3126 11.2857 14.6875 9.9732 19C8.6607 14.6875 5.28588 11.3126 0.973633 10C5.28588 8.6874 8.6607 5.31246 9.9732 1Z"
+          stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+      </svg></a>
+
+
+       <a href="focose" style="padding-left: 5px;"> <svg class="default-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"
+        fill="none">
+        <path
+          d="M9.9732 1C11.2857 5.31246 14.6605 8.6874 18.9728 10C14.6605 11.3126 11.2857 14.6875 9.9732 19C8.6607 14.6875 5.28588 11.3126 0.973633 10C5.28588 8.6874 8.6607 5.31246 9.9732 1Z"
+          stroke="#A9A7F7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+      </svg></a>
+
+     <a href="" style="padding-left: 5px;">
+      <svg class="focose" id="open-filters" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+        <path
+          d="M9.9732 1C11.2857 5.31246 14.6605 8.6874 18.9728 10C14.6605 11.3126 11.2857 14.6875 9.9732 19C8.6607 14.6875 5.28588 11.3126 0.973633 10C5.28588 8.6874 8.6607 5.31246 9.9732 1Z"
+          stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+      </svg></a>
+
+    </div>
+
+    <!-- ✅ آیکون فیلتر -->
+
+
+    <!-- ✅ مودال فیلتر از پایین -->
+    <div id="filter-modal" class="filter-modal hidden">
+  <div class="filter-modal-content">
+    <h3>Filters</h3>
+
+    <div class="section">
+      <h4>Type</h4>
+      <div class="options">
+        <button><img src="./img/17.png" width="22px" height="22px" alt="">Hotel</button>
+        <button><img src="./img/17.png" width="22px" height="22px" alt="">Apartment</button>
+        <button><img src="./img/17.png" width="22px" height="22px" alt="">Villa</button>
+        <button><img src="./img/17.png" width="22px" height="22px" alt="">Farmland</button>
+        <button><img src="./img/17.png" width="22px" height="22px" alt="">Resort</button>
+      </div>
+    </div>
+
+    <div class="section">
+      <h4>City</h4>
+      <div class="input-icon-wrapper double-icons">
+        <input type="text" placeholder="From">
+        <!-- آیکن سمت چپ -->
+        <img src="./img/18.png" class="icon-left" alt="From-Start" />
+        <!-- آیکن سمت راست -->
+        <img src="./img/18.png" class="icon-right" alt="From-End" />
+      </div>
+    </div>
+
+    <div class="section">
+      <h4>Date</h4>
+      <div class="date">
+        <div class="input-icon-wrapper">
+          <input type="text" placeholder="From">
+          <img src="./img/18.png" class="icon-single" alt="date-from" />
+        </div>
+        <div class="input-icon-wrapper">
+          <input type="text" placeholder="To">
+          <img src="./img/18.png" class="icon-single" alt="date-to" />
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h4>Bed & Room</h4>
+      <div class="date">
+        <div class="input-icon-wrapper">
+          <input type="text" placeholder="Rooms">
+          <img src="./img/18.png" class="icon-single" alt="rooms" />
+        </div>
+        <div class="input-icon-wrapper">
+          <input type="text" placeholder="Beds">
+          <img src="./img/18.png" class="icon-single" alt="beds" />
+        </div>
+      </div>
+    </div>
+
+    <button class="apply">Apply Filters</button>
+  </div>
+</div>
+
+    <div class="search-overlay">
+      <div class="search-popup">
+        <div class="popup-header d-flex justify-content-between align-items-center mb-2">
+          <h4 class="popup-title">Recent Searches</h4> <!-- ✅ کلاس اضافه شد -->
+          <button class="clear-btn">Clear All</button>
+        </div>
+
+        <div class="no-results">
+          <div class="no-results-box">
+            <h3>No Results!</h3>
+            <p>Sorry, Check your search and try again!</p>
+          </div>
+        </div>
+
+        <!-- ========== Phase 4 Results Layout ========== -->
+        <div id="results-box" class="results" style="display: none; background-color: transparent;">
+
+
+          <!-- 🔹 دسته اول -->
+          <div class="category">
+            <h3 style="font-size: 20px; font-weight: 700; color: #45454D;">Results</h3>
+            <div class="category-header">
+              <span>Hotels</span>
+              <span class="count">999</span>
+            </div>
+
+            <div class="hotel-item" data-img="./img/hotel1.jpg" data-location="Bucharest • Romania"
+              data-price="50 USD / Night" onclick="openHotelDetails(this)">
+              <img src="./img/20.jpg" alt="Hotel Transylvania"
+                class="thumb" />
+              <div class="info" style="padding: 10px;">
+                <h3>Hotel Transylvania</h3>
+                <p>Bucharest • Romania</p>
+                <p class="price">50 USD / Night</p>
+              </div>
+            </div>
+
+            <div class="hotel-item" data-img="./img/hotel2.jpg" data-location="California • USA"
+              data-price="50 USD / Night" onclick="openHotelDetails(this)">
+              <img src="./img/20.jpg" alt="Hotel del Coronado"
+                class="thumb" />
+              <div class="info" style="padding: 10px;">
+                <h3>Hotel del Coronado</h3>
+                <p>California • USA</p>
+                <p class="price">50 USD / Night</p>
+              </div>
+            </div>
+
+            <div class="hotel-item" id="hor" data-img="./img/hotel3.jpg" data-location="California • USA"
+              data-price="50 USD / Night" onclick="openHotelDetails(this)">
+              <img src="./img/20.jpg" alt="Hotel California"
+                class="thumb" />
+              <div class="info" style="padding: 10px;">
+                <h3>Hotel California</h3>
+                <p>California • USA</p>
+                <p class="price">50 USD / Night</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 🔹 دسته دوم -->
+          <div class="category">
+            <div class="category-header">
+              <span class="pt-3">Farm Houses</span>
+              <span class="count mt-3">999</span>
+            </div>
+
+            <div class="hotel-item" data-img="./img/farm1.jpg" data-location="City • Country" data-price="Price"
+              onclick="openHotelDetails(this)">
+              <img src="./img/20.jpg" alt="Reserve Now" class="thumb" />
+              <div class="info" style="padding: 10px;">
+                <h3>Reserve Now!</h3>
+                <p>City • Country</p>
+                <p class="price">Price</p>
+              </div>
+            </div>
+
+            <div class="hotel-item" data-img="./img/farm2.jpg" data-location="City • Country" data-price="Price"
+              onclick="openHotelDetails(this)">
+              <img src="./img/20.jpg" alt="Reserve Now" class="thumb" />
+              <div class="info" style="padding: 10px;">
+                <h3>Reserve Now!</h3>
+                <p>City • Country</p>
+                <p class="price">Price</p>
+              </div>
+            </div>
+          </div>
+
+          <a href="#" class="show-all-results">Show All Results</a>
+        </div>
+
+        <!-- 🔹 Modal جزئیات -->
+        <div id="phase4-modal" class="modal hidden">
+          <div class="modal-content">
+            <button class="close-btn" onclick="closeModal()">×</button>
+            <h2 id="hotel-name"></h2>
+            <img id="hotel-img" src="" alt="Hotel Image" />
+            <p id="hotel-location"></p>
+            <p id="hotel-price"></p>
+          </div>
+        </div>
+
+
+        <ul class="search-list">
+          <li><img src="./img/18.png" alt=""> Hotels in Baghdad</li>
+          <li><img src="./img/18.png" alt=""> Hotels in Najaf</li>
+          <li><img src="./img/18.png" alt=""> 5 Star Hotels</li>
+          <li><img src="./img/18.png" alt=""> Discounts</li>
+          <li><img src="./img/18.png" alt=""> The Best Hotels Of The Month</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="home">
+      <!-- Property Types -->
+      <div class="property-types">
+        <div class="type-item">
+          <div class="type-star"><img src="./img/16.png" width="32px" alt=""></div>
+          <div class="type-name">Villas</div>
+        </div>
+        <div class="type-item">
+          <div class="type-star"><img src="./img/16.png" width="32px" alt=""></div>
+          <div class="type-name">Resorts</div>
+        </div>
+        <div class="type-item">
+          <div class="type-star"><img src="./img/16.png" width="32px" alt=""></div>
+          <div class="type-name">Hotels</div>
+        </div>
+        <div class="type-item">
+          <div class="type-star"><img src="./img/16.png" width="32px" alt=""></div>
+          <div class="type-name">Houses</div>
+        </div>
+        <div class="type-item">
+          <div class="type-star"><img src="./img/16.png" width="32px" alt=""></div>
+          <div class="type-name">Apartments</div>
+        </div>
+        <div class="type-item">
+          <div class="type-star"><img src="./img/16.png" width="32px" alt=""></div>
+          <div class="type-name">Farms</div>
+        </div>
+      </div>
+
+      <!-- Hero Section -->
+      <div class="hero-section">
+        <img src="./img/12.jpg" alt="Plane Wing">
+        <div class="overlay-box">
+          <h2>This is a sample text.</h2>
+          <p>This is a sample text.</p>
+        </div>
+      </div>
+
+      <div class="nearby-area fara-section-space">
+        <div class="area-header">
+         <div class="eee">
+            <h2 class="pt-2">Near me</h2><span class="area-count">999</span>
+          </div>
+
+          <a href="#" class="area-showall">Show all</a>
+        </div>
+
+        <!-- اسلایدر دستی با کلاس‌های جدید -->
+        <div class="fara-slider-zone">
+
+          <div class="fara-scroll-belt">
+            <div class="fara-row-track">
+
+              <!-- کارت ۱ -->
+              <div class="fara-item-box">
+                <div class="fara-img-holder position-relative">
+                  <img src="./img/31.png"
+                    class="img-fluid rounded-top" alt="">
+                  <!-- <div class="fara-star-mark position-absolute"><img src="./img/27.png" alt=""> 3.5</div> -->
+                  <div class="fara-price-bar d-flex justify-content-between align-items-center px-3 py-2">
+                    <!-- <span class="fara-price-main">Price <span class="fara-price-sub">/Night</span></span> -->
+                    <div class="fara-price-icon"></div>
+                  </div>
+                </div>
+                <div class="fara-info-panel px-3 pb-2">
+                  <h3>Hotel Name</h3>
+                  <p>City • Country</p>
+                </div>
+              </div>
+
+              <!-- کارت ۲ -->
+              <div class="fara-item-box">
+                <div class="fara-img-holder position-relative">
+                  <img src="./img/31.png" class="img-fluid rounded-top" alt="">
+                  <!-- <div class="fara-star-mark position-absolute">✧ 4.2</div> -->
+                  <div class="fara-price-bar d-flex justify-content-between align-items-center px-3 py-2">
+                    <span class="fara-price-main">Price <span class="fara-price-sub">/Night</span></span>
+                    <div class="fara-price-icon">⤿</div>
+                  </div>
+                </div>
+                <div class="fara-info-panel px-3 pb-2">
+                  <h3>Another Hotel</h3>
+                  <p>Iraq • Slemani</p>
+                </div>
+              </div>
+
+              <!-- کارت ۳ -->
+              <div class="fara-item-box">
+                <div class="fara-img-holder position-relative">
+                  <img src="./img/31.png" class="img-fluid rounded-top" alt="">
+                  <!-- <div class="fara-star-mark position-absolute">✧ 5.0</div> -->
+                  <div class="fara-price-bar d-flex justify-content-between align-items-center px-3 py-2">
+                    <span class="fara-price-main">Price <span class="fara-price-sub">/Night</span></span>
+                    <div class="fara-price-icon">⤿</div>
+                  </div>
+                </div>
+                <div class="fara-info-panel px-3 pb-2">
+                  <h3>Luxury Hotel</h3>
+                  <p>Turkey • Istanbul</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+      <!-- Offers -->
+      <div class="offers-section">
+        <h2>Offers</h2>
+        <div class="offers-slider">
+          <div class="offer-card">
+            <div class="offer-icon"><img src="./img/25.png" width="40px" height="40px" alt=""></div><span>Breakfast</span>
+          </div>
+          <div class="offer-card">
+            <div class="offer-icon"><img src="./img/25.png" width="40px" height="40px" alt=""></div><span>Discount</span>
+          </div>
+          <div class="offer-card">
+            <div class="offer-icon"><img src="./img/25.png" width="40px" height="40px" alt=""></div><span>Instant</span>
+          </div>
+          <div class="offer-card">
+            <div class="offer-icon"><img src="./img/25.png" width="40px" height="40px" alt=""></div><span>Bathroom</span>
+          </div>
+          <div class="offer-card">
+            <div class="offer-icon"><img src="./img/25.png" width="40px" height="40px" alt=""></div><span>Bathroom</span>
+          </div>
+          <div class="offer-card">
+            <div class="offer-icon"><img src="./img/25.png" width="40px" height="40px" alt=""></div><span>Bathroom</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="nearby-area fara-section-space">
+        <div class="area-header">
+          <div class="eee">
+            <h2 class="pt-2">Best in Last Month</h2><span class="area-count">999</span>
+          </div>
+
+          <a href="#" class="area-showall">Show all</a>
+        </div>
+
+        <!-- اسلایدر دستی با کلاس‌های جدید -->
+        <div class="fara-slider-zone">
+
+          <div class="fara-scroll-belt">
+            <div class="fara-row-track">
+
+              <!-- کارت ۱ -->
+              <div class="fara-item-box">
+                <div class="fara-img-holder position-relative">
+                  <img src="./img/31.png"
+                    class="img-fluid rounded-top" alt="">
+                  <!-- <div class="fara-star-mark position-absolute">✧ 3.5</div> -->
+                  <div class="fara-price-bar d-flex justify-content-between align-items-center px-3 py-2">
+                    <span class="fara-price-main">Price <span class="fara-price-sub">/Night</span></span>
+                    <div class="fara-price-icon">⤿</div>
+                  </div>
+                </div>
+                <div class="fara-info-panel px-3 pb-2">
+                  <h3>Hotel Name</h3>
+                  <p>City • Country</p>
+                </div>
+              </div>
+
+              <!-- کارت ۲ -->
+              <div class="fara-item-box">
+                <div class="fara-img-holder position-relative">
+                  <img src="./img/31.png" class="img-fluid rounded-top" alt="">
+                  <!-- <div class="fara-star-mark position-absolute">✧ 4.2</div> -->
+                  <div class="fara-price-bar d-flex justify-content-between align-items-center px-3 py-2">
+                    <span class="fara-price-main">Price <span class="fara-price-sub">/Night</span></span>
+                    <div class="fara-price-icon">⤿</div>
+                  </div>
+                </div>
+                <div class="fara-info-panel px-3 pb-2">
+                  <h3>Another Hotel</h3>
+                  <p>Iraq • Slemani</p>
+                </div>
+              </div>
+
+              <!-- کارت ۳ -->
+              <div class="fara-item-box">
+                <div class="fara-img-holder position-relative">
+                  <img src="./img/31.png" class="img-fluid rounded-top" alt="">
+                  <!-- <div class="fara-star-mark position-absolute">✧ 5.0</div> -->
+                  <div class="fara-price-bar d-flex justify-content-between align-items-center px-3 py-2">
+                    <span class="fara-price-main">Price <span class="fara-price-sub">/Night</span></span>
+                    <div class="fara-price-icon">⤿</div>
+                  </div>
+                </div>
+                <div class="fara-info-panel px-3 pb-2">
+                  <h3>Luxury Hotel</h3>
+                  <p>Turkey • Istanbul</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+      <!-- Info Banner -->
+      <div>
+        <!-- <div class="banner-image"> -->
+        <img src="./img/14.png" width="100%" alt="Suitcase">
+        <!-- </div> -->
+        <!-- <div class="banner-text">
+            <h3>This is a sample text.</h3>
+            <p>This is a sample text.</p>
+            <a href="#">Sample</a>
+        </div> -->
+      </div>
+      <br>
+      <br>
+
+
+     <div class="fff vvv">
+        <div class="">
+          <h2 class="text-center text-light pb-4">Last Minute Discount</h2>
+        </div>
+
+        <!-- اسلایدر دستی با کلاس‌های جدید -->
+        <div class="fara-slider-zone">
+
+          <div class="fara-scroll-belt">
+            <div class="nnn">
+
+              <!-- کارت ۱ -->
+              <div class="fara-item-box">
+                <div class="fara-img-holder position-relative">
+                  <img src="./img/31.png"
+                    class="img-fluid rounded-top" alt="">
+                  <!-- <div class="fara-star-mark position-absolute">✧ 3.5</div> -->
+                  <div class="fara-price-bar d-flex justify-content-between align-items-center px-3 py-2">
+                    <span class="fara-price-main">Price <span class="fara-price-sub">/Night</span></span>
+                    <div class="fara-price-icon">⤿</div>
+                  </div>
+                </div>
+                <div class="fara-info-panel px-3 pb-2">
+                  <h3>Hotel Name</h3>
+                  <p>City • Country</p>
+                </div>
+              </div>
+
+              <!-- کارت ۲ -->
+              <div class="fara-item-box">
+                <div class="fara-img-holder position-relative">
+                  <img src="./img/31.png" class="img-fluid rounded-top" alt="">
+                  <!-- <div class="fara-star-mark position-absolute">✧ 4.2</div> -->
+                  <div class="fara-price-bar d-flex justify-content-between align-items-center px-3 py-2">
+                    <span class="fara-price-main">Price <span class="fara-price-sub">/Night</span></span>
+                    <div class="fara-price-icon">⤿</div>
+                  </div>
+                </div>
+                <div class="fara-info-panel px-3 pb-2">
+                  <h3>Another Hotel</h3>
+                  <p>Iraq • Slemani</p>
+                </div>
+              </div>
+
+              <!-- کارت ۳ -->
+              <div class="fara-item-box">
+                <div class="fara-img-holder position-relative">
+                  <img src="./img/31.png" class="img-fluid rounded-top" alt="">
+                  <!-- <div class="fara-star-mark position-absolute">✧ 5.0</div> -->
+                  <div class="fara-price-bar d-flex justify-content-between align-items-center px-3 py-2">
+                    <span class="fara-price-main">Price <span class="fara-price-sub">/Night</span></span>
+                    <div class="fara-price-icon">⤿</div>
+                  </div>
+                </div>
+                <div class="fara-info-panel px-3 pb-2">
+                  <h3>Luxury Hotel</h3>
+                  <p>Turkey • Istanbul</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <br>
+      <!-- Bottom Navigation -->
+      <div class="fara-bottom-nav">
+        <div class="fara-bottom-container">
+          <div class="fara-bottom-item active">
+            <span class="fara-bottom-icon"><img src="./img/16.png" width="25px" alt=""> <span
+                class="fara-bottom-text">Sample</span></span>
+
+          </div>
+          <div class="fara-bottom-item">
+            <span class="fara-bottom-icon"><img src="./img/18.png" width="24px" height="24px" alt=""></span>
+          </div>
+          <div class="fara-bottom-item">
+            <span class="fara-bottom-icon"><img src="./img/18.png" width="24px" height="24px" alt=""></span>
+          </div>
+          <div class="fara-bottom-item">
+            <span class="fara-bottom-icon"><img src="./img/18.png" width="24px" height="24px" alt=""></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 🔍 صفحه نتایج فیلتر -->
+    <div id="filter" class="hidden">
+      <br>
+      <br>
+      <div class="filter-results">
+        <h2 class="results-heading">
+          55 Search Results
+          <a href="#" id="toggle-slider">
+            <img src="./img/18.png" width="24" height="24" alt="toggle">
+          </a>
+        </h2>
+
+        <!-- دسته‌های فیلتر همان بالا -->
+        <div class="filter-chips">
+           <button><img src="./img/17.png" width="22px" height="22px" alt="">Hotels</button>
+        <button><img src="./img/17.png" width="22px" height="22px" alt="">Apartment</button>
+        <button><img src="./img/17.png" width="22px" height="22px" alt="">Villa</button>
+        <button><img src="./img/17.png" width="22px" height="22px" alt="">Farms</button>
+        <button><img src="./img/17.png" width="22px" height="22px" alt="">Resort</button>
+
+
+
+
+        </div>
+
+        <!-- گروه Hotels -->
+        <div class="section-group">
+          <div class="group-title">
+            <h3>Hotels</h3>
+            <span>4</span>
+          </div>
+
+          <div class="hotel-card">
+            <img src="./img/29.png" alt="Hotel Transylvania">
+            <div class="info" style="padding: 0px;">
+              <h4>Hotel Transylvania</h4>
+              <p>Bucharest • Romania</p>
+              <strong>50 USD / Night</strong>
+            </div>
+          </div>
+
+        
+
+          <div class="hotel-card">
+            <img src="./img/29.png" alt="">
+            <div class="info" style="padding: 0px;">
+              <h4>Hotel Transylvania</h4>
+              <p>Bucharest • Romania</p>
+              <strong>50 USD / Night</strong>
+            </div>
+          </div>
+
+        
+
+          <div class="hotel-card">
+            <img src="./img/29.png" alt="">
+            <div class="info" style="padding: 0px;">
+              <h4>Hotel Transylvania</h4>
+              <p>Bucharest • Romania</p>
+              <strong>50 USD / Night</strong>
+            </div>
+          </div>
+
+        
+
+          <div class="hotel-card">
+            <img src="./img/29.png" alt="">
+            <div class="info" style="padding: 0px;">
+              <h4>Hotel Transylvania</h4>
+              <p>Bucharest • Romania</p>
+              <strong>50 USD / Night</strong>
+            </div>
+          </div>
+        </div>
+
+       
+        <!-- گروه Farms -->
+        <div class="section-group">
+          <div class="group-title">
+            <h3>Farms</h3>
+            <span>2</span>
+          </div>
+
+          <div class="hotel-card">
+            <img src="./img/29.png" alt="">
+            <div class="info" style="padding: 0px;">
+              <h4>Hotel Transylvania</h4>
+              <p>Bucharest • Romania</p>
+              <strong>50 USD / Night</strong>
+            </div>
+          </div>
+
+        
+
+          <div class="hotel-card">
+            <img src="./img/29.png" alt="">
+            <div class="info" style="padding: 0px;">
+              <h4>Hotel Transylvania</h4>
+              <p>Bucharest • Romania</p>
+              <strong>50 USD / Night</strong>
+            </div>
+          </div>
+
+          <!-- <div class="fara-item-box">
+                <div class="fara-img-holder position-relative">
+                    <img src="./img/20.jpg" class="img-fluid rounded-top" alt="">
+                    <div class="fara-star-mark position-absolute">✧ 3.5</div>
+                    <div class="fara-price-bar d-flex justify-content-between align-items-center px-3 py-2">
+                        <span class="fara-price-main">Price <span class="fara-price-sub">/Night</span></span>
+                        <div class="fara-price-icon">⤿</div>
+                    </div>
+                </div>
+                <div class="fara-info-panel px-3 pb-2">
+                    <h4>Hotel Transylvania</h4>
+                    <p>Bucharest • Romania</p>
+                </div>
+            </div> -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+/* 🔹 Fara App – 4‑Phase Search + Filter & Focus System (Clean Unified Version, Fixed Typing in Modal) */
+document.addEventListener('DOMContentLoaded', () => {
+
+    /* ===== 🎯 عناصر پایه ===== */
+    const searchBox      = document.querySelector('.search-box');
+    const searchInput    = searchBox.querySelector('input');
+    const defaultIcons   = searchBox.querySelectorAll('.default-icon');
+    const focoseIcons    = searchBox.querySelectorAll('.focose');
+    const searchOverlay  = document.querySelector('.search-overlay');
+    const popupTitle     = document.querySelector('.popup-title');
+    const clearBtn       = document.querySelector('.clear-btn');
+    const listContainer  = document.querySelector('.search-list');
+    const listItems      = document.querySelectorAll('.search-list li');
+    const noResultsBox   = document.querySelector('.no-results');
+    const resultsBox     = document.getElementById('results-box');
+    const bottomNav      = document.querySelector('.fara-bottom-nav');
+    const showAllBtn     = document.getElementById('show-all-results');
+    const phase4Modal    = document.getElementById('phase4-modal');
+    const filterModal    = document.getElementById('filter-modal');
+    const filterPage     = document.getElementById('filter');
+    const home           = document.querySelector('.home');
+    const triggers       = document.querySelectorAll('#open-filters'); // 🔹 تمام آیکن‌ها
+    let isPhase4Active = false;
+    let filterOpen = false;
+    let filterPageActive = false;
+
+    /* ===== 🔵 مدیریت آیکن سرچ ===== */
+    function showDefaultIcon() {
+        defaultIcons.forEach(ic => ic.style.display = 'inline');
+        focoseIcons.forEach(ic => ic.style.display = 'none');
+    }
+    function showFocusIcon() {
+        defaultIcons.forEach(ic => ic.style.display = 'none');
+        focoseIcons.forEach(ic => ic.style.display = 'inline');
+    }
+    showDefaultIcon();
+
+  /* ===== 🟣 فاز ۱ – تمرکز روی سرچ ===== */
+searchInput.addEventListener('focus', () => {
+    showFocusIcon();
+    searchBox.classList.add('active');
+    searchBox.classList.remove('filled');
+    searchInput.style.color = '#000';
+    searchInput.setAttribute('placeholder', '');
+
+    searchOverlay.classList.add('active');
+
+    // ✅ فقط در فازهای ۱ و ۲ نمایش بده
+    popupTitle.style.display = 'inline-block';
+    popupTitle.textContent = 'Recent Searches';
+    clearBtn.style.display = 'inline-block';
+
+    listContainer.style.display = 'block';
+    noResultsBox.style.display = 'none';
+    resultsBox.style.display = 'none';
+    bottomNav.classList.remove('hide-bottom-nav');
+
+    listItems.forEach(item => {
+        const clean = item.textContent.trim().replace(/^✧\s*/, '');
+        item.dataset.text = clean;
+        item.innerHTML =
+            `<img src="./img/17.png" alt="Search Icon" style="width:22px;height:22px;margin-right:8px;">` +
+            `<span style="color:#4b43c4;font-weight:400">${clean}</span>`;
+        item.style.display = 'block';
+    });
+});
+
+/* ===== 🟣 فاز ۲ – جستجو و پیشنهاد ===== */
+searchInput.addEventListener('input', (e) => {
+    const query = e.target.value.trim().toLowerCase();
+
+    // ✅ کنترل نمایش عنوان و دکمه فقط تا قبل از فاز ریزالت
+    if (resultsBox.style.display === 'flex') {
+        popupTitle.style.display = 'none';
+        clearBtn.style.display = 'none';
+    } else {
+        popupTitle.textContent = query ? 'Suggestions' : 'Recent Searches';
+        popupTitle.style.display = 'inline-block';
+        clearBtn.style.display = query ? 'none' : 'inline-block';
+    }
+
+    let anyVisible = false;
+    listItems.forEach(item => {
+        const text = item.dataset.text || item.textContent.trim().replace(/^✧\s*/, '');
+        const lowerText = text.toLowerCase();
+        if (query === '' || lowerText.startsWith(query)) {
+            anyVisible = true;
+            const matched = text.slice(0, query.length);
+            const remainder = text.slice(query.length);
+            item.innerHTML =
+                `<img src="./img/17.png" alt="Search Icon" style="width:22px;height:22px;margin-right:8px;">` +
+                `<span style="color:#4b43c4;font-weight:400">${matched}</span>` +
+                `<span style="color:#9d9aa9;font-weight:400">${remainder}</span>`;
+            item.style.display = 'block';
+        } else {
+            item.style.display = 'none';
+        }
+    });
+
+    if (!anyVisible && query.length > 0) {
+        popupTitle.textContent = '';
+        popupTitle.style.display = 'inline-block';
+        clearBtn.style.display = 'none';
+        noResultsBox.style.display = 'flex';
+        listContainer.style.display = 'none';
+        resultsBox.style.display = 'none';
+    } else {
+        noResultsBox.style.display = 'none';
+    }
+});
+
+/* ===== 🟣 فاز ۳ و ۴ – انتخاب آیتم ===== */
+listItems.forEach(item => {
+    item.addEventListener('click', () => {
+        const chosenText = item.dataset.text || item.textContent.trim();
+        searchInput.value = chosenText;
+        const lower = chosenText.toLowerCase();
+
+        if (lower === 'hotels in baghdad') {
+            // ❌ حالت بدون نتیجه — فاز نهایی خاموش
+            popupTitle.textContent = 'No Results';
+            popupTitle.style.display = 'none';
+            clearBtn.style.display = 'none';
+
+            listContainer.style.display = 'none';
+            resultsBox.style.display = 'none';
+            noResultsBox.style.display = 'flex';
+            bottomNav.classList.remove('hide-bottom-nav');
+            isPhase4Active = false;
+        }
+        else if (lower === 'hotels in najaf') {
+            // ✅ فاز نهاییِ ریزالت
+            popupTitle.style.display = 'none';
+            clearBtn.style.display = 'none';
+
+            popupTitle.textContent = 'Results';
+            listContainer.style.display = 'none';
+            noResultsBox.style.display = 'none';
+            resultsBox.style.display = 'flex';
+            searchOverlay.classList.add('scrollable');
+            bottomNav.classList.add('hide-bottom-nav');
+            isPhase4Active = true;
+
+            const resultItems = resultsBox.querySelectorAll('.result-card, li, button, a');
+            resultItems.forEach(el => {
+                el.style.pointerEvents = 'none';
+                el.style.cursor = 'default';
+            });
+        } else {
+            // 🔁 برگشتن به حالت پیشنهادی (قبل از ریزالت)
+            popupTitle.style.display = 'inline-block';
+            clearBtn.style.display = 'inline-block';
+
+            popupTitle.textContent = 'Suggestions';
+            listContainer.style.display = 'block';
+            noResultsBox.style.display = 'none';
+            resultsBox.style.display = 'none';
+            bottomNav.classList.remove('hide-bottom-nav');
+            isPhase4Active = false;
+        }
+    });
+});
+
+
+    /* ===== 🟢 دکمه Show All Results ===== */
+    if (showAllBtn) {
+        showAllBtn.addEventListener('click', () => {
+            resultsBox.classList.add('expanded');
+            resultsBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            bottomNav.classList.add('hide-bottom-nav');
+        });
+    }
+
+    /* ===== 🔹 باز / بستن Modal ===== */
+    triggers.forEach(trigger => {
+        trigger.addEventListener('click', (e) => {
+            e.preventDefault();
+
+            if (filterPageActive) {
+                filterPage.classList.add('hidden');
+                home.classList.remove('hidden');
+                triggers.forEach(t => t.classList.remove('active-filter'));
+                filterPageActive = false;
+                return;
+            }
+
+            if (!filterOpen) {
+                filterModal.classList.remove('hidden');
+                bottomNav.classList.add('hide-bottom-nav');
+                triggers.forEach(t => t.classList.add('active-filter'));
+                filterOpen = true;
+            } else {
+                filterModal.classList.add('hidden');
+                bottomNav.classList.remove('hide-bottom-nav');
+                triggers.forEach(t => t.classList.remove('active-filter'));
+                filterOpen = false;
+            }
+        });
+    });
+
+    /* ===== 🟢 بستن مودال با کلیک بیرون ===== */
+    document.addEventListener('click', (e) => {
+        if (!filterModal.classList.contains('hidden')) {
+            const modalContent = filterModal.querySelector('.filter-modal-content');
+            const clickedInsideTrigger = [...triggers].some(t => t.contains(e.target));
+            if (!modalContent.contains(e.target) && !clickedInsideTrigger) {
+                filterModal.classList.add('hidden');
+                bottomNav.classList.remove('hide-bottom-nav');
+                triggers.forEach(t => t.classList.remove('active-filter'));
+                filterOpen = false;
+            }
+        }
+
+        /* سرچ Overlay */
+        const popup = document.querySelector('.search-popup');
+        if (searchOverlay.classList.contains('active')) {
+            if (!popup.contains(e.target) && !searchInput.contains(e.target)) {
+                searchOverlay.classList.remove('active');
+            }
+        }
+    });
+
+    /* ===== 🟢 کلیک Apply Filters ===== */
+    const applyBtn = document.querySelector('.apply');
+    if (applyBtn) {
+        applyBtn.addEventListener('click', () => {
+            filterModal.classList.add('hidden');
+            home.classList.add('fade-out');
+            setTimeout(() => {
+                home.classList.add('hidden');
+                filterPage.classList.remove('hidden');
+                filterPage.classList.add('fade-in');
+                bottomNav.classList.remove('hide-bottom-nav');
+                triggers.forEach(t => t.classList.add('active-filter'));
+            }, 300);
+            filterOpen = false;
+            filterPageActive = true;
+        });
+    }
+
+    /* ===== 🟢 فیلتر چیپ‌ها ===== */
+const chips = document.querySelectorAll('.filter-chips button');
+const groups = document.querySelectorAll('.section-group');
+
+chips.forEach(chip => {
+    chip.addEventListener('click', () => {
+        // چک می‌کنیم آیا چیپ فعلاً فعاله یا نه
+        const isActive = chip.classList.contains('active');
+        const chipText = chip.textContent.trim().toLowerCase();
+
+        // اول همه چیپ‌ها رو پاک می‌کنیم
+        chips.forEach(btn => btn.classList.remove('active'));
+
+        if (isActive) {
+            // 👈 اگر دوباره کلیک شد → غیرفعال کن و همه گروه‌ها رو نشون بده
+            groups.forEach(group => group.style.display = 'block');
+        } else {
+            // 👈 اگر فعال نبود → فعال کن و فقط گروه مربوطه رو نشون بده
+            chip.classList.add('active');
+            groups.forEach(group => {
+                const titleText = group.querySelector('.group-title h3').textContent.trim().toLowerCase();
+                group.style.display = titleText === chipText ? 'block' : 'none';
+            });
+        }
+    });
+});
+
+
+    /* ===== 🟢 رفتار آیکن‌ها در فوکوس و کلیک ===== */
+   /* ===== 🟢 رفتار آیکن‌ها در فوکوس و کلیک ===== */
+document.addEventListener('mousedown', (e) => {
+    const insideSearchBox   = searchBox.contains(e.target);
+    const insideOverlay     = searchOverlay && searchOverlay.contains(e.target);
+    const insideFilterModal = filterModal && !filterModal.classList.contains('hidden') && filterModal.contains(e.target);
+    const insidePhase4Modal = phase4Modal && !phase4Modal.classList.contains('hidden') && phase4Modal.contains(e.target);
+
+    // ✅ وقتی داخل مودال هستیم، فوکوس واقعی روی فیلد مودال باشه
+    // ولی سرچ باکس ظاهر فوکوس رو حفظ کنه
+    if (insideFilterModal || insidePhase4Modal) {
+        searchBox.classList.add('active', 'filled');
+        searchInput.style.color = '#706DF2';
+        showFocusIcon();
+        return; // اجازه بده تایپ روی مودال انجام بشه
+    }
+
+    // ✅ سایر حالت‌ها مثل قبل
+    if (insideSearchBox || insideOverlay) {
+        searchInput.focus();
+        showFocusIcon();
+        return;
+    }
+
+    const hasText = searchInput.value.trim() !== '';
+    if (hasText) {
+        searchBox.classList.add('filled');
+        searchInput.style.color = '#706DF2';
+        showFocusIcon();
+    } else {
+        searchBox.classList.remove('active', 'filled');
+        searchInput.style.color = '#5C5C66';
+        searchInput.setAttribute('placeholder', 'Search here');
+        showDefaultIcon();
+    }
+});
+
+
+    /* ===== 🟢 اسلایدر کارت‌ها ===== */
+const toggle = document.getElementById('toggle-slider');
+const sliderGroups = document.querySelectorAll('#filter .section-group');
+
+if (toggle) {
+    let sliderActive = false;
+
+    toggle.addEventListener('click', (e) => {
+        e.preventDefault();
+        sliderActive = !sliderActive;
+
+        // سوئیچ حالت اسلایدی
+        sliderGroups.forEach(g => g.classList.toggle('fara-slider-mode', sliderActive));
+
+        if (sliderActive) {
+            // 🔵 وقتی فعال شد: دکمه آبی گرد با پدینگ
+            toggle.style.background = '#5A57C2';
+            toggle.style.borderRadius = '50%';
+            toggle.style.padding = '3px';
+            toggle.style.filter = 'none';
+            toggle.style.boxShadow = 'none';
+            toggle.style.transition = '';
+        } else {
+            // 🔙 وقتی خاموش شد: حذف کامل بک‌گراند و ریست به حالت اولیه (فقط آیکن)
+            toggle.style.background = 'none';
+            toggle.style.borderRadius = '';
+            toggle.style.padding = '';
+            toggle.style.filter = '';
+            toggle.style.boxShadow = '';
+            toggle.style.transition = '';
+        }
+    });
+}
+
+
+}); // پایان DOMContentLoaded
+
+const filterBtn = document.getElementById('open-filters');
+filterBtn.addEventListener('click', e => {
+    e.preventDefault();
+    filterBtn.classList.toggle('active-filter');
+});
+
+// ================== منطق تغییر آیکن ==================
+document.addEventListener("DOMContentLoaded", () => {
+    // برای همه آیکن‌ها
+    const icons = document.querySelectorAll(".icon-left, .icon-right, .icon-single");
+
+    icons.forEach(icon => {
+        icon.addEventListener("click", () => {
+            const isActive = icon.classList.toggle("active");
+            // تغییر تصویر
+            icon.src = isActive ? "./img/24.png" : "./img/23.png";
+        });
+    });
+});
+</script>
+
+
+<script>
+/* وضعیت Filled برای فیلدهای مودال مثل سرچ‌باکس */
+document.querySelectorAll('.input-icon-wrapper input').forEach(inp => {
+    inp.addEventListener('blur', () => {
+        const wrapper = inp.closest('.input-icon-wrapper');
+        if (inp.value.trim() !== '') {
+            wrapper.classList.add('filled');
+        } else {
+            wrapper.classList.remove('filled');
+        }
+    });
+});
+
+document.querySelectorAll('.options button').forEach(btn => {
+    btn.addEventListener('click', () => {
+        btn.classList.toggle('active-option');
+    });
+});
+
+</script>
+
+</body>
+
+</html>

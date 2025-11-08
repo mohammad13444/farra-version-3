@@ -5,511 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Signup Validation - Farra</title>
-    <style>
-        @font-face {
-            font-family: "Bonyade Koodak VF";
-            src: url("./fonts/BonyadeKoodakKoochak-Light.ttf") format("truetype")
-        }
-
-        @font-face {
-            font-family: "Bonyade Koodak VF bold";
-            src: url("./fonts/BonyadeKoodakKoochak-Bold.ttf") format("truetype");
-        }
-
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: "Bonyade Koodak VF";
-            background: #EFEFFE;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-
-        /* ======= Container اصلی ======= */
-        .signup-container {
-            width: 100%;
-            max-width: 390px;
-            min-height: 844px;
-            background: #EFEFFE;
-            position: relative;
-            padding: 0 24px;
-            display: flex;
-            flex-direction: column;
-            z-index: 0;
-            /* یا حذف کن که جلوی ز-index بچه رو نگیره */
-
-        }
-
-        /* ======= Status Bar ======= */
-        .status-bar {
-            width: 100%;
-            height: 44px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 8px;
-            margin-bottom: 20px;
-        }
-
-        .time {
-            font-size: 15px;
-            font-weight: 600;
-            color: #1C1C1E;
-        }
-
-        .status-icons {
-            display: flex;
-            gap: 6px;
-            align-items: center;
-        }
-
-        .signal-bars {
-            display: flex;
-            gap: 2px;
-            align-items: flex-end;
-        }
-
-        .signal-bars span {
-            width: 3px;
-            background: #1C1C1E;
-            border-radius: 1px;
-        }
-
-        .signal-bars span:nth-child(1) {
-            height: 4px;
-        }
-
-        .signal-bars span:nth-child(2) {
-            height: 6px;
-        }
-
-        .signal-bars span:nth-child(3) {
-            height: 8px;
-        }
-
-        .signal-bars span:nth-child(4) {
-            height: 10px;
-        }
-
-        .battery-icon {
-            width: 24px;
-            height: 11px;
-            border: 1.5px solid #1C1C1E;
-            border-radius: 2.5px;
-            position: relative;
-            display: flex;
-            align-items: center;
-            padding: 2px;
-        }
-
-        .battery-icon::after {
-            content: '';
-            width: 2px;
-            height: 6px;
-            background: #1C1C1E;
-            border-radius: 0 1px 1px 0;
-            position: absolute;
-            right: -3px;
-        }
-
-        .battery-fill {
-            width: 100%;
-            height: 100%;
-            background: #1C1C1E;
-            border-radius: 1px;
-        }
-
-        /* ======= 🚨 باکس خطا (مخفی به صورت پیش‌فرض) ======= */
-        .error-alert {
-            position: fixed;
-            top: -80px;
-            /* شروع: خارج از کادر بالایی */
-            left: 50%;
-            transform: translateX(-50%);
-            width: 345px;
-            height: 68px;
-
-            border: var(--Border-Width-25, 1px) solid var(--Icon-Error-Default, #FF595B);
-            background: rgba(255, 89, 91, 0.10);
-
-            backdrop-filter: blur(8px);
-            border-radius: var(--Border-Radius-600, 24px);
-            padding: 10px 20px;
-            z-index: 99999;
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            opacity: 0;
-            /* مخفی در شروع */
-            transition: top 0.4s ease-out, opacity 0.4s ease-out;
-        }
-
-        /* وقتی نمایش داده می‌شود */
-        .error-alert.show {
-            top: 32px;
-            /* مقصد نهایی */
-            opacity: 1;
-        }
-
-
-
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .error-icon {
-            width: 24px;
-            height: 24px;
-            flex-shrink: 0;
-            margin-top: 2px;
-        }
-
-        .error-icon-diamond {
-            width: 100%;
-            height: 100%;
-            border: 2.5px solid #EF4444;
-            transform: rotate(45deg);
-            border-radius: 4px;
-            position: relative;
-        }
-
-        .error-icon-diamond::before {
-            content: '';
-            position: absolute;
-            width: 3px;
-            height: 3px;
-            background: #EF4444;
-            border-radius: 50%;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) rotate(-45deg);
-        }
-
-        .error-content {
-            flex: 1;
-        }
-
-        .error-title {
-            font-size: 16px;
-            font-weight: 700;
-            color: #1C1C1E;
-            margin-bottom: 4px;
-                        font-family: "Bonyade Koodak VF bold";
-
-        }
-
-        .error-message {
-            font-size: 13px;
-            color: #48484A;
-            line-height: 1.4;
-        }
-
-        /* ======= بخش Header ======= */
-        .header-section {
-            margin-bottom: 48px;
-            margin-top: 0px;
-        }
-
-        .title {
-            font-family: "Bonyade Koodak VF bold";
-            /* English/Heading/H4 */
-            font-size: var(--Font-Headings-H4-Text-Size, 32px);
-            font-style: normal;
-            font-weight: 700;
-            line-height: var(--Font-Headings-H4-Line-Heigth, 48px);
-            /* 150% */
-            color: var(--Text-Default-Heading, #45454D);
-            margin-bottom: 5px;
-        }
-
-        .description {
-            font-size: 18px;
-            line-height: 1.6;
-            color: #363636;
-            margin-bottom: 16px;
-            color: #363636;
-
-/* English/Body/LCopy */
-font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
-font-size: var(--Font-Copy-Body-Lg-Text-Size, 20px);
-font-style: normal;
-font-weight: 400;
-line-height: var(--Font-Copy-Body-Lg-Line-Heigth, 24px); /* 120% */
-        }
-
-        /* ======= Input Field (3 حالت: عادی / خطا / صحیح) ======= */
-        .input-group {
-            margin-bottom: 20px;
-        }
-
-        .input-wrapper {
-            position: relative;
-            width: 100%;
-        }
-
-        .input-field {
-            color: var(--Textbox-Default-Text, #A9A7F7);
-
-            /* English/Textbox/Large/Default */
-            font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
-            font-size: var(--Scale-500, 20px);
-            font-style: normal;
-            font-weight: 300;
-            line-height: normal;
-
-            width: 100%;
-            height: 56px;
-            padding: 0 45px 0 52px;
-            font-size: var(--Scale-500, 20px);
-            color: var(--Textbox-Active-Text, #5C5C66);
-            outline: none;
-            transition: all 0.1s ease;
-            border-radius: var(--Border-Radius-800, 32px);
-            border: var(--Border-Width-25, 1px) solid var(--Textbox-Default-Border, #C6C5FA);
-            background: var(--Primitives-White, #F8F7FC);
-            display: flex;
-            min-height: 64px;
-            padding: var(--Spacing-300, 12px) var(--Spacing-300, 12px) var(--Spacing-300, 12px) var(--Spacing-400, 53px);
-            align-items: center;
-            gap: 65px;
-            align-self: stretch;
-        }
-
-        .input-field::placeholder {
-            color: var(--Textbox-Default-Text, #A9A7F7);
-        }
-
-        /* حالت عادی */
-        .input-field:focus {
-            border: var(--Border-Width-100, 4px) solid var(--Textbox-Active-Border, #706DF2);
-            background: var(--Primitives-White, #F8F7FC);
-            font-weight: 500;
-        }
-
-        /* حالت خطا */
-        .input-field.error {
-            border: var(--Border-Width-50, 2px) solid var(--Border-Error-Default, #FF595B);
-            background: var(--Primitives-White, #F8F7FC);
-            color: #EF4444;
-        }
-
-        .input-field.error:focus {
-            border-color: #DC2626;
-        }
-
-        /* حالت صحیح */
-        .input-field.success {
-            border-radius: var(--Border-Radius-800, 32px);
-            border: var(--Border-Width-50, 2px) solid var(--Border-Success-Default, #44CD54);
-            background: var(--Primitives-White, #F8F7FC);
-            color: #10B981;
-        }
-
-        .input-field.success:focus {
-            border-color: #059669;
-        }
-
-        /* آیکون الماس داخل Input */
-        .input-icon {
-            position: absolute;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 20px;
-            height: 20px;
-        }
-
-        .input-icon-diamond {
-            width: 100%;
-            height: 100%;
-            border: 2px solid #8B7AB8;
-            transform: rotate(45deg);
-            border-radius: 3px;
-            transition: border-color 0.3s ease;
-        }
-
-        .input-field.error~.input-icon .input-icon-diamond {
-            border-color: #EF4444;
-        }
-
-        .input-field.success~.input-icon .input-icon-diamond {
-            border-color: #10B981;
-        }
-
-        /* ======= دکمه Signup ======= */
-        .signup-button {
-            
-            height: 60px;
-width: 344px;
-padding: 20px 16px;
-
-            border-radius: 40px;
-            background: var(--Primary-500, #706DF2);
-            border: none;
-            cursor: pointer;
-            margin-bottom: 48px;
-            transition: all 0.3s ease;
-            color: var(--Text-On-Color-Heading, #E6E5FF);
-            text-align: center;
-
-            /* English/Button/Large */
-            font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
-            font-size: var(--Font-Button-Large-Text-Size, 24px);
-            font-style: normal;
-            font-weight: 500;
-            line-height: 24px;
-            /* 100% */
-
-        }
-
-        .signup-button:hover {
-            background: var(--Primary-600, #5A57C2);
-
-        }
-
-        .signup-button:active {
-
-            background: var(--Primary-700, #434191);
-        }
-
-        /* ======= خط جداکننده ======= */
-        .divider-section {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 25px;
-        }
-
-        .divider-line {
-            flex: 1;
-            height: 1px;
-            background: #C7C0D9;
-        }
-
-        .divider-text {
-            color: var(--Text-Default-Heading, #45454D);
-text-align: center;
-
-/* English/Heading/H6 */
-font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF bold");
-font-size: var(--Font-Headings-H6-Text-Size, 20px);
-font-style: normal;
-font-weight: 700;
-line-height: var(--Font-Headings-H6-Line-Heigth, 28px); /* 140% */
-        }
-
-        /* ======= آیکون‌های اجتماعی ======= */
-        .social-icons {
-            display: flex;
-            justify-content: center;
-            gap: 24px;
-            margin-bottom: auto;
-        }
-
-        .social-icon {
-            width: 56px;
-            height: 56px;
-            background: transparent;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .social-icon:hover .img1 {
-            content: url('./img/9.png');
-        }
-
-        .social-icon-diamond {
-            width: 24px;
-            height: 24px;
-            border: 2px solid #8B7AB8;
-            transform: rotate(45deg);
-            border-radius: 4px;
-        }
-
-        /* ======= متن شرایط استفاده ======= */
-        .terms-text {
-            text-align: center;
-            font-size: 11px;
-            line-height: 1.5;
-            color: #8B8393;
-            margin-bottom: 32px;
-            padding: 0 20px;
-        }
-
-        .terms-text a {
-            color: #8B7AB8;
-            text-decoration: none;
-        }
-
-        /* ======= انیمیشن Shake ======= */
-        @keyframes shake {
-
-            0%,
-            100% {
-                transform: translateX(0);
-            }
-
-            10%,
-            30%,
-            50%,
-            70%,
-            90% {
-                transform: translateX(-5px);
-            }
-
-            20%,
-            40%,
-            60%,
-            80% {
-                transform: translateX(5px);
-            }
-        }
-
-        .input-field.shake {
-            animation: shake 0.5s;
-        }
-
-        /* ======= Responsive ======= */
-        @media (max-width: 390px) {
-            .signup-container {
-                padding: 0 20px;
-            }
-        }
-
-        .img1 {
-            display: none;
-        }
-
-        .signup-button.disabled {
-            background: var(--Surface-Disabled-Default, #8A8999);
-            cursor: not-allowed;
-            box-shadow: none;
-        }
-
-        .signup-button.disabled:hover {
-            transform: none;
-            background: var(--Surface-Disabled-Default, #8A8999);
-        }
-    </style>
+    <link rel="stylesheet" href="./css/tokens.css">
+    <link rel="stylesheet" href="./css/signup.css">
 </head>
 
 <body>
@@ -519,7 +16,8 @@ line-height: var(--Font-Headings-H6-Line-Heigth, 28px); /* 140% */
 
 
         </div> -->
-       <br>
+        <br>
+        <br>
         <div style="display: inline-flex;
 padding: 8px;
 align-items: center;
@@ -555,13 +53,9 @@ stroke: var(--Icon-Primary-Default, #706DF2);" xmlns="http://www.w3.org/2000/svg
         <!-- Header -->
         <div class="header-section">
             <h1 class="title">Hello!</h1>
+            <p class="description">5 I am happy to have you in Farra.Where you can make best memories. </p>
             <p class="description">
-                I am happy to have you in Farra.<br>
-                Where you can make best memories.
-            </p>
-            <p class="description">
-                You must make an account here, then<br>
-                Enter your phone number to proceed.
+                You must make an account here, then Enter your phone number to proceed.
             </p>
         </div>
 
@@ -609,7 +103,7 @@ stroke: var(--Icon-Primary-Default, #706DF2);" xmlns="http://www.w3.org/2000/svg
         <button class="signup-button" onclick="handleSignup()">Signup</button>
 
         <!-- خط جداکننده -->
-        <div class="divider-section" style="margin-left: 7.50%;">
+        <div class="divider-section">
             <svg xmlns="http://www.w3.org/2000/svg" width="62" height="2" viewBox="0 0 62 2" fill="none">
                 <path opacity="0.5" d="M61.0695 1.00001L0.214355 1" stroke="#706DF2" />
             </svg>
@@ -662,7 +156,7 @@ stroke: var(--Icon-Primary-Default, #706DF2);" xmlns="http://www.w3.org/2000/svg
         signupButton.classList.add('disabled');
         setActiveIcon(iconDefault);
 
-        // فعال/غیرفعال کردن دکمه بر اساس پر بودن فیلد
+        // فعال/غیرفعال شدن دکمه بر اساس پر بودن فیلد 
         inputField.addEventListener('input', () => {
             if (inputField.value.trim().length > 0) {
                 signupButton.classList.remove('disabled');
@@ -671,13 +165,14 @@ stroke: var(--Icon-Primary-Default, #706DF2);" xmlns="http://www.w3.org/2000/svg
             }
         });
 
-        // فوکوس → پاک کردن خطا/موفقیت و برگرداندن به حالت فوکوس
+        // فوکوس → پاک کردن حالت‌های قبلی و نمایش آیکون فوکوس
         inputField.addEventListener('focus', () => {
             inputField.classList.remove('error', 'success');
+            errorAlert.classList.remove('show');
             setActiveIcon(iconFocose);
         });
 
-        // بلور → فقط اگر خالی است برگرد به حالت پیش‌فرض
+        // بلور → اگر خالی بود برگرد به حالت پیش‌فرض
         inputField.addEventListener('blur', () => {
             if (inputField.value.trim().length === 0) {
                 setActiveIcon(iconDefault);
@@ -690,16 +185,22 @@ stroke: var(--Icon-Primary-Default, #706DF2);" xmlns="http://www.w3.org/2000/svg
             icon.style.display = 'inline';
         }
 
-        // کلیک روی Signup → ولیدیشن
+        // 📱 کلیک روی دکمه Signup → فقط این‌جا ولیدیشن انجام میشه
         function handleSignup() {
             const phone = inputField.value.replace(/\s/g, '');
 
-            // جلوگیری از اجرا اگر دکمه غیرفعال است
+            // اگر دکمه غیرفعاله، کاری نکن
             if (signupButton.classList.contains('disabled')) return;
 
-            // پاک کردن پیام‌ها
+            // حذف همه حالت‌ها
             errorAlert.classList.remove('show');
             inputField.classList.remove('error', 'success', 'shake');
+
+            // ✅ منطق ولیدیشن:
+            if (phone.length === 0) {
+                setActiveIcon(iconDefault);
+                return;
+            }
 
             if (phone.length < 11) {
                 // ❌ خطا
@@ -711,13 +212,40 @@ stroke: var(--Icon-Primary-Default, #706DF2);" xmlns="http://www.w3.org/2000/svg
             }
 
             // ✅ موفقیت
-            inputField.classList.add('success');
-            setActiveIcon(iconSuccess);
+            if (phone.length === 11) {
+                inputField.classList.add('success');
+                inputField.blur(); // ← فوکوس رو بردار تا CSS success غلبه کنه
+                setActiveIcon(iconSuccess);
+                errorAlert.classList.remove('show');
+            }
 
             console.log('✅ Signup with phone:', phone);
         }
 
+
     </script>
+    <script>
+    function validatePhone() {
+        const input = document.getElementById('mobilePhone');
+        // فقط اعداد رو نگه‌دار
+        let digits = input.value.replace(/\D/g, '');
+
+        // محدود به 11 رقم (مثل شماره‌ موبایل ایران)
+        digits = digits.substring(0, 11);
+
+        // جدا کردن با فاصله بعد از 4 و 7
+        let formatted = digits;
+        if (digits.length > 4 && digits.length <= 7) {
+            formatted = digits.replace(/(\d{4})(\d+)/, '$1 $2');
+        } else if (digits.length > 7) {
+            formatted = digits.replace(/(\d{4})(\d{3})(\d+)/, '$1 $2 $3');
+        }
+
+        // نمایش در فیلد
+        input.value = formatted;
+    }
+</script>
+
 </body>
 
 </html>

@@ -1,87 +1,419 @@
-body {
-    margin: 0;
-    font-family: 'Segoe UI', sans-serif;
-    background-color: #E6E6E6;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 80vh;
+ @font-face {
+      font-family: "Bonyade Koodak VF";
+      src: url("../BonyadeKoodak-VF.ttf") format("truetype");
+      font-weight: 100 900;
+      /* 👈 اجازه بده تمام بازه وزن‌ها فعال بشه */
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: "Bonyade Koodak VF bold";
+      src: url("../fonts/BonyadeKoodakKoochak-Bold.ttf") format("truetype");
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #EFEFFE;
+      min-height: 100vh;
+      padding: 0 24px;
+      display: flex;
+      flex-direction: column;
+    }
+.input-group .alert {
+    display: none; /* در شروع همیشه خاموش باشه */
+    position: absolute;
+    right: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 22px;
+    height: 22px;
+}
+    .container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      max-width: 400px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .header {
+      margin-top: 35px;
+      margin-bottom: 60px;
+    }
+
+    .title {
+      line-height: 1.2;
+      color: var(--Text-Default-Heading, #45454D);
+
+      /* English/Heading/H4 */
+      font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF bold");
+      font-size: var(--Font-Headings-H4-Text-Size, 32px);
+      font-style: normal;
+      font-weight: 700;
+      line-height: var(--Font-Headings-H4-Line-Heigth, 48px);
+      /* 150% */
+    }
+
+    .subtitle {
+
+      color: var(--Text-Default-Body, #5C5C66);
+
+      /* English/Body/LCopy */
+      font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+      font-size: var(--Font-Copy-Body-Lg-Text-Size, 20px);
+      font-style: normal;
+      font-weight: 400;
+      line-height: var(--Font-Copy-Body-Lg-Line-Heigth, 24px);
+      /* 120% */
+    }
+
+    .form-container {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .input-group {
+      position: relative;
+    }
+
+    .input-field {
+  width: 100%;
+  height: var(--textfield-height-lg);
+  border-radius: var(--textfield-border-radius-lg);
+  padding: var(--textfield-padding-y-lg) var(--textfield-padding-x-lg);
+  border: var(--textfield-border-width-thin) solid var(--textfield-border-default);
+  background: var(--textfield-bg-default);
+  color: var(--textfield-text-default);
+  font-family: var(--textfield-font-family);
+  font-size: var(--textfield-font-size);
+  line-height: var(--textfield-line-height);
+  font-weight: var(--textfield-font-weight-default);
+  outline: none;
+  transition: var(--textfield-transition);
 }
 
-.frame {
-    width: 100%;
-    max-width: 430px;
-    height: 100%;
-    max-height: 932px;
-    background: #E6E6E6;
+
+   .input-field::placeholder {
+  color: var(--textfield-placeholder-default);
+  font-weight: var(--textfield-font-weight-default);
 }
 
-.container {
-    width: 90%;
-    height: 100%;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 20px 0;
-    box-sizing: border-box;
+/* ---------- Focus State ---------- */
+.input-field:focus {
+  border: var(--textfield-border-width-focus) solid var(--textfield-border-focus);
+  background: var(--textfield-bg-focus);
+  color: var(--textfield-text-active);
+  font-weight: var(--textfield-font-weight-active);
 }
 
-.text-area h1 {
-    font-size: 22px;
-    font-weight: bold;
-    color: #333;
-    margin: 0 0 10px;
+.input-field:focus::placeholder {
+  color: var(--textfield-placeholder-focus);
 }
 
-.text-area .description {
-    font-size: 13px;
-    color: #777;
-    line-height: 1.4;
+/* ---------- Filled State (Has value, not focused) ---------- */
+.input-field:not(:placeholder-shown):not(:focus) {
+  background: var(--textfield-bg-filled);
+  border: var(--textfield-border-width-thin) solid var(--textfield-border-filled);
+  color: var(--textfield-text-filled);
+  font-family: var(--textfield-font-family);
+  font-weight: var(--textfield-font-weight-active);
 }
 
-.image-circle {
-    width: 325px;   /* ثابت */
-    height: 325px;  /* ثابت */
-    background-color: #c9c9c9;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0 auto;
+
+    .input-icon {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .default-icon {
+      display: block;
+    }
+
+    .focose-icon {
+      display: none;
+    }
+
+    .input-group.focused .default-icon {
+      display: none;
+    }
+
+    .input-group.focused .focose-icon {
+      display: block;
+    }
+
+    /* City dropdown styles */
+    .city-container {
+      width: 100%;
+      align-self: stretch;
+      position: relative;
+    }
+
+    .city-input {
+  height: var(--textfield-height-lg);
+  border-radius: var(--textfield-border-radius-lg);
+  border: var(--textfield-border-width-thin) solid var(--textfield-border-default);
+  background: var(--textfield-bg-default);
+  color: var(--textfield-text-default);
+  padding: 17px;
+  font-family: var(--textfield-font-family);
+  font-size: var(--textfield-font-size);
+  transition: var(--textfield-transition);
+  cursor: pointer;
 }
 
-.image-circle img {
-    width: 140px;   /* یا هر اندازه مناسب */
-    height: auto;
+/* Focused */
+.city-input.focused {
+  border: var(--textfield-border-width-focus) solid var(--textfield-border-focus);
+  color: var(--textfield-text-active);
+  background: var(--textfield-bg-focus);
+  font-weight: var(--textfield-font-weight-active);
 }
 
-.bottom-nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 14px;
+/* Filled */
+.city-input.filled {
+  border: var(--textfield-border-width-thin) solid var(--textfield-border-filled);
+  color: var(--textfield-text-filled);
+  font-weight: var(--textfield-font-weight-active);
 }
 
-.skip, .next {
-    color: #333;
-    cursor: pointer;
+/* Error / Success */
+/* .city-input.error {
+  border: var(--textfield-border-width-thin) solid var(--textfield-border-error);
+  color: var(--textfield-text-error);
+}
+.city-input.success {
+  border: var(--textfield-border-width-thin) solid var(--textfield-border-success);
+  color: var(--textfield-text-success);
+} */
+
+   
+
+    .city-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0px;
+    }
+
+   /* ---------- City Icons (Left / Right) ---------- */
+.city-icon-left,
+.city-icon-right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px; /* فاصله بین آیکون‌ها */
 }
 
-.dots {
-    display: flex;
-    gap: 5px;
+/* ---------------- حالت پیش‌فرض ---------------- */
+.city-icon-left .default-icon,
+.city-icon-right .default-icon {
+  display: block;
 }
 
-.dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    border: 1px solid #777;
-    background: transparent;
+.city-icon-left .focose-icon,
+.city-icon-right .focose-icon {
+  display: none;
 }
 
-.dot.active {
-    background: #555;
-    border-color: #555;
+/* ---------------- حالت Focused ---------------- */
+.city-input.focused .city-icon-left .default-icon,
+.city-input.focused .city-icon-right .default-icon {
+  display: none;
 }
+
+.city-input.focused .city-icon-left .focose-icon,
+.city-input.focused .city-icon-right .focose-icon {
+  display: block;
+}
+
+/* ---------------- حالت Filled ---------------- */
+.city-input.filled .city-icon-left .default-icon,
+.city-input.filled .city-icon-right .default-icon {
+  display: none;
+}
+
+.city-input.filled .city-icon-left .focose-icon,
+.city-input.filled .city-icon-right .focose-icon {
+  display: block;
+}
+
+
+
+
+    .city-input::after {
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #6366F1;
+      font-size: 16px;
+    }
+
+    .city-dropdown {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: white;
+      border: 2px solid #6366F1;
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      z-index: 1000;
+      display: none;
+      margin-top: 8px;
+      max-height: 280px;
+      overflow-y: auto;
+      color: var(--Text-Primary-Default, #706DF2);
+      /* English/Body/LCopy */
+      font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+      font-size: var(--Font-Copy-Body-Lg-Text-Size, 20px);
+      font-style: normal;
+      font-weight: 400;
+      line-height: var(--Font-Copy-Body-Lg-Line-Heigth, 24px);
+      /* 120% */
+    }
+
+    .city-dropdown.show {
+      display: block;
+    }
+
+    .city-options {
+      opacity: 0;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+      margin-top: 12px;
+      margin-left: 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .city-option {
+      cursor: pointer;
+      padding: 4px 0;
+      color: #706DF2;
+      transition: padding-left 0.2s ease, color 0.2s ease;
+    }
+
+    .city-option:hover {
+      color: #4F46E5;
+      padding-left: 8px;
+    }
+
+    .city-input.expanded {
+      height: 300px;
+      /* ارتفاع کشیده */
+    }
+
+    .city-input.expanded .city-options {
+      pointer-events: auto;
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0);
+  height: auto;
+    }
+
+    .city-input.expanded .city-icon-right {
+      transform: rotate(180deg);
+    }
+
+    /* حالت عادی: وقتی input بسته است، کلیک‌پذیر نباشد */
+.city-input:not(.expanded) .city-options {
+  pointer-events: none;
+  visibility: hidden;
+  opacity: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+
+
+
+
+
+/* ------- Farra DS Consistent Continue Button ------- */
+.continue-btn {
+  width: 100%;
+  height: var(--btn-primary-height, 64px);
+  padding: var(--btn-primary-padding-vertical, 20px) var(--btn-primary-padding-horizontal, 16px);
+  border-radius: var(--btn-primary-border-radius, 40px);
+  background: var(--btn-primary-bg-disabled, #8A8999);
+  color: var(--btn-primary-text-color, #E6E5FF);
+  font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+  font-size: var(--Font-Button-Large-Text-Size, 24px);
+  font-weight: 500;
+  line-height: 24px;
+  border: none;
+  text-align: center;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  cursor: not-allowed;
+  transition: all 0.25s ease;
+  margin-bottom: var(--spacing-800, 60px);
+}
+
+/* --- حالت فعال (داده‌ها کامل) --- */
+.continue-btn.active {
+  background: var(--btn-primary-bg, #706DF2) !important;
+  cursor: pointer !important;
+}
+
+/* --- Hover (فعال روی active) --- */
+.continue-btn.active:hover {
+  background: var(--btn-primary-bg-hover, #5A57C2) !important;
+}
+
+/* --- Pressed --- */
+.continue-btn.active:active {
+  background: var(--btn-primary-bg-action, #434191) !important;
+}
+
+/* --- Disabled Explicit --- */
+.continue-btn.disabled,
+.continue-btn:disabled {
+  background: var(--btn-primary-bg-disabled, #8A8999) !important;
+  cursor: not-allowed !important;
+}
+
+
+    .footer-text {
+      font-size: 13px;
+      color: #888;
+      text-align: center;
+      line-height: 1.4;
+      margin-bottom: 40px;
+      padding: 0 10px;
+    }
+
+    .city-label {
+      padding-left: 5px;
+    }
+
+    /* Responsive adjustments */
+    @media (max-height: 700px) {
+      .header {
+        margin-top: 40px;
+        margin-bottom: 40px;
+      }
+
+      .continue-btn {
+        margin-bottom: 30px;
+      }
+
+      .footer-text {
+        margin-bottom: 20px;
+      }
+    }

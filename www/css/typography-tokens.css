@@ -1,0 +1,158 @@
+/* ============================================
+   TYPOGRAPHY TOKENS – FARRA APP
+   Made for Mohammad (Soghal Media)
+   Updated: 2025-10-18
+   ============================================
+*/
+
+:root {
+
+  /* --------------------- */
+  /* 🟦 HEADINGS           */
+  /* --------------------- */
+
+  --font-heading-h1-family: "Bonyade Koodak VF";
+  --font-heading-h1-size: 64px;
+  --font-heading-h1-weight: 700;
+  --font-heading-h1-line-height: 96px;
+  --font-heading-h1-color: #F8F7FC;
+
+  --font-heading-h2-family: "Bonyade Koodak VF";
+  --font-heading-h2-size: 48px;
+  --font-heading-h2-weight: 500;
+  --font-heading-h2-line-height: 64px;
+  --font-heading-h2-color: #F8F7FC;
+
+  --font-heading-h3-family: "Bonyade Koodak VF";
+  --font-heading-h3-size: 40px;
+  --font-heading-h3-weight: 700;
+  --font-heading-h3-line-height: 56px;
+  --font-heading-h3-color: #F8F7FC;
+
+  --font-heading-h4-family: "Bonyade Koodak VF";
+  --font-heading-h4-size: 32px;
+  --font-heading-h4-weight: 700;
+  --font-heading-h4-line-height: 48px;
+  --font-heading-h4-color: #F8F7FC;
+
+  --font-heading-h5-family: "Bonyade Koodak VF";
+  --font-heading-h5-size: 24px;
+  --font-heading-h5-weight: 500;
+  --font-heading-h5-line-height: 36px;
+  --font-heading-h5-color: #F8F7FC;
+
+  --font-heading-h6-family: "Bonyade Koodak VF";
+  --font-heading-h6-size: 20px;
+  --font-heading-h6-weight: 700;
+  --font-heading-h6-line-height: 28px;
+  --font-heading-h6-color: #F8F7FC;
+
+
+  /* --------------------- */
+  /* 📘 BODY TEXTS         */
+  /* --------------------- */
+
+  --font-body-lg-family: "Bonyade Koodak VF";
+  --font-body-lg-size: 20px;
+  --font-body-lg-weight: 400;
+  --font-body-lg-line-height: 24px;
+  --font-body-lg-color: #F8F7FC;
+
+  --font-body-md-family: "Bonyade Koodak VF";
+  --font-body-md-size: 16px;
+  --font-body-md-weight: 400;
+  --font-body-md-line-height: 20px;
+  --font-body-md-color: #F8F7FC;
+
+  --font-body-md-strong-family: "Bonyade Koodak VF";
+  --font-body-md-strong-size: 16px;
+  --font-body-md-strong-weight: 700;
+  --font-body-md-strong-line-height: 20px;
+  --font-body-md-strong-color: #F8F7FC;
+
+  --font-body-sm-family: "Bonyade Koodak VF";
+  --font-body-sm-size: 14px;
+  --font-body-sm-weight: 400;
+  --font-body-sm-line-height: 18px;
+  --font-body-sm-color: #F8F7FC;
+
+  --font-body-sm-strong-family: "Bonyade Koodak VF";
+  --font-body-sm-strong-size: 14px;
+  --font-body-sm-strong-weight: 700;
+  --font-body-sm-strong-line-height: 18px;
+  --font-body-sm-strong-color: #F8F7FC;
+
+  --font-caption-family: "Bonyade Koodak VF";
+  --font-caption-size: 10px;
+  --font-caption-weight: 400;
+  --font-caption-line-height: 12px;
+  --font-caption-color: #F8F7FC;
+
+
+  /* --------------------- */
+  /* 🔵 BUTTON TEXTS       */
+  /* --------------------- */
+
+  --font-button-lg-family: "Bonyade Koodak VF";
+  --font-button-lg-size: 24px;
+  --font-button-lg-weight: 500;
+  --font-button-lg-line-height: 24px;
+  --font-button-lg-color: #E6E5FF;
+
+  --font-button-md-family: "Bonyade Koodak VF";
+  --font-button-md-size: 20px;
+  --font-button-md-weight: 500;
+  --font-button-md-line-height: normal;
+  --font-button-md-color: #E6E5FF;
+
+  --font-button-sm-family: "Bonyade Koodak VF";
+  --font-button-sm-size: 16px;
+  --font-button-sm-weight: 500;
+  --font-button-sm-line-height: normal;
+  --font-button-sm-color: #E6E5FF;
+
+
+  /* --------------------- */
+  /* 🟣 TEXT BUTTONS        */
+  /* --------------------- */
+
+  --font-textbutton-lg-family: "Bonyade Koodak VF";
+  --font-textbutton-lg-size: 20px;
+  --font-textbutton-lg-weight: 500;
+  --font-textbutton-lg-line-height: 20px;
+  --font-textbutton-lg-color: #706DF2;
+
+  --font-textbutton-md-family: "Bonyade Koodak VF";
+  --font-textbutton-md-size: 16px;
+  --font-textbutton-md-weight: 500;
+  --font-textbutton-md-line-height: normal;
+  --font-textbutton-md-color: #706DF2;
+
+  --font-textbutton-sm-family: "Bonyade Koodak VF";
+  --font-textbutton-sm-size: 14px;
+  --font-textbutton-sm-weight: 500;
+  --font-textbutton-sm-line-height: normal;
+  --font-textbutton-sm-color: #706DF2;
+
+
+  /* --------------------- */
+  /* 🟢 TEXTBOX TEXTS       */
+  /* --------------------- */
+
+  /* Large - Default, Active, Filled */
+  --font-textbox-lg-family: "Bonyade Koodak VF";
+  --font-textbox-lg-size: 20px;
+  --font-textbox-lg-default-weight: 300;
+  --font-textbox-lg-active-weight: 500;
+  --font-textbox-lg-filled-weight: 500;
+  --font-textbox-lg-color: #FFFFFF;
+
+  /* Medium - Default, Active, Filled */
+  --font-textbox-md-family: "Bonyade Koodak VF";
+  --font-textbox-md-size: 16px;
+  --font-textbox-md-default-weight: 400;
+  --font-textbox-md-active-weight: 500;
+  --font-textbox-md-filled-weight: 500;
+  --font-textbox-md-color: #FFFFFF;
+
+}

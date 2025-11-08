@@ -1,122 +1,587 @@
-body {
-    margin: 0;
-    font-family: 'Segoe UI', sans-serif;
-    background-color: #E6E6E6;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    overflow: hidden; /* جلوگیری از اسکرول */
+  @font-face {
+      font-family: "Bonyade Koodak VF";
+      src: url("../BonyadeKoodak-VF.ttf") format("truetype");
+      font-weight: 100 900;
+      /* 👈 اجازه بده تمام بازه وزن‌ها فعال بشه */
+      font-display: swap;
+  }
+
+  @font-face {
+      font-family: "Bonyade Koodak VF bold";
+      src: url("../fonts/BonyadeKoodakKoochak-Bold.ttf") format("truetype");
+      font-weight: 100 900;
+      /* 👈 اجازه بده تمام بازه وزن‌ها فعال بشه */
+      font-display: swap;
+  }
+
+
+  * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+  }
+
+  body {
+      font-family: "Bonyade Koodak VF";
+      background: #EFEFFE;
+      display: flex;
+      justify-content: center;
+      /* ❌ حذف align-items: center چون باعث فشردگی عمودی میشه */
+      align-items: stretch;
+      /* ✅ پر کن تا پایین */
+      padding: 0;
+      margin: 0;
+      min-height: 100vh;
+      width: 100vw;
+      padding: 0 24px;
+
+      min-height: 100vh;
+  }
+
+  /* ======= Container اصلی ======= */
+  .signup-container {
+      width: 100%;
+      max-width: 390px;
+      min-height: 100vh;
+      /* ✅ جای min-height:844px */
+      margin: 0 auto;
+      background: #EFEFFE;
+      display: flex;
+      flex-direction: column;
+      z-index: 0;
+      /* یا حذف کن که جلوی ز-index بچه رو نگیره */
+
+  }
+
+  /* ======= Status Bar ======= */
+  .status-bar {
+      width: 100%;
+      height: 44px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 8px;
+      margin-bottom: 20px;
+  }
+
+  .time {
+      font-size: 15px;
+      font-weight: 600;
+      color: #1C1C1E;
+  }
+
+  .status-icons {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+  }
+
+  .signal-bars {
+      display: flex;
+      gap: 2px;
+      align-items: flex-end;
+  }
+
+  .signal-bars span {
+      width: 3px;
+      background: #1C1C1E;
+      border-radius: 1px;
+  }
+
+  .signal-bars span:nth-child(1) {
+      height: 4px;
+  }
+
+  .signal-bars span:nth-child(2) {
+      height: 6px;
+  }
+
+  .signal-bars span:nth-child(3) {
+      height: 8px;
+  }
+
+  .signal-bars span:nth-child(4) {
+      height: 10px;
+  }
+
+  .battery-icon {
+      width: 24px;
+      height: 11px;
+      border: 1.5px solid #1C1C1E;
+      border-radius: 2.5px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      padding: 2px;
+  }
+
+  .battery-icon::after {
+      content: '';
+      width: 2px;
+      height: 6px;
+      background: #1C1C1E;
+      border-radius: 0 1px 1px 0;
+      position: absolute;
+      right: -3px;
+  }
+
+  .battery-fill {
+      width: 100%;
+      height: 100%;
+      background: #1C1C1E;
+      border-radius: 1px;
+  }
+
+  /* ======= 🚨 باکس خطا (مخفی به صورت پیش‌فرض) ======= */
+  .error-alert {
+      position: fixed;
+      top: -80px;
+      /* شروع: خارج از کادر بالایی */
+      left: 50%;
+      transform: translateX(-50%);
+      width: 345px;
+      height: 68px;
+
+      border: var(--Border-Width-25, 1px) solid var(--Icon-Error-Default, #FF595B);
+      background: rgba(255, 89, 91, 0.10);
+
+      backdrop-filter: blur(8px);
+      border-radius: var(--Border-Radius-600, 24px);
+      padding: 10px 20px;
+      z-index: 99999;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      opacity: 0;
+      /* مخفی در شروع */
+      transition: top 0.4s ease-out, opacity 0.4s ease-out;
+  }
+
+  /* وقتی نمایش داده می‌شود */
+  .error-alert.show {
+      top: 32px;
+      /* مقصد نهایی */
+      opacity: 1;
+  }
+
+
+
+  @keyframes slideDown {
+      from {
+          opacity: 0;
+          transform: translateY(-20px);
+      }
+
+      to {
+          opacity: 1;
+          transform: translateY(0);
+      }
+  }
+
+  .error-icon {
+      width: 24px;
+      height: 24px;
+      flex-shrink: 0;
+      margin-top: 2px;
+  }
+
+  .error-icon-diamond {
+      width: 100%;
+      height: 100%;
+      border: 2.5px solid #EF4444;
+      transform: rotate(45deg);
+      border-radius: 4px;
+      position: relative;
+  }
+
+  .error-icon-diamond::before {
+      content: '';
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      background: #EF4444;
+      border-radius: 50%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-45deg);
+  }
+
+  .error-content {
+      flex: 1;
+  }
+
+  .error-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #1C1C1E;
+      margin-bottom: 4px;
+      font-family: "Bonyade Koodak VF bold";
+
+  }
+
+  .error-message {
+      font-size: 13px;
+      color: #48484A;
+      line-height: 1.4;
+  }
+
+  /* ======= بخش Header ======= */
+  .header-section {
+      margin-bottom: 48px;
+      margin-top: 0px;
+  }
+
+  .title {
+      font-family: "Bonyade Koodak VF bold";
+      /* English/Heading/H4 */
+      font-size: var(--Font-Headings-H4-Text-Size, 32px);
+      font-style: normal;
+      font-weight: 700;
+      line-height: var(--Font-Headings-H4-Line-Heigth, 48px);
+      /* 150% */
+      color: var(--Text-Default-Heading, #45454D);
+      margin-bottom: 5px;
+  }
+
+  .description {
+      font-size: 18px;
+      line-height: 1.6;
+      color: #363636;
+      margin-bottom: 16px;
+      color: #363636;
+
+      /* English/Body/LCopy */
+      font-family: "Bonyade Koodak VF";
+      font-size: var(--Font-Copy-Body-Lg-Text-Size, 20px);
+      font-style: normal;
+      font-weight: 400;
+      line-height: var(--Font-Copy-Body-Lg-Line-Heigth, 24px);
+      /* 120% */
+  }
+
+  /* ======= Input Field (3 حالت: عادی / خطا / صحیح) ======= */
+  .input-group {
+      margin-bottom: 20px;
+  }
+
+  .input-wrapper {
+      position: relative;
+      width: 100%;
+  }
+
+  .input-field {
+      width: 100%;
+      height: var(--textfield-height-lg, 64px);
+      border-radius: var(--textfield-border-radius-lg, 32px);
+      border: var(--textfield-border-width-thin, 1px) solid var(--textfield-border-default);
+      background: var(--textfield-bg-default);
+      padding: var(--textfield-padding-y-lg, 12px) var(--textfield-padding-x-lg, 52px);
+      font-family: var(--textfield-font-family, "Bonyade Koodak VF");
+      font-size: var(--textfield-font-size, 20px);
+      font-weight: var(--textfield-font-weight-default, 300);
+      line-height: var(--textfield-line-height, 24px);
+      color: var(--textfield-text-filled, #5C5C66);
+      outline: none;
+      transition: var(--textfield-transition, all 0.2s ease);
+  }
+
+  /* Placeholder */
+  .input-field::placeholder {
+      color: var(--textfield-placeholder-default, #A9A7F7);
+      font-weight: var(--textfield-font-weight-default, 300);
+  }
+
+  /* Hover */
+  .input-field:hover:not(:disabled) {
+      border-color: var(--textfield-border-hover, #9795F3);
+      background: var(--textfield-bg-hover, #FFFFFF);
+  }
+
+  /* Focus / Action */
+  .input-field:focus {
+      border: var(--textfield-border-width-focus, 4px) solid var(--textfield-border-focus, #706DF2);
+      background: var(--textfield-bg-focus, #F8F7FC);
+      font-weight: var(--textfield-font-weight-active, 500);
+      color: var(--textfield-text-active, #5C5C66);
+  }
+
+  .input-field:focus::placeholder {
+      color: var(--textfield-placeholder-focus, #706DF2);
+  }
+
+  /* Filled */
+.input-field:not(:placeholder-shown):not(:focus) {
+    /* ====== Text Style (from tokens) ====== */
+    color: var(--Textbox-Filled-Text, #706DF2);
+    font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+    font-size: var(--Scale-500, 20px);
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+
+    /* ====== Shape & Layout ====== */
+    border-radius: var(--Border-Radius-800, 32px);
+    border: var(--Border-Width-25, 1px) solid var(--Textbox-Filled-Border, #706DF2);
+    background: var(--Primitives-White, #F8F7FC);
 }
 
-.frame {
-    width: 100%;
-    max-width: 430px;
-    height: 100%;
-    max-height: 932px;
-    background: #E6E6E6;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+
+
+  /* Error */
+  .input-field.error {
+  border: var(--textfield-border-width-strong, 2px) solid var(--textfield-border-error, #FF595B) !important;
+  color: var(--textfield-text-error, #EF4444) !important;
+  background: var(--textfield-bg-error, #F8F7FC);
+  font-weight: var(--textfield-font-weight-active, 500) !important;
+}
+  .input-field.error::placeholder {
+      color: var(--textfield-text-error, #EF4444);
+  }
+
+  /* Success */
+  .input-field.success {
+  border: var(--textfield-border-width-strong, 2px) solid var(--textfield-border-success, #44CD54) !important;
+  color: var(--textfield-text-success, #44CD54) !important;
+  background: var(--textfield-bg-success, #F8F7FC);
+  font-weight: var(--textfield-font-weight-active, 500) !important;
 }
 
-.container {
-    width: 90%;
-    height: 80%;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    gap: 35px; /* فاصله بین المان‌ها نصف نسخه قبلی */
-}
+  /* Disabled */
+  .input-field:disabled {
+      border: var(--textfield-border-width-thin, 1px) solid var(--textfield-border-disabled, #D9D7EB);
+      background: var(--textfield-bg-disabled, #F2F2F4);
+      color: var(--textfield-text-disabled, #B5B5C8);
+      cursor: not-allowed;
+  }
 
-/* تیتر و توضیح */
-h1 {
-    font-size: 26px;
-    font-weight: bold;
-    margin: 0;
-}
+  .input-field:disabled::placeholder {
+      color: var(--textfield-placeholder-disabled, #B5B5C8);
+  }
 
-.description {
-    font-size: 13px;
-    color: #666;
-    line-height: 1.3em;
-    margin: 0 0 4px 0; /* فاصله پایین کمتر شده */
-}
+  
 
-/* اینپوت شماره */
-.phone-input {
-    width: 100%;
-    padding: 14px 15px; /* کمی بزرگ‌تر از قبل */
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 15px;
-    outline: none;
-    background-color: transparent;
-    box-sizing: border-box;
-}
+  /* آیکون الماس داخل Input */
+  .input-icon {
+      position: absolute;
+      left: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 20px;
+      height: 20px;
+  }
 
-/* دکمه عضویت */
-.signup-btn {
-    width: 100%;
-    padding: 14px; /* دکمه بزرگ‌تر شده */
-    background-color: #ddd;
-    color: #333;
-    font-size: 16px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
+  .input-icon-diamond {
+      width: 100%;
+      height: 100%;
+      border: 2px solid #8B7AB8;
+      transform: rotate(45deg);
+      border-radius: 3px;
+      transition: border-color 0.3s ease;
+  }
 
-/* لینک "حساب دارم" */
-.link {
-    text-align: center;
-    font-size: 13px;
-    color: #555;
-    text-decoration: underline;
-}
+  .input-field.error~.input-icon .input-icon-diamond {
+      border-color: #EF4444;
+  }
 
-/* جداکننده یا Divider */
-.divider {
-    display: flex;
-    align-items: center;
-    text-align: center;
-    color: #555;
-    font-size: 13px;
-    font-weight: bold;
-    margin: 8px 0; /* کمی فاصله ولی کمتر از قبل */
-}
+  .input-field.success~.input-icon .input-icon-diamond {
+      border-color: #10B981;
+  }
 
-.divider::before,
-.divider::after {
-    content: "";
-    flex: 1;
-    border-bottom: 1px solid #aaa;
-    margin: 0 6px;
-}
+  .signup-button {
+      width: 100%;
+      height: var(--btn-primary-height, 64px);
+      padding: var(--btn-primary-padding-vertical, 20px) var(--btn-primary-padding-horizontal, 16px);
+      border-radius: var(--btn-primary-border-radius, 40px);
+      background: var(--btn-primary-bg-default, #706DF2);
+      color: var(--btn-primary-text-color, #E6E5FF);
+      font-family: var(--btn-primary-font-family, "Bonyade Koodak VF");
+      font-size: var(--btn-primary-font-size, 24px);
+      font-weight: var(--btn-primary-font-weight, 500);
+      line-height: var(--btn-primary-line-height, 24px);
+      border: none;
+      cursor: pointer;
+      display: var(--btn-primary-display, inline-flex);
+      justify-content: var(--btn-primary-justify, center);
+      align-items: var(--btn-primary-align, center);
+      text-align: center;
+      transition: var(--btn-primary-transition, all 0.25s ease);
+      margin-bottom: 48px;
+  }
 
-/* دکمه‌های شبکه اجتماعی */
-.social-buttons {
-    display: flex;
-    justify-content: space-between;
-    gap: 8px;
-}
+  /* Hover */
+  .signup-button:hover:not(:disabled):not(.loading) {
+      background: var(--btn-primary-bg-hover, #5A57C2);
+  }
 
-.social-button {
-    flex: 1;
-    padding: 10px 0; /* بزرگ‌تر از قبل */
-    background-color: #ddd;
-    color: #000;
-    border: none;
-    border-radius: 5px;
-    font-size: 20px;
-    cursor: pointer;
-}
+  /* Pressed / Active */
+  .signup-button:active:not(:disabled):not(.loading),
+  .signup-button.active {
+      background: var(--btn-primary-bg-action, #434191);
+  }
 
-/* لینک Skip */
-.skip-link {
-    text-align: center;
-    font-size: 13px;
-    color: #555;
-    text-decoration: underline;
-    margin-top: 6px;
-}
+  /* Disabled */
+  .signup-button:disabled,
+  .signup-button.disabled {
+      background: var(--btn-primary-bg-disabled, #8A8999);
+      color: var(--btn-primary-text-color, #E6E5FF);
+      cursor: not-allowed;
+      pointer-events: none;
+  }
+
+  /* Loading state */
+  .signup-button.loading {
+      position: relative;
+      color: transparent !important;
+      background: var(--btn-primary-bg-loading, #5A57C2);
+  }
+
+  .signup-button.loading::after {
+      content: "";
+      position: absolute;
+      width: 22px;
+      height: 22px;
+      border: 3px solid rgba(255, 255, 255, 0.4);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.9s linear infinite;
+  }
+
+  @keyframes spin {
+      to {
+          transform: rotate(360deg);
+      }
+  }
+
+  /* ======= خط جداکننده ======= */
+  .divider-section {
+      display: flex;
+      align-items: center;
+      /* وسط عمودی برای متن و خطوط */
+      justify-content: center;
+      /* 🔹 وسط افقی کل بخش */
+      gap: 10px;
+      /* فاصله بین SVG و متن */
+      margin: 0 auto 25px;
+      /* 🔹 خودش وسط افقی بمونه */
+      width: 100%;
+      max-width: 344px;
+      /* هماهنگ با inputها و دکمه‌ها */
+      text-align: center;
+  }
+
+
+  .divider-line {
+      flex: 1;
+      height: 1px;
+      background: #C7C0D9;
+  }
+
+  .divider-text {
+      color: var(--Text-Default-Heading, #45454D);
+      text-align: center;
+
+      /* English/Heading/H6 */
+      font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF bold");
+      font-size: var(--Font-Headings-H6-Text-Size, 20px);
+      font-style: normal;
+      font-weight: 700;
+      line-height: var(--Font-Headings-H6-Line-Heigth, 28px);
+      /* 140% */
+  }
+
+  /* ======= آیکون‌های اجتماعی ======= */
+  .social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-bottom: auto;
+  }
+
+  .social-icon {
+      width: 56px;
+      height: 56px;
+      background: transparent;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+  }
+
+  .social-icon:hover .img1 {
+      content: url('./img/9.png');
+  }
+
+  .social-icon-diamond {
+      width: 24px;
+      height: 24px;
+      border: 2px solid #8B7AB8;
+      transform: rotate(45deg);
+      border-radius: 4px;
+  }
+
+  /* ======= متن شرایط استفاده ======= */
+  .terms-text {
+      text-align: center;
+      font-size: 11px;
+      line-height: 1.5;
+      color: #8B8393;
+      margin-bottom: 32px;
+      padding: 0 20px;
+  }
+
+  .terms-text a {
+      color: #8B7AB8;
+      text-decoration: none;
+  }
+
+  /* ======= انیمیشن Shake ======= */
+  @keyframes shake {
+
+      0%,
+      100% {
+          transform: translateX(0);
+      }
+
+      10%,
+      30%,
+      50%,
+      70%,
+      90% {
+          transform: translateX(-5px);
+      }
+
+      20%,
+      40%,
+      60%,
+      80% {
+          transform: translateX(5px);
+      }
+  }
+
+  .input-field.shake {
+      animation: shake 0.5s;
+  }
+
+  /* ======= Responsive ======= */
+  @media (max-width: 390px) {
+      .signup-container {
+          padding: 0 20px;
+      }
+  }
+
+  .img1 {
+      display: none;
+  }
+
+  .signup-button.disabled {
+      background: var(--Surface-Disabled-Default, #8A8999);
+      cursor: not-allowed;
+      box-shadow: none;
+  }
+
+  .signup-button.disabled:hover {
+      transform: none;
+      background: var(--Surface-Disabled-Default, #8A8999);
+  }
