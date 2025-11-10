@@ -8,10 +8,11 @@
     <key>teamID</key>
     <string>72M97MR8UU</string>
     <key>provisioningProfiles</key>
-    <dict>
-        <key>com.farra.app</key>
-        <string>Farra_iOS_AppStore_72M97MR8UU</string>
-    </dict>
+<dict>
+    <key>com.farra.app</key>
+    <string>${PROFILE_UUID}</string>
+</dict>
+
     <key>compileBitcode</key>
     <false/>
     <key>signingStyle</key>

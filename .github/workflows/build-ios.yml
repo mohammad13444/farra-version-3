@@ -124,13 +124,13 @@ jobs:
           <plist version="1.0">
           <dict>
               <key>method</key>
-              <string>app-store</string>
+              <string>app-store-connect</string>
               <key>teamID</key>
               <string>${TEAM_ID}</string>
               <key>provisioningProfiles</key>
               <dict>
                   <key>com.farra.app</key>
-                  <string>Farra_iOS_AppStore_${TEAM_ID}</string>
+                  <string>${PROFILE_UUID}</string>
               </dict>
               <key>compileBitcode</key>
               <false/>
@@ -143,7 +143,8 @@ jobs:
           </dict>
           </plist>
           EOF
-          echo "✅ ExportOptions.plist created successfully"
+          echo "✅ ExportOptions.plist created successfully with UUID ${PROFILE_UUID}"
+
 
       # -------------------------------
       # 6️⃣ Export signed IPA
