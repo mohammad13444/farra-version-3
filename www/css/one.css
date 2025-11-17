@@ -1,0 +1,76 @@
+  @font-face {
+      font-family: "Bonyade Koodak VF";
+      src: url("../BonyadeKoodak-VF.ttf") format("truetype");
+      font-weight: 100 900;
+      /* 👈 اجازه بده تمام بازه وزن‌ها فعال بشه */
+      font-display: swap;
+  }
+
+  @font-face {
+      font-family: "Bonyade Koodak VF bold";
+      src: url("../fonts/BonyadeKoodakKoochak-Bold.ttf") format("truetype");
+      font-weight: 100 900;
+      /* 👈 اجازه بده تمام بازه وزن‌ها فعال بشه */
+      font-display: swap;
+  }
+
+   * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+  }
+
+.html,
+body {
+    background: var(--Surface-Primary-Default, #706DF2);
+    font-family: "Bonyade Koodak VF";
+ 
+      display: flex;
+      justify-content: center;
+      /* ❌ حذف align-items: center چون باعث فشردگی عمودی میشه */
+      align-items: stretch;
+      /* ✅ پر کن تا پایین */
+      padding: 0;
+      margin: 0;
+      min-height: 100vh;
+      width: 100vw;
+      padding: 0 24px;
+
+      min-height: 100vh;
+}
+
+.container-flaut {
+    padding: 0px 24px;
+}
+
+.container {
+    position: fixed;
+    top: 60%;
+    right: 0%;
+    bottom: 0%;
+    text-align: center;
+    padding: 0px;
+    margin: 0px;
+    border-radius: 282.224px;
+    background: var(--Primary-700, #434191);
+    width: 564.447px;
+    height: 800px;
+    flex-shrink: 0;
+}
+
+.container h3{
+    color: var(--Text-On-Color-Heading, #E6E5FF);
+text-align: center;
+
+/* English/Heading/H4 */
+font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+font-size: var(--Font-Headings-H4-Text-Size, 32px);
+font-style: normal;
+font-weight: 700;
+line-height: var(--Font-Headings-H4-Line-Heigth, 48px); /* 150% */
+margin-top: 20%;
+}
+
+.container p{
+    flex: 1 0 0;
+}

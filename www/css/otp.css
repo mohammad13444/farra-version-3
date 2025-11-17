@@ -92,13 +92,14 @@
    .phone-info {
        display: flex;
        align-items: center;
-       gap: 8px;
        margin-bottom: 25px;
    }
 
    .phone-icon {
        width: 20px;
        height: 20px;
+              margin-right: 15px;
+
    }
 
    .phone-icon-diamond {
@@ -139,7 +140,7 @@
    /* ===== OTP Inputs ===== */
    .otp-inputs {
        display: flex;
-       gap: 24px;
+       
        margin-bottom: 24px;
    }
 
@@ -159,6 +160,7 @@
        line-height: 1.8;
        /* یا 2 برای موبایل */
        padding-bottom: 4px;
+       margin-right: 24px;
        /* فاصله از خط پایین */
    }
 
@@ -397,3 +399,16 @@
        line-height: normal;
        cursor: pointer;
    }
+
+   /* ======= Responsive optimization ======= */
+@media (max-width: 420px) {
+    .otp-input {
+        width: 36px;
+        height: 50px;
+        font-size: 20px;
+                margin-right: 24px;
+
+    }
+   
+ 
+}

@@ -567,7 +567,7 @@
   /* ======= Responsive ======= */
   @media (max-width: 390px) {
       .signup-container {
-          padding: 0 20px;
+          padding: 0 0px;
       }
   }
 

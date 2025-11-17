@@ -1,0 +1,2871 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- 🟢 لینک Bootstrap حفظ شد (طبق دستور شما) -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <title>Farra - Home</title>
+  <style>
+    @font-face {
+      font-family: "Bonyade Koodak VF";
+      src: url("./BonyadeKoodak-VF.ttf") format("truetype");
+      font-weight: 100 900;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: "Bonyade Koodak VF bold";
+      src: url("../fonts/BonyadeKoodakKoochak-Bold.ttf") format("truetype");
+      font-weight: 100 900;
+      font-display: swap;
+    }
+
+    /* Reset & Base */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+
+    body {
+      font-family: "Bonyade Koodak VF";
+      background: #EFEFFE;
+      display: flex;
+      justify-content: flex-start;
+      /* تغییر داده شده به flex-start برای قرار گرفتن در بالا */
+      align-items: center;
+      /* پر کردن ارتفاع کل صفحه */
+      padding: 0 24px;
+      margin: 0;
+      min-height: 100vh;
+      flex-direction: column;
+
+      width: 100%;
+      min-height: 100vh;
+      overflow-x: hidden;
+      /* 🚀 جلوگیری از اسکرول کل صفحه */
+    }
+
+    .home-container {
+      width: 100%;
+      max-width: 420px;
+      height: 100%;
+
+
+    }
+
+    /* Header */
+    .header {
+      width: 100%;
+      background: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 13px;
+      /* پدینگ داخلی 13px به 0 تغییر کرد چون پدینگ کانتینر 24px است */
+      border-radius: 16px;
+      margin-top: 24px;
+    }
+
+    /* ⚠️ توجه: آیکون‌های چپ و راست هدر باید خارج از پدینگ کانتینر قرار می‌گرفتند. 
+           اما برای حفظ کد شما، پدینگ header به 0 تغییر کرد تا پدینگ 24px از body اعمال شود. */
+
+
+    .star {
+      color: #8e83e6;
+      font-size: 24px;
+    }
+
+    .logo {
+      font-size: 28px;
+      font-weight: 700;
+      color: #8877f3;
+    }
+
+
+
+/* اینپوت وسط و کشیده */
+/* =============================
+   🔍 SEARCH BOX — نسخه نهایی Farra
+   ============================= */
+
+.search-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  height: 48px;
+  width: 100%;
+  max-width: 500px;
+  border-radius: 50px;
+  border: 1px solid #C6C5FA; /* حالت default */
+  padding: 0 10px;
+  padding-left: 15px;
+  box-sizing: border-box;
+  background: #F8F7FC;
+  transition: all 0.25s ease;
+}
+
+/* ====== Input ====== */
+.search-box input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: "Bonyade Koodak VF", sans-serif;
+  font-size: 16px;
+  color: #232323; /* رنگ متن در حالت معمول */
+  padding-left: 10px;
+  padding-right: 15px;
+  min-width: 0;
+
+
+  color: var(--Textbox-Default-Text, #A9A7F7);
+
+
+font-weight: 400;
+
+}
+
+/* ====== SVG Icons ====== */
+.search-box svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  display: inline-block;
+}
+
+.search-box svg path {
+  stroke: #C6C5FA; /* رنگ پیش‌فرض آیکن */
+  transition: stroke 0.25s ease;
+}
+
+/* ====== Hover ====== */
+.search-box:hover {
+  border-color: #9795F3;
+}
+
+/* ====== Focus ====== */
+.search-box:focus-within {
+  border: 2px solid #706DF2; /* بوردر ضخیم آبی در فوکوس */
+}
+
+.search-box:focus-within input {
+  color: #5C5C66; /* رنگ متن در فوکوس */
+      font-weight: 500;
+
+}
+
+.search-box:focus-within svg path {
+  stroke: #706DF2 !important; /* آبی در فوکوس */
+}
+
+/* placeholder در فوکوس */
+.search-box input::placeholder {
+  color: #A9A7F7;
+  transition: opacity 0.3s ease, color 0.3s ease;
+
+}
+
+.search-box:focus-within input::placeholder {
+  opacity: 0.5;
+  color: #706DF2;
+  
+}
+
+/* ====== Filled (وقتی مقدار داره و فوکوس نداره) ====== */
+.search-box.filled:not(:focus-within) {
+  border: 1px solid #706DF2; /* آبی ثابت */
+}
+
+.search-box.filled:not(:focus-within) input {
+  color: #706DF2;
+  font-weight: 500;
+}
+
+.search-box.filled:not(:focus-within) svg path {
+  stroke: #706DF2;
+}
+
+/* ====== Error / Success ====== */
+.search-box.error {
+  border: 2px solid #FF595B;
+}
+.search-box.success {
+  border: 2px solid #44CD54;
+}
+
+/* ====== آیکن‌ها ====== */
+.search-box .star img {
+  width: 24px;
+  height: 24px;
+  transition: transform 0.3s ease;
+}
+
+.search-box .star:hover img {
+  transform: scale(1.08);
+}
+
+
+
+    /* .search-box .star:first-child {
+        } */
+
+    /* Tabs & Filter Buttons (حفظ شده از کد شما) */
+   /* 🚀 حذف اثر پدینگ ۲۴px روی اسکرول تب‌ها */
+.tabs-container {
+  width: 100%;
+  max-width: 420px;
+  margin: 32px auto 0 auto;
+  padding: 0; /* پدینگ حذف کامل شد */
+  overflow: visible; /* بذار محتوا بتونه خارج از container بره */
+}
+
+.tabs-scroll {
+  display: flex;
+  gap: 24px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding-left: 24px;
+
+  position: relative;
+  left: -24px;   /* حرکت از خارج لبه چپ وب‌ویو */
+  right: -24px;  /* حرکت تا خارج لبه راست وب‌ویو */
+  width: calc(100% + 48px); /* اضافه کردن دو سمت به اندازه پدینگ‌های دوتا */
+}
+
+.tabs-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+
+    .tab {
+      flex-shrink: 0;
+      font-family: 'Bonyade Koodak VF', sans-serif;
+      font-weight: 400;
+
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      white-space: nowrap;
+      user-select: none;
+      transition: color 0.2s;
+
+
+      color: var(--Text-Default-Caption, #8A8999);
+      font-size: var(--Font-Headings-H4-Text-Size, 32px);
+      font-style: normal;
+      font-weight: 400;
+      line-height: var(--Font-Headings-H4-Line-Heigth, 48px);
+      /* 150% */
+    }
+
+    .tab.active {
+      color: var(--Text-Default-Heading, #45454D);
+      text-align: center;
+      font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+      font-size: var(--Font-Headings-H4-Text-Size, 32px);
+      font-style: normal;
+      font-weight: 700;
+      line-height: var(--Font-Headings-H4-Line-Heigth, 48px);
+      /* 150% */
+    }
+
+    .filter-buttons {
+      margin-top: 20px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .filter-buttons button {
+      flex-shrink: 0;
+      border-radius: 40px;
+      background: var(--Primary-100, #E2E2FC);
+      border: none;
+      padding: 4px 15px;
+      cursor: pointer;
+      user-select: none;
+
+
+
+      color: var(--Text-Default-Heading, #45454D);
+      text-align: center;
+
+      /* English/Button/Small */
+      font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+      font-size: var(--Font-Button-Small-Text-Size, 16px);
+      font-style: normal;
+      font-weight: 500;
+      line-height: normal;
+    }
+
+    .icons {
+      display: flex;
+      margin-left: auto;
+      align-items: center;
+    }
+
+    .icons button {
+      background: transparent;
+      /* 🚀 حذف پس‌زمینه */
+      padding: 10px;
+
+    }
+
+
+    .icons svg {
+      stroke: #6B63FF;
+      width: 22px;
+      /* تغییر داده شد تا بزرگتر شود */
+      height: 22px;
+      /* تغییر داده شد تا بزرگتر شود */
+      cursor: pointer;
+      user-select: none;
+      fill: none;
+      /* اطمینان از توخالی بودن SVG */
+    }
+
+    /* دکمه‌های آیکون (برای Toggle) */
+    .icon-toggle-btn {
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      outline: none;
+      display: flex;
+      align-items: center;
+    }
+
+
+    /* Results Header */
+    .results-header {
+      width: 100%;
+      max-width: 420px;
+      margin: 24px auto 16px auto;
+      padding: 0;
+      /* پدینگ 24px از body اعمال می‌شود */
+      display: flex;
+      align-items: center;
+    }
+
+    .results-header h2 {
+      font-family: 'Bonyade Koodak VF', sans-serif;
+    color: var(--Text-Default-Heading, #45454D);
+text-align: center;
+
+/* English/Heading/H5 */
+font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+font-size: 24px;
+font-style: normal;
+font-weight: 500;
+line-height: var(--Font-Headings-H5-Line-Heigth, 36px); /* 150% */
+      color: #333;
+      margin: 0;
+    }
+
+    .results-count {
+      font-family: 'Bonyade Koodak VF', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      color: #fff;
+     border-radius: var(--Border-Radius-300, 12px);
+background: rgba(45, 44, 97, 0.50);
+      padding: 2px 8px;
+      margin-left: 8px;
+      /* تغییر به LTR */
+    }
+
+    /* 🚀 استایل‌های اصلی لیست/گرید */
+    .results-list {
+      width: 100%;
+      max-width: 420px;
+      /* 💡 حالت پیش‌فرض: تک‌ستونی (Flex Column) */
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      margin-bottom: 24px;
+      transition: all 0.3s ease;
+    }
+
+    /* 🟢 حالت Grid View (دو ستونی) */
+    .results-list.grid-view {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      /* دو ستون مساوی */
+      gap: 16px;
+      padding: 0;
+      /* ⚠️ مهم: این دو خط زیر برای اطمینان از نمایش صحیح Grid در مرورگرهای مختلف ضروری است */
+      flex-direction: initial;
+      /* جلوگیری از تداخل با flex-direction: column */
+      display: grid;
+    }
+
+    /* 💡 برای حالت گرید، برخی پدینگ‌ها و ارتفاع‌ها کمتر می‌شوند */
+    .results-list.grid-view .listing-card {
+      border-radius: 20px;
+      height: 100%;
+      /* گردی کمتر در گرید */
+    }
+
+ .results-list.grid-view .star-price {
+      display: none !important;
+      /* 👈 حذف واحد قیمت یا زیرمتن */
+    }
+
+    .results-list.grid-view .kir {
+      width: 20px;
+      height: 20px;
+    }
+
+    .results-list.grid-view .price-text span {
+      display: none !important;
+      /* 👈 حذف واحد قیمت یا زیرمتن */
+    }
+
+    .results-list.grid-view .card-image-wrap {
+      width: 100%;
+      height: auto;
+      /* 👈 اجازه‌ده اندازه از تاپ تا انتها پر بشه */
+      position: relative;
+      overflow: hidden;
+      /* 👈 تا توی قاب خودش برش بخوره */
+      border-radius: 18px 18px 0 0;
+    }
+
+    .results-list.grid-view .card-image-wrap img {
+      width: 100%;
+      /* 👈 با wrap بزرگ میشه */
+      object-fit: cover;
+      /* 👈 تصویر همیشه قاب رو کامل پر می‌کنه */
+      object-position: center;
+      /* 👈 وسط از هر جهت، بدون جابه‌جایی لگد */
+      display: block;
+      border-radius: 0;
+      /* 👈 چون radius کارت رو داریم جدا */
+    }
+
+    .results-list.grid-view .card-details {
+      padding: 10px 10px 0px 20px;
+      /* پدینگ کمتر */
+    }
+
+    .results-list.grid-view .card-details h3 {
+      color: var(--Text-Default-Heading, #45454D);
+
+/* English/Body/Strong Medium Body */
+font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+font-size: var(--Font-Copy-Body-Text-Size, 16px);
+font-style: normal;
+font-weight: 700;
+line-height: var(--Font-Copy-Body-Line-Heigth, 20px); /* 125% */
+    }
+
+    .results-list.grid-view .card-location {
+      color: var(--Text-Default-Caption, #8A8999);
+
+/* English/Body/SCopy */
+font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+font-size: var(--Font-Copy-Body-Sm-Text-Size, 14px);
+font-style: normal;
+font-weight: 400;
+line-height: var(--Font-Copy-Body-Sm-Line-Heigth, 18px); /* 128.571% */
+      padding: 0px;
+    }
+
+    .results-list.grid-view .price-overlay {
+      bottom: 10px;
+      height: 38px;
+      padding-right: 4px;
+      left: 8px;
+      right: 8px;
+    }
+
+    .results-list.grid-view .price-text {
+      color: var(--Text-Default-Heading, #45454D);
+
+/* English/Body/Strong Medium Body */
+font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+font-size: var(--Font-Copy-Body-Text-Size, 16px);
+font-style: normal;
+font-weight: 700;
+line-height: var(--Font-Copy-Body-Line-Heigth, 20px); /* 125% */
+    }
+
+    .results-list.grid-view .card-rating {
+      font-size: 12px;
+      top: 10px;
+      right: 10px;
+      padding: 2px 8px;
+    }
+
+    .results-list.grid-view .card-features {
+      display: none;
+      /* حذف فیچرهای پایین در گرید برای فضای کم */
+    }
+
+
+    .listing-card {
+      background: var(--Primary-100, #E2E2FC);
+      border-radius: 25px;
+      overflow: hidden;
+      position: relative;
+      /* 💡 برای پنهان کردن کارت‌هایی که فیلتر می‌شوند */
+      display: block;
+      transition: opacity 0.3s, transform 0.3s, max-height 0.3s;
+    }
+
+     .listing-card:hover{
+      background: var(--Primary-200, #C6C5FA);
+     }
+
+    .card-image-wrap {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      position: relative;
+      padding: 5px;
+
+    }
+
+    .card-image-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      /* 👈 تا تصویر کامل و بدون زوم نمایش داده بشه */
+      object-position: center center;
+      /* 👈 همیشه وسط فریم بمونه */
+      display: block;
+      border-radius: 0;
+    }
+
+    .card-rating {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: rgba(0, 0, 0, 0.4);
+      color: white;
+      font-family: 'Bonyade Koodak VF', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      padding: 4px 10px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .price-overlay {
+      position: absolute;
+      bottom: 10px;
+      left: 12px;
+      right: 12px;
+      height: 48px;
+      background: #E2E2FCB2;
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(8px);
+      border-radius: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      padding-right: 8px;
+      z-index: 10;
+    }
+
+    .price-text {
+      color: var(--Text-Default-Heading, #45454D);
+      text-align: center;
+
+      /* English/Heading/H5 */
+      font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+      font-size: 24px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: var(--Font-Headings-H5-Line-Heigth, 36px);
+      /* 150% */
+      display: flex;
+      align-items: baseline;
+    }
+
+    .price-text span {
+      color: var(--Text-Default-Caption, #8A8999);
+      text-align: center;
+
+      /* English/Body/Copy */
+      font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+      font-size: var(--Font-Copy-Body-Text-Size, 16px);
+      font-style: normal;
+      font-weight: 400;
+      line-height: var(--Font-Copy-Body-Line-Heigth, 20px);
+      /* 125% */
+      margin-left: 4px;
+    }
+
+    .card-details {
+      padding: 10px 16px 16px 16px;
+      position: relative;
+    }
+
+    .card-details h3 {
+     color: var(--Text-Default-Heading, #45454D);
+
+/* English/Body/Strong Medium Body */
+font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+font-size: var(--Font-Copy-Body-Text-Size, 16px);
+font-style: normal;
+font-weight: 700;
+line-height: var(--Font-Copy-Body-Line-Heigth, 20px); /* 125% */
+      margin-bottom: 4px;
+    }
+
+    .card-location {
+      color: var(--Text-Default-Caption, #8A8999);
+
+/* English/Body/SCopy */
+font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+font-size: var(--Font-Copy-Body-Sm-Text-Size, 14px);
+font-style: normal;
+font-weight: 400;
+line-height: var(--Font-Copy-Body-Sm-Line-Heigth, 18px); /* 128.571% */
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-bottom: 12px;
+    }
+
+    .card-features {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .feature-item {
+     color: var(--Text-Default-Caption, #8A8999);
+
+/* English/Body/SCopy */
+font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+font-size: var(--Font-Copy-Body-Sm-Text-Size, 14px);
+font-style: normal;
+font-weight: 400;
+line-height: var(--Font-Copy-Body-Sm-Line-Heigth, 18px); /* 128.571% */
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+     .feature-item svg{
+      stroke: #8A8999;
+     }
+
+    .star-price {
+        width: 14px;
+      height: 14px;
+      fill: none;
+      stroke: white;
+      stroke-width: 1.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+
+    }
+
+      .star-icon {
+  
+        width: 14px;
+      height: 14px;
+      fill: none;
+      stroke: #6B63FF;
+      stroke-width: 1.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+   .kir {
+  display: inline-flex;                 /* آیکن در مرکز */
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--Border-Radius-800, 32px);
+  background: rgba(45, 44, 97, 0.5);
+  fill: none;
+  /* 👇 اندازه کل دکمه بگراند */
+  width: 28px;  
+  height: 28px;
+  
+  /* 👇 بدون تأثیر در اندازه آیکن واقعی */
+  padding: 5px;  
+  box-sizing: content-box;              /* پدینگ جزئی از اندازه SVG نشه */
+}
+
+.kir svg {
+  width: 14px;                          /* اندازه واقعی خود آیکن */
+  height: 14px;
+  flex-shrink: 0;                       /* نذار فشرده بشه */
+}
+
+
+    .fara-bottom-nav {
+      position: fixed;
+      left: 24px;
+      /* پدینگ چپ صفحه */
+      right: 24px;
+      /* پدینگ راست صفحه */
+      bottom: 35px;
+      background: rgba(211, 224, 255, 0.45);
+      backdrop-filter: blur(20px);
+      border-radius: 50px;
+      padding: 25px 25px;
+      z-index: 999;
+      width: auto;
+      /* 👈 بذار خودش با right و left فاصله بگیره */
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+
+    .fara-bottom-container {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+    }
+
+    .fara-bottom-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: #645ef6;
+      /* رنگ آیکون‌ها مشابه تصویر */
+      font-family: "Bonyade Koodak VF", sans-serif;
+      cursor: pointer;
+      transition: color 0.3s ease, transform 0.3s ease;
+    }
+
+    .fara-bottom-item.active {
+      color: #645ef6;
+      transform: scale(1.1);
+    }
+
+    .fara-bottom-item:hover {
+      color: #7e74ff;
+      transform: scale(1.05);
+    }
+
+    .fara-bottom-icon {
+
+      line-height: 1;
+    }
+
+    .fara-bottom-text {
+      font-size: 14px;
+      margin-top: 4px;
+    }
+
+    /* دکمه آیکون */
+    .sort-trigger {
+      background: transparent;
+      border: none;
+      outline: none;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .sort-trigger svg{
+      
+stroke-width: 1.5px;
+stroke: var(--Icon-Primary-Default, #706DF2);
+    }
+
+    .sort-trigger.active {
+            padding: 5px;
+            border-radius: var(--Border-Radius-600, 24px);
+background: var(--Primary-600, #5A57C2);
+
+    }
+
+    .sort-trigger.active .sort-icon path {
+      stroke: #fff;
+      transition: stroke 0.25s ease;
+    }
+
+    /* مودال سورت */
+    .sort-modal {
+      position: fixed;
+      left: 0;
+      bottom: -100%;
+      width: 100%;
+      height: 45%;
+      backdrop-filter: blur(6px);
+      background: #E2E2FCB2;
+      border-top-left-radius: 35px;
+      border-top-right-radius: 35px;
+      box-shadow: 0 -2px 4px 0 var(--Primary-100, #E2E2FC);
+      transition: bottom 0.4s ease;
+      z-index: 1000;
+    }
+
+    .sort-modal.open {
+      bottom: 0;
+    }
+
+    .sort-container {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 24px;
+      gap: 14px;
+    }
+
+    .sort-container h3 {
+      font-weight: 700;
+      font-size: 22px;
+      color: #333;
+      margin-bottom: 8px;
+    }
+
+    .sort-container button {
+      width: 100%;
+      background: transparent;
+      border: none;
+      border-radius: 12px;
+      padding: 8px 12px;
+      transition: all 0.25s ease;
+      color: var(--Text-Primary-Default, #706DF2);
+      text-align: center;
+
+      /* English/Body/LCopy */
+      font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+      font-size: var(--Font-Copy-Body-Lg-Text-Size, 20px);
+      font-style: normal;
+      font-weight: 400;
+      line-height: var(--Font-Copy-Body-Lg-Line-Heigth, 24px);
+      /* 120% */
+      margin-top: 10px;
+    }
+
+    /* .sort-container button.active {
+
+} */
+    .sort-container button:hover {
+      background: #706DF2;
+      color: #fff;
+      font-weight: 400;
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    .city-modal {
+      position: fixed;
+      left: 0;
+      bottom: -100%;
+      width: 100%;
+      height: 538px;
+      backdrop-filter: blur(6px);
+      background: #E2E2FCB2;
+      border-top-left-radius: 35px;
+      border-top-right-radius: 35px;
+      box-shadow: 0 -2px 4px 0 var(--Primary-100, #E2E2FC);
+      transition: bottom 0.4s ease;
+      z-index: 1000;
+
+      /* 👇👇 اینا رو اضافه کن تا مودالت اسکرول بشه */
+      overflow-y: auto;
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+      /* برای اسکرول نرم در موبایل */
+    }
+
+    .city-modal.open {
+      bottom: 0;
+    }
+
+    .city-container {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      padding: 24px;
+
+    }
+
+    /* بخش‌های داخلی مثل قبل */
+    .city-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .clear-btn {
+      background: transparent;
+      color: #706DF2;
+      font-weight: 500;
+      border: none;
+    }
+
+   /* ==== CITY SELECTOR FINAL FIXED RIGHT ICON ==== */
+
+.city-input {
+  position: relative;
+  border-radius: 24px;
+  border: 1px solid #C6C5FA; /* دیفالت مثل سرچ‌باکس */
+  background: #F8F7FC;
+  color: #A9A7F7;
+  font-size: 18px;
+  font-weight: 400;
+  padding: 8px 8px 8px 12px; /* جا برای آیکن سمت راست */
+  cursor: pointer;
+  width: 100%;
+  box-sizing: border-box;
+  transition: all 0.25s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ✅ وقتی فوکوس یا کلیک می‌شه */
+.city-input:focus-within {
+  border: 2px solid #706DF2;
+ 
+}
+/* ✅ وقتی فوکوس می‌گیره، رنگ نوشته "City" آبی بشه */
+.city-input:focus-within .city-top .city-label {
+  color: #706DF2;
+  font-weight: 500; /* اگه بخوای کمی ضخیم‌تر دیده بشه */
+}
+
+/* ✅ وقتی منوی شهر باز بشه */
+.city-input.expanded {
+  border: 2px solid #706DF2;
+  padding-bottom: 20px; /* کش بیاد برای منو */
+}
+
+/* ✅ وقتی گزینه‌ای انتخاب شده و فیلد پره */
+.city-input.filled:not(:focus-within):not(.expanded) {
+  border: 1px solid #706DF2;
+  background: #F8F7FC;
+}
+
+/* متن در حالت پر شده */
+.city-input.filled .city-label,
+.city-input.filled .selected-city {
+  color: #706DF2;
+  font-weight: 500; /* مثل حرف محمد‌جووون */
+}
+
+/* آیکن سمت راست که ثابت بمونه */
+.city-icon-right {
+  position: absolute;
+  right: 18px;
+  top: 8px; /* همیشه بالا ‍‍مثل سرچ‌باکس */
+  transform: none;
+  pointer-events: none;
+  transition: stroke 0.25s ease;
+  z-index: 2;
+}
+
+.city-icon-left{
+  padding-right: 7px;
+}
+
+/* آیکن در حالت‌های فوکوس، باز یا پر */
+.city-input:focus-within svg path,
+.city-input.expanded svg path,
+.city-input.filled svg path {
+  stroke: #706DF2 !important;
+}
+
+/* منوی گزینه‌ها */
+.city-options {
+  margin-top: 17px;
+  margin-left: 30px;
+  display: none;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* موقع باز شدن */
+.city-input.expanded .city-options {
+  display: flex;
+}
+
+.city-option {
+  color: #706DF2;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 400;
+  transition: color 0.25s ease;
+}
+
+.city-option:hover {
+  color: #5A57C2;
+}
+.city-input.expanded .city-icon-right {
+  opacity: 0; /* آیکن محو شود */
+}
+
+
+
+
+
+    .city-map img {
+      width: 100%;
+      border-radius: 24px;
+      object-fit: cover;
+    }
+
+    .apply-filters-btn {
+border-radius: 40px;
+background: var(--Primary-500, #706DF2);      border: none;
+      border-radius: 24px;
+padding: 12px 16px;
+      color: var(--Text-On-Color-Heading, #E6E5FF);
+text-align: center;
+
+margin-top: 20px;
+
+/* English/Button/Medium */
+font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+font-size: var(--Font-Button-Medium-Text-Size, 20px);
+font-style: normal;
+font-weight: 500;
+line-height: normal;
+    }
+
+     .apply-filters-btn:hover {
+      background: #5A57C2;
+    }
+
+
+
+    .filter-btn {
+      background: transparent;
+      color: #706DF2;
+      font-size: 18px;
+      font-weight: 500;
+      border: none;
+      border-radius: 24px;
+      padding: 8px 20px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .filter-btn.active {
+      background: #706DF2;
+      /* آبی همون تم فرّا */
+      color: #fff;
+      /* متن سفید */
+    }
+
+
+
+
+
+
+    .price-modal {
+      position: fixed;
+      left: 0;
+      bottom: -100%;
+      width: 100%;
+      height: 50%;
+      backdrop-filter: blur(6px);
+      background: #E2E2FCB2;
+      border-top-left-radius: 35px;
+      border-top-right-radius: 35px;
+      box-shadow: 0 -2px 4px 0 var(--Primary-100, #E2E2FC);
+      transition: bottom 0.4s ease;
+      z-index: 1000;
+      display: flex;
+      padding: 0px 24px;
+      flex-direction: column;
+      /* 👇👇 اینا رو اضافه کن تا مودالت اسکرول بشه */
+      overflow-y: auto;
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+      /* برای اسکرول نرم در موبایل */
+    }
+
+    .price-modal.open {
+      bottom: 0;
+    }
+
+    /* Header */
+    .price-header {
+      top: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 24px;
+      backdrop-filter: blur(8px);
+      z-index: 9999;
+
+    }
+
+    .price-header h3 {
+      font-size: 22px;
+      font-weight: 700;
+      color: #333;
+    }
+
+    .clear-btn {
+      background: transparent;
+      border: none;
+      color: #706DF2;
+      font-weight: 500;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+
+
+
+
+
+    .filter-container {
+      background: transparent;
+
+    }
+
+    .slider-wrapper {
+      position: relative;
+      width: 280px;
+      height: 280px;
+      margin: 0 auto 0px auto;
+    }
+
+    .center-circle {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 143px;
+      /* از 200px به 160px کاهش */
+      height: 143px;
+      /* از 200px به 160px کاهش */
+      transform: translate(-50%, -50%);
+      background: #f5f7ff;
+      box-shadow: inset 0 20px 25px rgba(71, 68, 255, 0.095);
+      /* 🔹 سایه از بالا به داخل */
+
+      border-radius: 50%;
+      z-index: 1;
+    }
+
+
+    .progress-svg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 280px;
+      height: 280px;
+      transform: rotate(-90deg);
+      z-index: 2;
+    }
+
+    /* Track Arc - نوار خاکستری */
+    .track-arc {
+      fill: none;
+      stroke: #EFEFFE;
+      stroke-width: 35;
+      stroke-linecap: round;
+    }
+
+    /* خط‌های درجه (Tick Marks) */
+    .tick-mark {
+      fill: none;
+      stroke: #9093a0;
+      stroke-width: 1;
+      stroke-linecap: round;
+    }
+
+    /* Progress Arc - نوار آبی باریک */
+    .progress-arc {
+      fill: none;
+      stroke: #6f6df2e2;
+      stroke-width: 18;
+      stroke-linecap: round;
+      transition: stroke-dasharray 0.15s ease;
+    }
+
+    /* Handles - دایره‌های کوچک‌تر */
+    .handle {
+      position: absolute;
+      width: 32px;
+      height: 32px;
+      background: white;
+      border: 5px solid #706DF2;
+      border-radius: 50%;
+      cursor: grab;
+      z-index: 10;
+      box-shadow: 0 3px 10px rgba(91, 104, 235, 0.3);
+      transition: transform 0.1s ease;
+    }
+
+    .handle:hover {
+      transform: scale(1.3);
+    }
+
+    .handle:active {
+      cursor: grabbing;
+      transform: scale(1.1);
+    }
+
+    .price-display {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      z-index: 5;
+      pointer-events: none;
+    }
+
+    .pppp {
+      color: var(--Text-Default-Heading, #45454D);
+      text-align: center;
+
+      font-size: 24px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: normal;
+      letter-spacing: -0.5px;
+    }
+
+    .apply-btn {
+      width: 100%;
+      margin-bottom: 40px;
+     border-radius: 40px;
+background: var(--Primary-500, #706DF2);      border: none;
+      border-radius: 24px;
+padding: 12px 16px;
+      color: var(--Text-On-Color-Heading, #E6E5FF);
+text-align: center;
+
+/* English/Button/Medium */
+font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+font-size: var(--Font-Button-Medium-Text-Size, 20px);
+font-style: normal;
+font-weight: 500;
+line-height: normal;
+    }
+
+    .apply-btn:hover {
+      background: #5A57C2;
+    }
+
+    .apply-btn:active {
+      background: #434191;
+    }
+
+
+
+
+
+    .rate-modal {
+      position: fixed;
+      left: 0;
+      bottom: -100%;
+      width: 100%;
+      height: 50%;
+      backdrop-filter: blur(6px);
+      background: #E2E2FCB2;
+      border-top-left-radius: 35px;
+      border-top-right-radius: 35px;
+      box-shadow: 0 -2px 4px 0 var(--Primary-100, #E2E2FC);
+      transition: bottom 0.4s ease;
+      z-index: 1000;
+      display: flex;
+      padding: 0px 24px;
+      flex-direction: column;
+      overflow-y: auto;
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .rate-modal.open {
+      bottom: 0;
+    }
+
+    .rate-header {
+      top: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 24px;
+
+      z-index: 9999;
+    }
+
+    .rate-header h3 {
+      font-size: 22px;
+      font-weight: 700;
+      color: #333;
+    }
+
+    .clear-btn {
+      background: transparent;
+      border: none;
+      color: #706DF2;
+      font-weight: 500;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .filter-container {
+      background: transparent;
+    }
+
+    .rate-slider-wrapper {
+      position: relative;
+      width: 280px;
+      height: 280px;
+      margin: 0 auto 0px auto;
+    }
+
+    .center-circle-rate {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 143px;
+      height: 143px;
+      transform: translate(-50%, -50%);
+      background: #f5f7ff;
+      box-shadow: inset 0 20px 25px rgba(71, 68, 255, 0.095);
+      border-radius: 50%;
+      z-index: 1;
+    }
+
+    .progress-svg-rate {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 280px;
+      height: 280px;
+      transform: rotate(-90deg);
+      z-index: 2;
+    }
+
+    .track-arc-rate {
+      fill: none;
+      stroke: #EFEFFE;
+      stroke-width: 35;
+      stroke-linecap: round;
+    }
+
+    .tick-dot-rate {
+      /* رنگ و شعاع در JS تعریف شده، این فقط یک کلاس کمکی است */
+      fill: #6e6e73;
+    }
+
+    .progress-arc-rate {
+      fill: none;
+      stroke: #6f6df2e4;
+      stroke-width: 18;
+      stroke-linecap: round;
+      transition: stroke-dasharray 0.15s ease;
+    }
+
+    .handle-rate {
+      position: absolute;
+      width: 32px;
+      height: 32px;
+      background: white;
+      border: 5px solid #706DF2;
+      border-radius: 50%;
+      cursor: grab;
+      z-index: 10;
+      box-shadow: 0 3px 10px rgba(91, 104, 235, 0.3);
+      transition: transform 0.1s ease;
+
+    }
+
+    .handle-rate:hover {
+      transform: scale(1.3);
+    }
+
+    .handle-rate:active {
+      cursor: grabbing;
+      transform: scale(1.1);
+    }
+
+    .rate-display {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      z-index: 5;
+      pointer-events: none;
+    }
+
+    .rate-value-text {
+      color: var(--Text-Default-Heading, #45454D);
+      text-align: center;
+      font-size: 24px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: normal;
+      letter-spacing: -0.5px;
+    }
+
+    .apply-btn-rate {
+      width: 100%;
+      margin-bottom: 40px;
+        
+      width: 100%;
+      margin-bottom: 40px;
+     border-radius: 40px;
+background: var(--Primary-500, #706DF2);      border: none;
+      border-radius: 24px;
+padding: 12px 16px;
+      color: var(--Text-On-Color-Heading, #E6E5FF);
+text-align: center;
+
+/* English/Button/Medium */
+font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+font-size: var(--Font-Button-Medium-Text-Size, 20px);
+font-style: normal;
+font-weight: 500;
+line-height: normal;
+    }
+
+    .apply-btn-rate:hover {
+      background: #5A57C2;
+    }
+
+    .apply-btn-rate:active {
+      transform: translateY(0);
+    }
+
+    #toggle-grid-button-1.active {
+  background: var(--Primary-600, #5A57C2);
+  border-radius: 50%;
+  padding: 5px;
+  transition: all 0.25s ease;
+}
+
+#toggle-grid-button-1.active svg path {
+  stroke: #fff; /* رنگ آیکن سفید بشه */
+  transition: stroke 0.25s ease;
+}
+
+
+  </style>
+</head>
+
+<body>
+
+  <div class="home-container">
+    <!-- Header -->
+    <div class="header">
+      <div class="star"><img src="./img/17.png" width="24px" alt="Menu Icon"></div>
+      <div class="logo"><img src="./img/15.png" width="56.94px" alt="Farra Logo"></div>
+      <div class="star"><img src="./img/17.png" width="24px" alt="Notification Icon"></div>
+    </div>
+
+    <!-- Search Box -->
+    <div class="search-box" id="search-box">
+      <!-- آیکون سمت چپ (Default) -->
+      <svg class="default-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"
+        fill="none">
+        <path
+          d="M9.9732 1C11.2857 5.31246 14.6605 8.6874 18.9728 10C14.6605 11.3126 11.2857 14.6875 9.9732 19C8.6607 14.6875 5.28588 11.3126 0.973633 10C5.28588 8.6874 8.6607 5.31246 9.9732 1Z"
+          stroke="#A9A7F7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+      <!-- آیکون سمت چپ (Focus) -->
+      <svg class="focose" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+        <path
+          d="M9.9732 1C11.2857 5.31246 14.6605 8.6874 18.9728 10C14.6605 11.3126 11.2857 14.6875 9.9732 19C8.6607 14.6875 5.28588 11.3126 0.973633 10C5.28588 8.6874 8.6607 5.31246 9.9732 1Z"
+          stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+
+
+<input type="text" placeholder="Search Anywhere you want." oninput="this.parentElement.classList.toggle('filled', this.value.trim() !== '')">
+
+
+      <!-- آیکون سمت راست (Default) -->
+      <a href="" style="padding-right: 3px;">
+        <svg class="default-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"
+          fill="none">
+          <path
+            d="M9.9732 1C11.2857 5.31246 14.6605 8.6874 18.9728 10C14.6605 11.3126 11.2857 14.6875 9.9732 19C8.6607 14.6875 5.28588 11.3126 0.973633 10C5.28588 8.6874 8.6607 5.31246 9.9732 1Z"
+            stroke="#A9A7F7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </a>
+      <!-- آیکون سمت راست (Focus) -->
+      <a href="" style="padding-right: 3px;">
+        <svg class="focose" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <path
+            d="M9.9732 1C11.2857 5.31246 14.6605 8.6874 18.9728 10C14.6605 11.3126 11.2857 14.6875 9.9732 19C8.6607 14.6875 5.28588 11.3126 0.973633 10C5.28588 8.6874 8.6607 5.31246 9.9732 1Z"
+            stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </a>
+    </div>
+
+    <!-- Tabs Container -->
+    <div class="tabs-container">
+      <!-- 🟢 Tab Buttons - اضافه شدن data-category برای فیلتر -->
+      <div class="tabs-scroll" id="tabs-scroll">
+        <button class="tab active" data-category="villas">Villas</button>
+        <button class="tab" data-category="hotels">Hotels</button>
+        <button class="tab" data-category="resorts">Resorts</button>
+        <button class="tab" data-category="homes">Houses</button>
+
+      </div>
+
+      <div class="filter-buttons">
+        <button class="filter-btn" id="cityFilterBtn">City</button>
+        <button class="filter-btn" id="priceFilterBtn">Price</button>
+        <button class="filter-btn" id="rateFilterBtn">Rate</button>
+
+
+        <div class="icons">
+          <!-- 💡 دکمه دوم (تکراری) نیز Toggle می‌شود -->
+          <button class="sort-trigger" id="toggle-grid-button-2" style="padding: 5px; margin-right: 10px;">
+            <svg class="sort-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"
+              fill="none">
+              <path
+                d="M9.9732 1C11.2857 5.31246 14.6605 8.6874 18.9728 10C14.6605 11.3126 11.2857 14.6875 9.9732 19C8.6607 14.6875 5.28588 11.3126 0.973633 10C5.28588 8.6874 8.6607 5.31246 9.9732 1Z"
+                stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </button>
+             <!-- 💡 دکمه اول برای Grid Toggle استفاده می‌شود -->
+          <button class="" id="toggle-grid-button-1" style="padding: 5px;">
+            <svg class="focose" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"
+              fill="none">
+              <path
+                d="M9.9732 1C11.2857 5.31246 14.6605 8.6874 18.9728 10C14.6605 11.3126 11.2857 14.6875 9.9732 19C8.6607 14.6875 5.28588 11.3126 0.973633 10C5.28588 8.6874 8.6607 5.31246 9.9732 1Z"
+                stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="sort-modal" id="sortModal">
+      <div class="sort-container">
+        <h3>Sort</h3>
+        <div class="text-center">
+          <button>From Cheapest</button><br>
+          <button>From Most Expensive</button>
+          <button class="active">From Most Rating</button>
+          <button>From Most Reserved</button>
+          <button>From Most Recent</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- fot part city btn  -->
+
+    <!-- 🔹 مودال City -->
+    <div class="city-modal" id="cityModal">
+      <div class="city-container">
+        <div class="city-header">
+          <h3>City</h3>
+          <button id="clearCity" class="clear-btn">Clear all</button>
+        </div>
+
+        <!-- اینپوت شهر -->
+        <div class="input-group city-group">
+          <div class="city-input" id="cityInput">
+            <div class="city-top">
+              <span class="city-icon-left">
+                <svg class="default-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"
+                  fill="none">
+                  <path d="M9.9732 1C11.2857 5.31246 14.6605 
+                8.6874 18.9728 10C14.6605 11.3126 11.2857 
+                14.6875 9.9732 19C8.6607 14.6875 5.28588 
+                11.3126 0.973633 10C5.28588 8.6874 8.6607 
+                5.31246 9.9732 1Z" stroke="#A9A7F7" stroke-width="1.5" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                </svg>
+              </span>
+                <span class="city-label">City</span>
+               <span class="city-icon-right">
+        <svg class="default-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+          viewBox="0 0 20 20" fill="none">
+          <path d="M9.9732 1C11.2857 5.31246 14.6605 8.6874 18.9728 10C14.6605 11.3126 11.2857 14.6875 9.9732 19C8.6607 14.6875 5.28588 11.3126 0.973633 10C5.28588 8.6874 8.6607 5.31246 9.9732 1Z"
+                stroke="#A9A7F7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </span>
+            </div>
+
+            <div class="city-options">
+              <div class="city-option" data-city="Baghdad">Baghdad</div>
+              <div class="city-option" data-city="Basrah">Basrah</div>
+              <div class="city-option" data-city="Mosul">Mosul</div>
+              <div class="city-option" data-city="Diyali">Diyali</div>
+              <div class="city-option" data-city="Karbala">Karbala</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="city-map">
+          <img src="./img/Image.png" alt="Map view" />
+        </div>
+
+        <button class="apply-filters-btn" id="applyCityFilters">Apply Filters</button>
+
+      </div>
+    </div>
+
+    <!-- for part price -->
+
+    <!-- 🔽 Price Modal -->
+    <div class="price-modal" id="priceModal">
+      <div class="price-container">
+        <div class="price-header">
+          <h3>Price</h3>
+          <button id="clearPrice" class="clear-btn">Clear all</button>
+        </div>
+
+        <!-- 🔹 Range Dial Area -->
+        <div class="filter-container">
+          <div class="slider-wrapper" id="sliderWrapper">
+            <div class="center-circle"></div>
+
+            <svg class="progress-svg" viewBox="0 0 280 280">
+              <!-- Track Arc -->
+              <path class="track-arc" id="trackArc" d="" />
+
+              <!-- Tick Marks Group -->
+              <g id="tickMarks"></g>
+
+              <!-- Progress Arc -->
+              <path class="progress-arc" id="progressArc" d="" />
+            </svg>
+
+            <div class="price-display">
+              <div class="pppp">
+                <span id="minPrice">50</span> - <span id="maxPrice">450</span>
+              </div>
+            </div>
+
+            <div class="handle" id="minHandle"></div>
+            <div class="handle" id="maxHandle"></div>
+          </div>
+
+          <button class="apply-btn" id="applyPriceFilters">
+            Apply Filters
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- for part rate -->
+
+    <div class="rate-modal" id="rateModal">
+      <div class="rate-container">
+        <div class="rate-header">
+          <h3>Rate</h3>
+          <button id="clearRate" class="clear-btn">Clear all</button>
+        </div>
+
+        <!-- 🔹 Range Dial Area -->
+        <div class="filter-container">
+          <div class="rate-slider-wrapper" id="rateSliderWrapper">
+            <div class="center-circle-rate"></div>
+
+            <svg class="progress-svg-rate" viewBox="0 0 280 280">
+              <!-- Track Arc -->
+              <path class="track-arc-rate" id="rateTrackArc" d=""></path>
+
+              <!-- Tick Marks Group -->
+              <g id="rateTickMarks"></g>
+
+              <!-- Progress Arc -->
+              <path class="progress-arc-rate" id="rateProgressArc" d=""></path>
+            </svg>
+
+            <div class="rate-display">
+              <div class="rate-value-text">
+                <span id="minRateValue">1</span> - <span id="maxRateValue">5</span>
+              </div>
+            </div>
+
+            <div class="handle-rate" id="rateMinHandle"></div>
+            <div class="handle-rate" id="rateMaxHandle"></div>
+          </div>
+
+          <button class="apply-btn-rate" id="applyRateFilters">
+            Apply Filters
+          </button>
+        </div>
+      </div>
+    </div>
+
+
+
+
+    <!-- Results Header -->
+    <div class="results-header">
+      <h2>Karbala</h2>
+      <span class="results-count">110</span>
+    </div>
+
+    <!-- لیست کارت‌های نتیجه (برای Toggle Grid) -->
+    <div class="results-list" id="results-list">
+
+      <!-- 1️⃣ کارت اول: Villa (data-category="villas") -->
+      <div class="listing-card" data-category="villas">
+        <div class="card-image-wrap">
+          <!-- 🟢 آدرس تصویر اصلاح شد -->
+          <img src="./img/42.png" alt="Luxury Villa">
+
+          <!-- نوار امتیاز -->
+          <div class="card-rating">
+            <svg class="star-price" viewBox="0 0 20 20">
+              <path
+                d="M9.9732 1C11.2857 5.31246 14.6605 8.6874 18.9728 10C14.6605 11.3126 11.2857 14.6875 9.9732 19C8.6607 14.6875 5.28588 11.3126 0.973633 10C5.28588 8.6874 8.6607 5.31246 9.9732 1Z" />
+            </svg>
+            3.5
+          </div>
+
+          <!-- نوار Overlap قیمت -->
+          <div class="price-overlay">
+            <div class="price-text">
+              Price
+              <span>/Night</span>
+            </div>
+            <!-- آیکون ستاره داخل Overlap (باید Stroke: white باشد) -->
+            <svg class="kir" viewBox="0 0 20 20" style="stroke: white;">
+              <path
+                d="M9.9732 1C11.2857 5.31246 14.6605 8.6874 18.9728 10C14.6605 11.3126 11.2857 14.6875 9.9732 19C8.6607 14.6875 5.28588 11.3126 0.973633 10C5.28588 8.6874 8.6607 5.31246 9.9732 1Z" />
+            </svg>
+          </div>
+        </div>
+
+        <div class="card-details">
+          <h3>Luxury Villa</h3>
+          <div class="card-location">
+            City
+            <span style="color:#8A8999">•</span>
+            Country
+          </div>
+          <div class="card-features">
+            <div class="feature-item">
+              <svg class="star-icon" viewBox="0 0 20 20">
+                <path
+                  d="M9.9732 1C11.2857 5.31246 14.6605 8.6874 18.9728 10C14.6605 11.3126 11.2857 14.6875 9.9732 19C8.6607 14.6875 5.28588 11.3126 0.973633 10C5.28588 8.6874 8.6607 5.31246 9.9732 1Z" />
+              </svg>
+              3 Beds
+            </div>
+            <div class="feature-item">
+              <svg class="star-icon" viewBox="0 0 20 20">
+                <path
+                  d="M9.9732 1C11.2857 5.31246 14.6605 8.6874 18.9728 10C14.6605 11.3126 11.2857 14.6875 9.9732 19C8.6607 14.6875 5.28588 11.3126 0.973633 10C5.28588 8.6874 8.6607 5.31246 9.9732 1Z" />
+              </svg>
+              Pool
+            </div>
+            <div class="feature-item">
+              <svg class="star-icon" viewBox="0 0 20 20">
+                <path
+                  d="M9.9732 1C11.2857 5.31246 14.6605 8.6874 18.9728 10C14.6605 11.3126 11.2857 14.6875 9.9732 19C8.6607 14.6875 5.28588 11.3126 0.973633 10C5.28588 8.6874 8.6607 5.31246 9.9732 1Z" />
+              </svg>
+              Free Wi-Fi
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2️⃣ کارت دوم: Hotel (data-category="hotels") -->
+      <div class="listing-card" data-category="hotels">
+        <div class="card-image-wrap">
+          <!-- 🟢 آدرس تصویر اصلاح شد -->
+          <img src="./img/42.png" alt="Guest House">
+          <div class="card-rating">
+            <svg class="star-price" viewBox="0 0 20 20">
+              <path
+                d="M9.9732 1C11.2857 5.31246 14.6605 8.6874 18.9728 10C14.6605 11.3126 11.2857 14.6875 9.9732 19C8.6607 14.6875 5.28588 11.3126 0.973633 10C5.28588 8.6874 8.6607 5.31246 9.9732 1Z" />
+            </svg>
+            4.2
+          </div>
+          <div class="price-overlay">
+            <div class="price-text">
+              Price
+              <span>/Night</span>
+            </div>
+            <svg class="kir" viewBox="0 0 20 20" style="stroke: white;">
+              <path
+                d="M9.9732 1C11.2857 5.31246 14.6605 8.6874 18.9728 10C14.6605 11.3126 11.2857 14.6875 9.9732 19C8.6607 14.6875 5.28588 11.3126 0.973633 10C5.28588 8.6874 8.6607 5.31246 9.9732 1Z" />
+            </svg>
+          </div>
+        </div>
+        <div class="card-details">
+          <h3>Five Star Hotel</h3>
+          <div class="card-location">
+            City
+            <span style="color:#8A8999">•</span>
+            Country
+          </div>
+          <div class="card-features">
+            <div class="feature-item">
+              <svg class="star-icon" viewBox="0 0 20 20">
+                <path
+                  d="M9.9732 1C11.2857 5.31246 14.6605 8.6874 18.9728 10C14.6605 11.3126 11.2857 14.6875 9.9732 19C8.6607 14.6875 5.28588 11.3126 0.973633 10C5.28588 8.6874 8.6607 5.31246 9.9732 1Z" />
+              </svg>
+              Breakfast
+            </div>
+            <div class="feature-item">
+              <svg class="star-icon" viewBox="0 0 20 20">
+                <path
+                  d="M9.9732 1C11.2857 5.31246 14.6605 8.6874 18.9728 10C14.6605 11.3126 11.2857 14.6875 9.9732 19C8.6607 14.6875 5.28588 11.3126 0.973633 10C5.28588 8.6874 8.6607 5.31246 9.9732 1Z" />
+              </svg>
+              Gym
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3️⃣ کارت سوم: Resort (data-category="resorts") -->
+      <div class="listing-card" data-category="resorts">
+        <div class="card-image-wrap">
+          <!-- 🟢 آدرس تصویر اصلاح شد -->
+          <img src="./img/42.png" alt="The Grand Stay">
+          <div class="card-rating">
+            <svg class="star-price" viewBox="0 0 20 20">
+              <path
+                d="M9.9732 1C11.2857 5.31246 14.6605 8.6874 18.9728 10C14.6605 11.3126 11.2857 14.6875 9.9732 19C8.6607 14.6875 5.28588 11.3126 0.973633 10C5.28588 8.6874 8.6607 5.31246 9.9732 1Z" />
+            </svg>
+            3.9
+          </div>
+          <div class="price-overlay">
+            <div class="price-text">
+              Price
+              <span>/Night</span>
+            </div>
+            <svg class="kir" viewBox="0 0 20 20" style="stroke: white;">
+              <path
+                d="M9.9732 1C11.2857 5.31246 14.6605 8.6874 18.9728 10C14.6605 11.3126 11.2857 14.6875 9.9732 19C8.6607 14.6875 5.28588 11.3126 0.973633 10C5.28588 8.6874 8.6607 5.31246 9.9732 1Z" />
+            </svg>
+          </div>
+        </div>
+        <div class="card-details">
+          <h3>Beachfront Resort</h3>
+          <div class="card-location">
+            City
+            <span style="color:#8A8999">•</span>
+            Country
+          </div>
+          <div class="card-features">
+            <div class="feature-item">
+              <svg class="star-icon" viewBox="0 0 20 20">
+                <path
+                  d="M9.9732 1C11.2857 5.31246 14.6605 8.6874 18.9728 10C14.6605 11.3126 11.2857 14.6875 9.9732 19C8.6607 14.6875 5.28588 11.3126 0.973633 10C5.28588 8.6874 8.6607 5.31246 9.9732 1Z" />
+              </svg>
+              Spa
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4️⃣ کارت اضافی: Home (data-category="homes") -->
+      <div class="listing-card" data-category="homes">
+        <div class="card-image-wrap">
+          <!-- 🟢 آدرس تصویر اصلاح شد -->
+          <img src="./img/42.png" alt="Sea View Apt">
+          <div class="card-rating">
+            <svg class="star-price" viewBox="0 0 20 20">
+              <path
+                d="M9.9732 1C11.2857 5.31246 14.6605 8.6874 18.9728 10C14.6605 11.3126 11.2857 14.6875 9.9732 19C8.6607 14.6875 5.28588 11.3126 0.973633 10C5.28588 8.6874 8.6607 5.31246 9.9732 1Z" />
+            </svg>
+            4.5
+          </div>
+          <div class="price-overlay">
+            <div class="price-text">
+              Price
+              <span>/Night</span>
+            </div>
+            <svg class="kir" viewBox="0 0 20 20" style="stroke: white;">
+              <path
+                d="M9.9732 1C11.2857 5.31246 14.6605 8.6874 18.9728 10C14.6605 11.3126 11.2857 14.6875 9.9732 19C8.6607 14.6875 5.28588 11.3126 0.973633 10C5.28588 8.6874 8.6607 5.31246 9.9732 1Z" />
+            </svg>
+          </div>
+        </div>
+        <div class="card-details">
+          <h3>Modern Apartment</h3>
+          <div class="card-location">
+            City
+            <span style="color:#8A8999">•</span>
+            Country
+          </div>
+          <div class="card-features">
+            <div class="feature-item">
+              <svg class="star-icon" viewBox="0 0 20 20">
+                <path
+                  d="M9.9732 1C11.2857 5.31246 14.6605 8.6874 18.9728 10C14.6605 11.3126 11.2857 14.6875 9.9732 19C8.6607 14.6875 5.28588 11.3126 0.973633 10C5.28588 8.6874 8.6607 5.31246 9.9732 1Z" />
+              </svg>
+              2 Rooms
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5️⃣ کارت اضافی: Hotel -->
+      <div class="listing-card" data-category="hotels">
+        <div class="card-image-wrap">
+          <!-- 🟢 آدرس تصویر اصلاح شد -->
+          <img src="./img/42.png" alt="Sea View Apt">
+          <div class="card-rating">
+            <svg class="star-price" viewBox="0 0 20 20">
+              <path
+                d="M9.9732 1C11.2857 5.31246 14.6605 8.6874 18.9728 10C14.6605 11.3126 11.2857 14.6875 9.9732 19C8.6607 14.6875 5.28588 11.3126 0.973633 10C5.28588 8.6874 8.6607 5.31246 9.9732 1Z" />
+            </svg>
+            4.1
+          </div>
+          <div class="price-overlay">
+            <div class="price-text">
+              Price
+              <span>/Night</span>
+            </div>
+            <svg class="kir" viewBox="0 0 20 20" style="stroke: white;">
+              <path
+                d="M9.9732 1C11.2857 5.31246 14.6605 8.6874 18.9728 10C14.6605 11.3126 11.2857 14.6875 9.9732 19C8.6607 14.6875 5.28588 11.3126 0.973633 10C5.28588 8.6874 8.6607 5.31246 9.9732 1Z" />
+            </svg>
+          </div>
+        </div>
+        <div class="card-details">
+          <h3>Downtown Hotel</h3>
+          <div class="card-location">
+            City
+            <span style="color:#8A8999">•</span>
+            Country
+          </div>
+          <div class="card-features">
+            <div class="feature-item">
+              <svg class="star-icon" viewBox="0 0 20 20">
+                <path
+                  d="M9.9732 1C11.2857 5.31246 14.6605 8.6874 18.9728 10C14.6605 11.3126 11.2857 14.6875 9.9732 19C8.6607 14.6875 5.28588 11.3126 0.973633 10C5.28588 8.6874 8.6607 5.31246 9.9732 1Z" />
+              </svg>
+              Parking
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6️⃣ کارت اضافی: Villa -->
+      <div class="listing-card" data-category="villas">
+        <div class="card-image-wrap">
+          <!-- 🟢 آدرس تصویر اصلاح شد -->
+          <img src="./img/42.png" alt="Luxury Villa 2">
+          <div class="card-rating">
+            <svg class="star-price" viewBox="0 0 20 20">
+              <path
+                d="M9.9732 1C11.2857 5.31246 14.6605 8.6874 18.9728 10C14.6605 11.3126 11.2857 14.6875 9.9732 19C8.6607 14.6875 5.28588 11.3126 0.973633 10C5.28588 8.6874 8.6607 5.31246 9.9732 1Z" />
+            </svg>
+            4.8
+          </div>
+          <div class="price-overlay">
+            <div class="price-text">
+              Price
+              <span>/Night</span>
+            </div>
+            <svg class="kir" viewBox="0 0 20 20" style="stroke: white;">
+              <path
+                d="M9.9732 1C11.2857 5.31246 14.6605 8.6874 18.9728 10C14.6605 11.3126 11.2857 14.6875 9.9732 19C8.6607 14.6875 5.28588 11.3126 0.973633 10C5.28588 8.6874 8.6607 5.31246 9.9732 1Z" />
+            </svg>
+          </div>
+        </div>
+        <div class="card-details">
+          <h3>Presidential Villa</h3>
+          <div class="card-location">
+            City
+            <span style="color:#8A8999">•</span>
+            Country
+          </div>
+          <div class="card-features">
+            <div class="feature-item">
+              <svg class="star-icon" viewBox="0 0 20 20">
+                <path
+                  d="M9.9732 1C11.2857 5.31246 14.6605 8.6874 18.9728 10C14.6605 11.3126 11.2857 14.6875 9.9732 19C8.6607 14.6875 5.28588 11.3126 0.973633 10C5.28588 8.6874 8.6607 5.31246 9.9732 1Z" />
+              </svg>
+              Private Beach
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+  <!-- ⚠️ این المان‌ها برای اجرای بدون خطای فازهای ۴گانه جستجوی شما ضروری هستند (همانطور که قبلاً اشاره کردم) -->
+  <div class="search-overlay" style="display:none;">
+    <div class="search-popup">
+      <h3 class="popup-title"></h3>
+      <button class="clear-btn">Clear</button>
+      <ul class="search-list">
+        <li data-text="Hotels in Najaf">Hotels in Najaf</li>
+        <li data-text="Hotels in Baghdad">Hotels in Baghdad</li>
+        <li data-text="Suggestion 3">Suggestion 3</li>
+      </ul>
+      <div class="no-results" style="display:none;">No results found.</div>
+      <div id="results-box" style="display:none;">Results Content</div>
+    </div>
+  </div>
+
+  <div class="fara-bottom-nav">
+    <div class="fara-bottom-container">
+      <div class="fara-bottom-item active">
+        <span class="fara-bottom-icon"><img src="./img/16.png" width="25px" alt=""> <span
+            class="fara-bottom-text">Sample</span></span>
+
+      </div>
+      <div class="fara-bottom-item">
+        <span class="fara-bottom-icon"><img src="./img/18.png" width="24px" height="24px" alt=""></span>
+      </div>
+      <div class="fara-bottom-item">
+        <span class="fara-bottom-icon"><img src="./img/18.png" width="24px" height="24px" alt=""></span>
+      </div>
+      <div class="fara-bottom-item">
+        <span class="fara-bottom-icon"><img src="./img/18.png" width="24px" height="24px" alt=""></span>
+      </div>
+    </div>
+  </div>
+  <script>
+    /* 🔹 Fara App – مدیریت کامل سیستم سرچ ۴ فاز (Search Box Controller) */
+    document.addEventListener('DOMContentLoaded', () => {
+
+      /* ===== 🎯 المان‌های پایه ===== */
+      const searchBox = document.getElementById('search-box');
+      const searchInput = searchBox.querySelector('input');
+      const defaultIcons = searchBox.querySelectorAll('.default-icon');
+      const focoseIcons = searchBox.querySelectorAll('.focose');
+      const searchOverlay = document.querySelector('.search-overlay');
+      const popupTitle = document.querySelector('.popup-title');
+      const clearBtn = document.querySelector('.clear-btn');
+      const listContainer = document.querySelector('.search-list');
+      const listItems = document.querySelectorAll('.search-list li');
+      const noResultsBox = document.querySelector('.no-results');
+      const resultsBox = document.getElementById('results-box');
+      const bottomNav = document.querySelector('.fara-bottom-nav');
+      const resultsList = document.getElementById('results-list');
+      let isPhase4Active = false;
+
+      /* ===== 🔵 مدیریت آیکن‌های سرچ ===== */
+      function showDefaultIcon() {
+        defaultIcons.forEach(ic => ic.style.display = 'inline');
+        focoseIcons.forEach(ic => ic.style.display = 'none');
+      }
+
+      function showFocusIcon() {
+        defaultIcons.forEach(ic => ic.style.display = 'none');
+        focoseIcons.forEach(ic => ic.style.display = 'inline');
+      }
+
+      showDefaultIcon();
+
+      const elementsExist = searchOverlay && popupTitle && clearBtn && listContainer && noResultsBox && resultsBox && bottomNav;
+
+      if (elementsExist) {
+        /* فاز ۱ تا ۴ – همان کدهای قبلی شما دقیقاً حفظ شده */
+        //  ... (بخش سرچ کامل بدون تغییر)
+      }
+
+      // ======================================================
+      // 🚀 مدیریت Grid Toggle (بین Viewها)
+      // ======================================================
+     // 🚀 مدیریت Grid Toggle (بین Viewها)
+const toggleButtons = [
+  document.getElementById('toggle-grid-button-1'),
+];
+let isGridView = false;
+
+function toggleLayout() {
+  isGridView = !isGridView;
+  
+  // تغییر نمای کارت‌ها
+  resultsList.classList.toggle('grid-view', isGridView);
+  
+  // ✅ وقتی فعال شد بک‌گراند بگیره
+  toggleButtons.forEach(btn => {
+    if (isGridView) {
+      btn.classList.add("active");  // وقتی کوچیک شد بگراند فعال
+    } else {
+      btn.classList.remove("active"); // وقتی برگشت، حذف بشه
+    }
+  });
+}
+
+if (resultsList) {
+  toggleButtons.forEach(b => b && b.addEventListener('click', toggleLayout));
+}
+
+
+      // ======================================================
+      // 🆕 مدیریت فیلتر تب‌ها
+      // ======================================================
+      const tabButtons = document.querySelectorAll('.tab');
+      const listingCards = document.querySelectorAll('.listing-card');
+      const resultsCountSpan = document.querySelector('.results-count');
+
+      function updateResultsCount(count) {
+        if (resultsCountSpan) resultsCountSpan.textContent = count;
+      }
+
+      function filterResults(selectedCategory) {
+        let visibleCount = 0;
+
+        listingCards.forEach(card => {
+          const cardCategory = card.getAttribute('data-category');
+          if (cardCategory === selectedCategory || selectedCategory === 'all') {
+            card.style.display = 'block';
+            visibleCount++;
+          } else {
+            card.style.display = 'none';
+          }
+        });
+
+        updateResultsCount(visibleCount);
+
+        const currentTab = document.querySelector(`.tab[data-category="${selectedCategory}"]`);
+        if (currentTab && headerTitle) headerTitle.textContent = currentTab.textContent;
+      }
+
+      tabButtons.forEach(button => {
+        button.addEventListener('click', (e) => {
+          // حذف active از همه تب‌ها
+          tabButtons.forEach(btn => btn.classList.remove('active'));
+          // فعال‌سازی تب فعلی
+          e.currentTarget.classList.add('active');
+
+          // گرفتن دسته‌بندی
+          const category = e.currentTarget.getAttribute('data-category');
+
+          // 🔙 بازگرداندن به حالت لیستی به‌صورت پیش‌فرض هر بار که تب عوض می‌شود
+          isGridView = false;
+          resultsList.classList.remove('grid-view');
+
+          // فیلتر دسته‌بندی
+          filterResults(category);
+        });
+      });
+
+      // ✅ فیلتر اولیه: Villas
+      filterResults('villas');
+    });
+  </script>
+  <script>
+    // =============================
+    // 🔹 دکمه مرتب‌سازی (Sort Modal)
+    // =============================
+    const sortBtn = document.getElementById("toggle-grid-button-2");
+    const sortModal = document.getElementById("sortModal");
+
+    sortBtn.addEventListener("click", () => {
+      sortBtn.classList.toggle("active");
+      sortModal.classList.toggle("open");
+    });
+
+
+    // =============================
+    // 🔹 دکمه فیلتر City و مودال City
+    // =============================
+    const cityBtn = document.getElementById("cityFilterBtn");
+    const cityModal = document.getElementById("cityModal");
+    const clearCityBtn = document.getElementById("clearCity");
+    const applyCityBtn = document.getElementById("applyCityFilters"); // دکمه Apply Filters پایین مودال (در HTML تعریف کن)
+
+    const otherFilterBtns = [
+      document.getElementById("priceFilterBtn"),
+      document.getElementById("rateFilterBtn"),
+    ];
+
+    // ✅ کلیک روی City button → باز شدن مودال
+    cityBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      cityModal.classList.add("open");
+      cityBtn.classList.add("active");
+    });
+
+    // ✅ کلیک روی دکمه Clear all → بسته شدن مودال و حذف حالت فعال
+    clearCityBtn.addEventListener("click", () => {
+      cityModal.classList.remove("open");
+      cityBtn.classList.remove("active");
+    });
+
+    // ✅ کلیک روی Apply Filters → مودال بسته شود ولی دکمه City آبی بماند (فیلتر فعال)
+    if (applyCityBtn) {
+      applyCityBtn.addEventListener("click", () => {
+        cityModal.classList.remove("open");
+        cityBtn.classList.add("active");
+      });
+    }
+
+    // ✅ کلیک بیرون از مودال → بسته شدن (اختیاری)
+    document.addEventListener("click", (e) => {
+      if (!e.target.closest("#cityModal") && !e.target.closest("#cityFilterBtn")) {
+        cityModal.classList.remove("open");
+      }
+    });
+
+    // ✅ فیلترهای دیگر (Price, Rate) → City از حالت آبی خارج شود
+    otherFilterBtns.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        cityModal.classList.remove("open");
+        cityBtn.classList.remove("active");
+        otherFilterBtns.forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+      });
+    });
+
+
+    // =============================
+    // 🔹 رفتار انتخاب شهر درون مودال
+    // =============================
+    const cityInputBox = document.getElementById("cityInput");
+    const cityLabel = cityInputBox?.querySelector(".city-label");
+    const cityOptions = cityInputBox?.querySelectorAll(".city-option") || [];
+    let cityHasValue = false;
+
+    // کلیک روی input → باز/بسته کردن لیست شهرها
+    if (cityInputBox) {
+      cityInputBox.addEventListener("click", (e) => {
+        e.stopPropagation();
+        cityInputBox.classList.toggle("expanded");
+      });
+
+      // انتخاب از لیست
+      cityOptions.forEach((opt) => {
+        opt.addEventListener("click", (e) => {
+          e.stopPropagation();
+          const cityName = opt.dataset.city;
+          if (cityLabel) cityLabel.textContent = cityName;
+          cityHasValue = true;
+          cityInputBox.classList.remove("expanded");
+        });
+      });
+
+      // کلیک بیرون از input → بستن لیست شهرها
+      document.addEventListener("click", (e) => {
+        if (!e.target.closest(".city-container")) {
+          cityInputBox.classList.remove("expanded");
+        }
+      });
+    }
+  </script>
+  <script>
+    const priceBtn = document.getElementById("priceFilterBtn");
+    const priceModal = document.getElementById("priceModal");
+    const clearPriceBtn = document.getElementById("clearPrice");
+    const applyPriceBtn = document.getElementById("applyPriceFilters");
+
+    // ✅ کلیک روی Price → باز شدن مودال
+    priceBtn.addEventListener("click", () => {
+      priceModal.classList.add("open");
+      priceBtn.classList.add("active");
+    });
+
+    // ✅ کلیک روی Clear all → بسته شدن مودال و حذف حالت فعال
+    clearPriceBtn.addEventListener("click", () => {
+      priceModal.classList.remove("open");
+      priceBtn.classList.remove("active");
+    });
+
+    // ✅ کلیک روی Apply Filters → مودال بسته ولی دکمه فعال بماند
+    applyPriceBtn.addEventListener("click", () => {
+      priceModal.classList.remove("open");
+      priceBtn.classList.add("active");
+    });
+
+    // ✅ وقتی روی City کلیک شد، Price از حالت فعال خارج شود
+    cityBtn.addEventListener("click", () => {
+      priceModal.classList.remove("open");
+      priceBtn.classList.remove("active");
+    });
+
+    // ✅ کلیک بیرون از مودال → بستن مودال
+    document.addEventListener("click", (e) => {
+      if (!e.target.closest("#priceModal") && !e.target.closest("#priceFilterBtn")) {
+        priceModal.classList.remove("open");
+      }
+    });
+
+    // 🔹 به‌روزرسانی مقدار Range
+    const priceMin = document.getElementById("priceMin");
+    const priceMax = document.getElementById("priceMax");
+    const priceRangeDisplay = document.getElementById("priceRangeDisplay");
+
+    function updatePriceDisplay() {
+      const min = Math.min(parseInt(priceMin.value), parseInt(priceMax.value));
+      const max = Math.max(parseInt(priceMin.value), parseInt(priceMax.value));
+      priceRangeDisplay.textContent = `${min} – ${max}`;
+    }
+
+    priceMin.addEventListener("input", updatePriceDisplay);
+    priceMax.addEventListener("input", updatePriceDisplay);
+
+  </script>
+
+  <script>
+    // Configuration
+    const MIN = 0;
+    const MAX = 500;
+    const TRACK_RADIUS = 100; // شعاع تراک
+    const CENTER_X = 140;
+    const CENTER_Y = 140;
+
+    const START_ANGLE_DEG = 135;
+    const END_ANGLE_DEG = 45;
+    const ARC_SPAN = 270;
+
+    // Current values
+    let minValue = 50;
+    let maxValue = 450;
+    let isDragging = false;
+    let activeHandle = null;
+
+    // Elements
+    const minHandle = document.getElementById('minHandle');
+    const maxHandle = document.getElementById('maxHandle');
+    const trackArc = document.getElementById('trackArc');
+    const progressArc = document.getElementById('progressArc');
+    const minPriceText = document.getElementById('minPrice');
+    const maxPriceText = document.getElementById('maxPrice');
+    const wrapper = document.getElementById('sliderWrapper');
+    const tickMarksGroup = document.getElementById('tickMarks');
+
+    // Convert value to angle
+    function valueToAngle(value) {
+      const ratio = (value - MIN) / (MAX - MIN);
+      return START_ANGLE_DEG + (ratio * ARC_SPAN);
+    }
+
+    // Convert angle to value
+    function angleToValue(angleDeg) {
+      let normalized = angleDeg % 360;
+      if (normalized < 0) normalized += 360;
+
+      let relative = normalized - START_ANGLE_DEG;
+      if (relative < 0) relative += 360;
+
+      if (relative > ARC_SPAN) {
+        relative = (relative - ARC_SPAN < 360 - relative) ? ARC_SPAN : 0;
+      }
+
+      const ratio = relative / ARC_SPAN;
+      return Math.round(MIN + ratio * (MAX - MIN));
+    }
+
+    // Position handle
+    function positionHandle(handle, angleDeg) {
+      const angleRad = (angleDeg * Math.PI) / 180;
+      const x = CENTER_X + TRACK_RADIUS * Math.cos(angleRad);
+      const y = CENTER_Y + TRACK_RADIUS * Math.sin(angleRad);
+
+      handle.style.left = `${x}px`;
+      handle.style.top = `${y}px`;
+      handle.style.transform = 'translate(-50%, -50%)';
+    }
+
+    // Create arc path
+    function createArcPath(startAngle, endAngle, radius) {
+      const startRad = (startAngle * Math.PI) / 180;
+      const endRad = (endAngle * Math.PI) / 180;
+
+      const x1 = CENTER_X + radius * Math.cos(startRad);
+      const y1 = CENTER_Y + radius * Math.sin(startRad);
+      const x2 = CENTER_X + radius * Math.cos(endRad);
+      const y2 = CENTER_Y + radius * Math.sin(endRad);
+
+      let diff = endAngle - startAngle;
+      if (diff < 0) diff += 360;
+      const largeArc = diff > 180 ? 1 : 0;
+
+      return `M ${x1} ${y1} A ${radius} ${radius} 0 ${largeArc} 1 ${x2} ${y2}`;
+    }
+
+    // Create tick marks (خط‌های درجه) - حالا وسط تراک
+    function createTickMarks() {
+      tickMarksGroup.innerHTML = '';
+      const numTicks = 27;
+      const tickLength = 4; // طول خط از مرکز به هر طرف
+
+      for (let i = 0; i <= numTicks; i++) {
+        const angle = START_ANGLE_DEG + (i * ARC_SPAN / numTicks);
+        const angleRad = (angle * Math.PI) / 180;
+
+        // خطوط دقیقاً وسط تراک (از مرکز تراک به هر طرف)
+        const innerRadius = TRACK_RADIUS - tickLength;
+        const outerRadius = TRACK_RADIUS + tickLength;
+
+        const x1 = CENTER_X + innerRadius * Math.cos(angleRad);
+        const y1 = CENTER_Y + innerRadius * Math.sin(angleRad);
+        const x2 = CENTER_X + outerRadius * Math.cos(angleRad);
+        const y2 = CENTER_Y + outerRadius * Math.sin(angleRad);
+
+        const tick = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        tick.setAttribute('x1', x1);
+        tick.setAttribute('y1', y1);
+        tick.setAttribute('x2', x2);
+        tick.setAttribute('y2', y2);
+        tick.setAttribute('class', 'tick-mark');
+        tick.setAttribute('transform', `rotate(90, ${CENTER_X}, ${CENTER_Y})`);
+
+        tickMarksGroup.appendChild(tick);
+      }
+    }
+
+    // Update track arc
+    function updateTrackArc() {
+      const path = createArcPath(START_ANGLE_DEG, START_ANGLE_DEG + ARC_SPAN, TRACK_RADIUS);
+      trackArc.setAttribute('d', path);
+      trackArc.setAttribute('transform', `rotate(90, ${CENTER_X}, ${CENTER_Y})`);
+    }
+
+    // Update progress arc
+    function updateProgressArc() {
+      const minAngle = valueToAngle(minValue);
+      const maxAngle = valueToAngle(maxValue);
+
+      const path = createArcPath(minAngle, maxAngle, TRACK_RADIUS);
+      progressArc.setAttribute('d', path);
+      progressArc.setAttribute('transform', `rotate(90, ${CENTER_X}, ${CENTER_Y})`);
+    }
+
+    // Update UI
+    function updateUI() {
+      minPriceText.textContent = minValue;
+      maxPriceText.textContent = maxValue;
+
+      positionHandle(minHandle, valueToAngle(minValue));
+      positionHandle(maxHandle, valueToAngle(maxValue));
+      updateProgressArc();
+    }
+
+    // Get angle from event
+    function getAngleFromEvent(e) {
+      const rect = wrapper.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+
+      const clientX = e.clientX || (e.touches?.[0]?.clientX || 0);
+      const clientY = e.clientY || (e.touches?.[0]?.clientY || 0);
+
+      const dx = clientX - centerX;
+      const dy = clientY - centerY;
+
+      let angle = Math.atan2(dy, dx) * (180 / Math.PI);
+      if (angle < 0) angle += 360;
+
+      return angle;
+    }
+
+    // Drag functions
+    function startDrag(e, handle) {
+      isDragging = true;
+      activeHandle = handle;
+      e.preventDefault();
+
+      document.addEventListener('mousemove', onDrag);
+      document.addEventListener('mouseup', stopDrag);
+      document.addEventListener('touchmove', onDrag, { passive: false });
+      document.addEventListener('touchend', stopDrag);
+    }
+
+    function onDrag(e) {
+      if (!isDragging) return;
+      e.preventDefault();
+
+      const angle = getAngleFromEvent(e);
+      const value = angleToValue(angle);
+
+      if (activeHandle === minHandle) {
+        if (value < maxValue - 10) {
+          minValue = Math.max(MIN, value);
+        }
+      } else {
+        if (value > minValue + 10) {
+          maxValue = Math.min(MAX, value);
+        }
+      }
+
+      updateUI();
+    }
+
+    function stopDrag() {
+      isDragging = false;
+      activeHandle = null;
+
+      document.removeEventListener('mousemove', onDrag);
+      document.removeEventListener('mouseup', stopDrag);
+      document.removeEventListener('touchmove', onDrag);
+      document.removeEventListener('touchend', stopDrag);
+    }
+
+    // Event listeners
+    minHandle.addEventListener('mousedown', (e) => startDrag(e, minHandle));
+    maxHandle.addEventListener('mousedown', (e) => startDrag(e, maxHandle));
+    minHandle.addEventListener('touchstart', (e) => startDrag(e, minHandle));
+    maxHandle.addEventListener('touchstart', (e) => startDrag(e, maxHandle));
+
+
+
+    // Initialize
+    createTickMarks();
+    updateTrackArc();
+    updateUI();
+  </script>
+
+  <script>
+    // Configuration for Rate Slider
+    const RATE_MIN = 1;
+    const RATE_MAX = 5;
+    const RATE_TRACK_RADIUS = 100; // شعاع تراک دایره
+    const RATE_CENTER_X = 140;
+    const RATE_CENTER_Y = 140;
+
+    const RATE_START_ANGLE = 135;
+    const RATE_ARC_SPAN = 270;
+
+    // Current selected values
+    let rateMinValue = RATE_MIN;
+    let rateMaxValue = RATE_MAX;
+
+    // Drag state
+    let isDraggingRate = false;
+    let activeRateHandle = null;
+
+    // Elements
+    const rateModal = document.getElementById("rateModal");
+    const rateBtn = document.getElementById("rateFilterBtn");
+    const clearRateBtn = document.getElementById("clearRate");
+    const applyRateBtn = document.getElementById("applyRateFilters");
+
+    const rateMinHandle = document.getElementById("rateMinHandle");
+    const rateMaxHandle = document.getElementById("rateMaxHandle");
+    const rateTrackArc = document.getElementById("rateTrackArc");
+    const rateProgressArc = document.getElementById("rateProgressArc");
+    const minRateDisplay = document.getElementById("minRateValue");
+    const maxRateDisplay = document.getElementById("maxRateValue");
+    const rateSliderWrapper = document.getElementById("rateSliderWrapper");
+    const rateTickMarksGroup = document.getElementById("rateTickMarks");
+    const INSET_ANGLE = 35; // فاصله از ابتدا و انتهای قوس
+    const VISIBLE_ARC_SPAN = RATE_ARC_SPAN - (INSET_ANGLE * 2); // محدوده واقعی قابل حرکت
+
+
+    function rateValueToAngle(value) {
+      const ratio = (value - RATE_MIN) / (RATE_MAX - RATE_MIN);
+      const actualStartAngle = RATE_START_ANGLE + INSET_ANGLE; // شروع از کمی بالاتر
+      return actualStartAngle + ratio * VISIBLE_ARC_SPAN; // حرکت در محدوده جدید
+    }
+
+
+    function rateAngleToValue(angleDeg) {
+      const START_LIMIT = RATE_START_ANGLE + INSET_ANGLE;
+      const END_LIMIT = RATE_START_ANGLE + RATE_ARC_SPAN - INSET_ANGLE;
+
+      if (angleDeg < START_LIMIT) angleDeg = START_LIMIT; // محدود به ابتدا
+      if (angleDeg > END_LIMIT) angleDeg = END_LIMIT;     // محدود به انتها
+
+      let normalized = angleDeg % 360;
+      if (normalized < 0) normalized += 360;
+
+      let relative = normalized - START_LIMIT;
+      if (relative < 0) relative += 360;
+
+      if (relative > VISIBLE_ARC_SPAN) {
+        relative = (relative - VISIBLE_ARC_SPAN < 360 - relative) ? VISIBLE_ARC_SPAN : 0;
+      }
+
+      const ratio = relative / VISIBLE_ARC_SPAN;
+      return Math.round(RATE_MIN + ratio * (RATE_MAX - RATE_MIN));
+    }
+
+
+    // موقعیت هندل روی دایره
+    function positionRateHandle(handle, angleDeg) {
+      const angleRad = (angleDeg * Math.PI) / 180;
+      const x = RATE_CENTER_X + RATE_TRACK_RADIUS * Math.cos(angleRad);
+      const y = RATE_CENTER_Y + RATE_TRACK_RADIUS * Math.sin(angleRad);
+
+      handle.style.left = `${x}px`;
+      handle.style.top = `${y}px`;
+      handle.style.transform = "translate(-50%, -50%)";
+    }
+
+    // مسیر قوس بر اساس زوایا و شعاع
+    function createArcPath(startAngle, endAngle, radius) {
+      const startRad = (startAngle * Math.PI) / 180;
+      const endRad = (endAngle * Math.PI) / 180;
+
+      const x1 = RATE_CENTER_X + radius * Math.cos(startRad);
+      const y1 = RATE_CENTER_Y + radius * Math.sin(startRad);
+      const x2 = RATE_CENTER_X + radius * Math.cos(endRad);
+      const y2 = RATE_CENTER_Y + radius * Math.sin(endRad);
+
+      let diff = endAngle - startAngle;
+      if (diff < 0) diff += 360;
+      const largeArc = diff > 180 ? 1 : 0;
+
+      return `M ${x1} ${y1} A ${radius} ${radius} 0 ${largeArc} 1 ${x2} ${y2}`;
+    }
+
+    function createRateTickMarks() {
+      rateTickMarksGroup.innerHTML = "";
+
+      const numDots = 5; // تعداد نقاط
+      const dotRadius = 4; // سایز نقطه (بزرگ‌تر و واضح‌تر)
+      const tickSpacing = VISIBLE_ARC_SPAN / (numDots - 1); // بر اساس قوس واقعی
+      const DOT_DISTANCE_FROM_CENTER = RATE_TRACK_RADIUS;
+
+      for (let i = 0; i < numDots; i++) {
+        const angle = (RATE_START_ANGLE + INSET_ANGLE) + (i * tickSpacing);
+        const angleRad = (angle * Math.PI) / 180;
+
+        const cx = RATE_CENTER_X + DOT_DISTANCE_FROM_CENTER * Math.cos(angleRad);
+        const cy = RATE_CENTER_Y + DOT_DISTANCE_FROM_CENTER * Math.sin(angleRad);
+
+        const dot = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+        dot.setAttribute("cx", cx);
+        dot.setAttribute("cy", cy);
+        dot.setAttribute("r", dotRadius);
+        dot.setAttribute("fill", "#d0d7e8");
+        dot.setAttribute("class", "tick-dot-rate");
+        dot.setAttribute("transform", `rotate(90, ${RATE_CENTER_X}, ${RATE_CENTER_Y})`);
+
+        rateTickMarksGroup.appendChild(dot);
+      }
+    }
+
+
+    // به‌روزرسانی مسیر قوس Track
+    function updateRateTrackArc() {
+      const path = createArcPath(RATE_START_ANGLE, RATE_START_ANGLE + RATE_ARC_SPAN, RATE_TRACK_RADIUS);
+      rateTrackArc.setAttribute("d", path);
+      rateTrackArc.setAttribute("transform", `rotate(90, ${RATE_CENTER_X}, ${RATE_CENTER_Y})`);
+    }
+
+    function updateRateProgressArc() {
+      const minAngle = rateValueToAngle(rateMinValue);
+      const maxAngle = rateValueToAngle(rateMaxValue);
+
+      const path = createArcPath(minAngle, maxAngle, RATE_TRACK_RADIUS);
+      rateProgressArc.setAttribute("d", path);
+      rateProgressArc.setAttribute("transform", `rotate(90, ${RATE_CENTER_X}, ${RATE_CENTER_Y})`);
+    }
+
+    function updateRateUI() {
+      minRateDisplay.textContent = rateMinValue;
+      maxRateDisplay.textContent = rateMaxValue;
+
+      positionRateHandle(rateMinHandle, rateValueToAngle(rateMinValue));
+      positionRateHandle(rateMaxHandle, rateValueToAngle(rateMaxValue));
+      updateRateProgressArc();
+    }
+
+    // گرفتن زاویه از رویداد موس/لمس نسبت به مرکز اسلایدر
+    function getRateAngleFromEvent(e) {
+      const rect = rateSliderWrapper.getBoundingClientRect();
+
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+
+      const clientX = e.clientX || (e.touches?.[0]?.clientX || 0);
+      const clientY = e.clientY || (e.touches?.[0]?.clientY || 0);
+
+      const dx = clientX - centerX;
+      const dy = clientY - centerY;
+
+      let angle = (Math.atan2(dy, dx) * 180) / Math.PI;
+      if (angle < 0) angle += 360;
+
+      return angle;
+    }
+
+    // شروع درگ متناسب با هندل انتخاب شده
+    function startRateDrag(e, handle) {
+      isDraggingRate = true;
+      activeRateHandle = handle;
+      e.preventDefault();
+
+      document.addEventListener("mousemove", onRateDrag);
+      document.addEventListener("mouseup", stopRateDrag);
+      document.addEventListener("touchmove", onRateDrag, { passive: false });
+      document.addEventListener("touchend", stopRateDrag);
+    }
+
+    // عملیات درگ روی اسلایدر
+    function onRateDrag(e) {
+      if (!isDraggingRate) return;
+      e.preventDefault();
+
+      let angle = getRateAngleFromEvent(e);
+
+      // محدود به قوس 270 درجه
+      if (angle < RATE_START_ANGLE && angle > RATE_START_ANGLE - 90) angle = RATE_START_ANGLE;
+      else if (angle > RATE_START_ANGLE + RATE_ARC_SPAN) angle = RATE_START_ANGLE + RATE_ARC_SPAN;
+
+      const value = rateAngleToValue(angle);
+
+      if (activeRateHandle === rateMinHandle) {
+        rateMinValue = Math.min(value, rateMaxValue - 1);
+        if (rateMinValue < RATE_MIN) rateMinValue = RATE_MIN;
+      } else if (activeRateHandle === rateMaxHandle) {
+        rateMaxValue = Math.max(value, rateMinValue + 1);
+        if (rateMaxValue > RATE_MAX) rateMaxValue = RATE_MAX;
+      }
+
+      updateRateUI();
+    }
+
+    // پایان درگ
+    function stopRateDrag() {
+      if (!isDraggingRate) return;
+      isDraggingRate = false;
+      if (activeRateHandle) activeRateHandle.style.cursor = "grab";
+      activeRateHandle = null;
+
+      document.removeEventListener("mousemove", onRateDrag);
+      document.removeEventListener("mouseup", stopRateDrag);
+      document.removeEventListener("touchmove", onRateDrag);
+      document.removeEventListener("touchend", stopRateDrag);
+    }
+
+    // اضافه کردن Event Listener برای هندل‌ها
+    rateMinHandle.addEventListener("mousedown", (e) => startRateDrag(e, rateMinHandle));
+    rateMaxHandle.addEventListener("mousedown", (e) => startRateDrag(e, rateMaxHandle));
+    rateMinHandle.addEventListener("touchstart", (e) => startRateDrag(e, rateMinHandle));
+    rateMaxHandle.addEventListener("touchstart", (e) => startRateDrag(e, rateMaxHandle));
+
+    // ----------------------
+    // مدیریت مودال و دکمه‌ها
+    // ----------------------
+
+    if (rateBtn) {
+      rateBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        rateModal?.classList.add("open");
+        rateBtn.classList.add("active");
+
+        // بستن سایر مودال‌ها
+        const cityModal = document.getElementById("cityModal");
+        const priceModal = document.getElementById("priceModal");
+        const cityBtn = document.getElementById("cityFilterBtn");
+        const priceBtn = document.getElementById("priceFilterBtn");
+
+        cityModal?.classList.remove("open");
+        cityBtn?.classList.remove("active");
+        priceModal?.classList.remove("open");
+        priceBtn?.classList.remove("active");
+      });
+    }
+
+    clearRateBtn?.addEventListener("click", () => {
+      rateModal?.classList.remove("open");
+      rateBtn?.classList.remove("active");
+      rateMinValue = RATE_MIN;
+      rateMaxValue = RATE_MAX;
+      updateRateUI();
+    });
+
+    applyRateBtn?.addEventListener("click", () => {
+      rateModal?.classList.remove("open");
+      rateBtn?.classList.add("active");
+    });
+
+    document.addEventListener("click", (e) => {
+      if (!e.target.closest("#rateModal") && !e.target.closest("#rateFilterBtn")) {
+        rateModal?.classList.remove("open");
+      }
+    });
+
+    // Initialize UI
+    createRateTickMarks();
+    updateRateTrackArc();
+    updateRateUI();
+
+  </script>
+  <script>
+    const tabButtons = document.querySelectorAll('.tab');
+const toggleGridBtn = document.getElementById('toggle-grid-button-1');
+
+tabButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    // فقط بگراند بنفش دکمه گرید حذف بشه
+    toggleGridBtn.classList.remove('active');
+  });
+});
+document.addEventListener("DOMContentLoaded", () => {
+  const cityBox = document.getElementById("cityInput");
+  const cityLabel = cityBox?.querySelector(".city-label");
+  const cityOptions = document.querySelectorAll('.city-option');
+
+  if (!cityBox || !cityLabel) return;
+
+  // ===================================
+  // 1. منطق انتخاب گزینه (که کلاس 'filled' را اضافه می‌کند)
+  // ===================================
+  
+  cityOptions.forEach(opt => {
+    opt.addEventListener('click', e => {
+      // e.stopPropagation(); // این خط رو اینجا نیاز نداری چون در اسکریپت اصلی مدیریت شده.
+      
+      const parent = e.target.closest('.city-input');
+      
+      // ✅ اضافه کردن کلاس 'filled' برای آبی شدن گزینه انتخابی (selected-city)
+      parent.classList.add('filled');
+      
+      parent.querySelector('.selected-city').textContent = e.target.textContent;
+      
+      // ⚠️ بعد از انتخاب، باید حالت expanded بسته بشه 
+      parent.classList.remove("expanded");
+
+      // ⚠️ بعد از انتخاب، باید رنگ City هم آبی بشه (چون فیلد پر شده)
+      cityLabel.style.color = "#706DF2"; 
+      cityLabel.style.fontWeight = "500";
+    });
+  });
+
+  // ===================================
+  // 2. منطق تغییر رنگ 'City' هنگام باز شدن منو (Expanded)
+  // ===================================
+  
+  // این Observer کلاس 'expanded' را رصد می‌کند.
+  const observer = new MutationObserver(() => {
+    const isExpanded = cityBox.classList.contains("expanded");
+    const isFilled = cityBox.classList.contains("filled"); // چک می‌کنیم پر شده یا نه
+
+    if (isExpanded) {
+      // اگر منو باز شد: City آبی شود
+      cityLabel.style.color = "#706DF2"; 
+      cityLabel.style.fontWeight = "400";
+    } else if (isFilled) {
+      // اگر منو بسته شد ولی پر شده بود: City باید آبی بماند (بخاطر Selection)
+      cityLabel.style.color = "#706DF2"; 
+      cityLabel.style.fontWeight = "500";
+    } else {
+      // اگر منو بسته شد و خالی بود: City به حالت اولیه برگردد
+      cityLabel.style.color = "#A9A7F7"; 
+      cityLabel.style.fontWeight = "400";
+    }
+  });
+
+  observer.observe(cityBox, { attributes: true, attributeFilter: ["class"] });
+});
+
+
+
+  </script>
+  
+</body>
+
+</html>

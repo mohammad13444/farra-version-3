@@ -1,138 +1,175 @@
 <!DOCTYPE html>
-<html lang="fa">
+<html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Fara App Frame</title>
-<style>
-    @font-face {
-        font-family: "Bonyade Koodak VF";
-        src: url("../BonyadeKoodak-VF.ttf") format("truetype");
-        font-weight: 100 900;
-        font-display: swap;
-    }
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Farra2025 | Onboarding</title>
+    <style>
+        @font-face {
+            font-family: "Bonyade Koodak VF";
+            src: url("./BonyadeKoodak-VF.ttf") format("truetype");
+            font-weight: 100 900;
+            font-display: swap;
+        }
 
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    html, body {
-        width: 100%;
-        height: 100%;
-        background: #EFEFFE;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        overflow-x: hidden;
-        font-family: "Bonyade Koodak VF", sans-serif;
-    }
+        body {
+            background: var(--Surface-Primary-Default, #706DF2);
+            font-family: "Bonyade Koodak VF", sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            min-height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+        }
 
-    .fara-phone-frame {
-        width: 100%;
-        max-width: 420px;
-        height: 100vh;
-        background: #fff;
-        border-radius: 35px;
-        box-shadow: 0 10px 60px rgba(0,0,0,0.25);
-        overflow: hidden;
-        display: flex;
-        flex-direction: column;
-        position: relative;
-    }
+        .container {
+            position: relative;
+            width: 100%;
+            max-width: 420px;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            overflow: hidden;
+        }
 
-    .fara-phone-frame .bg {
-        flex: 1;
-        background-image: url("./img/33.png");
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: cover;
-        object-fit: cover;
-        transition: opacity 0.4s ease-in-out;
-    }
+        .icon {
+            width: 85%;
+            height: 450px;
+            background-image: url("./img/38.png");
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            position: fixed;
+            /* موقعیت کاملاً ثابت نسبت به نمایشگر */
+            top: -60%;
+            /* طبق مقدار خودت حفظ شد */
+            left: 50%;
+            /* مرکز صفحه */
+            transform: translateX(-50%);
+            z-index: 9999;
+        }
 
-    /* سه دایره بالای دکمه Skips */
-    .slide-indicators {
-        position: absolute;
-        bottom: 100px;  /* کمی بالاتر از دکمه */
-        left: 15%;
-        transform: translateX(-50%);
-        display: flex;
-        gap: 10px;
-        z-index: 10;
-    }
 
-    .slide-indicators .dot {
-        width: 18px;
-        height: 6px;
-        background: rgba(255,255,255,0.4);
-        border-radius: 25px;
-        transition: background .3s ease;
-    }
+        /* دایره کاملاً گرد و وسط پایین */
+        .bottom {
+            position: absolute;
+            bottom: -100px;
+            /* نصف اندازه دایره پایین‌تر تا نیم‌دایره دیده شه */
+            left: 35%;
+            transform: translateX(-50%);
+            width: 600px;
+            height: 600px;
+            /* حالا عرض = ارتفاع، پس دایره‌ست دقیقاً */
+            border-radius: 50%;
+            background: var(--Primary-700, #434191);
+        }
 
-    .slide-indicators .dot.active {
-        background: #fff;
-    }
+        .content {
+            position: relative;
+            bottom: 1%;
+            z-index: 2;
+            text-align: left;
+            width: 100%;
+            padding: 0 36px 70px;
+            color: white;
+        }
 
-    .skip-btn {
-        position: absolute;
-        bottom: 30px;
-        left: 21px;
-        font-size: 16px;
-        color: #706DF2; 
-        font-weight: 600;
-        text-decoration: none;
-        font-family: "Bonyade Koodak VF", sans-serif;
-        transition: color .3s ease;
-        z-index: 10;
-    }
+        .content h3 {
+            font-weight: 700;
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
 
-    .skip-btn:hover { color: #5A57C2; }
+        .content p {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #d9d8ff;
+        }
 
-    @media (max-width: 440px) {
-        .fara-phone-frame { border-radius: 0; box-shadow: none; }
-    }
-</style>
+        .signin {
+            margin-top: 36px;
+            display: inline-block;
+            color: #abaafc;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .signin:hover {
+            color: #c8c7ff;
+        }
+
+        @media (max-width: 480px) {
+            .content {
+                padding: 0 24px 48px;
+            }
+
+            .content h3 {
+                font-size: 22px;
+            }
+        }
+    </style>
 </head>
+
 <body>
+    <div class="container">
 
-    <div class="fara-phone-frame">
-        <div class="bg" id="bgFrame"></div>
+        <div class="bottom">
+            <div class="icon">
 
-        <div class="slide-indicators" id="slideDots">
-            <div class="dot active"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
+            </div>
         </div>
-
-        <a href="#" class="skip-btn" id="skipBtn">Skips</a>
+        <div class="content">
+            <h3>Feature</h3>
+            <p>I am happy to have you in Farra.<br>Where you can make best memories.</p>
+            <a href="#" class="signin">Signin</a>
+        </div>
     </div>
 
-<script>
-    const skipBtn = document.getElementById('skipBtn');
-    const bgFrame = document.getElementById('bgFrame');
-    const dots = document.querySelectorAll('.dot');
-    let step = 0;
+   <script>
+  const signin = document.querySelector(".signin");
+  const bottom = document.querySelector(".bottom");
+  const icon = document.querySelector(".icon");
 
-    skipBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        step++;
+  signin.addEventListener("click", e => {
+    e.preventDefault();
 
-        // روشن کردن دایره درست:
-        dots.forEach((dot, i) => {
-            dot.classList.toggle('active', i === step);
-        });
+    // مرحله ۱: محو کردن تصویر
+    icon.style.transition = "opacity 0.6s ease";
+    icon.style.opacity = 0;
 
-        if (step === 1) {
-            bgFrame.style.backgroundImage = 'url("./img/34.png")';
-        } else if (step === 2) {
-            bgFrame.style.backgroundImage = 'url("./img/35.png")';
-        } else if (step === 3) {
-            window.location.href = "home.html";
-        }
-    });
+    // بعد از تمام شدن محوشدن، نیم دایره حرکت کنه و تصویر جدید عوض شه
+    setTimeout(() => {
+      // مرحله ۲: عوض کردن تصویر بعد از fade-out
+      icon.style.backgroundImage = 'url("./img/40.png")';
+      icon.style.backgroundPosition = "right center"; // بچسبه راست
+
+      // مرحله ۳: حرکت نیم‌دایره
+      bottom.style.transition = "left 0.6s ease";
+      bottom.style.left = "50%";
+
+      // مرحله ۴: ظاهر شدن دوباره تصویر جدید
+      setTimeout(() => {
+        icon.style.transition = "opacity 0.6s ease";
+        icon.style.opacity = 1;
+      }, 300); // کمی زمان بدیم تا دایره در حال حرکت باشه
+    }, 600); // بعد از پایان fade-out عکس
+  });
 </script>
 
+
+
 </body>
+
 </html>

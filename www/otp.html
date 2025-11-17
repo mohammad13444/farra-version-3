@@ -80,11 +80,11 @@ stroke: var(--Icon-Primary-Default, #706DF2);" xmlns="http://www.w3.org/2000/svg
 
         <!-- OTP Inputs -->
         <div class="otp-inputs">
-            <input type="text" id="otp1" class="otp-input" maxlength="1">
-            <input type="text" id="otp2" class="otp-input" maxlength="1">
-            <input type="text" id="otp3" class="otp-input" maxlength="1">
-            <input type="text" id="otp4" class="otp-input" maxlength="1">
-            <input type="text" id="otp5" class="otp-input" maxlength="1">
+            <input type="tel" id="otp1" class="otp-input" maxlength="1">
+            <input type="tel" id="otp2" class="otp-input" maxlength="1">
+            <input type="tel" id="otp3" class="otp-input" maxlength="1">
+            <input type="tel" id="otp4" class="otp-input" maxlength="1">
+            <input type="tel" id="otp5" class="otp-input" maxlength="1">
         </div>
 
         <!-- Resend -->
@@ -108,14 +108,37 @@ stroke: var(--Icon-Primary-Default, #706DF2);" xmlns="http://www.w3.org/2000/svg
         const resendEl = document.getElementById("resendText");
 
         // فیلدهای OTP
+               // فیلدهای OTP
         inputs.forEach((inp, idx) => {
             inp.addEventListener("input", () => {
                 inp.value = inp.value.replace(/[^0-9]/g, '');
-                if (inp.value && idx < inputs.length - 1) {
+                
+                // حرکت به جلو: اگر مقداری وارد شد و آخرین فیلد نیست، برو فیلد بعدی
+                if (inp.value.length === 1 && idx < inputs.length - 1) {
                     inputs[idx + 1].focus();
                 }
                 updateCode();
             });
+
+            // 🚀 منطق جدید: حرکت به عقب با Backspace
+            inp.addEventListener("keydown", (e) => {
+                // اگر دکمه Backspace فشرده شد
+                if (e.key === "Backspace" || e.keyCode === 8) {
+                    
+                    // اگر اینپوت فعلی خالی است و اینپوت اول نیست
+                    if (idx > 0 && inp.value.length === 0) {
+                        e.preventDefault(); // جلوی حرکت پیش‌فرض مرورگر رو بگیر
+                        
+                        const prevInput = inputs[idx - 1];
+                        prevInput.focus();
+                        
+                        // محتوای اینپوت قبلی رو پاک کن و فوکوس رو اونجا بذار
+                        prevInput.value = ''; 
+                        updateCode(); 
+                    }
+                }
+            });
+            // 🚀 پایان منطق جدید
 
             inp.addEventListener("focus", () => {
                 inputs.forEach(el => {

@@ -456,7 +456,6 @@
 
     .fara-row-track {
       display: flex;
-      gap: 15px;
       padding-left: 0vw;
       /* شروع از 30٪ سمت چپ */
 
@@ -471,6 +470,7 @@
 
     /* ================= کارت‌ها ================= */
    /* ================= کارت‌ها ================= */
+   
 .fara-item-box {
     width: 231px;
     height: 269px;
@@ -479,6 +479,7 @@
     overflow: hidden;              /* حفظ گردی کل قاب کارت */
     scroll-snap-align: center;
     position: relative;
+    margin-right: 15px;
 }
 
 .fara-item-box:hover{
@@ -601,12 +602,12 @@
     .offers-slider {
       display: flex;
       flex-direction: row;
-      gap: 16px;
+      
       overflow-x: auto;
       scroll-behavior: smooth;
       padding-left: 24px;
       /* شروع اولین کارت داخل viewport */
-      padding-right: 24px;
+      padding-right: 13px;
       margin: 0 -24px;
       /* حذف محدودیت پدینگ والد */
       width: 100vw;
@@ -630,6 +631,7 @@
       align-items: center;
       justify-content: center;
       color: #fff;
+      margin-right: 16px;
     }
 
     .offer-card:hover{
@@ -1868,27 +1870,35 @@ height: 30px;
       <div class="property-types">
         <div class="type-item">
           <div class="type-star"><img src="./img/16.png" width="32px" alt=""></div>
-          <div class="type-name">Villas</div>
+          <a href="./search.html" class="text-decoration-none"><div class="type-name">Villas</div></a>
         </div>
         <div class="type-item">
           <div class="type-star"><img src="./img/16.png" width="32px" alt=""></div>
-          <div class="type-name">Resorts</div>
+          <a href="./search.html" class="text-decoration-none"><div class="type-name">Resorts</div></a>
         </div>
         <div class="type-item">
           <div class="type-star"><img src="./img/16.png" width="32px" alt=""></div>
-          <div class="type-name">Hotels</div>
+          <a href="./search.html" class="text-decoration-none">
+            <div class="type-name">Hotels</div>
+          </a>
         </div>
         <div class="type-item">
           <div class="type-star"><img src="./img/16.png" width="32px" alt=""></div>
-          <div class="type-name">Houses</div>
+          <a href="./search.html" class="text-decoration-none">
+            <div class="type-name">Houses</div>
+          </a>
         </div>
         <div class="type-item">
           <div class="type-star"><img src="./img/16.png" width="32px" alt=""></div>
-          <div class="type-name">Apartments</div>
+          <a href="./search.html" class="text-decoration-none">
+            <div class="type-name">Apartments</div>
+          </a>
         </div>
         <div class="type-item">
           <div class="type-star"><img src="./img/16.png" width="32px" alt=""></div>
-          <div class="type-name">Farms</div>
+          <a href="./search.html" class="text-decoration-none">
+            <div class="type-name">Farms</div>
+          </a>
         </div>
       </div>
 
@@ -2116,7 +2126,7 @@ height: 30px;
                 <div class="fara-img-holder position-relative">
                   <img src="./img/31.png" class="img-fluid rounded-top" alt="">
                   <!-- <div class="fara-star-mark position-absolute">✧ 4.2</div> -->
-                  <div class="fara-price-bar d-flex justify-content-between align-items-center px-3 py-2">
+                  <div class="fara-price-bar d-flex justify-content-between align-items-center ">
                     <span class="fara-price-main">Price <span class="fara-price-sub">/Night</span></span>
                     <div class="fara-price-icon">⤿</div>
                   </div>
@@ -2132,7 +2142,7 @@ height: 30px;
                 <div class="fara-img-holder position-relative">
                   <img src="./img/31.png" class="img-fluid rounded-top" alt="">
                   <!-- <div class="fara-star-mark position-absolute">✧ 5.0</div> -->
-                  <div class="fara-price-bar d-flex justify-content-between align-items-center px-3 py-2">
+                  <div class="fara-price-bar d-flex justify-content-between align-items-center ">
                     <span class="fara-price-main">Price <span class="fara-price-sub">/Night</span></span>
                     <div class="fara-price-icon">⤿</div>
                   </div>
@@ -2275,7 +2285,7 @@ height: 30px;
                 <div class="fara-img-holder position-relative">
                     <img src="./img/20.jpg" class="img-fluid rounded-top" alt="">
                     <div class="fara-star-mark position-absolute">✧ 3.5</div>
-                    <div class="fara-price-bar d-flex justify-content-between align-items-center px-3 py-2">
+                    <div class="fara-price-bar d-flex justify-content-between align-items-center ">
                         <span class="fara-price-main">Price <span class="fara-price-sub">/Night</span></span>
                         <div class="fara-price-icon">⤿</div>
                     </div>
@@ -2329,7 +2339,17 @@ document.addEventListener('DOMContentLoaded', () => {
         focoseIcons.forEach(ic => ic.style.display = 'inline');
     }
     showDefaultIcon();
-
+ window.addEventListener('scroll', () => {
+        // فقط اگر Overlay باز است، آن را ببند
+        if (searchOverlay.classList.contains('active')) {
+            searchOverlay.classList.remove('active');
+            searchOverlay.classList.remove('scrollable'); // اگر در حالت ریزالت (فاز ۴) بود
+            bottomNav.classList.remove('hide-bottom-nav'); // اگر مخفی شده بود
+            
+            // 🚫 نکته مهم: هیچ تغییری در searchBox.classList یا آیکن‌ها اعمال نمی‌کنیم
+            // تا استایل فعلی (filled/default) حفظ شود.
+        }
+    });
   /* ===== 🟣 فاز ۱ – تمرکز روی سرچ ===== */
 searchInput.addEventListener('focus', () => {
     showFocusIcon();
@@ -2410,6 +2430,12 @@ listItems.forEach(item => {
         const chosenText = item.dataset.text || item.textContent.trim();
         searchInput.value = chosenText;
         const lower = chosenText.toLowerCase();
+
+        // 🚀 برده: این سه خط رو اضافه کن تا حالت آبی و filled حفظ بشه
+        searchBox.classList.add('active', 'filled'); 
+        searchInput.style.color = '#706DF2';       
+        showFocusIcon();                           
+        // 🚀 پایان کد اضافه شده
 
         if (lower === 'hotels in baghdad') {
             // ❌ حالت بدون نتیجه — فاز نهایی خاموش
