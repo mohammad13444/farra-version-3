@@ -1,0 +1,1350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <title>Farra - Hotel Info</title>
+  <style>
+    @font-face {
+      font-family: "Bonyade Koodak VF";
+      src: url("./BonyadeKoodak-VF.ttf") format("truetype");
+      font-weight: 100 900;
+      font-display: swap;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Bonyade Koodak VF";
+      background: #EFEFFE;
+      overflow-x: hidden;
+    }
+
+    /* Hero Section با تصویر پس‌زمینه */
+    .hero-section {
+      position: relative;
+      width: 100%;
+      height: 450px;
+      background: linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.4) 100%),
+                  url('./img/45.png') center/cover;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 24px 0;
+    }
+
+    /* Header داخل Hero */
+    .hero-header {
+      margin-top: 24px;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .hero-logo {
+      font-weight: 700;
+      color: #fff;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+
+
+    .hero-icons {
+      display: flex;
+      gap: 12px;
+    }
+
+    .hero-icon-btn {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    
+
+    .hero-icon-btn svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    /* تب‌های پایین Hero */
+    .hero-tabs {
+      width: 100%;
+      display: flex;
+      gap: 12px;
+      padding-bottom: 35px;
+      
+    }
+
+    .hero-tab {
+      flex: 1;
+      height: 36px;
+    border-radius: var(--Border-Radius-800, 32px);
+background: rgba(22, 22, 48, 0.50);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+ color: var(--Text-Primary-On-Color, #E2E2FC);
+text-align: center;
+
+/* English/Body/Copy */
+font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+font-size: var(--Font-Copy-Body-Text-Size, 16px);
+font-style: normal;
+font-weight: 400;
+line-height: var(--Font-Copy-Body-Line-Heigth, 20px); /* 125% */
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .hero-tab:hover {
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    .hero-tab svg {
+      width: 16px;
+      height: 16px;
+      stroke: #fff;
+    }
+
+    /* Content Container */
+    .content-wrapper {
+      width: 100%;
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 0 24px;
+      background: #EFEFFE;
+      margin-top: -20px;
+      border-radius: 24px 24px 0 0;
+      position: relative;
+      z-index: 10;
+    }
+
+    /* Hotel Title Section */
+    .hotel-header {
+      padding: 24px 0 24px;
+    }
+
+    .hotel-title {
+      font-size: 24px;
+      font-weight: 700;
+      color: #45454D;
+      margin-bottom: 8px;
+    }
+
+    .hotel-location {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: #8A8999;
+      font-size: 14px;
+    }
+
+    .hotel-location span{
+      color: var(--Text-Default-Body, #5C5C66);
+text-align: center;
+
+/* English/Body/Copy */
+font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+font-size: var(--Font-Copy-Body-Text-Size, 16px);
+font-style: normal;
+font-weight: 400;
+line-height: var(--Font-Copy-Body-Line-Heigth, 20px); /* 125% */
+    }
+
+    .hotel-location svg {
+      width: 24px;
+      height: 24px;
+      stroke: #8A8999;
+    }
+
+    /* Stats Cards */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      padding: 0px;
+      padding-bottom: 32px;
+    }
+
+    .stat-card {
+      border-radius: var(--Border-Radius-600, 24px);
+background: var(--Primary-100, #E2E2FC);
+      padding: 16px 12px;
+      text-align: center;
+    }
+
+    .stat-value {
+      color: var(--Text-Default-Heading, #45454D);
+text-align: center;
+
+/* English/Heading/H5 */
+font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+font-size: 24px;
+font-style: normal;
+font-weight: 500;
+line-height: var(--Font-Headings-H5-Line-Heigth, 36px); /* 150% */
+      margin-bottom: 4px;
+    }
+
+    .stat-label {
+      color: var(--Text-Default-Caption, #8A8999);
+text-align: center;
+
+/* English/Body/SCopy */
+font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+font-size: var(--Font-Copy-Body-Sm-Text-Size, 14px);
+font-style: normal;
+font-weight: 400;
+line-height: var(--Font-Copy-Body-Sm-Line-Heigth, 18px); /* 128.571% */
+    }
+
+    /* Section Title */
+    .section-title {
+      color: var(--Text-Default-Heading, #45454D);
+
+/* English/Heading/H5 */
+font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+font-size: 24px;
+font-style: normal;
+font-weight: 500;
+line-height: var(--Font-Headings-H5-Line-Heigth, 36px); /* 150% */
+      margin: 0px 0 16px;
+    }
+
+    /* About Section */
+    .about-text {
+      color: var(--Text-Default-Body, #5C5C66);
+
+/* English/Body/Copy */
+font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+font-size: var(--Font-Copy-Body-Text-Size, 16px);
+font-style: normal;
+font-weight: 400;
+line-height: var(--Font-Copy-Body-Line-Heigth, 20px); /* 125% */
+      margin-bottom: 24px;
+    }
+
+    /* Photos Grid */
+    .photos-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    .photo-item {
+      width: 107px;
+height: 64px;
+      border-radius: 12px;
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+    }
+
+    .photo-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+.photo-more {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--Border-Radius-300, 12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--Text-On-Color-Heading, #E6E5FF);
+  font-family: "Bonyade Koodak VF";
+  font-size: 16px;
+  font-weight: 700;
+}
+
+/* لایه تصویر بلور */
+.photo-more::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: 
+    linear-gradient(rgba(255, 255, 255, 0.45), rgba(243, 243, 255, 0.45)),
+    url("./img/49.png") center/cover no-repeat;
+  filter: blur(6px); /* بلور روی عکس */
+  transform: scale(1.1); /* کمی بزرگ‌تر تا حاشیه تار نشه */
+  z-index: 0;
+}
+
+/* محتوای روی لایه */
+.photo-more > * {
+  position: relative;
+  z-index: 1;
+}
+
+
+
+    /* Services Grid */
+    /* .services-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .service-item {
+      background: #F8F7FC;
+      border: 1px solid #E2E2FC;
+      border-radius: 12px;
+      padding: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      color: #45454D;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .service-item:hover {
+      background: #E2E2FC;
+      border-color: #C6C5FA;
+    }
+
+    .service-item svg {
+      width: 18px;
+      height: 18px;
+      stroke: #706DF2;
+      flex-shrink: 0;
+    } */
+
+    .column-box p{
+        color: var(--Text-Default-Body, #5C5C66);
+
+/* English/Body/Strong Medium Body */
+font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+font-size: var(--Font-Copy-Body-Text-Size, 16px);
+font-style: normal;
+font-weight: 700;
+line-height: var(--Font-Copy-Body-Line-Heigth, 20px); /* 125% */
+    }
+
+    .column-box p svg{
+      margin-right: 4px;
+    }
+
+    .box2{
+        color: var(--Text-Default-Body, #5C5C66);
+text-align: center;
+
+/* English/Body/Strong Medium Body */
+font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+font-size: var(--Font-Copy-Body-Text-Size, 16px);
+font-style: normal;
+font-weight: 700;
+line-height: var(--Font-Copy-Body-Line-Heigth, 20px); /* 125% */
+    }
+
+    .box2 p svg{
+      margin-right: 4px;
+    }
+
+    /* Contact Section */
+    .contact-map {
+      width: 100%;
+height: 200px;
+      border-radius: var(--Border-Radius-800, 32px);
+border: 1px solid var(--Textbox-Default-Border, #C6C5FA);
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+
+    .contact-map img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .card.contact-card{
+      background-color: transparent;
+      border: none;
+      color: var(--Text-Default-Body, #5C5C66);
+
+/* English/Body/Copy */
+font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+font-size: var(--Font-Copy-Body-Text-Size, 16px);
+font-style: normal;
+font-weight: 400;
+line-height: var(--Font-Copy-Body-Line-Heigth, 20px); /* 125% */
+    }
+
+    #cont{
+            border-bottom: 1px solid #C6C5FA;
+
+    }
+
+   .contact-row {
+    background: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px 0;
+    }
+
+    .contact-row:last-child {
+      border-bottom: none;
+    }
+
+    .contact-icon-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .contact-icon {
+      width: 18px;
+      height: 18px;
+      color: #7e6ef8;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .contact-icon svg {
+      width: 18px;
+      height: 18px;
+      stroke: #7e6ef8;
+      stroke-width: 1.6;
+      fill: none;
+    }
+
+    .contact-link {
+      color: #7e6ef8;
+      font-weight: 500;
+      text-decoration: none;
+    }
+
+    .contact-link:hover {
+      text-decoration: underline;
+    }
+
+    .contact-text {
+      margin: 0;
+    }
+
+    /* Know Before Section */
+    .know-before {
+      border-radius: 16px;
+      margin-bottom: 24px;
+    }
+
+    .know-before-title {
+      color: var(--Text-Default-Heading, #45454D);
+
+/* English/Heading/H5 */
+font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+font-size: 24px;
+font-style: normal;
+font-weight: 500;
+line-height: var(--Font-Headings-H5-Line-Heigth, 36px); /* 150% */
+      margin-bottom: 12px;
+    }
+
+    .know-before-list {
+      display: flex;
+      padding-left: 9px;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .know-before-item {
+      display: flex;
+      gap: 8px;
+    color: var(--Text-Default-Body, #5C5C66);
+
+/* English/Body/Copy */
+font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+font-size: var(--Font-Copy-Body-Text-Size, 16px);
+font-style: normal;
+font-weight: 400;
+line-height: var(--Font-Copy-Body-Line-Heigth, 20px); /* 125% */
+    }
+
+    .know-before-item::before {
+      content: "•";
+      color: #706DF2;
+      font-weight: 700;
+    }
+
+    /* Bottom Actions */
+    .bottom-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 25px;
+      margin-bottom: 76px;
+    }
+
+    .action-btn {
+      flex: 1;
+      height: 56px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      color: #706DF2;
+      margin-bottom: 15%;
+    }
+
+   
+   
+
+   .fara-bottom-nav {
+    position: fixed;
+    left: 24px;                         /* پدینگ چپ صفحه */
+    right: 24px;                        /* پدینگ راست صفحه */
+    bottom: 24px;
+    background: rgba(211, 224, 255, 0.45);
+    backdrop-filter: blur(20px);
+    border-radius: 50px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    padding: 9px 18px;
+    padding-right: 2px;
+    z-index: 999;
+    width: auto;                        /* 👈 بذار خودش با right و left فاصله بگیره */
+    max-width: 480px;
+    margin: 0 auto;   
+    
+    
+}
+
+
+    .fara-bottom-container {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+    }
+
+    .fara-bottom-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      /* رنگ آیکون‌ها مشابه تصویر */
+      font-family: "Bonyade Koodak VF", sans-serif;
+      cursor: pointer;
+      transition: color 0.3s ease, transform 0.3s ease;
+      padding-right: 0px;
+    }
+
+    
+
+    .fara-bottom-icon {
+color: var(--Text-Default-Caption, #8A8999);
+text-align: center;
+
+/* English/Body/Copy */
+font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+font-size: var(--Font-Copy-Body-Text-Size, 16px);
+font-style: normal;
+font-weight: 400;
+line-height: var(--Font-Copy-Body-Line-Heigth, 20px); /* 125% */
+    }
+
+    .fara-bottom-text {
+   color: var(--Text-Default-Heading, #45454D);
+text-align: center;
+
+/* English/Heading/H5 */
+font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+font-size: 24px;
+font-style: normal;
+font-weight: 500;
+line-height: var(--Font-Headings-H5-Line-Heigth, 36px); /* 150% */
+      margin-top: 4px;
+    }
+
+    .btn-btn{
+      background-color: #706DF2;
+      display: flex;
+width: 162px;
+padding: var(--Border-Radius-300, 12px) var(--Spacing-400, 16px);
+justify-content: center;
+align-items: center;
+gap: 12px;
+flex-shrink: 0;
+border-radius: 40px;
+background: var(--Primary-500, #706DF2);
+
+
+color: var(--Text-On-Color-Heading, #E6E5FF);
+
+/* English/Button/Medium */
+font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+font-size: var(--Font-Button-Medium-Text-Size, 20px);
+font-style: normal;
+font-weight: 500;
+line-height: normal;
+text-decoration: none;
+    }
+
+    .fara-bottom-item:last-child {
+  margin-left: auto;        /* دکمه بره آخر سمت راست */
+  padding-right: 8px;       /* فاصله ثابت از راست */
+}
+
+.fara-bottom-item:last-child .btn-btn {
+  flex-shrink: 0;           /* جلوگیری از فشرده شدن */
+}
+
+/* ✨ Lightbox Blur Background */
+.image-viewer-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(226, 226, 252, 0.75);
+backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(20px);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+/* محتوای مودال */
+.image-viewer-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* قاب عکس بزرگ */
+.image-wrapper {
+  position: relative;
+}
+
+/* 📸 عکس اصلی */
+.main-viewer-img {
+  width: 354px;
+  height: 235px;
+  object-fit: cover;
+  border-radius: 24px;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.25);
+}
+
+/* 🔹 SVG بالای راست تصویر */
+.top-right-icon {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+}
+
+/* 📸 نوار بندانگشتی‌ها ؛ اسکرول کاملاً تا لبه راست و چپ */
+.thumbnail-scroll {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 10px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  position: fixed;
+  bottom: 25px;
+  left: 0;
+  right: 0;
+  padding-inline-start: 24px;
+  padding-inline-end: 24px;
+  border-radius: 0;
+  z-index: 2100;
+  max-width: 100%;
+
+  /* ✅ برای مرورگرهای مختلف */
+  scrollbar-width: none;            /* Firefox */
+  -ms-overflow-style: none;        /* IE و Edge قدیمی */
+}
+
+/* ✅ برای WebKit (Chrome, Safari, Edge جدید) */
+.thumbnail-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+
+/* 🔹 اسکرول‌بار در کروم و سفاری */
+.thumbnail-scroll::-webkit-scrollbar {
+  height: 6px;
+}
+.thumbnail-scroll::-webkit-scrollbar-thumb {
+  background: #aaa;
+  border-radius: 3px;
+}
+.thumbnail-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* 📸 بندانگشتی‌ها */
+.thumbnail-scroll img {
+  width: 100px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 12px;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: 0.25s ease;
+  flex-shrink: 0;          /* ✅ جلوگیری از فشرده شدن */
+  margin: 0;               /* ✅ بدون فاصله اضافی از لبه‌ها */
+}
+
+
+.thumbnail-scroll img:hover,
+.thumbnail-scroll img.active {
+  opacity: 1;
+  outline: 2px solid #706DF2;
+}
+
+/* دکمه × بستن */
+.close-btn {
+  position: absolute;
+  top: -70px;
+  right: 15px;
+  font-size: 38px;
+  color: #706DF2;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* ✅ بدون تاری صفحه، فقط خود مودال */
+.fara-modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  justify-content: center;
+  align-items: flex-end;
+  z-index: 3000;
+}
+
+/* ✨ محفظه‌ی مودال */
+.fara-modal-content {
+  width: 100%;
+  height: 90%;
+  background: rgba(226, 226, 252, 0.70);
+  box-shadow: 0 -2px 4px 0 var(--Primary-100, #E2E2FC);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border-radius: var(--Border-Radius-600, 24px) var(--Border-Radius-600, 24px) var(--Border-Radius-0, 0) var(--Border-Radius-0, 0);
+  transform: translateY(100%);
+  transition: transform 0.4s ease-in-out;
+  overflow: hidden;
+}
+
+/* 🔹 هدر مودال */
+.fara-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 22px 25px 10px 25px;
+}
+.fara-modal-header h2 {
+color: var(--Text-Default-Heading, #45454D);
+
+/* English/Heading/H5 */
+font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+font-size: 24px;
+font-style: normal;
+font-weight: 500;
+line-height: var(--Font-Headings-H5-Line-Heigth, 36px); /* 150% */
+  margin: 0;
+}
+
+/* 🎯 کلاس جدید کلوز اختصاصی */
+.fara-close-btn {
+  color: var(--Text-Primary-Default, #706DF2);
+text-align: center;
+
+/* English/TextButton/Medium */
+font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+font-size: var(--Font-Button-Medium-Text-Button, 16px);
+font-style: normal;
+font-weight: 500;
+line-height: normal;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+.fara-close-btn:hover {
+  color: #4e4cd4;
+}
+
+/* 🔹 بدنه داخل مودال */
+/* ✅ اصلاح محو شدن متن تا لبه پایین مودال */
+.fara-modal-body {
+  position: relative;
+  padding: 0 25px 35px;
+  overflow-y: auto;
+  max-height: calc(100% - 70px);
+  text-align: justify;
+  line-height: 1.8;
+  mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 85%, rgba(0,0,0,0) 100%);
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 85%, rgba(0,0,0,0) 100%);
+}
+
+.fara-modal-body h3 {
+ color: var(--Text-Default-Heading, #45454D);
+
+/* English/Heading/H5 */
+font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+font-size: 24px;
+font-style: normal;
+font-weight: 500;
+line-height: var(--Font-Headings-H5-Line-Heigth, 36px); /* 150% */
+  margin: 15px 0;
+}
+.fara-modal-body p {
+  margin-bottom: 10px;
+  color: var(--Text-Default-Body, #5C5C66);
+
+/* English/Body/Copy */
+font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+font-size: var(--Font-Copy-Body-Text-Size, 16px);
+font-style: normal;
+font-weight: 400;
+line-height: var(--Font-Copy-Body-Line-Heigth, 20px);
+}
+
+/* ✅ حالت فعال مودال */
+.fara-modal.show {
+  display: flex;
+}
+.fara-modal.show .fara-modal-content {
+  transform: translateY(0);
+}
+
+/* === مودال جدید Privacy === */
+.fara-modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  justify-content: center;
+  align-items: flex-end;
+  z-index: 3000;
+}
+
+/* ✨ محفظه مودال */
+.fara-modal-content {
+  width: 100%;
+  height: 90%;
+  background: rgba(226, 226, 252, 0.70);
+  box-shadow: 0 -2px 4px 0 var(--Primary-100, #E2E2FC);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border-radius: 24px 24px 0 0;
+  transform: translateY(100%);
+  transition: transform 0.4s ease-in-out;
+  overflow: hidden;
+}
+
+/* 🔹 هدر */
+.fara-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 22px 25px 10px 25px;
+}
+
+.fara-close-btn {
+  font-size: 16px;
+  color: #706DF2;
+  cursor: pointer;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+.fara-close-btn:hover {
+  color: #4e4cd4;
+}
+
+/* 🔹 متن داخل مودال */
+.fara-modal-body {
+  position: relative;
+  padding: 0 25px 35px;
+  overflow-y: auto;
+  max-height: calc(100% - 70px);
+  text-align: justify;
+  line-height: 1.8;
+
+  /* ✅ fade تا لبه پایین */
+  mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 85%, rgba(0,0,0,0) 100%);
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 85%, rgba(0,0,0,0) 100%);
+}
+
+/* ✅ حالت باز مودال */
+.fara-modal.show {
+  display: flex;
+}
+.fara-modal.show .fara-modal-content {
+  transform: translateY(0);
+}
+  </style>
+</head>
+<body>
+
+  <!-- Hero Section -->
+  <div class="hero-section">
+    <div class="hero-header">
+      <div class="hero-icons">
+        <div class="hero-icon-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <path d="M11.9732 3C13.2857 7.31246 16.6605 10.6874 20.9728 12C16.6605 13.3126 13.2857 16.6875 11.9732 21C10.6607 16.6875 7.28588 13.3126 2.97363 12C7.28588 10.6874 10.6607 7.31246 11.9732 3Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+        </div>
+      </div>
+      <div class="hero-logo"><svg xmlns="http://www.w3.org/2000/svg" width="58" height="21" viewBox="0 0 58 21" fill="none">
+  <path d="M23.1031 13.715C22.9899 14.3515 22.8604 15.2961 22.7132 16.5516C22.6395 17.1772 22.5155 18.0445 22.4105 18.7584C22.3055 19.4723 21.6674 20.0261 20.9271 20.0139L19.456 19.9908C18.7047 19.9786 18.0612 19.4099 18.0067 18.6634C18.0026 18.6146 17.9971 18.5861 17.9862 18.5847C17.914 18.6173 17.8144 18.6878 17.6876 18.7951C16.5928 19.7288 15.5144 20.1944 14.4536 20.1944C12.8353 20.1944 11.6082 19.5578 10.7725 18.2861C9.97896 17.0972 9.72946 15.6762 10.0212 14.0244C10.3593 12.1161 11.1501 10.5811 12.3935 9.41661C13.6861 8.21139 15.269 7.60742 17.1436 7.60742C18.4457 7.60742 19.3946 8.06209 19.9891 8.97008C20.015 9.01215 20.0409 9.03251 20.0654 9.03251C20.0941 9.03251 20.2345 8.78821 20.3954 8.48962C20.7362 7.85579 21.4656 7.53142 22.1664 7.70514L22.9286 7.8938C23.7889 8.10688 24.3042 8.98365 24.067 9.83464C23.7234 11.0697 23.2776 12.7459 23.1072 13.715H23.1031ZM19.0838 13.7896C19.2078 13.0879 19.0892 12.507 18.7266 12.0496C18.3639 11.5909 17.8253 11.3615 17.1123 11.3615C16.3992 11.3615 15.7816 11.5882 15.2621 12.0428C14.7413 12.4975 14.4196 13.0798 14.2928 13.7896C14.1742 14.4587 14.305 15.0328 14.6841 15.5119C15.0631 15.991 15.5853 16.2299 16.2493 16.2299C16.9541 16.2299 17.5718 16.0005 18.1008 15.5418C18.6298 15.083 18.957 14.4994 19.0838 13.7882V13.7896Z" fill="#706DF2"/>
+  <path d="M56.0445 13.715C55.9313 14.3515 55.8018 15.2961 55.6546 16.5516C55.5809 17.1772 55.4569 18.0445 55.3519 18.7584C55.2469 19.4723 54.6088 20.0261 53.8685 20.0139L52.3974 19.9908C51.6461 19.9786 51.0026 19.4099 50.9481 18.6634C50.944 18.6146 50.9385 18.5861 50.9276 18.5847C50.8554 18.6173 50.7558 18.6878 50.629 18.7951C49.5342 19.7288 48.4558 20.1944 47.3951 20.1944C45.7767 20.1944 44.5496 19.5578 43.7139 18.2861C42.9204 17.0972 42.6709 15.6762 42.9626 14.0244C43.3008 12.1161 44.0915 10.5811 45.335 9.41661C46.6275 8.21139 48.2104 7.60742 50.0851 7.60742C51.3871 7.60742 52.336 8.06209 52.9305 8.97008C52.9564 9.01215 52.9823 9.03251 53.0068 9.03251C53.0355 9.03251 53.1759 8.78821 53.3368 8.48962C53.6776 7.85579 54.407 7.53142 55.1078 7.70514L55.87 7.8938C56.7303 8.10688 57.2456 8.98365 57.0084 9.83464C56.6648 11.0697 56.219 12.7459 56.0486 13.715H56.0445ZM52.0238 13.7896C52.1479 13.0879 52.0293 12.507 51.6666 12.0496C51.3039 11.5909 50.7654 11.3615 50.0523 11.3615C49.3393 11.3615 48.7216 11.5882 48.2022 12.0428C47.6814 12.4975 47.3596 13.0798 47.2328 13.7896C47.1142 14.4587 47.2451 15.0328 47.6241 15.5119C48.0031 15.991 48.5253 16.2299 49.1893 16.2299C49.8942 16.2299 50.5118 16.0005 51.0408 15.5418C51.5698 15.083 51.897 14.4994 52.0238 13.7882V13.7896Z" fill="#706DF2"/>
+  <path d="M2.28785 20.1944C1.64159 20.1944 1.16713 20.1088 0.860364 19.9406C0.554962 19.7709 0.404987 19.5551 0.414531 19.2932C0.422712 19.0312 0.444526 18.7394 0.478611 18.4177L1.94836 10.0708C1.99881 9.78305 1.89791 9.63918 1.64296 9.63918H0.674941C0.249559 9.63918 0.0709535 9.4451 0.139124 9.05557L0.444526 7.50833C0.529057 7.17038 0.775833 7.00073 1.18349 7.00073H1.97836C2.07652 6.36554 2.1256 5.84979 2.17741 5.27569C2.30557 3.84381 2.72959 2.62095 3.83395 1.62202C4.93831 0.62446 6.37397 0.125 8.14231 0.125C9.55206 0.125 10.7205 0.434448 11.6463 1.05063C12.572 1.66817 13.0356 2.43365 13.0356 3.34706C13.0356 4.07454 12.8147 4.71244 12.3729 5.26211C11.9312 5.81179 11.2931 6.08731 10.4615 6.08731C9.79884 6.08731 9.27802 5.91901 8.85536 5.6435C7.36926 4.67172 8.10686 3.03761 8.75311 2.99283C8.15185 2.7621 6.63165 3.2317 6.43396 4.56586C6.224 5.97602 7.44424 6.93558 8.95762 7.00208H10.0783C10.1806 7.00208 10.2733 7.03601 10.3592 7.10388C10.4437 7.17174 10.4696 7.28982 10.4355 7.45947L10.1547 9.18451C10.1206 9.33652 10.0661 9.45052 9.98972 9.52653C9.91337 9.60253 9.77294 9.64054 9.56979 9.64054H7.30108C7.08021 9.64054 6.94387 9.76676 6.89343 10.0206L5.55047 17.5301C5.50003 17.902 5.4264 18.2155 5.33369 18.4693C5.23962 18.7231 5.08283 18.9973 4.86196 19.2945C4.64108 19.5904 4.31796 19.8143 3.89394 19.9663C3.46856 20.1184 2.9341 20.1944 2.28785 20.1944Z" fill="#706DF2" stroke="#706DF2" stroke-width="0.25" stroke-miterlimit="10"/>
+  <path d="M29.0007 6.646C29.1534 6.65414 29.2938 6.65821 29.4206 6.684C29.5474 6.70979 29.666 6.75593 29.7778 6.8238C29.8883 6.89166 29.9851 6.95002 30.071 7.00159C30.1555 7.05181 30.2373 7.13324 30.3136 7.24318C30.39 7.35312 30.45 7.43726 30.4922 7.49698C30.5345 7.5567 30.585 7.64899 30.6449 7.77657C30.7049 7.90279 30.7431 7.99237 30.7595 8.04259C30.7758 8.09281 30.8058 8.18238 30.8481 8.30861C30.8904 8.43483 30.9122 8.50812 30.9122 8.52441C30.9626 8.67642 31.039 8.75242 31.1412 8.75242C31.2258 8.75242 31.3362 8.67642 31.4725 8.52441C32.6955 7.10339 33.8517 6.39355 34.9383 6.39355C35.4823 6.39355 35.954 6.51163 36.3522 6.74915C36.7516 6.98666 37.0407 7.28254 37.2193 7.63678C37.3979 7.99237 37.4865 8.3819 37.4865 8.804C37.4865 9.71741 37.2316 10.4028 36.7216 10.8588C36.2117 11.3149 35.5655 11.5442 34.7842 11.5442C34.3929 11.5442 34.0357 11.4723 33.714 11.3284C33.3908 11.1846 33.1441 11.0326 32.975 10.8724C32.8046 10.7123 32.6137 10.5603 32.401 10.4164C32.1883 10.2725 31.9893 10.2006 31.8025 10.2006C31.1562 10.2006 30.7322 10.8344 30.5277 12.1034L29.6101 17.5323C29.542 17.9219 29.4615 18.2381 29.3674 18.4838C29.2734 18.7294 29.1207 18.9995 28.9093 19.2954C28.6966 19.5913 28.3735 19.8152 27.9413 19.9672C27.5078 20.1192 26.9856 20.1952 26.3734 20.1952C25.7108 20.1952 25.2227 20.1111 24.9077 19.9414C24.5928 19.7731 24.4401 19.5519 24.4496 19.2818C24.4578 19.0117 24.4796 18.7158 24.5137 18.3942L25.6862 11.3162C25.6862 11.3162 25.9848 6.47906 28.9993 6.64736L29.0007 6.646Z" fill="#706DF2"/>
+  <path d="M35.5192 6.646C35.6719 6.65414 35.8124 6.65821 35.9392 6.684C36.066 6.70979 36.1846 6.75593 36.2964 6.8238C36.4068 6.89166 36.5036 6.95002 36.5895 7.00159C36.674 7.05181 36.7558 7.13324 36.8322 7.24318C36.9085 7.35312 36.9685 7.43726 37.0108 7.49698C37.0531 7.5567 37.1035 7.64899 37.1635 7.77657C37.2235 7.90279 37.2617 7.99237 37.278 8.04259C37.2944 8.09281 37.3244 8.18238 37.3667 8.30861C37.4089 8.43483 37.4307 8.50812 37.4307 8.52441C37.4812 8.67642 37.5575 8.75242 37.6598 8.75242C37.7443 8.75242 37.8547 8.67642 37.9911 8.52441C39.2141 7.10339 40.3702 6.39355 41.4569 6.39355C42.0009 6.39355 42.4726 6.51163 42.8707 6.74915C43.2702 6.98666 43.5592 7.28254 43.7378 7.63678C43.9164 7.99237 44.0051 8.3819 44.0051 8.804C44.0051 9.71741 43.7501 10.4028 43.2402 10.8588C42.7303 11.3149 42.084 11.5442 41.3028 11.5442C40.9115 11.5442 40.5543 11.4723 40.2325 11.3284C39.9094 11.1846 39.6626 11.0326 39.4936 10.8724C39.3231 10.7123 39.1323 10.5603 38.9196 10.4164C38.7069 10.2725 38.5078 10.2006 38.321 10.2006C37.6748 10.2006 37.2508 10.8344 37.0462 12.1034L36.1287 17.5323C36.0605 17.9219 35.9801 18.2381 35.886 18.4838C35.7919 18.7294 35.6392 18.9995 35.4279 19.2954C35.2152 19.5913 34.8921 19.8152 34.4599 19.9672C34.0263 20.1192 33.5041 20.1952 32.892 20.1952C32.2293 20.1952 31.7412 20.1111 31.4263 19.9414C31.1114 19.7731 30.9587 19.5519 30.9682 19.2818C30.9764 19.0117 30.9982 18.7158 31.0323 18.3942L32.2048 11.3162C32.2048 11.3162 32.5034 6.47906 35.5179 6.64736L35.5192 6.646Z" fill="#706DF2"/>
+</svg></div>
+      <div class="hero-icons">
+        <div class="hero-icon-btn">
+         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <path d="M11.9732 3C13.2857 7.31246 16.6605 10.6874 20.9728 12C16.6605 13.3126 13.2857 16.6875 11.9732 21C10.6607 16.6875 7.28588 13.3126 2.97363 12C7.28588 10.6874 10.6607 7.31246 11.9732 3Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-tabs">
+      <div class="hero-tab">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+  <path d="M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z" stroke="#E2E2FC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+        <span>Option 1</span>
+      </div>
+      <div class="hero-tab">
+       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+  <path d="M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z" stroke="#E2E2FC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+        <span>Option 1</span>
+      </div>
+      <div class="hero-tab">
+       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+  <path d="M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z" stroke="#E2E2FC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+        <span>Option 1</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="content-wrapper">
+    
+    <!-- Hotel Header -->
+    <div class="hotel-header">
+      <h1 class="hotel-title">The Hotel Name</h1>
+      <div class="hotel-location">
+       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <path d="M11.9732 3C13.2857 7.31246 16.6605 10.6874 20.9728 12C16.6605 13.3126 13.2857 16.6875 11.9732 21C10.6607 16.6875 7.28588 13.3126 2.97363 12C7.28588 10.6874 10.6607 7.31246 11.9732 3Z" stroke="#5C5C66" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+        <span>City • Country</span>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-value">00</div>
+        <div class="stat-label">Beds</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">00</div>
+        <div class="stat-label">Availibility</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">00</div>
+        <div class="stat-label">Guests</div>
+      </div>
+    </div>
+
+    <!-- About -->
+    <h2 class="section-title" id="about">About</h2>
+    <p class="about-text">
+      Aston Hotel, Alice Springs NT 0870, Australia is a modern hotel. elegant 5 star hotel overlooking the sea. perfect for a romantic, charming.
+    </p>
+
+    <!-- Photos -->
+    <h2 class="section-title">Photos</h2>
+    <div class="photos-grid">
+      <div class="photo-item">
+        <img src="./img/46.png" alt="Photo 1">
+      </div>
+      <div class="photo-item">
+        <img src="./img/47.png" alt="Photo 2">
+      </div>
+      <div class="photo-item">
+        <img src="./img/48.png" alt="Photo 3">
+      </div>
+      <div class="photo-item">
+        <img src="./img/49.png" alt="Photo 4">
+      </div>
+      <div class="photo-item">
+        <img src="./img/50.png" alt="Photo 5">
+      </div>
+      <div class="photo-item photo-more">
+        <span>9 more</span>
+      </div>
+    </div>
+
+    <!-- ✅ Lightbox Overlay -->
+<div id="imageViewerOverlay" class="image-viewer-overlay">
+  <div class="image-viewer-content">
+    <div class="image-wrapper">
+      <img id="mainViewerImage" src="" alt="Large view" class="main-viewer-img">
+
+      <!-- 🔹 SVG بالای راست -->
+      <div class="top-right-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <path d="M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z" stroke="#E2E2FC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </div>
+
+    <div class="thumbnail-scroll"></div>
+    <span class="close-btn" id="closeViewer"><a href="#about"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+  <path d="M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg></a></span>
+  </div>
+</div>
+
+
+    <!-- Services -->
+    <h2 class="section-title">Services</h2>
+  <div class="container">
+    <!-- ردیف با دو ستون در موبایل -->
+    <div class="row row-gap">
+      <!-- ستون اول -->
+      <div class="col-6 p-0">
+        <div class="column-box">
+          <p><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+  <path d="M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z" stroke="#5C5C66" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg> Serv & Facilites 1</p>
+          <p><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+  <path d="M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z" stroke="#5C5C66" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg> Serv & Facilites 1</p>
+          <p><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+  <path d="M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z" stroke="#5C5C66" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg> Serv & Facilites 1</p>
+        </div>
+      </div>
+      <!-- ستون دوم -->
+      <div class="col-6 p-0">
+        <div class="box2">
+         <p><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+  <path d="M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z" stroke="#5C5C66" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg> Serv & Facilites 1</p>
+          <p><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+  <path d="M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z" stroke="#5C5C66" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg> Serv & Facilites 1</p>
+          <p><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+  <path d="M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z" stroke="#5C5C66" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg> Serv & Facilites 1</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <!-- Contact -->
+    <h2 class="section-title">Contact</h2>
+    <div class="contact-map">
+      <img src="./img/Image.png" alt="Map">
+    </div>
+
+    <div class="card contact-card">
+    
+    <!-- Address -->
+    <div class="contact-row" id="cont">
+      <div>
+        <p class="contact-text mb-0">Address line 1,</p>
+        <p class="contact-text mb-0">Unit, Floor, Building,</p>
+        <p class="contact-text mb-0">Valley, Street,</p>
+        <p class="contact-text mb-0">City, Country</p>
+      </div>
+      <div class="contact-icon-group">
+        <span class="contact-icon">
+          <!-- sparkle icon -->
+         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+  <path d="M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+        </span>
+        <a href="#" class="contact-link">Direction</a>
+      </div>
+    </div>
+
+    <!-- Phone 1 -->
+    <div class="contact-row">
+      <p class="contact-text mb-0">+964 750 885 1869</p>
+      <div class="contact-icon-group">
+        <span class="contact-icon">
+         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+  <path d="M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+        </span>
+        <span class="contact-icon">
+         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+  <path d="M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+        </span>
+      </div>
+    </div>
+
+    <!-- Phone 2 -->
+    <div class="contact-row">
+      <p class="contact-text mb-0">+964 750 885 1869</p>
+      <div class="contact-icon-group">
+        <span class="contact-icon">
+         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+  <path d="M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+        </span>
+        <span class="contact-icon">
+         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+  <path d="M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+        </span>
+      </div>
+    </div>
+
+    <!-- Website -->
+    <div class="contact-row">
+      <p class="contact-text mb-0">www.hotel.com</p>
+      <span class="contact-icon">
+       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+  <path d="M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+      </span>
+    </div>
+
+    <!-- Email -->
+    <div class="contact-row">
+      <p class="contact-text mb-0">info@hotel.com</p>
+      <span class="contact-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+  <path d="M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+      </span>
+    </div>
+    
+</div>
+<br>
+    <!-- Know Before -->
+    <div class="know-before">
+      <div class="know-before-title">know before you go ...</div>
+      <div class="know-before-list">
+        <div class="know-before-item">guests of the subject 15 minutes year be aware that the maximum place menu be hockey</div>
+        <div class="know-before-item">guests of the subject 15 minutes year be aware that the maximum place menu be hockey</div>
+        <div class="know-before-item">guests of the subject 15 minutes year be aware that the maximum place menu be hockey</div>
+      </div>
+    </div>
+
+    <!-- Bottom Actions -->
+    <div class="bottom-actions">
+      <div class="action-btn" id="openTerms">
+  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+    <path d="M15.9993 1C18.1868 8.18743 23.8114 13.8123 30.9986 16C23.8114 18.1877 18.1868 23.8125 15.9993 31C13.8118 23.8125 8.18708 18.1877 1 16C8.18708 13.8123 13.8118 8.18743 15.9993 1Z" stroke="#706DF2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+  <span>Terms</span>
+</div>
+      <!-- ✅ دکمه باز کردن مودال Privacy -->
+<div class="action-btn" id="openPrivacy">
+  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+    <path d="M15.9993 1C18.1868 8.18743 23.8114 13.8123 30.9986 16C23.8114 18.1877 18.1868 23.8125 15.9993 31C13.8118 23.8125 8.18708 18.1877 1 16C8.18708 13.8123 13.8118 8.18743 15.9993 1Z" stroke="#706DF2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+  <span>Privacy</span>
+</div>
+      <div class="action-btn">
+       <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+  <path d="M15.9993 1C18.1868 8.18743 23.8114 13.8123 30.9986 16C23.8114 18.1877 18.1868 23.8125 15.9993 31C13.8118 23.8125 8.18708 18.1877 1 16C8.18708 13.8123 13.8118 8.18743 15.9993 1Z" stroke="#706DF2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+        <span>Sample</span>
+      </div>
+    </div>
+
+  </div>
+
+<!-- ✅ مودال پایین به بالا -->
+<div id="termsModal" class="fara-modal">
+  <div class="fara-modal-content">
+    <div class="fara-modal-header">
+      <h2>Terms & Condition</h2>
+      <!-- 👇 کلاس جدید مخصوص کلوز -->
+      <span id="closeTerms" class="fara-close-btn">Close</span>
+    </div>
+    <div class="fara-modal-body">
+      <h3>About</h3>
+      <p><strong>Aston Hotel, Alice Springs NT 0870, Australia</strong> is a modern hotel. elegant 5 star hotel overlooking the sea. perfect for a romantic, charming.</p>
+      <p>Aston Hotel, Alice Springs NT 0870, Australia is a modern hotel. elegant 5 star hotel overlooking the sea. perfect for a romantic, charming.</p>
+      <p><strong>Aston Hotel, Alice Springs NT 0870, Australia</strong> is a modern hotel. elegant 5 star hotel overlooking the sea. perfect for a romantic, charming.</p>
+      <p>Aston Hotel, Alice Springs NT 0870, Australia is a modern hotel. elegant 5 star hotel overlooking the sea. perfect for a romantic, charming.</p>
+       <p><strong>Aston Hotel, Alice Springs NT 0870, Australia</strong> is a modern hotel. elegant 5 star hotel overlooking the sea. perfect for a romantic, charming.</p>
+      <p>Aston Hotel, Alice Springs NT 0870, Australia is a modern hotel. elegant 5 star hotel overlooking the sea. perfect for a romantic, charming.</p>
+      <p><strong>Aston Hotel, Alice Springs NT 0870, Australia</strong> is a modern hotel. elegant 5 star hotel overlooking the sea. perfect for a romantic, charming.</p>
+      <p>Aston Hotel, Alice Springs NT 0870, Australia is a modern hotel. elegant 5 star hotel overlooking the sea. perfect for a romantic, charming.</p>
+       <p><strong>Aston Hotel, Alice Springs NT 0870, Australia</strong> is a modern hotel. elegant 5 star hotel overlooking the sea. perfect for a romantic, charming.</p>
+      <p>Aston Hotel, Alice Springs NT 0870, Australia is a modern hotel. elegant 5 star hotel overlooking the sea. perfect for a romantic, charming.</p>
+      <p><strong>Aston Hotel, Alice Springs NT 0870, Australia</strong> is a modern hotel. elegant 5 star hotel overlooking the sea. perfect for a romantic, charming.</p>
+      <p>Aston Hotel, Alice Springs NT 0870, Australia is a modern hotel. elegant 5 star hotel overlooking the sea. perfect for a romantic, charming.</p>
+       <p><strong>Aston Hotel, Alice Springs NT 0870, Australia</strong> is a modern hotel. elegant 5 star hotel overlooking the sea. perfect for a romantic, charming.</p>
+      <p>Aston Hotel, Alice Springs NT 0870, Australia is a modern hotel. elegant 5 star hotel overlooking the sea. perfect for a romantic, charming.</p>
+      <p><strong>Aston Hotel, Alice Springs NT 0870, Australia</strong> is a modern hotel. elegant 5 star hotel overlooking the sea. perfect for a romantic, charming.</p>
+      <p>Aston Hotel, Alice Springs NT 0870, Australia is a modern hotel. elegant 5 star hotel overlooking the sea. perfect for a romantic, charming.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ✅ مودال Privacy Policy -->
+<div id="privacyModal" class="fara-modal">
+  <div class="fara-modal-content">
+    <div class="fara-modal-header">
+      <h2>Privacy Policy</h2>
+      <span id="closePrivacy" class="fara-close-btn">Close</span>
+    </div>
+    <div class="fara-modal-body">
+      <h3>About</h3>
+      <p><strong>Aston Hotel, Alice Springs NT 0870, Australia is a modern hotel. elegant 5 star hotel overlooking the sea. perfect for a romantic, charming.</strong></p>
+      <p>Aston Hotel, Alice Springs NT 0870, Australia is a modern hotel. elegant 5 star hotel overlooking the sea. perfect for a romantic, charming.</p>
+      <p>Aston Hotel, Alice Springs NT 0870, Australia is a modern hotel. elegant 5 star hotel overlooking the sea. perfect for a romantic, charming.</p>
+      <p>Aston Hotel, Alice Springs NT 0870, Australia is a modern hotel. elegant 5 star hotel overlooking the sea. perfect for a romantic, charming.</p>
+      <p>Aston Hotel, Alice Springs NT 0870, Australia is a modern hotel. elegant 5 star hotel overlooking the sea. perfect for a romantic, charming. Aston Hotel, Alice Springs NT 0870, Australia is a modern hotel. elegant 5 star hotel overlooking the sea. perfect for a romantic, charming.</p>
+      <h3>About</h3>
+      <p><strong>Aston Hotel, Alice Springs NT 0870, Australia is a modern hotel. elegant 5 star hotel overlooking the sea. perfect for a romantic, charming.</strong></p>
+      <p>Aston Hotel, Alice Springs NT 0870, Australia is a modern hotel. elegant 5 star hotel overlooking the sea. perfect for a romantic, charming.</p>
+      <p>Aston Hotel, Alice Springs NT 0870, Australia is a modern hotel. elegant 5 star hotel overlooking the sea. perfect for a romantic, charming.</p>
+      <p>Aston Hotel, Alice Springs NT 0870, Australia is a modern hotel. elegant 5 star hotel overlooking the sea. perfect for a romantic, charming.</p>
+    </div>
+  </div>
+</div>
+
+  <!-- Reserve Bar -->
+   <div class="fara-bottom-nav">
+        <div class="fara-bottom-container">
+          <div class="fara-bottom-item active">
+            <span class="fara-bottom-icon"><span class="fara-bottom-text">50 USD</span> /night</span>
+
+          </div>
+          <div class="fara-bottom-item">
+            <div class="text-center">
+              <a href="./hotel_booking_page.html" class="btn-btn">Reserve Now</a>
+            </div>
+          </div>
+        </div>
+      </div>
+<script>
+const photoItems = document.querySelectorAll(".photos-grid .photo-item:not(.photo-more)");
+const moreBtn = document.querySelector(".photo-more");
+const overlay = document.getElementById("imageViewerOverlay");
+const mainImg = document.getElementById("mainViewerImage");
+const thumbnailsContainer = document.querySelector(".thumbnail-scroll");
+const closeBtn = document.getElementById("closeViewer");
+const bottomNav = document.querySelector(".fara-bottom-nav");
+
+// 📸 بازشدن مودال
+moreBtn.addEventListener("click", () => {
+  thumbnailsContainer.innerHTML = "";
+
+  photoItems.forEach((item, index) => {
+    const thumb = item.querySelector("img").cloneNode();
+    thumb.addEventListener("click", () => showImage(index));
+    thumbnailsContainer.appendChild(thumb);
+  });
+
+  showImage(0);
+  overlay.style.display = "flex";
+  document.body.style.overflow = "hidden";
+if (bottomNav) bottomNav.style.visibility = "hidden"; // مودال باز میشه ولی فضا حفظ میشه
+});
+
+function showImage(index) {
+  const thumbs = thumbnailsContainer.querySelectorAll("img");
+  thumbs.forEach(el => el.classList.remove("active"));
+  thumbs[index].classList.add("active");
+  mainImg.src = thumbs[index].src;
+}
+
+// بستن مودال
+closeBtn.addEventListener("click", () => {
+  overlay.style.display = "none";
+  document.body.style.overflow = "auto";
+if (bottomNav) bottomNav.style.visibility = "visible"; // برگردوندن حالت
+});
+
+</script>
+
+<script>
+const openTerms = document.getElementById("openTerms");
+const termsModal = document.getElementById("termsModal");
+const closeTerms = document.getElementById("closeTerms");
+
+openTerms.addEventListener("click", () => {
+  termsModal.classList.add("show");
+  document.body.style.overflow = "hidden";
+});
+closeTerms.addEventListener("click", () => {
+  termsModal.classList.remove("show");
+  document.body.style.overflow = "auto";
+});
+openTerms.addEventListener("click", () => {
+  termsModal.classList.add("show");
+  document.body.style.overflow = "hidden";
+});
+
+closeTerms.addEventListener("click", () => {
+  termsModal.classList.remove("show");
+  document.body.style.overflow = "auto";
+});
+
+// ✅ بستن مودال با کلیک روی فضای بیرونی
+window.addEventListener("click", (e) => {
+  if (e.target === termsModal) {
+    termsModal.classList.remove("show");
+    document.body.style.overflow = "auto";
+  }
+});
+</script>
+
+<script>
+const openPrivacy = document.getElementById("openPrivacy");
+const privacyModal = document.getElementById("privacyModal");
+const closePrivacy = document.getElementById("closePrivacy");
+
+openPrivacy.addEventListener("click", () => {
+  privacyModal.classList.add("show");
+  document.body.style.overflow = "hidden";
+});
+closePrivacy.addEventListener("click", () => {
+  privacyModal.classList.remove("show");
+  document.body.style.overflow = "auto";
+});
+
+// ✅ بستن با کلیک بیرون مودال
+window.addEventListener("click", (e) => {
+  if (e.target === privacyModal) {
+    privacyModal.classList.remove("show");
+    document.body.style.overflow = "auto";
+  }
+});
+
+
+</script>
+
+
+
+
+
+</body>
+</html>
