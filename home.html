@@ -470,7 +470,7 @@ html,body {
 
 
 
-
+R(&PoW?!EDZHA1q2
 
 
 
@@ -558,3 +558,120 @@ html,body {
     </platform>
 
 </widget>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<?php
+// ======= تنظیمات پایه =======
+$API_KEY = "";
+$DB_HOST = "localhost";
+$DB_USER = "";
+$DB_PASS = "";
+$DB_NAME = "";
+
+$conn = mysqli_connect($DB_HOST, $DB_USER, $DB_PASS, $DB_NAME);
+mysqli_set_charset($conn, "utf8mb4");
+
+$update = json_decode(file_get_contents("php://input"), TRUE);
+$chat_id = $update["message"]["chat"]["id"];
+$text    = $update["message"]["text"];
+$full_name = $update["message"]["from"]["first_name"] . " " . $update["message"]["from"]["last_name"];
+$username = $update["message"]["from"]["username"];
+
+function sendMessage($chat_id, $text, $btns = null) {
+    $url = "https://api.telegram.org/bot" . $GLOBALS["API_KEY"] . "/sendMessage";
+    $data = [
+        'chat_id' => $chat_id,
+        'text' => $text,
+        'parse_mode' => "HTML"
+    ];
+    if ($btns) $data['reply_markup'] = json_encode(['keyboard' => $btns, 'resize_keyboard' => true]);
+    file_get_contents($url . "?" . http_build_query($data));
+}
+
+// ======= شروع ربات (/start) =======
+if ($text == "/start") {
+    sendMessage($chat_id, "👋 سلام محمد جووون!\nخوش آمدی به <b>ربات مشاورین املاک</b>\nبرای ادامه روی دکمه زیر بزن:", [
+        [['text' => "📝 ثبت‌نام"]]
+    ]);
+    exit;
+}
+
+// ======= ثبت‌نام =======
+if ($text == "📝 ثبت‌نام") {
+    // بررسی وجود کاربر
+    $check = mysqli_query($conn, "SELECT * FROM users WHERE chat_id = '$chat_id'");
+    if (mysqli_num_rows($check) == 0) {
+        // درج کاربر جدید
+        mysqli_query($conn, "INSERT INTO users (chat_id, full_name, username) VALUES ('$chat_id', '$full_name', '$username')");
+        sendMessage($chat_id, "✅ ثبت‌نامت با موفقیت انجام شد {$full_name}!\nلطفاً شماره تماس خودت رو ارسال کن:");
+    } else {
+        sendMessage($chat_id, "📢 شما قبلاً ثبت‌نام کردی!\nاز منوی زیر استفاده کن.", [
+            [['text' => "📢 آگهی‌های استان تهران"]],
+            [['text' => "🏠 ثبت منطقه کاری"]],
+            [['text' => "💳 خرید اشتراک"]]
+        ]);
+    }
+    exit;
+}
+
+// ======= ثبت شماره تماس =======
+if (is_numeric($text) && strlen($text) >= 10) {
+    mysqli_query($conn, "UPDATE users SET phone='$text' WHERE chat_id='$chat_id'");
+    sendMessage($chat_id, "📱 شماره تماس ذخیره شد!\nیکی از گزینه‌های زیر رو انتخاب کن:", [
+        [['text' => "📢 آگهی‌های استان تهران"]],
+        [['text' => "🏠 ثبت منطقه کاری"]],
+        [['text' => "💳 خرید اشتراک"]]
+    ]);
+    exit;
+}
+
+// ======= ارسال آگهی‌های استان =======
+if ($text == "📢 آگهی‌های استان تهران") {
+    sendMessage($chat_id, "📋 در حال حاضر هیچ آگهی فعالی وجود ندارد.\nبه زودی اضافه خواهد شد!");
+    exit;
+}
+
+// ======= ثبت منطقه کاری =======
+if ($text == "🏠 ثبت منطقه کاری") {
+    sendMessage($chat_id, "📍 لطفاً نام منطقه کاری‌ات رو بنویس (مثلاً: تجریش، نیاوران و...)");
+    exit;
+}
+
+// اگر متن منطقه بود
+$regions = ["تجریش", "نیاوران", "پیروزی", "جنت‌آباد", "شهرک‌غرب", "سعادت‌آباد", "ونک", "اکباتان"];
+foreach ($regions as $r) {
+    if (mb_strpos($text, $r) !== false) {
+        mysqli_query($conn, "UPDATE users SET region='$text' WHERE chat_id='$chat_id'");
+        sendMessage($chat_id, "✅ منطقه کاری «{$text}» ثبت شد.");
+        exit;
+    }
+}
+
+// ======= خرید اشتراک =======
+if ($text == "💳 خرید اشتراک") {
+    sendMessage($chat_id, "💵 برای خرید اشتراک از لینک زیر استفاده کن:\nhttps://zarinp.al/your-zarinpal-link");
+    exit;
+}
+?>
