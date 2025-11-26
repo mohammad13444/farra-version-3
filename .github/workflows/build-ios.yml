@@ -38,6 +38,16 @@ jobs:
           echo "📂 Inspecting platforms/ios:"
           ls -R platforms/ios
 
+      - name: 🔍 Debug - List iOS file
+        run: |
+          echo "📂 Contents of platforms/ios:"
+          ls -la platforms/ios/
+          echo ""
+          echo "📄 Project files:"
+          ls -la platforms/ios/*.xcodeproj 2>/dev/null || echo "No .xcodeproj found"
+          ls -la platforms/ios/*.xcworkspace 2>/dev/null || echo "No .xcworkspace found"
+
+
       # -------------------------------
       # 3️⃣ Provisioning Profile & Certificate Setup
       # -------------------------------
@@ -83,28 +93,17 @@ jobs:
           echo "📘 Building workspace/project..."
           security list-keychains -s ~/Library/Keychains/ios-build.keychain
 
-          if [ -e "Farra.xcworkspace" ]; then
-            echo "📘 Using .xcworkspace"
-           xcodebuild \
-            -workspace Farra.xcworkspace \
-             -scheme Farra \
-             -configuration Release \
-            -archivePath $PWD/../../build/Farra.xcarchive \
-              clean archive \
-            -destination generic/platform=iOS \
-              CODE_SIGN_STYLE=Manual \
-                       CODE_SIGN_IDENTITY="Apple Distribution" \
-                DEVELOPMENT_TEAM="$TEAM_ID" \
-             PROVISIONING_PROFILE_SPECIFIER="$PROFILE_UUID" \
-              OTHER_CODE_SIGN_FLAGS="--keychain ~/Library/Keychains/ios-build.keychain" \
-              CODE_SIGNING_ALLOWED=YES \
-             CODE_SIGNING_REQUIRED=YES \
-              ALL_OTHER_SWIFT_FLAGS="-warnings-as-errors"
-
-          else
-            echo "📗 Using .xcodeproj"
-            xcodebuild -project Farra.xcodeproj \
-              -scheme farra \
+          # 🔍 یافتن خودکار نام پروژه
+          WORKSPACE=$(ls -1 *.xcworkspace 2>/dev/null | head -n 1)
+          PROJECT=$(ls -1 *.xcodeproj 2>/dev/null | head -n 1)
+          
+          # استخراج نام scheme از پروژه
+          if [ -n "$WORKSPACE" ]; then
+            echo "📘 Using workspace: $WORKSPACE"
+            SCHEME=$(xcodebuild -workspace "$WORKSPACE" -list | grep -A 1 "Schemes:" | tail -n 1 | xargs)
+            
+            xcodebuild -workspace "$WORKSPACE" \
+              -scheme "$SCHEME" \
               -configuration Release \
               -archivePath $PWD/../../build/Farra.xcarchive \
               clean archive \
@@ -114,8 +113,30 @@ jobs:
               PROVISIONING_PROFILE_SPECIFIER="$PROFILE_UUID" \
               DEVELOPMENT_TEAM="$TEAM_ID" \
               OTHER_CODE_SIGN_FLAGS="--keychain ~/Library/Keychains/ios-build.keychain"
+              
+          elif [ -n "$PROJECT" ]; then
+            echo "📗 Using project: $PROJECT"
+            SCHEME=$(xcodebuild -project "$PROJECT" -list | grep -A 1 "Schemes:" | tail -n 1 | xargs)
+            
+            xcodebuild -project "$PROJECT" \
+              -scheme "$SCHEME" \
+              -configuration Release \
+              -archivePath $PWD/../../build/Farra.xcarchive \
+              clean archive \
+              -destination generic/platform=iOS \
+              CODE_SIGN_STYLE=Manual \
+              CODE_SIGN_IDENTITY="Apple Distribution" \
+              PROVISIONING_PROFILE_SPECIFIER="$PROFILE_UUID" \
+              DEVELOPMENT_TEAM="$TEAM_ID" \
+              OTHER_CODE_SIGN_FLAGS="--keychain ~/Library/Keychains/ios-build.keychain"
+          else
+            echo "❌ No Xcode project or workspace found!"
+            ls -la
+            exit 1
           fi
+          
           echo "✅ Archive phase completed."
+
 
       # -------------------------------
       # 📄 Create ExportOptions.plist
