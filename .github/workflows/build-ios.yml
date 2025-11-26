@@ -85,8 +85,8 @@ jobs:
 
           if [ -e "Farra.xcworkspace" ]; then
             echo "📘 Using .xcworkspace"
-            xcodebuild -workspace App.xcworkspace \
-              -scheme App \
+            xcodebuild -workspace Farra.xcworkspace \
+              -scheme farra \
               -configuration Release \
               -archivePath $PWD/../../build/Farra.xcarchive \
               clean archive \
@@ -98,8 +98,8 @@ jobs:
               OTHER_CODE_SIGN_FLAGS="--keychain ~/Library/Keychains/ios-build.keychain"
           else
             echo "📗 Using .xcodeproj"
-            xcodebuild -project App.xcodeproj \
-              -scheme App \
+            xcodebuild -project Farra.xcodeproj \
+              -scheme farra \
               -configuration Release \
               -archivePath $PWD/../../build/Farra.xcarchive \
               clean archive \
