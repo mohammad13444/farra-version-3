@@ -3,7 +3,7 @@
 <widget id="com.farra.app" version="1.0.5" ios-CFBundleVersion="7" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
 
 
-    <name>Farra</name>
+    <name>farra</name>
     <description>Farra App - finds the place</description>
     <author email="dev@cordova.apache.org" href="https://cordova.apache.org">
         Apache Cordova Team
