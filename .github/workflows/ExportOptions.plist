@@ -9,7 +9,7 @@
     <string>72M97MR8UU</string>
     <key>provisioningProfiles</key>
 <dict>
-    <key>com.App.app</key>
+    <key>com.farra.app</key>
     <string>${PROFILE_UUID}</string>
 </dict>
 

@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
 
-<widget id="com.App.app" ios-CFBundleVersion="7" version="1.0.5" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.farra.app" ios-CFBundleVersion="7" version="1.0.5" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
 
-    <name>App</name>  <!-- ✅ با حروف بزرگ -->
+    <name>farra</name>  <!-- ✅ با حروف بزرگ -->
 
 
   
