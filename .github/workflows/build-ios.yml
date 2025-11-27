@@ -206,12 +206,13 @@ jobs:
             --username "farokgraphic@gmail.com" \
             --password "xhjf-xsvk-lcfe-yoda"
 
-      - name: 📱 Distribute to TestFlight
+      - name: 📤 Upload to TestFlight
+        env:
+          APP_STORE_CONNECT_PASSWORD: ${{ secrets.APP_STORE_CONNECT_PASSWORD }}
         run: |
-          sleep 120
-    
-          xcrun altool --list-builds \
-          --app-id "com.farra.app" \
-          --username "farokgraphic@gmail.com" \
+          xcrun altool --upload-app \
+          --type ios \
+          --file platforms/ios/Farra.ipa \
+          --username farokgraphic@gmail.com \
           --password "xhjf-xsvk-lcfe-yoda"
 
