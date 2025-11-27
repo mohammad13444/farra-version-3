@@ -33,8 +33,7 @@ jobs:
           npm install
 
           echo "🧱 (Re)building iOS platform..."
-          cordova platform remove ios || true
-          cordova platform add ios
+         
           echo "📂 Inspecting platforms/ios:"
           ls -R platforms/ios
 
