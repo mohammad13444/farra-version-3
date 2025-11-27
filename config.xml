@@ -1,74 +1,65 @@
 <?xml version='1.0' encoding='utf-8'?>
-
-<widget id="com.farra.app" version="1.0.6" ios-CFBundleVersion="8" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-
-    <name>farra</name>  <!-- ✅ با حروف بزرگ -->
-
-
-  
-
-    <!-- صفحه اولیه -->
+<widget id="com.farra.app" ios-CFBundleVersion="7" version="1.0.5" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <feature name="CDVWebViewEngine">
+        <param name="ios-package" value="CDVWebViewEngine" />
+    </feature>
+    <feature name="LaunchScreen">
+        <param name="ios-package" value="CDVLaunchScreen" />
+    </feature>
+    <feature name="LocalStorage">
+        <param name="ios-package" value="CDVLocalStorage" />
+    </feature>
+    <feature name="Console">
+        <param name="ios-package" value="CDVLogger" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="HandleOpenUrl">
+        <param name="ios-package" value="CDVHandleOpenURL" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="IntentAndNavigationFilter">
+        <param name="ios-package" value="CDVIntentAndNavigationFilter" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="GestureHandler">
+        <param name="ios-package" value="CDVGestureHandler" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="StatusBar">
+        <param name="ios-package" value="CDVStatusBar" />
+        <param name="onload" value="true" />
+    </feature>
+    <name>farra</name>
+    <description>Farra App - finds the place</description>
+    <author email="dev@cordova.apache.org" href="https://cordova.apache.org">
+        Apache Cordova Team
+    </author>
     <content src="splash.html" />
-
-    <!-- دسترسی‌ها -->
-    <allow-intent href="http://*/*"/>
-    <allow-intent href="https://*/*"/>
-
-    <!-- تنظیمات ظاهری -->
-    <preference name="StatusBarBackgroundColor" value="#383838ff"/>
-    <preference name="StatusBarStyle" value="default"/>
-    <preference name="Fullscreen" value="true"/>
-    <preference name="Orientation" value="portrait"/>
-
-    <!-- نمایش/پنهان‌سازی اسپلش پیش‌فرض -->
-    <preference name="ShowSplashScreen" value="false"/>
-    <preference name="AutoHideSplashScreen" value="true"/>
-    <preference name="SplashScreenDelay" value="0"/>
-<preference name="StatusBarOverlaysWebView" value="true" />
-<preference name="allowInlineMediaPlayback" value="true" />
-
-    <!-- ====================== ANDROID ====================== -->
-    <platform name="android">
-
-        <!-- آیکون‌ها -->
-        <icon src="www/resources/48-48.jpg" density="mdpi"/>
-        <icon src="www/resources/72-72.jpg" density="hdpi"/>
-        <icon src="www/resources/96-96.jpg" density="xhdpi"/>
-        <icon src="www/resources/144-144.jpg" density="xxhdpi"/>
-        <icon src="www/resources/192-192.jpg" density="xxxhdpi"/>
-
-        <!-- مجوزها -->
-        <uses-permission android:name="android.permission.BLUETOOTH"/>
-        <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
-        <uses-permission android:name="android.permission.BLUETOOTH_CONNECT"/>
-        <uses-permission android:name="android.permission.BLUETOOTH_SCAN"/>
-        <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-        <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-
-        <!-- قابلیت سخت‌افزاری GPS -->
-        <uses-feature android:name="android.hardware.location.gps"/>
-
-        <!-- جلوگیری از تأثیر دارک‌مود (تنظیم در AndroidManifest.xml به‌صورت پایدار) -->
-        <edit-config file="AndroidManifest.xml" mode="merge" target="/manifest/application/@android:forceDarkAllowed">
-            false
-        </edit-config>
-
-    </platform>
-
-    <!-- ======================= iOS ======================== -->
-    <platform name="ios">
-        <!-- توضیحات مجوز بلوتوث -->
-        <edit-config mode="merge" target="NSBluetoothAlwaysUsageDescription">
-            <string>اپ برای کنترل چراغ نیاز به بلوتوث دارد.</string>
-        </edit-config>
-        <edit-config mode="merge" target="NSBluetoothPeripheralUsageDescription">
-            <string>ارسال/دریافت وضعیت چراغ هوشمند</string>
-        </edit-config>
-
-        <!-- آیکون‌ها -->
-        <icon src="www/resources/120-120.jpg" width="120" height="120"/>
-        <icon src="www/resources/180-180.jpg" width="180" height="180"/>
-        <icon src="www/resources/1024-1024.jpg" width="1024" height="1024"/>
-    </platform>
-
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <edit-config mode="merge" target="NSBluetoothAlwaysUsageDescription">
+        <string>اپ برای کنترل چراغ نیاز به بلوتوث دارد.</string>
+    </edit-config>
+    <edit-config mode="merge" target="NSBluetoothPeripheralUsageDescription">
+        <string>ارسال/دریافت وضعیت چراغ هوشمند</string>
+    </edit-config>
+    <icon height="120" src="www/resources/120-120.jpg" width="120" />
+    <icon height="180" src="www/resources/180-180.jpg" width="180" />
+    <icon height="1024" src="www/resources/1024-1024.jpg" width="1024" />
+    <preference name="AllowInlineMediaPlayback" value="false" />
+    <preference name="DisallowOverscroll" value="false" />
+    <preference name="EnableViewportScale" value="false" />
+    <preference name="MediaTypesRequiringUserActionForPlayback" value="none" />
+    <preference name="SuppressesIncrementalRendering" value="false" />
+    <preference name="SuppressesLongPressGesture" value="false" />
+    <preference name="Suppresses3DTouchGesture" value="false" />
+    <preference name="StatusBarStyle" value="default" />
+    <preference name="StatusBarBackgroundColor" value="#383838ff" />
+    <preference name="Fullscreen" value="true" />
+    <preference name="Orientation" value="portrait" />
+    <preference name="ShowSplashScreen" value="false" />
+    <preference name="AutoHideSplashScreen" value="true" />
+    <preference name="SplashScreenDelay" value="0" />
+    <preference name="StatusBarOverlaysWebView" value="true" />
+    <preference name="allowInlineMediaPlayback" value="true" />
 </widget>
