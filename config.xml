@@ -1,15 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.example.farra"
-        version="1.0.0"
-        xmlns="http://www.w3.org/ns/widgets"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:cdv="http://cordova.apache.org/ns/1.0">
 
-    <name>Farra</name>
-    <description>Farra App - finds the place</description>
-    <author email="dev@cordova.apache.org" href="https://cordova.apache.org">
-        Apache Cordova Team
-    </author>
+<widget id="com.farra.app" version="1.0.6" ios-CFBundleVersion="8" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+
+    <name>farra</name>  <!-- ✅ با حروف بزرگ -->
+
+
+  
 
     <!-- صفحه اولیه -->
     <content src="splash.html" />
@@ -28,6 +24,8 @@
     <preference name="ShowSplashScreen" value="false"/>
     <preference name="AutoHideSplashScreen" value="true"/>
     <preference name="SplashScreenDelay" value="0"/>
+<preference name="StatusBarOverlaysWebView" value="true" />
+<preference name="allowInlineMediaPlayback" value="true" />
 
     <!-- ====================== ANDROID ====================== -->
     <platform name="android">
