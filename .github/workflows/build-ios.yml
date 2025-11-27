@@ -205,3 +205,13 @@ jobs:
             --file "platforms/ios/Farra.ipa" \
             --username "farokgraphic@gmail.com" \
             --password "xhjf-xsvk-lcfe-yoda"
+
+      - name: 📱 Distribute to TestFlight
+        run: |
+          sleep 120
+    
+          xcrun altool --list-builds \
+          --app-id "com.farra.app" \
+          --username "farokgraphic@gmail.com" \
+          --password "xhjf-xsvk-lcfe-yoda"
+
