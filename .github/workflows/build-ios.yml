@@ -83,12 +83,12 @@ jobs:
           echo "📘 Building workspace/project..."
           security list-keychains -s ~/Library/Keychains/ios-build.keychain
 
-          if [ -e "farra.xcworkspace" ]; then
+          if [ -e "APP.xcworkspace" ]; then
             echo "📘 Using .xcworkspace"
-            xcodebuild -workspace farra.xcworkspace \
-              -scheme farra \
+            xcodebuild -workspace APP.xcworkspace \
+              -scheme APP \
               -configuration Release \
-              -archivePath $PWD/../../build/farra.xcarchive \
+              -archivePath $PWD/../../build/APP.xcarchive \
               clean archive \
               -destination generic/platform=iOS \
               CODE_SIGN_STYLE=Manual \
@@ -98,10 +98,10 @@ jobs:
               OTHER_CODE_SIGN_FLAGS="--keychain ~/Library/Keychains/ios-build.keychain"
           else
             echo "📗 Using .xcodeproj"
-            xcodebuild -project farra.xcodeproj \
-              -scheme farra \
+            xcodebuild -project APP.xcodeproj \
+              -scheme APP \
               -configuration Release \
-              -archivePath $PWD/../../build/farra.xcarchive \
+              -archivePath $PWD/../../build/APP.xcarchive \
               clean archive \
               -destination generic/platform=iOS \
               CODE_SIGN_STYLE=Manual \
