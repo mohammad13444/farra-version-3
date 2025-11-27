@@ -1,4 +1,4 @@
-name: iOS Build & Upload to TestFlight with Fastlane
+name: iOS Build & Sign - Farra (Cordova Auto-Setup)
 
 on:
   workflow_dispatch:
@@ -15,42 +15,33 @@ jobs:
       P12_PASSWORD: ${{ secrets.P12_PASSWORD }}
       PROFILE: ${{ secrets.PP_BASE64 }}
       TEAM_ID: 72M97MR8UU
-      FASTLANE_USER: ${{ secrets.APPLE_ID }}
-      FASTLANE_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
-      FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
 
     steps:
       # -------------------------------
-      # 1️⃣ Checkout
+      # 1️⃣ Checkout project
       # -------------------------------
       - name: 🧩 Checkout repository
         uses: actions/checkout@v4
 
       # -------------------------------
-      # 2️⃣ Setup Cordova
+      # 2️⃣ Setup Node & Cordova iOS platform
       # -------------------------------
       - name: ⚙️ Setup Cordova environment
         run: |
-          echo "⬇️ Installing Cordova..."
+          echo "⬇️ Installing Cordova environment..."
           npm install -g cordova
           npm install
 
-          echo "🧱 Rebuilding iOS platform..."
-          cordova platform remove ios
-          cordova platform add ios@7.1.1
+          echo "🧱 (Re)building iOS platform..."
+            
+
+          echo "📂 Inspecting platforms/ios:"
+          ls -R platforms/ios
 
       # -------------------------------
-      # 3️⃣ Install Fastlane
+      # 3️⃣ Provisioning Profile & Certificate Setup
       # -------------------------------
-      - name: 📦 Install Fastlane
-        run: |
-          sudo gem install fastlane -NV
-          fastlane --version
-
-      # -------------------------------
-      # 4️⃣ Certificate & Profile Setup
-      # -------------------------------
-      - name: 🔑 Import Certificate & Provisioning Profile
+      - name: 🔑 Import Certificate & Install Provisioning Profile
         run: |
           mkdir -p ~/signing
           echo "$PROFILE" | base64 --decode > ~/signing/profile.mobileprovision
@@ -58,10 +49,11 @@ jobs:
 
           uuid=$(/usr/libexec/PlistBuddy -c "Print UUID" /dev/stdin <<< "$(security cms -D -i ~/signing/profile.mobileprovision)")
           echo "PROFILE_UUID=$uuid" >> $GITHUB_ENV
-          echo "✅ Profile UUID: $uuid"
+          echo "✅ Provisioning Profile UUID: $uuid"
 
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
           cp ~/signing/profile.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/$uuid.mobileprovision
+          echo "✅ Provisioning profile installed."
 
           echo -n "${{ secrets.P12_PASSWORD }}" | LC_ALL=C tr -d '\r\n' > ~/signing/p12pass.txt
           P12_PASS_CLEAN=$(<~/signing/p12pass.txt)
@@ -69,13 +61,13 @@ jobs:
           security create-keychain -p temp-pass ios-build.keychain
           security unlock-keychain -p temp-pass ios-build.keychain
           security set-keychain-settings -lut 3600 ios-build.keychain
-          security import ~/signing/dist.p12 -k ~/Library/Keychains/ios-build.keychain -A -P "$P12_PASS_CLEAN" -f pkcs12 -T /usr/bin/codesign
-          security set-key-partition-list -S apple-tool:,apple:,codesign: -k temp-pass ~/Library/Keychains/ios-build.keychain
+          security import ~/signing/dist.p12 -k ~/Library/Keychains/ios-build.keychain -A -P "$P12_PASS_CLEAN" -f pkcs12 -T /usr/bin/codesign -T /usr/bin/security
+          security set-key-partition-list -S apple-tool:,apple:,codesign:,keychain: -k temp-pass ~/Library/Keychains/ios-build.keychain
           security list-keychains -s ~/Library/Keychains/ios-build.keychain
-          echo "✅ Certificate imported."
+          echo "✅ Certificate ready for codesign tools."
 
       # -------------------------------
-      # 5️⃣ Setup Xcode
+      # 4️⃣ Setup Xcode
       # -------------------------------
       - name: ⚙️ Setup Xcode
         run: |
@@ -83,39 +75,16 @@ jobs:
           xcodebuild -version
 
       # -------------------------------
-      # 6️⃣ Auto-increment Build Number
+      # 5️⃣ Build & Archive Signed App
       # -------------------------------
-      - name: 🔢 Auto-increment Build Number
+      - name: 🚀 Archive the app (Signed)
         run: |
           cd platforms/ios
-          INFO_PLIST="farra/farra-Info.plist"
-          
-          if [ ! -f "$INFO_PLIST" ]; then
-            echo "❌ Info.plist not found!"
-            find . -name "*Info.plist" -type f
-            exit 1
-          fi
-          
-          CURRENT_BUILD=$(/usr/libexec/PlistBuddy -c "Print :CFBundleVersion" "$INFO_PLIST" 2>/dev/null || echo "1")
-          echo "📊 Current Build: $CURRENT_BUILD"
-          
-          NEW_BUILD=$(date +%Y%m%d%H%M)
-          echo "📊 New Build: $NEW_BUILD"
-          
-          /usr/libexec/PlistBuddy -c "Set :CFBundleVersion $NEW_BUILD" "$INFO_PLIST"
-          
-          VERIFY_BUILD=$(/usr/libexec/PlistBuddy -c "Print :CFBundleVersion" "$INFO_PLIST")
-          echo "✅ Build updated to: $VERIFY_BUILD"
-
-      # -------------------------------
-      # 7️⃣ Archive App
-      # -------------------------------
-      - name: 🚀 Archive the app
-        run: |
-          cd platforms/ios
+          echo "📘 Building workspace/project..."
           security list-keychains -s ~/Library/Keychains/ios-build.keychain
 
           if [ -e "farra.xcworkspace" ]; then
+            echo "📘 Using .xcworkspace"
             xcodebuild -workspace farra.xcworkspace \
               -scheme farra \
               -configuration Release \
@@ -128,6 +97,7 @@ jobs:
               DEVELOPMENT_TEAM="$TEAM_ID" \
               OTHER_CODE_SIGN_FLAGS="--keychain ~/Library/Keychains/ios-build.keychain"
           else
+            echo "📗 Using .xcodeproj"
             xcodebuild -project farra.xcodeproj \
               -scheme farra \
               -configuration Release \
@@ -140,10 +110,10 @@ jobs:
               DEVELOPMENT_TEAM="$TEAM_ID" \
               OTHER_CODE_SIGN_FLAGS="--keychain ~/Library/Keychains/ios-build.keychain"
           fi
-          echo "✅ Archive completed."
+          echo "✅ Archive phase completed."
 
       # -------------------------------
-      # 8️⃣ Create ExportOptions.plist
+      # 📄 Create ExportOptions.plist
       # -------------------------------
       - name: 🧾 Create ExportOptions.plist
         run: |
@@ -173,19 +143,21 @@ jobs:
           </dict>
           </plist>
           EOF
-          echo "✅ ExportOptions.plist created."
+          echo "✅ ExportOptions.plist created successfully with UUID ${PROFILE_UUID}"
+
 
       # -------------------------------
-      # 9️⃣ Export IPA
+      # 6️⃣ Export signed IPA
       # -------------------------------
       - name: 📦 Export IPA from Archive
         run: |
           cd platforms/ios
+          echo "📦 Exporting IPA..."
           security list-keychains -s ~/Library/Keychains/ios-build.keychain
           security unlock-keychain -p temp-pass ~/Library/Keychains/ios-build.keychain
 
           xcodebuild -exportArchive \
-            -archivePath $PWD/../../build/farra.xcarchive \
+            -archivePath $PWD/../../build/Farra.xcarchive \
             -exportOptionsPlist ../../ExportOptions.plist \
             -exportPath $PWD \
             CODE_SIGN_STYLE=Manual \
@@ -193,34 +165,42 @@ jobs:
             DEVELOPMENT_TEAM=$TEAM_ID \
             OTHER_CODE_SIGN_FLAGS="--keychain ~/Library/Keychains/ios-build.keychain"
 
-          echo "✅ IPA exported: $(ls -1 Farra.ipa || echo '❌ Missing!')"
+          echo "✅ IPA exported at: $(ls -1 Farra.ipa || echo '❌ Missing!')"
 
       # -------------------------------
-      # 🔟 Upload Artifact
+      # 7️⃣ Verify Bundle ID
       # -------------------------------
-      - name: ⬆️ Upload IPA Artifact
+      - name: 🔍 Verify Bundle ID in IPA
+        run: |
+          echo "Verifying Bundle ID..."
+          unzip -q platforms/ios/Farra.ipa 'Payload/*.app/Info.plist' -d /tmp
+          INFO_PLIST=$(find /tmp/Payload -name Info.plist)
+          BUNDLE_ID=$(plutil -extract CFBundleIdentifier xml1 -o - "$INFO_PLIST" | xmllint --xpath 'string(//string)' -)
+          echo "Extracted Bundle ID: $BUNDLE_ID"
+
+          if [ "$BUNDLE_ID" != "com.farra.app" ]; then
+            echo "❌ Incorrect Bundle ID ($BUNDLE_ID)"
+            exit 1
+          fi
+          echo "✅ Bundle ID verified successfully."
+
+      # -------------------------------
+      # 8️⃣ Upload Signed IPA as Artifact
+      # -------------------------------
+      - name: ⬆️ Upload Signed IPA Artifact
         uses: actions/upload-artifact@v4
         with:
           name: farra-signed
           path: platforms/ios/Farra.ipa
 
       # -------------------------------
-      # 1️⃣1️⃣ Upload to TestFlight با Fastlane
+      # 9️⃣ Upload to App Store Connect
       # -------------------------------
-      - name: 🚀 Upload to TestFlight with Fastlane
+      - name: 📤 Upload to App Store Connect
         run: |
-          cd platforms/ios
-          
-          echo "🚀 Uploading to TestFlight with notifications..."
-          
-          fastlane pilot upload \
-            --username "$FASTLANE_USER" \
-            --app_identifier "com.farra.app" \
-            --team_id "$TEAM_ID" \
-            --ipa "Farra.ipa" \
-            --skip_waiting_for_build_processing \
-            --notify_external_testers true \
-            --changelog "نسخه جدید آماده است! لطفا تست کنید." \
-            --distribute_external true
-          
-          echo "✅ Upload completed! External testers will receive email notification."
+          echo "🚀 Uploading IPA to App Store Connect..."
+          xcrun altool --upload-app \
+            --type ios \
+            --file "platforms/ios/Farra.ipa" \
+            --username "farokgraphic@gmail.com" \
+            --password "xhjf-xsvk-lcfe-yoda"
