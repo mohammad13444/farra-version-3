@@ -33,8 +33,8 @@ jobs:
           npm install
 
           echo "🧱 (Re)building iOS platform..."
-            cordova platform remove ios
-            cordova platform add ios@7.1.1
+          cordova platform remove ios
+          cordova platform add ios@7.1.1
 
           echo "📂 Inspecting platforms/ios:"
           ls -R platforms/ios
@@ -74,6 +74,38 @@ jobs:
         run: |
           sudo xcode-select -switch /Applications/Xcode.app
           xcodebuild -version
+
+      # -------------------------------
+      # 🔢 NEW: Auto-increment Build Number
+      # -------------------------------
+      - name: 🔢 Auto-increment Build Number
+        run: |
+          cd platforms/ios
+          
+          # پیدا کردن فایل Info.plist
+          INFO_PLIST="farra/farra-Info.plist"
+          
+          if [ ! -f "$INFO_PLIST" ]; then
+            echo "❌ Info.plist not found at $INFO_PLIST"
+            echo "📂 Searching for Info.plist files..."
+            find . -name "*Info.plist" -type f
+            exit 1
+          fi
+          
+          # خواندن Build Number فعلی
+          CURRENT_BUILD=$(/usr/libexec/PlistBuddy -c "Print :CFBundleVersion" "$INFO_PLIST" 2>/dev/null || echo "1")
+          echo "📊 Current Build Number: $CURRENT_BUILD"
+          
+          # ایجاد Build Number جدید بر اساس timestamp
+          NEW_BUILD=$(date +%Y%m%d%H%M)
+          echo "📊 New Build Number: $NEW_BUILD"
+          
+          # تنظیم Build Number جدید
+          /usr/libexec/PlistBuddy -c "Set :CFBundleVersion $NEW_BUILD" "$INFO_PLIST"
+          
+          # تایید تغییرات
+          VERIFY_BUILD=$(/usr/libexec/PlistBuddy -c "Print :CFBundleVersion" "$INFO_PLIST")
+          echo "✅ Build number updated to: $VERIFY_BUILD"
 
       # -------------------------------
       # 5️⃣ Build & Archive Signed App
@@ -146,7 +178,6 @@ jobs:
           EOF
           echo "✅ ExportOptions.plist created successfully with UUID ${PROFILE_UUID}"
 
-
       # -------------------------------
       # 6️⃣ Export signed IPA
       # -------------------------------
@@ -205,14 +236,3 @@ jobs:
             --file "platforms/ios/Farra.ipa" \
             --username "farokgraphic@gmail.com" \
             --password "xhjf-xsvk-lcfe-yoda"
-
-      - name: 📤 Upload to TestFlight
-        env:
-          APP_STORE_CONNECT_PASSWORD: ${{ secrets.APP_STORE_CONNECT_PASSWORD }}
-        run: |
-          xcrun altool --upload-app \
-          --type ios \
-          --file platforms/ios/Farra.ipa \
-          --username farokgraphic@gmail.com \
-          --password "xhjf-xsvk-lcfe-yoda"
-
