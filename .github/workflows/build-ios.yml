@@ -199,21 +199,9 @@ jobs:
       # -------------------------------
       - name: 📤 Upload to App Store Connect
         run: |
-          cd platforms/ios
-          
-          echo "🚀 Uploading to TestFlight with notifications..."
-          
-          fastlane pilot upload \
-            --username "$FASTLANE_USER" \
-            --app_identifier "com.farra.app" \
-            --team_id "$TEAM_ID" \
-            --ipa "Farra.ipa" \
-            --skip_waiting_for_build_processing \
-            --notify_external_testers true \
-            --changelog "نسخه جدید آماده است! لطفا تست کنید." \
-            --distribute_external true
-          
-          echo "✅ Upload completed! External testers will receive email notification."
-        env:
-          FASTLANE_USER: ${{ secrets.APPLE_ID }}
-          FASTLANE_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
+          echo "🚀 Uploading IPA to App Store Connect..."
+          xcrun altool --upload-app \
+            --type ios \
+            --file "platforms/ios/Farra.ipa" \
+            --username "farokgraphic@gmail.com" \
+            --password "xhjf-xsvk-lcfe-yoda"
