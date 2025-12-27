@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Transactions</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+       @font-face {
+      font-family: "Bonyade Koodak VF";
+      src: url("./BonyadeKoodak-VF.ttf") format("truetype");
+      font-weight: 100 900;
+      /* 👈 اجازه بده تمام بازه وزن‌ها فعال بشه */
+      font-display: swap;
+  }
+    *{
+      box-sizing: border-box;
+
+      font-family: 'Bonyade Koodak VF';
+    }
+
+    body{
+      margin: 0;
+           background: var(--Primary-50, #EFEFFE);
+      padding: 0px 24px 24px;
+    }
+
+   
+
+        /* Header with Blur Effect */
+        .header {
+            position: relative;
+            display: flex;
+            align-items: center;
+      justify-content: space-between;
+            overflow: visible;
+
+
+
+               width: 100%;
+      background: transparent;
+      display: flex;
+      align-items: center;
+      padding: 16px 13px;
+      /* پدینگ داخلی 13px به 0 تغییر کرد چون پدینگ کانتینر 24px است */
+      border-radius: 16px;
+      padding-top: 24px;
+        }
+
+          /* ⚠️ توجه: آیکون‌های چپ و راست هدر باید خارج از پدینگ کانتینر قرار می‌گرفتند. 
+           اما برای حفظ کد شما، پدینگ header به 0 تغییر کرد تا پدینگ 24px از body اعمال شود. */
+
+  .header-blur {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: #f5f5f525;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            backdrop-filter: blur(3px);
+            -webkit-backdrop-filter: blur(3px);
+            mask-image: linear-gradient(
+                to bottom,
+                rgba(0,0,0,1)    0%,
+                rgba(0,0,0,0.95) 20%,
+                rgba(0,0,0,0.80) 40%,
+                rgba(0,0,0,0.55) 55%,
+                rgba(0,0,0,0.30) 70%,
+                rgba(0,0,0,0.15) 82%,
+                rgba(0,0,0,0.05) 92%,
+                rgba(0,0,0,0.00) 100%
+            );
+        }
+
+        .header > *:not(.header-blur) {
+            position: relative;
+            z-index: 1;
+        }
+    .star {
+      color: #8e83e6;
+      font-size: 24px;
+    }
+
+    .logo {
+      font-size: 28px;
+      font-weight: 700;
+      color: #8877f3;
+    }
+
+       
+
+        .logo {
+            font-size: 32px;
+            font-weight: 700;
+            color: #7B8CFF;
+            font-style: italic;
+            margin: 0 15px;
+            letter-spacing: -0.5px;
+        }
+
+        .sparkle {
+            color: #A8B5FF;
+            font-size: 24px;
+             display: flex;
+            align-items: center;
+        }
+
+       /* اینپوت وسط و کشیده */
+/* =============================
+   🔍 SEARCH BOX — نسخه نهایی Farra
+   ============================= */
+
+.search-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  height: 48px;
+  width: 100%;
+  max-width: 500px;
+  border-radius: 50px;
+  border: 1px solid #C6C5FA; /* حالت default */
+  padding: 0 10px;
+  padding-left: 15px;
+  box-sizing: border-box;
+  background: #F8F7FC;
+  transition: all 0.25s ease;
+}
+
+/* ====== Input ====== */
+.search-box input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: "Bonyade Koodak VF", sans-serif;
+  font-size: 16px;
+  color: #232323; /* رنگ متن در حالت معمول */
+  padding-left: 10px;
+  padding-right: 15px;
+  min-width: 0;
+
+
+  color: var(--Textbox-Default-Text, #A9A7F7);
+
+
+font-weight: 400;
+
+}
+
+/* ====== SVG Icons ====== */
+.search-box svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  display: inline-block;
+}
+
+.search-box svg path {
+  stroke: #C6C5FA; /* رنگ پیش‌فرض آیکن */
+  transition: stroke 0.25s ease;
+}
+
+/* ====== Hover ====== */
+.search-box:hover {
+  border-color: #9795F3;
+}
+
+/* ====== Focus ====== */
+.search-box:focus-within {
+  border: 2px solid #706DF2; /* بوردر ضخیم آبی در فوکوس */
+}
+
+.search-box:focus-within input {
+  color: #5C5C66; /* رنگ متن در فوکوس */
+      font-weight: 500;
+
+}
+
+.search-box:focus-within svg path {
+  stroke: #706DF2 !important; /* آبی در فوکوس */
+}
+
+/* placeholder در فوکوس */
+.search-box input::placeholder {
+  color: #A9A7F7;
+  transition: opacity 0.3s ease, color 0.3s ease;
+
+}
+
+.search-box:focus-within input::placeholder {
+  opacity: 0.5;
+  color: #706DF2;
+  
+}
+
+/* ====== Filled (وقتی مقدار داره و فوکوس نداره) ====== */
+.search-box.filled:not(:focus-within) {
+  border: 1px solid #706DF2; /* آبی ثابت */
+}
+
+.search-box.filled:not(:focus-within) input {
+  color: #706DF2;
+  font-weight: 500;
+}
+
+.search-box.filled:not(:focus-within) svg path {
+  stroke: #706DF2;
+}
+
+/* ====== Error / Success ====== */
+.search-box.error {
+  border: 2px solid #FF595B;
+}
+.search-box.success {
+  border: 2px solid #44CD54;
+}
+
+/* ====== آیکن‌ها ====== */
+.search-box .star img {
+  width: 24px;
+  height: 24px;
+  transition: transform 0.3s ease;
+}
+
+.search-box .star:hover img {
+  transform: scale(1.08);
+}
+
+
+    /* ===== Title ===== */
+    h1{
+color: var(--Text-Default-Heading, #45454D);
+
+/* English/Heading/H4 */
+font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+font-size: var(--Font-Headings-H4-Text-Size, 32px);
+font-style: normal;
+font-weight: 700;
+line-height: var(--Font-Headings-H4-Line-Heigth, 48px); /* 150% */      margin-bottom: 0px;
+    }
+
+    .subtitle{
+      color: var(--Text-Default-Caption, #8A8999);
+
+/* English/Body/LCopy */
+font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+font-size: var(--Font-Copy-Body-Lg-Text-Size, 20px);
+font-style: normal;
+font-weight: 400;
+line-height: var(--Font-Copy-Body-Lg-Line-Heigth, 24px); /* 120% */
+      margin-bottom: 20px;
+    }
+
+    /* ===== Summary Cards ===== */
+    .summary{
+      display: flex;
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+
+    .summary-card{
+      display: flex;
+width: 107px;
+height: 88px;
+padding: 0 20px;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+border-radius: var(--Border-Radius-600, 24px);
+background: var(--Primary-100, #E2E2FC);
+      text-align: center;
+    }
+
+    .summary-card .number{
+     color: var(--Text-Default-Heading, #45454D);
+text-align: center;
+
+/* English/Heading/H5 */
+font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+font-size: 24px;
+font-style: normal;
+font-weight: 500;
+line-height: var(--Font-Headings-H5-Line-Heigth, 36px); /* 150% */
+    }
+
+    .summary-card .label{
+      color: var(--Text-Default-Caption, #8A8999);
+text-align: center;
+
+/* English/Body/SCopy */
+font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+font-size: var(--Font-Copy-Body-Sm-Text-Size, 14px);
+font-style: normal;
+font-weight: 400;
+line-height: var(--Font-Copy-Body-Sm-Line-Heigth, 18px); /* 128.571% */
+    }
+
+    /* ===== Section Title ===== */
+    .section{
+      margin-bottom: 24px;
+    }
+
+    .section-header{
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 14px;
+      color: var(--Text-Default-Heading, #45454D);
+text-align: center;
+
+/* English/Heading/H5 */
+font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+font-size: 24px;
+font-style: normal;
+font-weight: 500;
+line-height: var(--Font-Headings-H5-Line-Heigth, 36px); /* 150% */
+    }
+
+    .info-icon{
+    display: flex;
+padding: 0 var(--Spacing-200, 8px);
+align-items: center;
+gap: var(--Spacing-100, 4px);
+color: var(--Text-Primary-On-Color, #E2E2FC);
+text-align: center;
+border-radius: var(--Border-Radius-300, 12px);
+background: rgba(45, 44, 97, 0.50);
+/* English/Body/Strong Small Body */
+font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+font-size: var(--Font-Copy-Body-Sm-Text-Size, 14px);
+font-style: normal;
+font-weight: 700;
+line-height: var(--Font-Copy-Body-Sm-Line-Heigth, 18px); /* 128.571% */
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ===== Day Group ===== */
+    .day{
+      margin-bottom: 18px;
+    }
+
+    .day-title{
+      color: var(--Text-Default-Heading, #45454D);
+
+/* English/Heading/H6 */
+font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+font-size: var(--Font-Headings-H6-Text-Size, 20px);
+font-style: normal;
+font-weight: 700;
+line-height: var(--Font-Headings-H6-Line-Heigth, 28px); /* 140% */
+      margin-bottom: 8px;
+    }
+
+    /* ===== Transaction Card ===== */
+    .transaction{
+     display: flex;
+padding: var(--Spacing-200, 8px) var(--Spacing-300, 12px) var(--Spacing-200, 8px) var(--Spacing-200, 8px);
+align-items: center;
+gap: var(--Spacing-300, 12px);
+align-self: stretch;
+      border-radius: var(--Border-Radius-800, 32px);
+border: 1px solid var(--Textbox-Default-Border, #C6C5FA);
+      margin-bottom: 10px;
+    }
+
+    .transaction-icon{
+      
+      border-radius: 14px;
+      background: #EEF0FF;
+      flex-shrink: 0;
+    }
+
+    .transaction-content{
+      flex: 1;
+    }
+
+    .amount{
+      color: var(--Text-Default-Heading, #45454D);
+
+/* English/Body/Strong Medium Body */
+font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+font-size: var(--Font-Copy-Body-Text-Size, 16px);
+font-style: normal;
+font-weight: 700;
+line-height: var(--Font-Copy-Body-Line-Heigth, 20px); /* 125% */
+      margin-bottom: 4px;
+    }
+
+    .ref{
+      color: var(--Text-Default-Caption, #8A8999);
+
+/* English/Body/Copy */
+font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+font-size: var(--Font-Copy-Body-Text-Size, 16px);
+font-style: normal;
+font-weight: 400;
+line-height: var(--Font-Copy-Body-Line-Heigth, 20px); /* 125% */
+      margin-bottom: 6px;
+    }
+
+    .time{
+     color: var(--Text-Default-Body, #5C5C66);
+
+/* English/Body/Copy */
+font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+font-size: var(--Font-Copy-Body-Text-Size, 16px);
+font-style: normal;
+font-weight: 400;
+line-height: var(--Font-Copy-Body-Line-Heigth, 20px); /* 125% */
+    }
+
+    /* ===== Modal Backdrop ===== */
+.tx-modal{
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .3s ease;
+  z-index: 9999;
+}
+
+.tx-modal.active{
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ===== Sheet ===== */
+.tx-sheet{
+  width: 100%;
+  max-width: 420px;
+ border-radius: var(--Border-Radius-600, 24px) var(--Border-Radius-600, 24px) var(--Border-Radius-0, 0) var(--Border-Radius-0, 0);
+background: rgba(226, 226, 252, 0.70);
+box-shadow: 0 -2px 4px 0 var(--Primary-100, #E2E2FC);
+backdrop-filter: blur(6px);
+  padding: 24px 24px 32px;
+  transform: translateY(100%);
+  transition: transform .35s ease;
+}
+
+.tx-modal.active .tx-sheet{
+  transform: translateY(0);
+}
+
+/* ===== Content ===== */
+.tx-header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.tx-header h3{
+  margin: 0;
+  color: var(--Text-Default-Heading, #45454D);
+
+/* English/Heading/H5 */
+font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+font-size: 24px;
+font-style: normal;
+font-weight: 500;
+line-height: var(--Font-Headings-H5-Line-Heigth, 36px); /* 150% */
+}
+
+.tx-share{
+  background: none;
+  border: none;
+  color: var(--Text-Primary-Default, #706DF2);
+
+/* English/TextButton/Medium */
+font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+font-size: var(--Font-Button-Medium-Text-Button, 16px);
+font-style: normal;
+font-weight: 500;
+line-height: normal;
+}
+
+ /* کانتینر اصلی مبلغ */
+    .amount-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      position: relative;
+      margin-bottom: 24px;
+      margin-top: 34px;
+    }
+
+    /* خط چپ و راست */
+    .line {
+      width: 100px;
+      height: 1px;
+      background: linear-gradient(90deg, 
+        rgba(197, 197, 250, 1) 100%
+      );
+      position: relative;
+    }
+
+    .line.left {
+      background: linear-gradient(90deg, 
+        rgba(197, 197, 250, 1) 100%
+      );
+    }
+
+    /* متن مبلغ */
+    .amount-text {
+      color: var(--Text-Default-Heading, #45454D);
+text-align: center;
+
+/* English/Heading/H4 */
+font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+font-size: var(--Font-Headings-H4-Text-Size, 32px);
+font-style: normal;
+font-weight: 700;
+line-height: var(--Font-Headings-H4-Line-Heigth, 48px); /* 150% */
+      letter-spacing: -0.5px;
+    }
+
+    
+
+.tx-section{
+  margin-left: 24px;
+  margin-right: 24px;
+  margin-bottom: 16px;
+}
+
+.tx-row {
+  display: flex;
+  padding: 4px 0;
+  font-size: 14px;
+  gap: 60px; /* فاصله بین برچسب و مقدار */
+}
+
+.tx-row span:first-child {
+  color: #7B7B95;
+  min-width: 120px; /* عرض ثابت برای برچسب‌ها */
+  text-align: left;
+}
+
+.tx-row span:nth-child(2) {
+  color: #45454D;
+  text-align: left;
+  flex: 0 0 auto; /* نذار stretch بشه */
+}
+
+
+
+
+.tx-divider{
+  height: 1px;
+  background: rgba(110,106,242,0.25);
+  margin: 12px 0;
+}
+
+/* hover hint */
+.transaction-card{
+  cursor: pointer;
+}
+
+.fara-bottom-nav {
+      position: fixed;
+      left: 24px;
+      /* پدینگ چپ صفحه */
+      right: 24px;
+      /* پدینگ راست صفحه */
+      bottom: 35px;
+background: rgba(239, 239, 254, 0.70);
+backdrop-filter: blur(6px);
+      border-radius: 50px;
+      padding: 25px 25px;
+      z-index: 999;
+      width: auto;
+      margin-top: 25px;
+      /* 👈 بذار خودش با right و left فاصله بگیره */
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+
+    .fara-bottom-container {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+    }
+
+    .fara-bottom-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: #645ef6;
+      /* رنگ آیکون‌ها مشابه تصویر */
+      font-family: "Bonyade Koodak VF", sans-serif;
+      cursor: pointer;
+      transition: color 0.3s ease, transform 0.3s ease;
+    }
+
+    .fara-bottom-item.active {
+      color: #645ef6;
+      transform: scale(1.1);
+    }
+
+    .fara-bottom-item:hover {
+      color: #7e74ff;
+      transform: scale(1.05);
+    }
+
+     .fara-bottom-icon {
+    display: flex;        /* 👈 کلید: فعال کردن Flexbox */
+    align-items: center;  /* 👈 کلید: وسط‌چین کردن عمودی (آیکون و متن روبروی هم) */
+    gap: 6px;             /* فاصله بین آیکون و متن (اختیاری) */
+    line-height: 1;
+}
+
+    .fara-bottom-text {
+      font-size: 14px;
+      margin-top: 4px;
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <div class="home-container">
+    <!-- Header -->
+    <div class="header">
+                    <div class="header-blur"></div>
+
+      <div class="star"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="16" viewBox="0 0 20 16" fill="none">
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M0 14.8571C0 14.3838 0.38376 14 0.857143 14H19.1429C19.6162 14 20 14.3838 20 14.8571C20 15.3305 19.6162 15.7143 19.1429 15.7143H0.857143C0.38376 15.7143 0 15.3305 0 14.8571Z" fill="#706DF2"/>
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M0 0.857143C0 0.38376 0.38376 0 0.857143 0H19.1429C19.6162 0 20 0.38376 20 0.857143C20 1.33053 19.6162 1.71429 19.1429 1.71429H0.857143C0.38376 1.71429 0 1.33053 0 0.857143Z" fill="#706DF2"/>
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M0 7.85714C0 7.38377 0.38376 7 0.857143 7H19.1429C19.6162 7 20 7.38377 20 7.85714C20 8.33051 19.6162 8.71429 19.1429 8.71429H0.857143C0.38376 8.71429 0 8.33051 0 7.85714Z" fill="#706DF2"/>
+</svg></div>
+      <div class="logo"><svg xmlns="http://www.w3.org/2000/svg" width="58" height="21" viewBox="0 0 58 21" fill="none">
+  <path d="M23.103 13.715C22.9898 14.3515 22.8603 15.2961 22.713 16.5516C22.6394 17.1772 22.5153 18.0445 22.4104 18.7584C22.3054 19.4723 21.6673 20.0261 20.927 20.0139L19.4559 19.9908C18.7046 19.9786 18.0611 19.4099 18.0066 18.6634C18.0025 18.6146 17.997 18.5861 17.9861 18.5847C17.9138 18.6173 17.8143 18.6878 17.6875 18.7951C16.5927 19.7288 15.5143 20.1944 14.4535 20.1944C12.8352 20.1944 11.6081 19.5578 10.7723 18.2861C9.97884 17.0972 9.72933 15.6762 10.0211 14.0244C10.3592 12.1161 11.15 10.5811 12.3934 9.41661C13.6859 8.21139 15.2688 7.60742 17.1435 7.60742C18.4456 7.60742 19.3945 8.06209 19.9889 8.97008C20.0149 9.01215 20.0408 9.03251 20.0653 9.03251C20.0939 9.03251 20.2344 8.78821 20.3952 8.48962C20.7361 7.85579 21.4655 7.53142 22.1663 7.70514L22.9284 7.8938C23.7888 8.10688 24.3041 8.98365 24.0669 9.83464C23.7233 11.0697 23.2775 12.7459 23.1071 13.715H23.103ZM19.0836 13.7896C19.2077 13.0879 19.0891 12.507 18.7264 12.0496C18.3638 11.5909 17.8252 11.3615 17.1122 11.3615C16.3991 11.3615 15.7815 11.5882 15.262 12.0428C14.7412 12.4975 14.4194 13.0798 14.2926 13.7896C14.174 14.4587 14.3049 15.0328 14.6839 15.5119C15.063 15.991 15.5852 16.2299 16.2491 16.2299C16.954 16.2299 17.5716 16.0005 18.1006 15.5418C18.6296 15.083 18.9568 14.4994 19.0836 13.7882V13.7896Z" fill="#706DF2"/>
+  <path d="M56.0439 13.715C55.9307 14.3515 55.8012 15.2961 55.6539 16.5516C55.5803 17.1772 55.4563 18.0445 55.3513 18.7584C55.2463 19.4723 54.6082 20.0261 53.8679 20.0139L52.3968 19.9908C51.6455 19.9786 51.002 19.4099 50.9475 18.6634C50.9434 18.6146 50.9379 18.5861 50.927 18.5847C50.8548 18.6173 50.7552 18.6878 50.6284 18.7951C49.5336 19.7288 48.4552 20.1944 47.3944 20.1944C45.7761 20.1944 44.549 19.5578 43.7133 18.2861C42.9198 17.0972 42.6703 15.6762 42.962 14.0244C43.3001 12.1161 44.0909 10.5811 45.3343 9.41661C46.6268 8.21139 48.2098 7.60742 50.0844 7.60742C51.3865 7.60742 52.3354 8.06209 52.9299 8.97008C52.9558 9.01215 52.9817 9.03251 53.0062 9.03251C53.0348 9.03251 53.1753 8.78821 53.3362 8.48962C53.677 7.85579 54.4064 7.53142 55.1072 7.70514L55.8694 7.8938C56.7297 8.10688 57.245 8.98365 57.0078 9.83464C56.6642 11.0697 56.2184 12.7459 56.048 13.715H56.0439ZM52.0232 13.7896C52.1473 13.0879 52.0287 12.507 51.666 12.0496C51.3033 11.5909 50.7648 11.3615 50.0517 11.3615C49.3387 11.3615 48.721 11.5882 48.2016 12.0428C47.6808 12.4975 47.359 13.0798 47.2322 13.7896C47.1136 14.4587 47.2445 15.0328 47.6235 15.5119C48.0025 15.991 48.5247 16.2299 49.1887 16.2299C49.8936 16.2299 50.5112 16.0005 51.0402 15.5418C51.5692 15.083 51.8964 14.4994 52.0232 13.7882V13.7896Z" fill="#706DF2"/>
+  <path d="M2.28773 20.1944C1.64147 20.1944 1.16701 20.1088 0.860242 19.9406C0.55484 19.7709 0.404865 19.5551 0.414409 19.2932C0.42259 19.0312 0.444404 18.7394 0.478489 18.4177L1.94824 10.0708C1.99868 9.78305 1.89779 9.63918 1.64284 9.63918H0.674819C0.249437 9.63918 0.0708314 9.4451 0.139002 9.05557L0.444404 7.50833C0.528935 7.17038 0.775711 7.00073 1.18337 7.00073H1.97823C2.0764 6.36554 2.12548 5.84979 2.17729 5.27569C2.30545 3.84381 2.72947 2.62095 3.83383 1.62202C4.93818 0.62446 6.37385 0.125 8.14218 0.125C9.55194 0.125 10.7204 0.434448 11.6461 1.05063C12.5719 1.66817 13.0354 2.43365 13.0354 3.34706C13.0354 4.07454 12.8146 4.71244 12.3728 5.26211C11.9311 5.81179 11.293 6.08731 10.4613 6.08731C9.79872 6.08731 9.2779 5.91901 8.85524 5.6435C7.36913 4.67172 8.10673 3.03761 8.75299 2.99283C8.15173 2.7621 6.63153 3.2317 6.43384 4.56586C6.22387 5.97602 7.44412 6.93558 8.9575 7.00208H10.0782C10.1805 7.00208 10.2732 7.03601 10.3591 7.10388C10.4436 7.17174 10.4695 7.28982 10.4354 7.45947L10.1546 9.18451C10.1205 9.33652 10.0659 9.45052 9.9896 9.52653C9.91324 9.60253 9.77281 9.64054 9.56967 9.64054H7.30096C7.08009 9.64054 6.94375 9.76676 6.8933 10.0206L5.55035 17.5301C5.49991 17.902 5.42628 18.2155 5.33357 18.4693C5.2395 18.7231 5.0827 18.9973 4.86183 19.2945C4.64096 19.5904 4.31783 19.8143 3.89382 19.9663C3.46843 20.1184 2.93398 20.1944 2.28773 20.1944Z" fill="#706DF2" stroke="#706DF2" stroke-width="0.25" stroke-miterlimit="10"/>
+  <path d="M29.0009 6.64502C29.1536 6.65317 29.2941 6.65724 29.4209 6.68303C29.5477 6.70881 29.6663 6.75496 29.7781 6.82282C29.8885 6.89068 29.9853 6.94904 30.0712 7.00062C30.1557 7.05083 30.2375 7.13227 30.3139 7.2422C30.3902 7.35214 30.4502 7.43629 30.4925 7.49601C30.5348 7.55572 30.5852 7.64802 30.6452 7.7756C30.7052 7.90182 30.7434 7.99139 30.7597 8.04161C30.7761 8.09183 30.8061 8.18141 30.8483 8.30763C30.8906 8.43385 30.9124 8.50714 30.9124 8.52343C30.9629 8.67544 31.0392 8.75144 31.1415 8.75144C31.226 8.75144 31.3364 8.67544 31.4728 8.52343C32.6958 7.10241 33.8519 6.39258 34.9386 6.39258C35.4826 6.39258 35.9543 6.51066 36.3524 6.74817C36.7519 6.98569 37.0409 7.28156 37.2195 7.6358C37.3981 7.9914 37.4868 8.38092 37.4868 8.80302C37.4868 9.71643 37.2318 10.4018 36.7219 10.8579C36.212 11.3139 35.5657 11.5433 34.7845 11.5433C34.3932 11.5433 34.036 11.4713 33.7142 11.3275C33.3911 11.1836 33.1443 11.0316 32.9753 10.8714C32.8048 10.7113 32.6139 10.5593 32.4013 10.4154C32.1886 10.2715 31.9895 10.1996 31.8027 10.1996C31.1565 10.1996 30.7325 10.8334 30.5279 12.1024L29.6104 17.5314C29.5422 17.9209 29.4618 18.2371 29.3677 18.4828C29.2736 18.7284 29.1209 18.9985 28.9096 19.2944C28.6969 19.5903 28.3738 19.8142 27.9416 19.9662C27.508 20.1182 26.9858 20.1943 26.3736 20.1943C25.711 20.1943 25.2229 20.1101 24.908 19.9404C24.593 19.7722 24.4403 19.5509 24.4499 19.2808C24.4581 19.0107 24.4799 18.7149 24.514 18.3932L25.6865 11.3153C25.6865 11.3153 25.9851 6.47808 28.9996 6.64638L29.0009 6.64502Z" fill="#706DF2"/>
+  <path d="M35.5195 6.64502C35.6722 6.65317 35.8126 6.65724 35.9394 6.68303C36.0662 6.70881 36.1848 6.75496 36.2966 6.82282C36.4071 6.89068 36.5039 6.94904 36.5898 7.00062C36.6743 7.05083 36.7561 7.13227 36.8324 7.2422C36.9088 7.35214 36.9688 7.43629 37.011 7.49601C37.0533 7.55572 37.1038 7.64802 37.1637 7.7756C37.2237 7.90182 37.2619 7.99139 37.2783 8.04161C37.2946 8.09183 37.3246 8.18141 37.3669 8.30763C37.4092 8.43385 37.431 8.50714 37.431 8.52343C37.4814 8.67544 37.5578 8.75144 37.66 8.75144C37.7446 8.75144 37.855 8.67544 37.9913 8.52343C39.2143 7.10241 40.3705 6.39258 41.4571 6.39258C42.0011 6.39258 42.4728 6.51066 42.871 6.74817C43.2704 6.98569 43.5595 7.28156 43.7381 7.6358C43.9167 7.9914 44.0053 8.38092 44.0053 8.80302C44.0053 9.71643 43.7504 10.4018 43.2404 10.8579C42.7305 11.3139 42.0843 11.5433 41.303 11.5433C40.9117 11.5433 40.5545 11.4713 40.2328 11.3275C39.9096 11.1836 39.6629 11.0316 39.4938 10.8714C39.3234 10.7113 39.1325 10.5593 38.9198 10.4154C38.7071 10.2715 38.5081 10.1996 38.3213 10.1996C37.675 10.1996 37.251 10.8334 37.0465 12.1024L36.1289 17.5314C36.0608 17.9209 35.9803 18.2371 35.8862 18.4828C35.7922 18.7284 35.6395 18.9985 35.4281 19.2944C35.2154 19.5903 34.8923 19.8142 34.4601 19.9662C34.0266 20.1182 33.5044 20.1943 32.8922 20.1943C32.2296 20.1943 31.7415 20.1101 31.4265 19.9404C31.1116 19.7722 30.9589 19.5509 30.9684 19.2808C30.9766 19.0107 30.9984 18.7149 31.0325 18.3932L32.205 11.3153C32.205 11.3153 32.5036 6.47808 35.5181 6.64638L35.5195 6.64502Z" fill="#706DF2"/>
+</svg></div>
+      <div class="star"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
+  <path d="M10.75 20.75C16.2732 20.75 20.75 16.2721 20.75 10.75C20.75 5.22676 16.2732 0.75 10.75 0.75C5.22676 0.75 0.75 5.22676 0.75 10.75C0.75 16.2721 5.22676 20.75 10.75 20.75Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M15.2319 10.7497C15.2319 13.2254 13.2243 15.2319 10.7487 15.2319C8.27297 15.2319 6.26648 13.2254 6.26648 10.7497C6.26648 8.27406 8.27297 6.26758 10.7487 6.26758C13.2243 6.26758 15.2319 8.27406 15.2319 10.7497Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M3.85433 17.6464L7.30297 14.1977M17.6472 17.6464L14.1985 14.1977M7.30192 7.30108L3.85327 3.85352M14.1985 7.30108L17.6472 3.85352" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg></div>
+    </div>
+
+    <!-- Search Box -->
+    <div class="search-box" id="search-box">
+      <!-- آیکون سمت چپ (Default) -->
+    
+      <svg class="default-icon" xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
+  <path d="M9.73856 18.7271C14.7028 18.7271 18.7271 14.7028 18.7271 9.73856C18.7271 4.77431 14.7028 0.75 9.73856 0.75C4.77431 0.75 0.75 4.77431 0.75 9.73856C0.75 14.7028 4.77431 18.7271 9.73856 18.7271Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M15.9902 16.457L19.5143 19.9719" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+      <!-- آیکون سمت چپ (Focus) -->
+    
+
+
+<input type="text" placeholder="Search here" oninput="this.parentElement.classList.toggle('filled', this.value.trim() !== '')">
+
+
+      <!-- آیکون سمت راست (Default) -->
+      <a href="" style="padding-right: 3px;">
+       
+ <svg class="default-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <!-- دایره اصلی -->
+  <path opacity="0.4" fill-rule="evenodd" clip-rule="evenodd"
+        d="M0.75 11.75C0.75 3.4994 3.5 0.75 11.75 0.75C20.0001 0.75 22.75 3.4994 22.75 11.75C22.75 19.9994 20.0001 22.75 11.75 22.75C3.5 22.75 0.75 19.9994 0.75 11.75Z"
+        stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- علامت + در مرکز دایره -->
+  <g transform="translate(12 15)"> <!-- مرکز دایره (11.75 ~ 12) -->
+    <!-- خط عمودی -->
+    <path d="M0 -2L0 2" stroke="#706DF2" stroke-width="2" stroke-linecap="round"/>
+    <!-- خط افقی -->
+    <path d="M-5 0H5" stroke="#706DF2" stroke-width="1.45" stroke-linecap="round"/>
+  </g>
+    <g transform="translate(12 8)"> <!-- مرکز دایره (11.75 ~ 12) -->
+    <!-- خط عمودی -->
+    <path d="M0 -2L0 2" stroke="#706DF2" stroke-width="2" stroke-linecap="round"/>
+    <!-- خط افقی -->
+    <path d="M-5 0H5" stroke="#706DF2" stroke-width="1.45" stroke-linecap="round"/>
+  </g>
+</svg>
+
+
+      </a>
+      <!-- آیکون سمت راست (Focus) -->
+      <a href="" style="padding-right: 3px;">
+        
+      </a>
+    </div>
+    <br>
+</div>
+
+  <!-- ===== Page Title ===== -->
+  <h1>Transactions</h1>
+  <p class="subtitle">
+    Please fill out the required information field
+    and then tap on continue.
+  </p>
+
+  <!-- ===== Summary Boxes ===== -->
+  <div class="summary">
+    <div class="summary-card">
+      <div class="number">00</div>
+      <div class="label">Transactions</div>
+    </div>
+    <div class="summary-card">
+      <div class="number">00</div>
+      <div class="label">Spent</div>
+    </div>
+    <div class="summary-card">
+      <div class="number">00</div>
+      <div class="label">Guests</div>
+    </div>
+  </div>
+
+  <!-- ===== Section ===== -->
+  <div class="section">
+    <div class="section-header">
+      Last Week
+      <div class="info-icon">3</div>
+    </div>
+
+    <div class="day">
+      <div class="day-title">Day Date</div>
+
+      <div class="transaction transaction-card">
+  <div class="transaction-icon">
+    <svg xmlns="http://www.w3.org/2000/svg" width="70" height="72" viewBox="0 0 70 72" fill="none">
+  <path d="M0 20C0 8.95431 8.95431 0 20 0H50C61.0457 0 70 8.95431 70 20V52C70 63.0457 61.0457 72 50 72H20C8.9543 72 0 63.0457 0 52V20Z" fill="#E2E2FC"/>
+</svg>
+  </div>
+
+  <div class="transaction-content">
+    <div class="amount">$1340</div>
+    <div class="ref">Ref Code: 2560521456</div>
+    <div class="time">Thursday 24/05/2025</div>
+  </div>
+</div>
+
+
+      <div class="transaction">
+        <div class="transaction-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="70" height="72" viewBox="0 0 70 72" fill="none">
+  <path d="M0 20C0 8.95431 8.95431 0 20 0H50C61.0457 0 70 8.95431 70 20V52C70 63.0457 61.0457 72 50 72H20C8.9543 72 0 63.0457 0 52V20Z" fill="#E2E2FC"/>
+</svg>
+        </div>
+        <div class="transaction-content">
+          <div class="amount">Amount</div>
+          <div class="ref">Ref Code</div>
+          <div class="time">Time • Order Number</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="day">
+      <div class="day-title">Day Date</div>
+
+      <div class="transaction">
+        <div class="transaction-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="70" height="72" viewBox="0 0 70 72" fill="none">
+  <path d="M0 20C0 8.95431 8.95431 0 20 0H50C61.0457 0 70 8.95431 70 20V52C70 63.0457 61.0457 72 50 72H20C8.9543 72 0 63.0457 0 52V20Z" fill="#E2E2FC"/>
+</svg>
+        </div>
+        <div class="transaction-content">
+          <div class="amount">Amount</div>
+          <div class="ref">Ref Code</div>
+          <div class="time">Time • Order Number</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Section repeat ===== -->
+  <div class="section">
+    <div class="section-header">
+      Last Week
+      <div class="info-icon">?</div>
+    </div>
+
+    <div class="day">
+      <div class="day-title">Day Date</div>
+
+      <div class="transaction">
+        <div class="transaction-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="70" height="72" viewBox="0 0 70 72" fill="none">
+  <path d="M0 20C0 8.95431 8.95431 0 20 0H50C61.0457 0 70 8.95431 70 20V52C70 63.0457 61.0457 72 50 72H20C8.9543 72 0 63.0457 0 52V20Z" fill="#E2E2FC"/>
+</svg>
+        </div>
+        <div class="transaction-content">
+          <div class="amount">Amount</div>
+          <div class="ref">Ref Code</div>
+          <div class="time">Time • Order Number</div>
+        </div>
+      </div>
+
+      <div class="transaction">
+        <div class="transaction-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="70" height="72" viewBox="0 0 70 72" fill="none">
+  <path d="M0 20C0 8.95431 8.95431 0 20 0H50C61.0457 0 70 8.95431 70 20V52C70 63.0457 61.0457 72 50 72H20C8.9543 72 0 63.0457 0 52V20Z" fill="#E2E2FC"/>
+</svg>
+        </div>
+        <div class="transaction-content">
+          <div class="amount">Amount</div>
+          <div class="ref">Ref Code</div>
+          <div class="time">Time • Order Number</div>
+        </div>
+      </div>
+    </div>
+  </div>
+<div class="tx-modal" id="txModal">
+  <div class="tx-sheet">
+
+    <!-- Header -->
+    <div class="tx-header">
+      <h3>Transaction Details</h3>
+      <button class="tx-share">Share</button>
+    </div>
+
+    <!-- Amount -->
+  <div class="amount-container">
+    <div class="line left"></div>
+    <div class="amount-text">$1340</div>
+    <div class="line right"></div>
+  </div>
+    <!-- Section -->
+    <div class="tx-section">
+      <div class="tx-row">
+        <span><svg style="width: 18px; height: 18px;" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+  <path d="M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg> &nbsp; Date</span>
+        <span>Thursday 24/05/2025</span>
+      </div>
+      <div class="tx-row">
+        <span>Ref. Code</span>
+        <span>2560521456</span>
+      </div>
+      <div class="tx-row">
+        <span>Bank</span>
+        <span> <svg style="width: 18px; height: 18px;" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+  <path d="M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg> &nbsp;FIB</span>
+      </div>
+    </div>
+
+    <div class="tx-divider"></div>
+
+    <div class="tx-section">
+      <div class="tx-row">
+        <span><svg style="width: 18px; height: 18px;" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+  <path d="M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg> &nbsp;Paid By</span>
+        <span>Muhammed Bagher</span>
+      </div>
+      <div class="tx-row">
+        <span>Card Number</span>
+        <span>2156 **** 2334</span>
+      </div>
+      <div class="tx-row">
+        <span>Via</span>
+        <span>FIB Gateway</span>
+      </div>
+    </div>
+
+    <div class="tx-divider"></div>
+
+    <div class="tx-section">
+      <div class="tx-row">
+        <span><svg style="width: 18px; height: 18px;" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+  <path d="M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg> &nbsp;For</span>
+        <span>2 adults / 3 Children</span>
+      </div>
+          <div class="tx-row">
+        <span>and</span>
+        <span>3 Children</span>
+      </div>
+      <div class="tx-row">
+        <span><svg style="width: 18px; height: 18px;" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+  <path d="M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg> &nbsp;From</span>
+        <span>Thursday 24/05/2025</span>
+      </div>
+      <div class="tx-row">
+        <span>To</span>
+       <span>Thursday 24/05/2025</span>
+      </div>
+      <div class="tx-row">
+        <span>For</span>
+        <span>3 days and 2 nights</span>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+<br>
+<br>
+<br>
+  <div class="fara-bottom-nav">
+    <div class="fara-bottom-container">
+     <a href="./home.html" class="text-decoration-none">
+       <div class="fara-bottom-item active">
+        <span class="fara-bottom-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="22" viewBox="0 0 24 22" fill="none">
+  <path d="M22.3958 8.90219L13.1465 1.31338C12.2316 0.562208 10.9141 0.562208 9.99924 1.31338L0.75 8.90219" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M2.53735 7.43164L3.22338 18.473C3.46558 19.9168 4.71518 20.9733 6.17774 20.9733H16.9659C18.4296 20.9733 19.6793 19.9168 19.9215 18.473L20.6074 7.43164" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M14.8195 14.1768C13.8869 15.0064 12.7614 15.4896 11.5667 15.4896C10.3721 15.4896 9.25474 15.0064 8.32227 14.1768" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg><span
+            class="fara-bottom-text">Home</span></span>
+
+      </div>
+     </a>
+     <a href="./map.html" class="text-decoration-none">
+       <div class="fara-bottom-item">
+        <span class="fara-bottom-icon"><svg xmlns="http://www.w3.org/2000/svg" width="23" height="22" viewBox="0 0 23 22" fill="none">
+  <path opacity="0.4" d="M20.7462 8.48164L10.09 6.28865M10.09 6.28865L1.8739 4.58984M10.09 6.28865L7.54666 19.7974" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M0.75 10.75C0.75 3.24946 3.36905 0.75 11.2262 0.75C19.0834 0.75 21.7024 3.24946 21.7024 10.75C21.7024 18.2494 19.0834 20.75 11.2262 20.75C3.36905 20.75 0.75 18.2494 0.75 10.75Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg></span>
+      </div>
+     </a>
+      <a href="./Reservation-booking-active.html" class="text-decoration-none">
+        <div class="fara-bottom-item">
+        <span class="fara-bottom-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="20" viewBox="0 0 22 20" fill="none">
+  <path opacity="0.4" d="M12.1808 0.855469V3.65047" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M12.1808 15.5332V17.8703" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M12.1808 12.3756V6.80859" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M20.75 11.8557C17.9177 11.8557 17.9177 7.53807 20.75 7.53807C20.75 2.5355 20.75 0.75 10.75 0.75C0.75 0.75 0.75 2.5355 0.75 7.53807C3.58236 7.53807 3.58236 11.8557 0.75 11.8557C0.75 16.8593 0.75 18.6447 10.75 18.6447C20.75 18.6447 20.75 16.8593 20.75 11.8557Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+        </span>
+      </div>
+      </a>
+      <a href="./profile.html">
+        <div class="fara-bottom-item">
+        <span class="fara-bottom-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="22" viewBox="0 0 18 22" fill="none">
+  <path opacity="0.4" fill-rule="evenodd" clip-rule="evenodd" d="M8.54146 14.3672C4.33889 14.3672 0.75 15.0026 0.75 17.5473C0.75 20.092 4.31612 20.7502 8.54146 20.7502C12.744 20.7502 16.3319 20.1138 16.3319 17.5701C16.3319 15.0264 12.7668 14.3672 8.54146 14.3672Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M8.54141 10.7374C11.2993 10.7374 13.5346 8.5011 13.5346 5.7432C13.5346 2.9853 11.2993 0.75 8.54141 0.75C5.78351 0.75 3.54715 2.9853 3.54715 5.7432C3.53786 8.49178 5.75867 10.7281 8.50622 10.7374H8.54141Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+        </span>
+      </div>
+      </a>
+    </div>
+  </div>
+<script>
+  const txModal = document.getElementById('txModal');
+  const txCards = document.querySelectorAll('.transaction-card');
+
+  txCards.forEach(card => {
+    card.addEventListener('click', () => {
+      txModal.classList.add('active');
+    });
+  });
+
+  // بستن با کلیک بیرون
+  txModal.addEventListener('click', (e) => {
+    if (e.target === txModal) {
+      txModal.classList.remove('active');
+    }
+  });
+</script>
+
+</body>
+</html>

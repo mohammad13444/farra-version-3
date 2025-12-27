@@ -97,144 +97,284 @@ stroke: var(--Icon-Primary-Default, #706DF2);" xmlns="http://www.w3.org/2000/svg
 
     </div>
     <script>
-        const correctCode = "12345";
-        let otpCode = "";
+   // ========================================
+// 🔥 تنظیمات API
+// ========================================
+const API_BASE = 'http://localhost/farra/backend/api'; // آدرس سرور خودت
 
-        // عناصر
-        const inputs = document.querySelectorAll(".otp-input");
-        const continueBtn = document.getElementById("continueBtn");
-        const alertBoxError = document.getElementById("otpAlert");
-        const alertBoxSuccess = document.getElementById("otpAlertSuccess");
-        const resendEl = document.getElementById("resendText");
+// ========================================
+// گرفتن شماره تلفن از localStorage
+// ========================================
+const savedPhone = localStorage.getItem('phone_number') || '0777 151 6178';
+document.querySelector('.phone-number').textContent = savedPhone;
 
-        // فیلدهای OTP
-               // فیلدهای OTP
-        inputs.forEach((inp, idx) => {
-            inp.addEventListener("input", () => {
-                inp.value = inp.value.replace(/[^0-9]/g, '');
+// ========================================
+// متغیرهای اصلی
+// ========================================
+const correctCode = "12345"; // این دیگه استفاده نمیشه، سرور چک میکنه
+let otpCode = "";
+
+// عناصر
+const inputs = document.querySelectorAll(".otp-input");
+const continueBtn = document.getElementById("continueBtn");
+const alertBoxError = document.getElementById("otpAlert");
+const alertBoxSuccess = document.getElementById("otpAlertSuccess");
+const resendEl = document.getElementById("resendText");
+
+// ========================================
+// فیلدهای OTP
+// ========================================
+inputs.forEach((inp, idx) => {
+    inp.addEventListener("input", () => {
+        inp.value = inp.value.replace(/[^0-9]/g, '');
+        
+        // حرکت به جلو: اگر مقداری وارد شد و آخرین فیلد نیست، برو فیلد بعدی
+        if (inp.value.length === 1 && idx < inputs.length - 1) {
+            inputs[idx + 1].focus();
+        }
+        updateCode();
+    });
+
+    // 🚀 منطق جدید: حرکت به عقب با Backspace
+    inp.addEventListener("keydown", (e) => {
+        // اگر دکمه Backspace فشرده شد
+        if (e.key === "Backspace" || e.keyCode === 8) {
+            
+            // اگر اینپوت فعلی خالی است و اینپوت اول نیست
+            if (idx > 0 && inp.value.length === 0) {
+                e.preventDefault(); // جلوی حرکت پیش‌فرض مرورگر رو بگیر
                 
-                // حرکت به جلو: اگر مقداری وارد شد و آخرین فیلد نیست، برو فیلد بعدی
-                if (inp.value.length === 1 && idx < inputs.length - 1) {
-                    inputs[idx + 1].focus();
-                }
-                updateCode();
-            });
+                const prevInput = inputs[idx - 1];
+                prevInput.focus();
+                
+                // محتوای اینپوت قبلی رو پاک کن و فوکوس رو اونجا بذار
+                prevInput.value = ''; 
+                updateCode(); 
+            }
+        }
+    });
+    // 🚀 پایان منطق جدید
 
-            // 🚀 منطق جدید: حرکت به عقب با Backspace
-            inp.addEventListener("keydown", (e) => {
-                // اگر دکمه Backspace فشرده شد
-                if (e.key === "Backspace" || e.keyCode === 8) {
-                    
-                    // اگر اینپوت فعلی خالی است و اینپوت اول نیست
-                    if (idx > 0 && inp.value.length === 0) {
-                        e.preventDefault(); // جلوی حرکت پیش‌فرض مرورگر رو بگیر
-                        
-                        const prevInput = inputs[idx - 1];
-                        prevInput.focus();
-                        
-                        // محتوای اینپوت قبلی رو پاک کن و فوکوس رو اونجا بذار
-                        prevInput.value = ''; 
-                        updateCode(); 
-                    }
-                }
-            });
-            // 🚀 پایان منطق جدید
-
-            inp.addEventListener("focus", () => {
-                inputs.forEach(el => {
-                    el.classList.remove("success", "error");
-                    el.classList.add("focus");
-                });
-            });
-
-            inp.addEventListener("blur", () => {
-                inp.classList.remove("focus");
-            });
+    inp.addEventListener("focus", () => {
+        inputs.forEach(el => {
+            el.classList.remove("success", "error");
+            el.classList.add("focus");
         });
+    });
 
-        // بروزرسانی وضعیت کد و فعال‌سازی دکمه
-      function updateCode() {
-  otpCode = Array.from(inputs).map(el => el.value).join("");
-  
-  if (otpCode.length === inputs.length) {
-    continueBtn.classList.remove("disabled");
-    continueBtn.disabled = false;
-  } else {
-    continueBtn.classList.add("disabled");
-    continueBtn.disabled = true;
-  }
+    inp.addEventListener("blur", () => {
+        inp.classList.remove("focus");
+    });
+});
+
+// ========================================
+// بروزرسانی وضعیت کد و فعال‌سازی دکمه
+// ========================================
+function updateCode() {
+    otpCode = Array.from(inputs).map(el => el.value).join("");
+    
+    if (otpCode.length === inputs.length) {
+        continueBtn.classList.remove("disabled");
+        continueBtn.disabled = false;
+    } else {
+        continueBtn.classList.add("disabled");
+        continueBtn.disabled = true;
+    }
 }
 
-
-        // کلیک روی Continue
-        continueBtn.addEventListener("click", () => {
-            if (otpCode.length < 5) return;
-
-            inputs.forEach(inp => inp.classList.remove("success", "error", "focus"));
-
-            if (otpCode === correctCode) {
-                inputs.forEach(inp => inp.classList.add("success"));
-                showOtpAlert("success");
-            } else {
-                inputs.forEach(inp => inp.classList.add("error"));
-                showOtpAlert("error");
-            }
+// ========================================
+// 🔥 تابع تایید OTP با سرور
+// ========================================
+async function verifyOTP(phoneNumber, otpCode) {
+    try {
+        const response = await fetch(`${API_BASE}/auth/verify-otp.php`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                phone_number: phoneNumber,
+                otp_code: otpCode
+            })
         });
-
-        // نمایش پیام
-        function showOtpAlert(type) {
-            const alertEl = type === "success" ? alertBoxSuccess : alertBoxError;
-            alertEl.classList.add("show");
-            setTimeout(() => {
-                alertEl.classList.remove("show");
-            }, 3000);
+        
+        const result = await response.json();
+        
+        if (result.success && result.data.session_token) {
+            // ذخیره session
+            localStorage.setItem('session_token', result.data.session_token);
+            localStorage.setItem('user_id', result.data.user_id);
         }
+        
+        return result;
+    } catch (error) {
+        console.error('❌ Verify OTP Error:', error);
+        return {success: false, message: 'Network error occurred'};
+    }
+}
 
-        // ======================
-        // تایمر 120 ثانیه‌ای Resend
-        // ======================
-        let timer = 120;
-        let countdown;
+// ========================================
+// کلیک روی Continue
+// ========================================
+continueBtn.addEventListener("click", async () => {
+    if (otpCode.length < 5) return;
 
-        function startTimer() {
+    inputs.forEach(inp => inp.classList.remove("success", "error", "focus"));
+
+    // 🔥 تایید با سرور
+    continueBtn.textContent = 'Verifying...';
+    continueBtn.disabled = true;
+    continueBtn.classList.add('disabled');
+    
+    const cleanedPhone = savedPhone.replace(/\s/g, '');
+    const result = await verifyOTP(cleanedPhone, otpCode);
+    
+    if (result.success) {
+        inputs.forEach(inp => inp.classList.add("success"));
+        showOtpAlert("success");
+        
+        // هدایت به صفحه onboarding بعد از 1 ثانیه
+        setTimeout(() => {
+            window.location.href = './onboarding.html';
+        }, 1000);
+    } else {
+        inputs.forEach(inp => inp.classList.add("error"));
+        
+        // نمایش پیام خطا
+        const errorMessage = alertBoxError.querySelector('.otp-alert-message');
+        if (errorMessage) {
+            errorMessage.textContent = result.message || 'Please double check and try again';
+        }
+        
+        showOtpAlert("error");
+        
+        // بازگشت دکمه به حالت عادی
+        continueBtn.textContent = 'Continue';
+        continueBtn.disabled = false;
+        continueBtn.classList.remove('disabled');
+        
+        // پاک کردن فیلدها
+        setTimeout(() => {
+            inputs.forEach(inp => {
+                inp.value = '';
+                inp.classList.remove("error");
+            });
+            inputs[0].focus();
+            updateCode();
+        }, 2000);
+    }
+});
+
+// ========================================
+// نمایش پیام
+// ========================================
+function showOtpAlert(type) {
+    const alertEl = type === "success" ? alertBoxSuccess : alertBoxError;
+    alertEl.classList.add("show");
+    setTimeout(() => {
+        alertEl.classList.remove("show");
+    }, 3000);
+}
+
+// ========================================
+// تایمر 120 ثانیه‌ای Resend
+// ========================================
+let timer = 120;
+let countdown;
+
+function startTimer() {
+    clearInterval(countdown);
+    resendEl.classList.remove("resend-link"); // حالت آبی حذف
+    resendEl.classList.add("resend"); // حالت طوسی
+    resendEl.style.pointerEvents = "none";
+    resendEl.style.marginBottom = "28px";
+    timer = 120;
+    updateResendText();
+
+    countdown = setInterval(() => {
+        timer--;
+        updateResendText();
+
+        if (timer <= 0) {
             clearInterval(countdown);
-            resendEl.classList.remove("resend-link"); // حالت آبی حذف
-            resendEl.classList.add("resend"); // حالت طوسی
-            resendEl.style.pointerEvents = "none";
-            resendEl.style.marginBottom = "28px";
-            timer = 120;
-            updateResendText();
-
-            countdown = setInterval(() => {
-                timer--;
-                updateResendText();
-
-                if (timer <= 0) {
-                    clearInterval(countdown);
-                    resendEl.textContent = "Resend code";
-                    resendEl.classList.remove("resend");
-                    resendEl.classList.add("resend-link");
-                    resendEl.style.pointerEvents = "auto";
-                }
-            }, 1000);
+            resendEl.textContent = "Resend code";
+            resendEl.classList.remove("resend");
+            resendEl.classList.add("resend-link");
+            resendEl.style.pointerEvents = "auto";
         }
+    }, 1000);
+}
 
-        function updateResendText() {
-            resendEl.textContent = `Resend code in ${timer} secs`;
-        }
+function updateResendText() {
+    resendEl.textContent = `Resend code in ${timer} secs`;
+}
 
-        // کلیک روی متن آبی برای ارسال مجدد
-        resendEl.addEventListener("click", () => {
-            if (resendEl.classList.contains("resend-link")) {
-                console.log("📨 OTP resend triggered");
-                startTimer();
-                // اینجا درخواست OTP به سرور هم می‌تونی بزنی
-            }
+// ========================================
+// 🔥 تابع ارسال مجدد OTP
+// ========================================
+async function resendOTP(phoneNumber) {
+    try {
+        const response = await fetch(`${API_BASE}/auth/send-otp.php`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({phone_number: phoneNumber})
         });
+        
+        const result = await response.json();
+        return result;
+    } catch (error) {
+        console.error('❌ Resend OTP Error:', error);
+        return {success: false, message: 'Network error'};
+    }
+}
 
-        // شروع تایمر از همون اول
-        startTimer();
+// ========================================
+// کلیک روی متن آبی برای ارسال مجدد
+// ========================================
+resendEl.addEventListener("click", async () => {
+    if (resendEl.classList.contains("resend-link")) {
+        console.log("📨 OTP resend triggered");
+        
+        // 🔥 ارسال درخواست به سرور
+        resendEl.textContent = "Sending...";
+        resendEl.style.pointerEvents = "none";
+        
+        const cleanedPhone = savedPhone.replace(/\s/g, '');
+        const result = await resendOTP(cleanedPhone);
+        
+        if (result.success) {
+            // نمایش پیام موفقیت
+            const successMessage = alertBoxSuccess.querySelector('.sss');
+            if (successMessage) {
+                successMessage.textContent = 'New OTP sent to your WhatsApp';
+            }
+            showOtpAlert("success");
+            
+            // شروع مجدد تایمر
+            startTimer();
+        } else {
+            // نمایش خطا
+            const errorMessage = alertBoxError.querySelector('.otp-alert-message');
+            if (errorMessage) {
+                errorMessage.textContent = result.message || 'Failed to resend code';
+            }
+            showOtpAlert("error");
+            
+            resendEl.textContent = "Resend code";
+            resendEl.style.pointerEvents = "auto";
+        }
+    }
+});
 
+// ========================================
+// شروع تایمر از همون اول
+// ========================================
+startTimer();
+
+// ========================================
+// 🔥 فوکوس خودکار روی اولین input
+// ========================================
+window.addEventListener('load', () => {
+    inputs[0].focus();
+});
 
 
     </script>

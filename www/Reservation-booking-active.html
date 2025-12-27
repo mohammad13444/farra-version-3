@@ -1,0 +1,1414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<title>Active Page</title>
+
+<style>
+/* ===============================
+   Base
+================================ */
+  @font-face {
+      font-family: "Bonyade Koodak VF";
+      src: url("./BonyadeKoodak-VF.ttf") format("truetype");
+      font-weight: 100 900;
+      font-display: swap;
+  }
+
+  @font-face {
+      font-family: "Bonyade Koodak VF bold";
+      src: url("../fonts/BonyadeKoodakKoochak-Bold.ttf") format("truetype");
+      font-weight: 100 900;
+      font-display: swap;
+  }
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+body {
+  background: var(--Surface-Page, #EFEFFE);
+  font-family: "Bonyade Koodak VF";
+  color: #3B3B3B;
+}
+
+
+ .home-container{
+            margin-left: 24px;
+            margin-right: 24px;
+        }
+
+        /* Header with Blur Effect */
+        .header {
+            position: relative;
+            display: flex;
+            align-items: center;
+      justify-content: space-between;
+            overflow: visible;
+
+
+
+               width: 100%;
+      background: transparent;
+      display: flex;
+      align-items: center;
+      padding: 16px 13px;
+      /* پدینگ داخلی 13px به 0 تغییر کرد چون پدینگ کانتینر 24px است */
+      border-radius: 16px;
+      padding-top: 24px;
+        }
+
+          /* ⚠️ توجه: آیکون‌های چپ و راست هدر باید خارج از پدینگ کانتینر قرار می‌گرفتند. 
+           اما برای حفظ کد شما، پدینگ header به 0 تغییر کرد تا پدینگ 24px از body اعمال شود. */
+
+
+    .star {
+      color: #8e83e6;
+      font-size: 24px;
+    }
+
+    .logo {
+      font-size: 28px;
+      font-weight: 700;
+      color: #8877f3;
+    }
+
+        .header-blur {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: #f5f5f525;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            backdrop-filter: blur(3px);
+            -webkit-backdrop-filter: blur(3px);
+            mask-image: linear-gradient(
+                to bottom,
+                rgba(0,0,0,1)    0%,
+                rgba(0,0,0,0.95) 20%,
+                rgba(0,0,0,0.80) 40%,
+                rgba(0,0,0,0.55) 55%,
+                rgba(0,0,0,0.30) 70%,
+                rgba(0,0,0,0.15) 82%,
+                rgba(0,0,0,0.05) 92%,
+                rgba(0,0,0,0.00) 100%
+            );
+        }
+
+        .header > *:not(.header-blur) {
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: 700;
+            color: #7B8CFF;
+            font-style: italic;
+            margin: 0 15px;
+            letter-spacing: -0.5px;
+        }
+
+        .sparkle {
+            color: #A8B5FF;
+            font-size: 24px;
+        }
+
+       /* اینپوت وسط و کشیده */
+/* =============================
+   🔍 SEARCH BOX — نسخه نهایی Farra
+   ============================= */
+
+.search-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  height: 48px;
+  width: 100%;
+  max-width: 500px;
+  border-radius: 50px;
+  border: 1px solid #C6C5FA; /* حالت default */
+  padding: 0 10px;
+  padding-left: 15px;
+  box-sizing: border-box;
+  background: #F8F7FC;
+  transition: all 0.25s ease;
+}
+
+/* ====== Input ====== */
+.search-box input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: "Bonyade Koodak VF", sans-serif;
+  font-size: 16px;
+  color: #232323; /* رنگ متن در حالت معمول */
+  padding-left: 10px;
+  padding-right: 15px;
+  min-width: 0;
+
+
+  color: var(--Textbox-Default-Text, #A9A7F7);
+
+
+font-weight: 400;
+
+}
+
+/* ====== SVG Icons ====== */
+.search-box svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  display: inline-block;
+}
+
+.search-box svg path {
+  stroke: #C6C5FA; /* رنگ پیش‌فرض آیکن */
+  transition: stroke 0.25s ease;
+}
+
+/* ====== Hover ====== */
+.search-box:hover {
+  border-color: #9795F3;
+}
+
+/* ====== Focus ====== */
+.search-box:focus-within {
+  border: 2px solid #706DF2; /* بوردر ضخیم آبی در فوکوس */
+}
+
+.search-box:focus-within input {
+  color: #5C5C66; /* رنگ متن در فوکوس */
+      font-weight: 500;
+
+}
+
+.search-box:focus-within svg path {
+  stroke: #706DF2 !important; /* آبی در فوکوس */
+}
+
+/* placeholder در فوکوس */
+.search-box input::placeholder {
+  color: #A9A7F7;
+  transition: opacity 0.3s ease, color 0.3s ease;
+
+}
+
+.search-box:focus-within input::placeholder {
+  opacity: 0.5;
+  color: #706DF2;
+  
+}
+
+/* ====== Filled (وقتی مقدار داره و فوکوس نداره) ====== */
+.search-box.filled:not(:focus-within) {
+  border: 1px solid #706DF2; /* آبی ثابت */
+}
+
+.search-box.filled:not(:focus-within) input {
+  color: #706DF2;
+  font-weight: 500;
+}
+
+.search-box.filled:not(:focus-within) svg path {
+  stroke: #706DF2;
+}
+
+/* ====== Error / Success ====== */
+.search-box.error {
+  border: 2px solid #FF595B;
+}
+.search-box.success {
+  border: 2px solid #44CD54;
+}
+
+/* ====== آیکن‌ها ====== */
+.search-box .star img {
+  width: 24px;
+  height: 24px;
+  transition: transform 0.3s ease;
+}
+
+.search-box .star:hover img {
+  transform: scale(1.08);
+}
+
+
+
+.active-page {
+  padding: 20px 0px 120px;
+  width: 100%;
+  max-width: 100vw;
+}
+
+/* ===============================
+   Tabs
+================================ */
+.tabs {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.tab {
+color: var(--Text-Default-Caption, #8A8999);
+text-align: center;
+font-family: "Bonyade Koodak VF";
+font-size: var(--Font-Headings-H4-Text-Size, 32px);
+font-style: normal;
+font-weight: 400;
+line-height: var(--Font-Headings-H4-Line-Heigth, 48px); /* 150% */
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.tab.active {
+  color: var(--Text-Default-Heading, #45454D);
+text-align: center;
+font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+font-size: var(--Font-Headings-H4-Text-Size, 32px);
+font-style: normal;
+font-weight: 700;
+line-height: var(--Font-Headings-H4-Line-Heigth, 48px); /* 150% */
+}
+
+/* ===============================
+   Tab Content
+================================ */
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+/* ===============================
+   Sections
+================================ */
+.section {
+  margin-bottom: 28px;
+  width: 100%;
+}
+
+.section-title {
+  color: var(--Text-Default-Heading, #45454D);
+text-align: center;
+
+/* English/Heading/H5 */
+font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+font-size: 24px;
+font-style: normal;
+font-weight: 500;
+line-height: var(--Font-Headings-H5-Line-Heigth, 36px); /* 150% */
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.badge {
+ border-radius: var(--Border-Radius-300, 12px);
+background: rgba(45, 44, 97, 0.50);
+color: var(--Text-Primary-On-Color, #E2E2FC);
+text-align: center;
+display: flex;
+padding: 0 var(--Spacing-200, 8px);
+align-items: center;
+gap: var(--Spacing-100, 4px);
+padding-top: 3px;
+
+/* English/Body/Strong Small Body */
+font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+font-size: var(--Font-Copy-Body-Sm-Text-Size, 14px);
+font-style: normal;
+font-weight: 700;
+line-height: var(--Font-Copy-Body-Sm-Line-Heigth, 18px); /* 128.571% */
+}
+
+/* ===============================
+   Day Group
+================================ */
+.day-group {
+  overflow: visible;
+}
+
+.day-label {
+ color: var(--Text-Default-Heading, #45454D);
+
+/* English/Heading/H6 */
+font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+font-size: var(--Font-Headings-H6-Text-Size, 20px);
+font-style: normal;
+font-weight: 700;
+line-height: var(--Font-Headings-H6-Line-Heigth, 28px); /* 140% */
+  margin-bottom: 12px;
+}
+
+/* ===============================
+   Booking Card
+================================ */
+.booking-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #E7E8FF;
+  padding: var(--Spacing-200, 8px) var(--Spacing-300, 12px) var(--Spacing-200, 8px) var(--Spacing-200, 8px);
+  border-radius: 32px;
+  margin-bottom: 12px;
+  position: relative;
+  transition: transform .35s ease, opacity 0.4s ease;
+}
+
+.booking-card.removing {
+  opacity: 0;
+  transform: scale(0.95);
+  pointer-events: none;
+}
+
+.booking-card img {
+  width: 70px;
+  height: 72px;
+  aspect-ratio: 35/36;
+  border-radius: 20px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.booking-card .info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+
+.booking-card .title {
+  color: var(--Text-Default-Heading, #45454D);
+
+/* English/Body/Strong Medium Body */
+font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+font-size: var(--Font-Copy-Body-Text-Size, 16px);
+font-style: normal;
+font-weight: 700;
+line-height: var(--Font-Copy-Body-Line-Heigth, 20px); /* 125% */
+}
+
+.booking-card .sub {
+  color: var(--Text-Default-Caption, #8A8999);
+
+/* English/Body/Copy */
+font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+font-size: var(--Font-Copy-Body-Text-Size, 14px);
+font-style: normal;
+font-weight: 400;
+line-height: var(--Font-Copy-Body-Line-Heigth, 20px); /* 125% */
+padding-bottom: 3px;
+}
+
+.booking-card .meta {
+color: var(--Text-Default-Body, #5C5C66);
+
+/* English/Body/Copy */
+font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+font-size: var(--Font-Copy-Body-Text-Size, 14px);
+font-style: normal;
+font-weight: 400;
+line-height: var(--Font-Copy-Body-Line-Heigth, 20px); /* 125% */
+}
+
+/* ===============================
+   Canceled Card Style
+================================ */
+.booking-card.canceled {
+  border-radius: var(--Border-Radius-800, 32px);
+border: 1px solid var(--Border-Error-Default, #FF595B);
+  background: #f3f4ff00;
+}
+
+.booking-card.canceled:hover {
+  border: 2px solid #FF595B;
+}
+
+.booking-card.canceled img {
+  content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='70' height='72' viewBox='0 0 70 72' fill='none'%3E%3Crect width='70' height='72' rx='20' fill='%23E7E8FF'/%3E%3Cg transform='translate(25, 26)'%3E%3Cpath d='M18 6H2C1.46957 6 0.960859 6.21071 0.585786 6.58579C0.210714 6.96086 0 7.46957 0 8V16C0 16.5304 0.210714 17.0391 0.585786 17.4142C0.960859 17.7893 1.46957 18 2 18H18C18.5304 18 19.0391 17.7893 19.4142 17.4142C19.7893 17.0391 20 16.5304 20 16V8C20 7.46957 19.7893 6.96086 19.4142 6.58579C19.0391 6.21071 18.5304 6 18 6Z' stroke='%235C5C66' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M14 18V4C14 3.46957 13.7893 2.96086 13.4142 2.58579C13.0391 2.21071 12.5304 2 12 2H8C7.46957 2 6.96086 2.21071 6.58579 2.58579C6.21071 2.96086 6 3.46957 6 4V18' stroke='%235C5C66' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/g%3E%3C/svg%3E");
+  width: 70px;
+  height: 72px;
+}
+
+/* آیکون‌های کارت‌های کنسل شده */
+.booking-card.canceled::after {
+  display: block;
+  content: "";
+  position: absolute;
+  right: -80px;
+  top: 50%;
+  transform: translateY(-40%);
+  width: 100px;
+  height: 36px;
+  opacity: 0;
+  transition: opacity .25s ease;
+  background-repeat: no-repeat;
+  background-position: 0 center, 36px center;
+  background-size: 20px 20px;
+  cursor: pointer;
+  margin-left: -30%;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20' fill='none'%3E%3Cpath d='M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z' stroke='%23706DF2' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20' fill='none'%3E%3Cpath d='M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z' stroke='%23706DF2' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      transform: translateY(-50%) translateX(calc(90px - 25px));
+        background-position: 0 center, 70px center; /* مثلاً از 36px به 46px تغییر یافته */
+
+
+}
+
+.booking-card.canceled.active::after {
+  opacity: 1;
+}
+
+/* بوردر 2px قرمز وقتی کارت کنسل شده فعال می‌شود */
+.booking-card.canceled.active {
+  border: 4px solid #FF595B;
+}
+
+
+/* ===============================
+   Card Slide
+================================ */
+.booking-card.active {
+  transform: translateX(-45%);
+}
+
+/* ===============================
+   Icons (Pure CSS)
+================================ */
+.booking-card::after {
+  content: "";
+  position: absolute;
+  right: -120px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 115px;
+  height: 36px;
+  opacity: 0;
+  transition: opacity .25s ease;
+  background-repeat: no-repeat;
+  background-position: 0 center, 46px center, 93px center;
+  background-size: 20px 20px;
+  cursor: pointer;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20' fill='none'%3E%3Cpath d='M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z' stroke='%23706DF2' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20' fill='none'%3E%3Cpath d='M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z' stroke='%23706DF2' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"),
+url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20' fill='none'%3E%3Cpath d='M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z' stroke='%23706DF2' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+        transform: translateY(-50%) translateX(calc(90px - 70px));
+
+}
+
+.booking-card.active::after {
+  opacity: 1;
+}
+
+
+/* ===============================
+   Modal Overlay
+================================ */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9998;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .3s ease, visibility .3s ease;
+}
+
+.modal-overlay.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* ===============================
+   Cancel Modal
+================================ */
+.cancel-modal {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border-radius: var(--Border-Radius-600, 24px) var(--Border-Radius-600, 24px) var(--Border-Radius-0, 0) var(--Border-Radius-0, 0);
+  background: rgba(226, 226, 252, 0.70);
+  box-shadow: 0 -2px 4px 0 var(--Primary-100, #E2E2FC);
+  backdrop-filter: blur(6px);
+  padding: 25px 24px 40px;
+  z-index: 9999;
+  transform: translateY(100%);
+  transition: transform .4s cubic-bezier(0.4, 0, 0.2, 1);
+  max-width: 100vw;
+}
+
+.cancel-modal.show {
+  transform: translateY(0);
+}
+
+.cancel-modal-header {
+  text-align: left;
+  margin-bottom: 24px;
+}
+
+.cancel-modal-header h4{
+  color: var(--Text-Default-Heading, #45454D);
+  font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: var(--Font-Headings-H5-Line-Heigth, 36px);
+  margin-top: 0px;
+  margin-bottom: 12px;
+}
+
+.cancel-modal-icon {
+  margin: 0 auto 16px;
+}
+
+.cancel-modal-title {
+  color: var(--Text-Default-Body, #5C5C66);
+  font-size: var(--Font-Headings-H6-Text-Size, 20px);
+  font-style: normal;
+  font-weight: 700;
+  line-height: var(--Font-Headings-H6-Line-Heigth, 28px);
+  margin-bottom: 8px;
+}
+
+.cancel-modal-subtitle {
+  color: var(--Text-Default-Body, #5C5C66);
+  font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+  font-size: var(--Font-Copy-Body-Text-Size, 16px);
+  font-style: normal;
+  font-weight: 400;
+  line-height: var(--Font-Copy-Body-Line-Heigth, 20px);
+  margin-bottom: 0px;
+}
+
+.cancel-modal-text {
+  color: var(--Text-Default-Body, #5C5C66);
+  font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+  font-size: var(--Font-Copy-Body-Text-Size, 16px);
+  font-style: normal;
+  font-weight: 400;
+  line-height: var(--Font-Copy-Body-Line-Heigth, 20px);
+}
+
+.cancel-modal-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.modal-btn {
+  flex: 1;
+  border: none;
+ 
+  cursor: pointer;
+  transition: transform .2s ease;
+}
+
+
+
+.modal-btn-no {
+    border-radius: 40px;
+      background: var(--Surface-Error-Default, #FF595B);
+      padding: var(--Border-Radius-300, 12px) var(--Spacing-400, 16px);
+
+      color: var(--Text-On-Color-Heading, #E6E5FF);
+      text-align: center;
+
+      /* English/Button/Medium */
+      font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+      font-size: var(--Font-Button-Medium-Text-Size, 18px);
+      font-style: normal;
+      font-weight: 500;
+      line-height: normal;
+}
+
+.modal-btn-yes {
+   border-radius: 40px;
+      background: var(--Primary-500, #706DF2);
+      padding: var(--Border-Radius-300, 12px) var(--Spacing-400, 16px);
+      color: var(--Text-On-Color-Heading, #E6E5FF);
+      text-align: center;
+
+      /* English/Button/Medium */
+      font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+      font-size: var(--Font-Button-Medium-Text-Size, 18px);
+      font-style: normal;
+      font-weight: 500;
+      line-height: normal;
+
+}
+
+/* ===============================
+   Notification
+================================ */
+.notification {
+  position: fixed;
+  top: 24px;
+  left: 16px;
+  right: 16px;
+  border-radius: var(--Border-Radius-600, 24px);
+  border: var(--Border-Width-25, 1px) solid var(--Icon-Success-Default, #44CD54);
+  background: rgba(68, 205, 84, 0.10);
+  backdrop-filter: blur(8px);
+  padding: 12px 12px 12px 50px;
+  box-shadow: 0 8px 24px rgba(68, 205, 84, 0.15);
+  z-index: 10000;
+  transform: translateY(-120px);
+  opacity: 0;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.notification.show {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.notification::before {
+  content: "";
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20' fill='none'%3E%3Cpath d='M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z' stroke='%2344CD54' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.notification-text {
+  font-size: 15px;
+  color: #3B3B3B;
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+.notification-text strong {
+  font-weight: 700;
+}
+
+/* ===============================
+   Past Card Style
+================================ */
+.booking-card.past {
+  cursor: pointer;
+  transition: transform .35s ease, border .25s ease;
+  /* می‌توانید پس‌زمینه را برای تمایز تغییر دهید */
+  background-color: transparent;
+  border-radius: var(--Border-Radius-800, 32px);
+border: 1px solid var(--Textbox-Default-Border, #C6C5FA);
+}
+
+.booking-card.past.active {
+  transform: translateX(-30%); /* کارت به چپ اسلاید می‌کند */
+border-radius: var(--Border-Radius-800, 32px);
+border: var(--Border-Width-100, 4px) solid var(--Textbox-Default-Border, #C6C5FA);}
+
+/* آیکون‌های کارت‌های گذشته */
+.booking-card.past::after {
+  content: "";
+  position: absolute;
+  right: 0px; /* موقعیت نسبی به لبه راست کارت */
+  top: 50%;
+  /* این ترنسفرم حرکت 30% کارت (فرضاً 90 پیکسل) را جبران می‌کند
+     و کانتینر ::after را در فضای خالی ایجاد شده قرار می‌دهد. */
+  width: 90px; /* عرض کانتینر برای دو آیکون */
+  height: 36px;
+  opacity: 0;
+  transition: opacity .25s ease;
+  background-repeat: no-repeat;
+  /* آیکون اول در 0 پیکسل، آیکون دوم در 51 پیکسل (عرض 20 پیکسل + فاصله 31 پیکسل) */
+  background-position: 0 center, 51px center; 
+        transform: translateY(-50%) translateX(calc(90px - -25px));
+
+  background-size: 20px 20px;
+  cursor: pointer;
+  pointer-events: auto; /* اجازه می‌دهد روی این پسودو-المنت کلیک شود */
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20' fill='none'%3E%3Cpath d='M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z' stroke='%23706DF2' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20' fill='none'%3E%3Cpath d='M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z' stroke='%23706DF2' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); /* مثال: آیکون ویرایش/اشتراک آبی */
+}
+
+.booking-card.past.active::after {
+  opacity: 1;
+}
+
+/* Past Action Modal specific styles */
+#pastActionModal .modal-btn-yes { /* View Details */
+ border-radius: 40px;
+background: var(--Primary-500, #706DF2);
+color: var(--Text-On-Color-Heading, #E6E5FF);
+text-align: center;
+
+/* English/Button/Medium */
+font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+font-size: var(--Font-Button-Medium-Text-Size, 20px);
+font-style: normal;
+font-weight: 500;
+line-height: normal;
+padding: var(--Border-Radius-300, 12px) var(--Spacing-400, 16px);
+
+}
+#pastActionModal .modal-btn-no { /* Share Booking */
+  border-radius: 40px;
+background: var(--Surface-Error-Default, #FF595B);
+color: var(--Text-On-Color-Heading, #E6E5FF);
+text-align: center;
+
+/* English/Button/Medium */
+font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+font-size: var(--Font-Button-Medium-Text-Size, 20px);
+font-style: normal;
+font-weight: 500;
+line-height: normal;
+padding: var(--Border-Radius-300, 12px) var(--Spacing-400, 16px);
+
+}
+
+ .fara-bottom-nav {
+      position: fixed;
+      left: 24px;
+      /* پدینگ چپ صفحه */
+      right: 24px;
+      /* پدینگ راست صفحه */
+      bottom: 35px;
+background: rgba(239, 239, 254, 0.70);
+backdrop-filter: blur(6px);
+      border-radius: 50px;
+      padding: 25px 25px;
+      z-index: 999;
+      width: auto;
+      margin-top: 25px;
+      /* 👈 بذار خودش با right و left فاصله بگیره */
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+
+    .fara-bottom-container {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+    }
+
+    .fara-bottom-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: #645ef6;
+      /* رنگ آیکون‌ها مشابه تصویر */
+      font-family: "Bonyade Koodak VF", sans-serif;
+      cursor: pointer;
+      transition: color 0.3s ease, transform 0.3s ease;
+    }
+
+    .fara-bottom-item.active {
+      color: #645ef6;
+      transform: scale(1.1);
+    }
+
+    .fara-bottom-item:hover {
+      color: #7e74ff;
+      transform: scale(1.05);
+    }
+
+    .fara-bottom-icon {
+    display: flex;        /* 👈 کلید: فعال کردن Flexbox */
+    align-items: center;  /* 👈 کلید: وسط‌چین کردن عمودی (آیکون و متن روبروی هم) */
+    gap: 6px;             /* فاصله بین آیکون و متن (اختیاری) */
+    line-height: 1;
+}
+
+    .fara-bottom-text {
+      font-size: 14px;
+      margin-top: 4px;
+    }
+
+</style>
+</head>
+
+<body>
+
+     <div class="home-container">
+    <!-- Header -->
+    <div class="header">
+
+      <div class="star"><img src="./img/17.png" width="24px" alt="Menu Icon"></div>
+      <div class="logo"><img src="./img/15.png" width="56.94px" alt="Farra Logo"></div>
+      <div class="star"><img src="./img/17.png" width="24px" alt="Notification Icon"></div>
+    </div>
+
+    <!-- Search Box -->
+    <div class="search-box" id="search-box">
+      <!-- آیکون سمت چپ (Default) -->
+      <svg class="default-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"
+        fill="none">
+        <path
+          d="M9.9732 1C11.2857 5.31246 14.6605 8.6874 18.9728 10C14.6605 11.3126 11.2857 14.6875 9.9732 19C8.6607 14.6875 5.28588 11.3126 0.973633 10C5.28588 8.6874 8.6607 5.31246 9.9732 1Z"
+          stroke="#A9A7F7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+      <!-- آیکون سمت چپ (Focus) -->
+    
+
+
+<input type="text" placeholder="Search here" oninput="this.parentElement.classList.toggle('filled', this.value.trim() !== '')">
+
+
+      <!-- آیکون سمت راست (Default) -->
+      <a href="" style="padding-right: 3px;">
+        <svg class="default-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"
+          fill="none">
+          <path
+            d="M9.9732 1C11.2857 5.31246 14.6605 8.6874 18.9728 10C14.6605 11.3126 11.2857 14.6875 9.9732 19C8.6607 14.6875 5.28588 11.3126 0.973633 10C5.28588 8.6874 8.6607 5.31246 9.9732 1Z"
+            stroke="#A9A7F7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </a>
+      <!-- آیکون سمت راست (Focus) -->
+      <a href="" style="padding-right: 3px;">
+        
+      </a>
+    </div>
+
+<div class="active-page">
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <div class="tab active" data-tab="active">Active</div>
+    <div class="tab" data-tab="past">Past</div>
+    <div class="tab" data-tab="canceled">Canceled</div>
+  </div>
+
+  <!-- Active Tab Content -->
+  <div class="tab-content active" id="activeContent">
+    <!-- This Week -->
+    <div class="section">
+      <div class="section-title">
+        This Week
+        <span class="badge">2</span>
+      </div>
+
+      <div class="day-group">
+        <div class="day-label">Day Date</div>
+
+        <div class="booking-card" data-id="1" data-img="https://picsum.photos/200?1" data-title="Hotel Name" data-location="City • Country" data-date="Date • Duration in nights">
+          <img src="https://picsum.photos/200?1">
+          <div class="info">
+            <div class="title">Hotel Name</div>
+            <div class="sub">City • Country</div>
+            <div class="meta">Date • Duration in nights</div>
+          </div>
+        </div>
+
+        <div class="booking-card" data-id="2" data-img="https://picsum.photos/200?2" data-title="Hotel Name" data-location="City • Country" data-date="Date • Duration in nights">
+          <img src="https://picsum.photos/200?2">
+          <div class="info">
+            <div class="title">Hotel Name</div>
+            <div class="sub">City • Country</div>
+            <div class="meta">Date • Duration in nights</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Next Week -->
+    <div class="section">
+      <div class="section-title">Next Week</div>
+
+      <div class="day-group">
+        <div class="day-label">Day Date</div>
+
+        <div class="booking-card" data-id="3" data-img="https://picsum.photos/200?3" data-title="Hotel Name" data-location="City • Country" data-date="Date • Duration in nights">
+          <img src="https://picsum.photos/200?3">
+          <div class="info">
+            <div class="title">Hotel Name</div>
+            <div class="sub">City • Country</div>
+            <div class="meta">Date • Duration in nights</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Next Month -->
+    <div class="section">
+      <div class="section-title">Next Month</div>
+    </div>
+  </div>
+
+  <!-- Past Tab Content -->
+   <!-- Past Tab Content -->
+  <div class="tab-content" id="pastContent">
+    <div class="section">
+      <div class="section-title">Past Week</div>
+      <div class="day-group">
+        <div class="day-label">Yesterday</div>
+        <div class="booking-card past" data-id="past1" data-img="https://picsum.photos/200?past1" data-title="Past Hotel 1" data-location="City • Pastland" data-date="2024-11-20 • 2 nights">
+          <img src="https://picsum.photos/200?past1">
+          <div class="info">
+            <div class="title">Past Hotel 1</div>
+            <div class="sub">City • Pastland</div>
+            <div class="meta">2024-11-20 • 2 nights</div>
+          </div>
+        </div>
+        <div class="booking-card past" data-id="past2" data-img="https://picsum.photos/200?past2" data-title="Past Hotel 2" data-location="Town • History" data-date="2024-11-15 • 3 nights">
+          <img src="https://picsum.photos/200?past2">
+          <div class="info">
+            <div class="title">Past Hotel 2</div>
+            <div class="sub">Town • History</div>
+            <div class="meta">2024-11-15 • 3 nights</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Past Month</div>
+      <div class="day-group">
+        <div class="day-label">Last Month</div>
+        <div class="booking-card past" data-id="past3" data-img="https://picsum.photos/200?past3" data-title="Past Hotel 3" data-location="Village • Old Times" data-date="2024-10-01 • 1 night">
+          <img src="https://picsum.photos/200?past3">
+          <div class="info">
+            <div class="title">Past Hotel 3</div>
+            <div class="sub">Village • Old Times</div>
+            <div class="meta">2024-10-01 • 1 night</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+   <!-- Canceled Tab Content -->
+  <div class="tab-content" id="canceledContent">
+    <!-- Canceled bookings will be added here dynamically -->
+  </div>
+              <div class="fara-bottom-nav">
+    <div class="fara-bottom-container">
+     <a href="./home.html" class="text-decoration-none">
+       <div class="fara-bottom-item active">
+        <span class="fara-bottom-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="22" viewBox="0 0 24 22" fill="none">
+  <path d="M22.3958 8.90219L13.1465 1.31338C12.2316 0.562208 10.9141 0.562208 9.99924 1.31338L0.75 8.90219" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M2.53735 7.43164L3.22338 18.473C3.46558 19.9168 4.71518 20.9733 6.17774 20.9733H16.9659C18.4296 20.9733 19.6793 19.9168 19.9215 18.473L20.6074 7.43164" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M14.8195 14.1768C13.8869 15.0064 12.7614 15.4896 11.5667 15.4896C10.3721 15.4896 9.25474 15.0064 8.32227 14.1768" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg><span
+            class="fara-bottom-text">Home</span></span>
+
+      </div>
+     </a>
+     <a href="./map.html" class="text-decoration-none">
+       <div class="fara-bottom-item">
+        <span class="fara-bottom-icon"><svg xmlns="http://www.w3.org/2000/svg" width="23" height="22" viewBox="0 0 23 22" fill="none">
+  <path opacity="0.4" d="M20.7462 8.48164L10.09 6.28865M10.09 6.28865L1.8739 4.58984M10.09 6.28865L7.54666 19.7974" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M0.75 10.75C0.75 3.24946 3.36905 0.75 11.2262 0.75C19.0834 0.75 21.7024 3.24946 21.7024 10.75C21.7024 18.2494 19.0834 20.75 11.2262 20.75C3.36905 20.75 0.75 18.2494 0.75 10.75Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg></span>
+      </div>
+     </a>
+      <a href="./Reservation-booking-active.html" class="text-decoration-none">
+        <div class="fara-bottom-item">
+        <span class="fara-bottom-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="20" viewBox="0 0 22 20" fill="none">
+  <path opacity="0.4" d="M12.1808 0.855469V3.65047" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M12.1808 15.5332V17.8703" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M12.1808 12.3756V6.80859" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M20.75 11.8557C17.9177 11.8557 17.9177 7.53807 20.75 7.53807C20.75 2.5355 20.75 0.75 10.75 0.75C0.75 0.75 0.75 2.5355 0.75 7.53807C3.58236 7.53807 3.58236 11.8557 0.75 11.8557C0.75 16.8593 0.75 18.6447 10.75 18.6447C20.75 18.6447 20.75 16.8593 20.75 11.8557Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+        </span>
+      </div>
+      </a>
+      <a href="./profile.html">
+        <div class="fara-bottom-item">
+        <span class="fara-bottom-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="22" viewBox="0 0 18 22" fill="none">
+  <path opacity="0.4" fill-rule="evenodd" clip-rule="evenodd" d="M8.54146 14.3672C4.33889 14.3672 0.75 15.0026 0.75 17.5473C0.75 20.092 4.31612 20.7502 8.54146 20.7502C12.744 20.7502 16.3319 20.1138 16.3319 17.5701C16.3319 15.0264 12.7668 14.3672 8.54146 14.3672Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M8.54141 10.7374C11.2993 10.7374 13.5346 8.5011 13.5346 5.7432C13.5346 2.9853 11.2993 0.75 8.54141 0.75C5.78351 0.75 3.54715 2.9853 3.54715 5.7432C3.53786 8.49178 5.75867 10.7281 8.50622 10.7374H8.54141Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+        </span>
+      </div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- Past Action Modal -->
+<div class="modal-overlay" id="pastActionModalOverlay"></div>
+<div class="cancel-modal" id="pastActionModal">
+  <div class="cancel-modal-header">
+   <h4>Cancel Booking</h4>
+    <svg class="cancel-modal-icon" xmlns="http://www.w3.org/2000/svg" width="39" height="39" viewBox="0 0 39 39" fill="none">
+      <path d="M19.4991 1.5C22.1241 10.1249 28.8737 16.8748 37.4983 19.5C28.8737 22.1252 22.1241 28.875 19.4991 37.5C16.8741 28.875 10.1245 22.1252 1.5 19.5C10.1245 16.8748 16.8741 10.1249 19.4991 1.5Z" stroke="#FF595B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <div class="cancel-modal-title">Are you sure to cancel your booking?</div>
+    <div class="cancel-modal-subtitle">It will cut %25 of your money.</div>
+    <div class="cancel-modal-text">To know more about canceling policies read here.</div>
+  </div>
+  <div class="cancel-modal-buttons">
+    <button class="modal-btn modal-btn-no" id="btnViewPastDetails">No</button>
+    <button class="modal-btn modal-btn-yes" id="btnSharePast">Yes</button>
+  </div>
+</div>
+
+
+ 
+
+</div>
+
+<!-- Modal Overlay -->
+<div class="modal-overlay" id="modalOverlay"></div>
+
+<!-- Cancel Modal -->
+<div class="cancel-modal" id="cancelModal">
+  <div class="cancel-modal-header">
+    <h4>Cancel Booking</h4>
+    <svg class="cancel-modal-icon" xmlns="http://www.w3.org/2000/svg" width="39" height="39" viewBox="0 0 39 39" fill="none">
+      <path d="M19.4991 1.5C22.1241 10.1249 28.8737 16.8748 37.4983 19.5C28.8737 22.1252 22.1241 28.875 19.4991 37.5C16.8741 28.875 10.1245 22.1252 1.5 19.5C10.1245 16.8748 16.8741 10.1249 19.4991 1.5Z" stroke="#FF595B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <div class="cancel-modal-title">Are you sure to cancel your booking?</div>
+    <div class="cancel-modal-subtitle">It will cut %25 of your money.</div>
+    <div class="cancel-modal-text">To know more about canceling policies read here.</div>
+  </div>
+  <div class="cancel-modal-buttons">
+    <button class="modal-btn modal-btn-no" id="btnNo">No</button>
+    <button class="modal-btn modal-btn-yes" id="btnYes">Yes</button>
+  </div>
+</div>
+
+<!-- Notification -->
+<div class="notification" id="notification">
+  <div class="notification-text">
+    <strong>Booking Canceled.</strong><br>
+    Booking number 34543534543 for tomorrow of hotel transylvanya canceled.
+  </div>
+</div>
+
+<script>
+// Existing global variables for cancel modal
+const modal = document.getElementById('cancelModal');
+const overlay = document.getElementById('modalOverlay');
+const btnNo = document.getElementById('btnNo');
+const btnYes = document.getElementById('btnYes');
+let currentCardToCancel = null;
+
+// New global variables for past action modal
+const pastActionModal = document.getElementById('pastActionModal');
+const pastActionModalOverlay = document.getElementById('pastActionModalOverlay');
+const btnViewPastDetails = document.getElementById('btnViewPastDetails');
+const btnSharePast = document.getElementById('btnSharePast');
+
+// Canceled bookings data (existing)
+const canceledBookings = [];
+
+// Existing function: Open cancel modal
+function openModal() {
+  modal.classList.add('show');
+  overlay.classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+// Existing function: Close cancel modal
+function closeModal() {
+  modal.classList.remove('show');
+  overlay.classList.remove('show');
+  document.body.style.overflow = '';
+  currentCardToCancel = null;
+}
+
+// Existing function: Show notification
+function showNotification() {
+  const notification = document.getElementById('notification');
+  if (notification) {
+    notification.classList.add('show');
+    setTimeout(() => {
+      notification.classList.remove('show');
+    }, 3000);
+  }
+}
+
+// Existing function: Move card to Canceled
+function moveCardToCanceled(card) {
+  const cardData = {
+    id: card.dataset.id,
+    img: card.querySelector('img') ? card.querySelector('img').src : '', // Safely get image src
+    title: card.querySelector('.info .title') ? card.querySelector('.info .title').textContent : '',
+    location: card.querySelector('.info .sub') ? card.querySelector('.info .sub').textContent : '',
+    date: card.querySelector('.info .meta') ? card.querySelector('.info .meta').textContent : '',
+    // Get section title, handling potential line breaks and trimming
+    section: card.closest('.section') ? card.closest('.section').querySelector('.section-title').textContent.trim().split('\n')[0].trim() : '',
+    dayLabel: card.closest('.day-group') ? card.closest('.day-group').querySelector('.day-label').textContent : ''
+  };
+  
+  canceledBookings.push(cardData);
+  card.classList.add('removing');
+  
+  setTimeout(() => {
+    card.remove();
+    updateCanceledTab();
+  }, 400);
+}
+
+// Existing function: Update Canceled Tab content
+function updateCanceledTab() {
+  const canceledContent = document.getElementById('canceledContent');
+  if (!canceledContent) return; // Ensure element exists
+
+  if (canceledBookings.length === 0) {
+    canceledContent.innerHTML = `
+      <div class="section">
+        <div class="section-title">Canceled Bookings</div>
+        <p style="color: #8E8EA8; text-align: center; padding: 40px 0;">No canceled bookings</p>
+      </div>
+    `;
+    return;
+  }
+  
+  const groupedBySection = {};
+  canceledBookings.forEach(booking => {
+    let sectionKey = booking.section;
+    // This logic is already present and correctly handles 'This Week' becoming 'Past Week'
+    if (sectionKey === 'This Week') {
+      sectionKey = 'Past Week';
+    }
+    
+    if (!groupedBySection[sectionKey]) {
+      groupedBySection[sectionKey] = {};
+    }
+    
+    const dayKey = booking.dayLabel;
+    if (!groupedBySection[sectionKey][dayKey]) {
+      groupedBySection[sectionKey][dayKey] = [];
+    }
+    
+    groupedBySection[sectionKey][dayKey].push(booking);
+  });
+  
+  let html = '';
+  Object.keys(groupedBySection).forEach(sectionName => {
+    html += `
+      <div class="section">
+        <div class="section-title">${sectionName}</div>
+    `;
+    
+    Object.keys(groupedBySection[sectionName]).forEach(dayLabel => {
+      html += `
+        <div class="day-group">
+          <div class="day-label">${dayLabel}</div>
+      `;
+      
+      groupedBySection[sectionName][dayLabel].forEach(booking => {
+        html += `
+          <div class="booking-card canceled" 
+               data-id="${booking.id || ''}" 
+               data-img="${booking.img || ''}" 
+               data-title="${booking.title || ''}" 
+               data-location="${booking.location || ''}" 
+               data-date="${booking.date || ''}">
+            <img src="${booking.img}">
+            <div class="info">
+              <div class="title">${booking.title}</div>
+              <div class="sub">${booking.location}</div>
+              <div class="meta">${booking.date}</div>
+            </div>
+          </div>
+        `;
+      });
+      
+      html += `</div>`;
+    });
+    
+    html += `</div>`;
+  });
+  
+  canceledContent.innerHTML = html;
+}
+
+// Existing function: Switch Tab
+function switchTab(tabName) {
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.classList.remove('active');
+  });
+  const targetTab = document.querySelector(`[data-tab="${tabName}"]`);
+  if (targetTab) targetTab.classList.add('active');
+  
+  document.querySelectorAll('.tab-content').forEach(content => {
+    content.classList.remove('active');
+  });
+  const targetContent = document.getElementById(`${tabName}Content`);
+  if (targetContent) targetContent.classList.add('active');
+}
+
+// New function: Open Past Action Modal
+function openPastActionModal() {
+  if (pastActionModal && pastActionModalOverlay) {
+    pastActionModal.classList.add('show');
+    pastActionModalOverlay.classList.add('show');
+    document.body.style.overflow = 'hidden';
+  } else {
+    console.error("Past Action Modal elements not found. Ensure HTML for pastActionModal and pastActionModalOverlay is present.");
+  }
+}
+
+// New function: Close Past Action Modal
+function closePastActionModal() {
+  if (pastActionModal && pastActionModalOverlay) {
+    pastActionModal.classList.remove('show');
+    pastActionModalOverlay.classList.remove('show');
+    document.body.style.overflow = '';
+  } else {
+    console.error("Past Action Modal elements not found. Ensure HTML for pastActionModal and pastActionModalOverlay is present.");
+  }
+}
+
+// New helper function: Check if click is in the icon area of a past card
+function isClickInIconArea(e, card) {
+  const cardRect = card.getBoundingClientRect();
+  // The ::after element has width: 90px and positions itself to the right of the card's current boundary.
+  // The icon area starts at the current right edge of the card and extends 90px to the right.
+  const iconAreaStart = cardRect.right;
+  const iconAreaEnd = iconAreaStart + 90; 
+
+  return e.clientX >= iconAreaStart && e.clientX <= iconAreaEnd;
+}
+
+
+// ⭐️ Unified function for handling card clicks (modified to include Past cards)
+function handleCardClick(e) {
+  const card = e.target.closest('.booking-card');
+  if (!card) return;
+
+  const isCanceled = card.classList.contains('canceled');
+  // Detect if it's a 'Past' card by checking if it's within the #pastContent and not also canceled
+  const isPast = card.closest('#pastContent') && !isCanceled;
+  // An active booking is one that is neither canceled nor past
+  const isActiveBooking = !isCanceled && !isPast; 
+
+  const wasActive = card.classList.contains('active');
+  let modalTriggered = false; // Flag to prevent toggling 'active' if a modal was opened
+
+  // Close other active cards within their respective groups
+  if (isActiveBooking) {
+    document.querySelectorAll('#activeContent .booking-card.active').forEach(c => {
+      if (c !== card) c.classList.remove('active');
+    });
+  } else if (isCanceled) {
+    document.querySelectorAll('#canceledContent .booking-card.canceled.active').forEach(c => {
+      if (c !== card) c.classList.remove('active');
+    });
+  } else if (isPast) { // Handle Past cards: close other active past cards
+    document.querySelectorAll('#pastContent .booking-card.past.active').forEach(c => {
+      if (c !== card) c.classList.remove('active');
+    });
+  }
+
+  // Check for clicks in icon areas if the card was already active (slid out)
+  if (wasActive) { // If the card was previously active (slid out)
+    const rect = card.getBoundingClientRect();
+    const clickX = e.clientX - rect.left; // Click position relative to the card's left edge
+
+    if (isActiveBooking) {
+      // Logic for 'Active' cards: check for click on cancel icon area (rightmost ~48px)
+      // Original logic: if (clickX > rect.width - 48)
+      // This is the cancel icon for active cards
+      if (e.target.closest('.icon-area-cancel')) { // Assuming a specific class for the cancel icon area
+         currentCardToCancel = card;
+         openModal();
+         modalTriggered = true;
+      } else if (clickX > rect.width - 48) { // Fallback if no specific icon area class
+        currentCardToCancel = card;
+        openModal();
+        modalTriggered = true;
+      }
+    } else if (isPast) {
+      // Logic for 'Past' cards: check for click in the icons area using helper function
+      if (isClickInIconArea(e, card)) {
+        openPastActionModal();
+        modalTriggered = true;
+      }
+    }
+    // For Canceled cards, clicking on icons or anywhere on the active card just toggles its active state below
+  }
+
+  // If no modal was triggered, toggle the 'active' state of the card (slide out/in)
+  // This applies to all card types if no modal action was taken.
+  if (!modalTriggered) {
+    card.classList.toggle('active');
+  }
+}
+
+// Existing Event listener for tabs
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    const tabName = tab.dataset.tab;
+    switchTab(tabName);
+  });
+});
+
+// ⭐️ Existing Event Delegation for all cards (now handled by the modified handleCardClick)
+document.addEventListener('click', handleCardClick);
+
+// Existing event listeners for cancel modal (with existence checks)
+if (overlay) overlay.addEventListener('click', closeModal);
+if (btnNo) btnNo.addEventListener('click', closeModal);
+if (btnYes) btnYes.addEventListener('click', () => {
+  if (currentCardToCancel) {
+    moveCardToCanceled(currentCardToCancel);
+    showNotification();
+  }
+  closeModal();
+});
+
+// New event listeners for past action modal (with existence checks)
+if (pastActionModalOverlay) {
+  pastActionModalOverlay.addEventListener('click', closePastActionModal);
+} else {
+  // console.warn("pastActionModalOverlay not found, cannot attach event listener.");
+}
+
+if (btnViewPastDetails) {
+  btnViewPastDetails.addEventListener('click', () => {
+    alert('Viewing Past Booking Details!');
+    closePastActionModal();
+  });
+} else {
+  // console.warn("btnViewPastDetails not found, cannot attach event listener.");
+}
+
+if (btnSharePast) {
+  btnSharePast.addEventListener('click', () => {
+    alert('Sharing Past Booking!');
+    closePastActionModal();
+  });
+} else {
+  // console.warn("btnSharePast not found, cannot attach event listener.");
+}
+
+// Existing initial call to update Canceled Tab
+updateCanceledTab();
+
+
+
+</script>
+
+</body>
+</html>

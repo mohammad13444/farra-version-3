@@ -762,10 +762,12 @@
       transform: scale(1.05);
     }
 
-    .fara-bottom-icon {
-
-      line-height: 1;
-    }
+         .fara-bottom-icon {
+    display: flex;        /* 👈 کلید: فعال کردن Flexbox */
+    align-items: center;  /* 👈 کلید: وسط‌چین کردن عمودی (آیکون و متن روبروی هم) */
+    gap: 6px;             /* فاصله بین آیکون و متن (اختیاری) */
+    line-height: 1;
+}
 
     .fara-bottom-text {
       font-size: 14px;
@@ -2182,24 +2184,51 @@ height: 30px;
       </div>
       <br>
       <!-- Bottom Navigation -->
-      <div class="fara-bottom-nav">
-        <div class="fara-bottom-container">
-          <div class="fara-bottom-item active">
-            <span class="fara-bottom-icon"><img src="./img/16.png" width="25px" alt=""> <span
-                class="fara-bottom-text">Sample</span></span>
+     <div class="fara-bottom-nav">
+    <div class="fara-bottom-container">
+     <a href="./home.html" class="text-decoration-none">
+       <div class="fara-bottom-item active">
+        <span class="fara-bottom-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="22" viewBox="0 0 24 22" fill="none">
+  <path d="M22.3958 8.90219L13.1465 1.31338C12.2316 0.562208 10.9141 0.562208 9.99924 1.31338L0.75 8.90219" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M2.53735 7.43164L3.22338 18.473C3.46558 19.9168 4.71518 20.9733 6.17774 20.9733H16.9659C18.4296 20.9733 19.6793 19.9168 19.9215 18.473L20.6074 7.43164" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M14.8195 14.1768C13.8869 15.0064 12.7614 15.4896 11.5667 15.4896C10.3721 15.4896 9.25474 15.0064 8.32227 14.1768" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg><span
+            class="fara-bottom-text">Home</span></span>
 
-          </div>
-          <div class="fara-bottom-item">
-            <span class="fara-bottom-icon"><img src="./img/18.png" width="24px" height="24px" alt=""></span>
-          </div>
-          <div class="fara-bottom-item">
-            <span class="fara-bottom-icon"><img src="./img/18.png" width="24px" height="24px" alt=""></span>
-          </div>
-          <div class="fara-bottom-item">
-            <span class="fara-bottom-icon"><img src="./img/18.png" width="24px" height="24px" alt=""></span>
-          </div>
-        </div>
       </div>
+     </a>
+     <a href="./map.html" class="text-decoration-none">
+       <div class="fara-bottom-item">
+        <span class="fara-bottom-icon"><svg xmlns="http://www.w3.org/2000/svg" width="23" height="22" viewBox="0 0 23 22" fill="none">
+  <path opacity="0.4" d="M20.7462 8.48164L10.09 6.28865M10.09 6.28865L1.8739 4.58984M10.09 6.28865L7.54666 19.7974" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M0.75 10.75C0.75 3.24946 3.36905 0.75 11.2262 0.75C19.0834 0.75 21.7024 3.24946 21.7024 10.75C21.7024 18.2494 19.0834 20.75 11.2262 20.75C3.36905 20.75 0.75 18.2494 0.75 10.75Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg></span>
+      </div>
+     </a>
+      <a href="./Reservation-booking-active.html" class="text-decoration-none">
+        <div class="fara-bottom-item">
+        <span class="fara-bottom-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="20" viewBox="0 0 22 20" fill="none">
+  <path opacity="0.4" d="M12.1808 0.855469V3.65047" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M12.1808 15.5332V17.8703" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M12.1808 12.3756V6.80859" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M20.75 11.8557C17.9177 11.8557 17.9177 7.53807 20.75 7.53807C20.75 2.5355 20.75 0.75 10.75 0.75C0.75 0.75 0.75 2.5355 0.75 7.53807C3.58236 7.53807 3.58236 11.8557 0.75 11.8557C0.75 16.8593 0.75 18.6447 10.75 18.6447C20.75 18.6447 20.75 16.8593 20.75 11.8557Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+        </span>
+      </div>
+      </a>
+      <a href="./profile.html">
+        <div class="fara-bottom-item">
+        <span class="fara-bottom-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="22" viewBox="0 0 18 22" fill="none">
+  <path opacity="0.4" fill-rule="evenodd" clip-rule="evenodd" d="M8.54146 14.3672C4.33889 14.3672 0.75 15.0026 0.75 17.5473C0.75 20.092 4.31612 20.7502 8.54146 20.7502C12.744 20.7502 16.3319 20.1138 16.3319 17.5701C16.3319 15.0264 12.7668 14.3672 8.54146 14.3672Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M8.54141 10.7374C11.2993 10.7374 13.5346 8.5011 13.5346 5.7432C13.5346 2.9853 11.2993 0.75 8.54141 0.75C5.78351 0.75 3.54715 2.9853 3.54715 5.7432C3.53786 8.49178 5.75867 10.7281 8.50622 10.7374H8.54141Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+        </span>
+      </div>
+      </a>
+    </div>
+  </div>
     </div>
 
     <!-- 🔍 صفحه نتایج فیلتر -->

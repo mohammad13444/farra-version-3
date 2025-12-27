@@ -153,7 +153,24 @@ stroke: var(--Icon-Primary-Default, #706DF2);" xmlns="http://www.w3.org/2000/svg
   </div>
 
   <script>
-   // ---------------- Form elements ----------------
+// ========================================
+// 🔥 تنظیمات API
+// ========================================
+const API_BASE = 'http://localhost/farra/backend/api';
+
+// ========================================
+// بررسی session token
+// ========================================
+const sessionToken = localStorage.getItem('session_token');
+const userId = localStorage.getItem('user_id');
+
+if (!sessionToken || !userId) {
+    // اگر لاگین نکرده بود، برگرد به صفحه signup
+    alert('Please login first');
+    window.location.href = './signup.html';
+}
+
+// ---------------- Form elements ----------------
 const nameInput = document.getElementById('name');
 const ageInput = document.getElementById('age');
 const emailInput = document.getElementById('email');
@@ -265,17 +282,59 @@ function validateForm() {
   }
 }
 
+// ========================================
+// 🔥 تابع ارسال اطلاعات به سرور
+// ========================================
+async function completeProfile(formData) {
+    try {
+        const response = await fetch(`${API_BASE}/user/complete-profile.php`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${sessionToken}` // ارسال توکن
+            },
+            body: JSON.stringify(formData)
+        });
+        
+        const result = await response.json();
+        return result;
+    } catch (error) {
+        console.error('❌ Complete Profile Error:', error);
+        return {success: false, message: 'Network error occurred'};
+    }
+}
+
 // ---------------- Continue Button ----------------
-continueBtn.addEventListener('click', function () {
+continueBtn.addEventListener('click', async function () {
   if (this.classList.contains('active')) {
     const formData = {
-      name: nameInput.value.trim(),
+      full_name: nameInput.value.trim(),
       age: parseInt(ageInput.value),
       city: cityContainer.dataset.selected || '',
       email: emailInput.value.trim()
     };
-    console.log('User Information:', formData);
-    window.location.href = "wellcom.html";
+    
+    console.log('📤 Sending user information:', formData);
+    
+    // 🔥 ارسال به سرور
+    continueBtn.textContent = 'Saving...';
+    continueBtn.classList.remove('active');
+    continueBtn.style.cursor = 'not-allowed';
+    
+    const result = await completeProfile(formData);
+    
+    if (result.success) {
+        console.log('✅ Profile completed successfully');
+        // هدایت به صفحه wellcom
+        window.location.href = "wellcom.html";
+    } else {
+        console.error('❌ Profile completion failed:', result.message);
+        alert(result.message || 'Failed to save profile. Please try again.');
+        
+        // بازگشت دکمه به حالت عادی
+        continueBtn.textContent = 'Continue';
+        validateForm(); // بررسی مجدد فرم
+    }
   }
 });
 
@@ -285,6 +344,7 @@ ageInput.addEventListener('input', function () {
   if (value < 1) this.value = '';
   if (value > 120) this.value = 120;
 });
+
 
 
   </script>

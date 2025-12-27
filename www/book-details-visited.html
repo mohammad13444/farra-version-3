@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Page</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+          @font-face {
+      font-family: "Bonyade Koodak VF";
+      src: url("./BonyadeKoodak-VF.ttf") format("truetype");
+      font-weight: 100 900;
+      /* 👈 اجازه بده تمام بازه وزن‌ها فعال بشه */
+      font-display: swap;
+  }
+        :root {
+            --primary-bg-color: #F1F0FF;
+            --secondary-bg-color: #EDEBF6;
+            --accent-color: #706DF2;
+            --text-dark: #333333;
+            --text-medium: #6B6B6B;
+            --text-light: #AAAAAA;
+            --text-lighter: #BCBCC0;
+            --border-color: #D9D9F7;
+        }
+
+        body {
+            font-family: "Bonyade Koodak VF";
+              background-color: #F1F0FF;
+
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 400px; /* Assuming a mobile screen width */
+            padding: 24px;
+            box-sizing: border-box;
+            min-height: 100vh;
+            background-color: #F1F0FF; /* Simulate inner content white background */
+            position: relative; /* For the bottom navigation bar */
+        }
+
+      /* Header with Blur Effect */
+         .header {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            overflow: visible;
+            width: 100%;
+            background: transparent;
+            border-radius: 16px;
+            
+            /* تغییرات اصلی برای جلوگیری از جابجایی */
+            box-sizing: border-box; /* پدینگ را به داخل width 100% محاسبه می‌کند */
+            padding: 16px 13px; /* پدینگ جدید شما، جایگزین padding-top قبلی */
+        }
+
+          /* ⚠️ توجه: آیکون‌های چپ و راست هدر باید خارج از پدینگ کانتینر قرار می‌گرفتند. 
+           اما برای حفظ کد شما، پدینگ header به 0 تغییر کرد تا پدینگ 24px از body اعمال شود. */
+
+
+    .star {
+      color: #8e83e6;
+      font-size: 24px;
+    }
+
+    .logo {
+      font-size: 28px;
+      font-weight: 700;
+      color: #8877f3;
+    }
+
+        .header-blur {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: #f5f5f525;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            backdrop-filter: blur(3px);
+            -webkit-backdrop-filter: blur(3px);
+            mask-image: linear-gradient(
+                to bottom,
+                rgba(0,0,0,1)    0%,
+                rgba(0,0,0,0.95) 20%,
+                rgba(0,0,0,0.80) 40%,
+                rgba(0,0,0,0.55) 55%,
+                rgba(0,0,0,0.30) 70%,
+                rgba(0,0,0,0.15) 82%,
+                rgba(0,0,0,0.05) 92%,
+                rgba(0,0,0,0.00) 100%
+            );
+        }
+
+        .header > *:not(.header-blur) {
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: 700;
+            color: #7B8CFF;
+            font-style: italic;
+            margin: 0 15px;
+            letter-spacing: -0.5px;
+        }
+
+        .sparkle {
+            color: #A8B5FF;
+            font-size: 24px;
+        }
+
+       /* اینپوت وسط و کشیده */
+/* =============================
+   🔍 SEARCH BOX — نسخه نهایی Farra
+   ============================= */
+
+.search-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  height: 48px;
+  width: 100%;
+  max-width: 500px;
+  border-radius: 50px;
+  border: 1px solid #C6C5FA; /* حالت default */
+  padding: 0 10px;
+  padding-left: 15px;
+  box-sizing: border-box;
+  background: #F8F7FC;
+  transition: all 0.25s ease;
+}
+
+/* ====== Input ====== */
+.search-box input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: "Bonyade Koodak VF", sans-serif;
+  font-size: 16px;
+  color: #232323; /* رنگ متن در حالت معمول */
+  padding-left: 10px;
+  padding-right: 15px;
+  min-width: 0;
+
+
+  color: var(--Textbox-Default-Text, #A9A7F7);
+
+
+font-weight: 400;
+
+}
+
+/* ====== SVG Icons ====== */
+.search-box svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  display: inline-block;
+}
+
+.search-box svg path {
+  stroke: #C6C5FA; /* رنگ پیش‌فرض آیکن */
+  transition: stroke 0.25s ease;
+}
+
+/* ====== Hover ====== */
+.search-box:hover {
+  border-color: #9795F3;
+}
+
+/* ====== Focus ====== */
+.search-box:focus-within {
+  border: 2px solid #706DF2; /* بوردر ضخیم آبی در فوکوس */
+}
+
+.search-box:focus-within input {
+  color: #5C5C66; /* رنگ متن در فوکوس */
+      font-weight: 500;
+
+}
+
+.search-box:focus-within svg path {
+  stroke: #706DF2 !important; /* آبی در فوکوس */
+}
+
+/* placeholder در فوکوس */
+.search-box input::placeholder {
+  color: #A9A7F7;
+  transition: opacity 0.3s ease, color 0.3s ease;
+
+}
+
+.search-box:focus-within input::placeholder {
+  opacity: 0.5;
+  color: #706DF2;
+  
+}
+
+/* ====== Filled (وقتی مقدار داره و فوکوس نداره) ====== */
+.search-box.filled:not(:focus-within) {
+  border: 1px solid #706DF2; /* آبی ثابت */
+}
+
+.search-box.filled:not(:focus-within) input {
+  color: #706DF2;
+  font-weight: 500;
+}
+
+.search-box.filled:not(:focus-within) svg path {
+  stroke: #706DF2;
+}
+
+/* ====== Error / Success ====== */
+.search-box.error {
+  border: 2px solid #FF595B;
+}
+.search-box.success {
+  border: 2px solid #44CD54;
+}
+
+/* ====== آیکن‌ها ====== */
+.search-box .star img {
+  width: 24px;
+  height: 24px;
+  transition: transform 0.3s ease;
+}
+
+.search-box .star:hover img {
+  transform: scale(1.08);
+}
+
+
+    
+
+
+        h1 {
+            color: var(--Text-Default-Heading, #45454D);
+
+/* English/Heading/H4 */
+font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+font-size: var(--Font-Headings-H4-Text-Size, 32px);
+font-style: normal;
+font-weight: 700;
+line-height: var(--Font-Headings-H4-Line-Heigth, 48px); /* 150% */
+            margin-top: 25px;
+            margin-bottom: 5px;
+        }
+
+        .description {
+            color: var(--Text-Default-Caption, #8A8999);
+
+/* English/Body/LCopy */
+font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+font-size: var(--Font-Copy-Body-Lg-Text-Size, 20px);
+font-style: normal;
+font-weight: 400;
+line-height: var(--Font-Copy-Body-Lg-Line-Heigth, 24px); /* 120% */
+            margin-bottom: 25px;
+            margin-top: 5px;
+        }
+
+        /* ====== Hotel Info Box ====== */
+.hotel-box {
+  display: flex;
+  align-items: center;
+  border-radius: var(--Border-Radius-800, 32px);
+background: var(--Primary-100, #E2E2FC);
+  padding: 8px 12px 8px 8px;
+  margin-bottom: 12px;
+}
+.hotel-box img {
+ width: 70px;
+height: 72px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-right: 10px;
+}
+.hotel-info h4 {
+ color: var(--Text-Default-Heading, #45454D);
+
+/* English/Body/Strong Medium Body */
+font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+font-size: var(--Font-Copy-Body-Text-Size, 16px);
+font-style: normal;
+font-weight: 700;
+line-height: var(--Font-Copy-Body-Line-Heigth, 20px); /* 125% */
+  margin: 0;
+  font-weight: 600;
+}
+.hotel-info p {
+  color: var(--Text-Default-Caption, #8A8999);
+
+/* English/Body/Copy */
+font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+font-size: var(--Font-Copy-Body-Text-Size, 16px);
+font-style: normal;
+font-weight: 400;
+line-height: var(--Font-Copy-Body-Line-Heigth, 20px); /* 125% */
+  margin: 3px 0 8px;
+}
+.hotel-info span {
+  display: block;
+ color: var(--Text-Default-Body, #5C5C66);
+
+/* English/Body/Copy */
+font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+font-size: var(--Font-Copy-Body-Text-Size, 16px);
+font-style: normal;
+font-weight: 400;
+line-height: var(--Font-Copy-Body-Line-Heigth, 20px); /* 125% */
+}
+
+      
+
+      
+        .booking-info-box {
+  width: 100%;
+border-radius: var(--Border-Radius-600, 24px);
+background: var(--Primary-100, #E2E2FC);
+  padding: var(--Spacing-400, 16px) var(--Spacing-600, 24px) var(--Spacing-600, 24px) var(--Spacing-500, 20px);
+  font-family: "Poppins", sans-serif;
+  color: #45454D;
+  box-sizing: border-box;
+  margin-bottom: 32px;
+}
+
+.booking-info-box .row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  color: var(--Text-Default-Heading, #45454D);
+
+/* English/Body/Copy */
+font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+font-size: var(--Font-Copy-Body-Text-Size, 16px);
+font-style: normal;
+font-weight: 400;
+line-height: var(--Font-Copy-Body-Line-Heigth, 20px); /* 125% */
+  margin: 8px 0;
+}
+
+.booking-info-box .left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  
+  font-weight: 400;
+}
+
+.booking-info-box .right {
+  font-weight: 400;
+}
+
+.booking-info-box .small-text .right {
+  font-size: 14px;
+  color: #5B5B65;
+}
+
+.booking-info-box .divider {
+  border-bottom: 1px solid rgba(70, 70, 90, 0.15);
+  margin: 16px 0;
+}
+
+.booking-info-box .row.total .left span {
+  font-weight: 600;
+}
+
+.booking-info-box .row.total .right {
+  font-weight: 700;
+  color: #333;
+}
+
+.booking-info-box svg {
+  flex-shrink: 0;
+}
+
+.sssn{
+    padding-left: 35px;
+}
+
+
+
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+       <div class="header">
+
+      <div class="star"><img src="./img/17.png" width="24px" alt="Menu Icon"></div>
+      <div class="logo"><img src="./img/15.png" width="56.94px" alt="Farra Logo"></div>
+      <div class="star"><img src="./img/17.png" width="24px" alt="Notification Icon"></div>
+    </div>
+
+    <!-- Search Box -->
+    <div class="search-box" id="search-box">
+      <!-- آیکون سمت چپ (Default) -->
+      <svg class="default-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"
+        fill="none">
+        <path
+          d="M9.9732 1C11.2857 5.31246 14.6605 8.6874 18.9728 10C14.6605 11.3126 11.2857 14.6875 9.9732 19C8.6607 14.6875 5.28588 11.3126 0.973633 10C5.28588 8.6874 8.6607 5.31246 9.9732 1Z"
+          stroke="#A9A7F7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+      <!-- آیکون سمت چپ (Focus) -->
+    
+
+
+<input type="text" placeholder="Search Anywhere you want." oninput="this.parentElement.classList.toggle('filled', this.value.trim() !== '')">
+
+
+      <!-- آیکون سمت راست (Default) -->
+      <a href="" style="padding-right: 3px;">
+        <svg class="default-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"
+          fill="none">
+          <path
+            d="M9.9732 1C11.2857 5.31246 14.6605 8.6874 18.9728 10C14.6605 11.3126 11.2857 14.6875 9.9732 19C8.6607 14.6875 5.28588 11.3126 0.973633 10C5.28588 8.6874 8.6607 5.31246 9.9732 1Z"
+            stroke="#A9A7F7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </a>
+      <!-- آیکون سمت راست (Focus) -->
+      <a href="" style="padding-right: 3px;">
+        
+      </a>
+    </div>
+  
+
+
+
+
+
+        <h1>Book Details</h1>
+        <p class="description">Please fill out the required information field and then tap on continue.</p>
+
+        <div class="hotel-box">
+      <img src="./img/52.png" alt="Hotel">
+      <div class="hotel-info">
+        <h4>Hotel Transylvania</h4>
+        <p>3 dyas • 2 people</p>
+        <span>250 USD / Night</span>
+      </div>
+    </div>
+
+        <div class="booking-info-box">
+             <div class="row">
+    <div class="left">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+  <path d="M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+      <span>Status</span>
+    </div>
+    <div class="right" style="margin-right: 28%; border-radius: var(--Border-Radius-300, 12px);
+background: var(--Surface-Success-Default, #44CD54); padding: 0 var(--Spacing-200, 8px); font-weight: 400; color: var(--Text-Primary-On-Color, #E2E2FC);
+line-height: var(--Font-Copy-Body-Line-Heigth, 20px); padding-top: 3px; font-size: 16px;">Visited</div>
+  </div>
+    <div class="divider"></div>
+  <div class="row">
+    <div class="left">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+  <path d="M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+      <span>Rooms</span>
+    </div>
+    <div class="right" style="margin-right: 35%;">$1200</div>
+  </div>
+
+  <div class="row">
+    <div class="left">
+      
+      <span class="sssn">Added Beds</span>
+    </div>
+    <div class="right" style="margin-right: 35%;">$1200</div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="row">
+    <div class="left">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+  <path d="M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+      <span style="color: #5C5C66;">From</span>
+    </div>
+    <div class="right" style="color: #5C5C66; text-align: left;">Thursday 24/05/2025</div>
+  </div>
+
+  <div class="row">
+    <div class="left">
+     
+      <span class="sssn" style="color: #5C5C66;">To</span>
+    </div>
+    <div class="right" style="color: #5C5C66;">Thursday 24/05/2025</div>
+  </div>
+
+  <div class="row small-text">
+    <div class="left">
+     
+      <span class="sssn" style="color: #5C5C66;">For</span>
+    </div>
+    <div class="right" style="color: #5C5C66; margin-right: 41px;">3 days and 2 nights</div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="row">
+    <div class="left">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+  <path d="M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+      <span style="color: #5C5C66;">For</span>
+    </div>
+    <div class="right" style="color: #5C5C66; margin-right: 91px;">2 Adults</div>
+  </div>
+
+  <div class="row">
+    <div class="left">
+     
+      <span class="sssn" style="color: #5C5C66;">and</span>
+    </div>
+    <div class="right" style="color: #5C5C66; margin-right: 79px;">3 Children</div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="row total">
+    <div class="left">
+     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+  <path d="M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+      <span style="color: #5C5C66; font-size: 20px;">Total Price</span>
+    </div>
+    <div class="right bold" style="color: #5C5C66; margin-right: 91px; font-size: 20px;">$1340</div>
+  </div>
+</div>
+
+
+       
+
+   
+</body>
+</html>

@@ -132,7 +132,7 @@ stroke: var(--Icon-Primary-Default, #706DF2);" xmlns="http://www.w3.org/2000/svg
             </div>
         </div>
 
-        <a href="./otp.html">1</a>
+        <a href="./home.html">1</a>
 
         <!-- متن شرایط استفاده -->
         <!-- <div class="terms-text">
@@ -142,85 +142,150 @@ stroke: var(--Icon-Primary-Default, #706DF2);" xmlns="http://www.w3.org/2000/svg
     </div>
 
     <script>
-        const inputField = document.getElementById('mobilePhone');
-        const errorAlert = document.getElementById('errorAlert');
-        const signupButton = document.querySelector('.signup-button');
+  // ========================================
+// 🔥 تنظیمات API
+// ========================================
+const API_BASE = 'http://localhost/farra/backend/api';
 
-        // آیکون‌ها
-        const iconDefault = document.querySelector('.default-icon');
-        const iconFocose = document.querySelector('.focose');
-        const iconAlert = document.querySelector('.alert');
-        const iconSuccess = document.querySelector('.success');
+const inputField = document.getElementById('mobilePhone');
+const errorAlert = document.getElementById('errorAlert');
+const signupButton = document.querySelector('.signup-button');
 
-        // شروع: دکمه غیرفعال و آیکون پیش‌فرض فعال
+// آیکون‌ها
+const iconDefault = document.querySelector('.default-icon');
+const iconFocose = document.querySelector('.focose');
+const iconAlert = document.querySelector('.alert');
+const iconSuccess = document.querySelector('.success');
+
+// شروع: دکمه غیرفعال و آیکون پیش‌فرض فعال
+signupButton.classList.add('disabled');
+setActiveIcon(iconDefault);
+
+// فعال/غیرفعال شدن دکمه بر اساس پر بودن فیلد 
+inputField.addEventListener('input', () => {
+    if (inputField.value.trim().length > 0) {
+        signupButton.classList.remove('disabled');
+    } else {
         signupButton.classList.add('disabled');
+    }
+});
+
+// فوکوس → پاک کردن حالت‌های قبلی و نمایش آیکون فوکوس
+inputField.addEventListener('focus', () => {
+    inputField.classList.remove('error', 'success');
+    errorAlert.classList.remove('show');
+    setActiveIcon(iconFocose);
+});
+
+// بلور → اگر خالی بود برگرد به حالت پیش‌فرض
+inputField.addEventListener('blur', () => {
+    if (inputField.value.trim().length === 0) {
         setActiveIcon(iconDefault);
+    }
+});
 
-        // فعال/غیرفعال شدن دکمه بر اساس پر بودن فیلد 
-        inputField.addEventListener('input', () => {
-            if (inputField.value.trim().length > 0) {
-                signupButton.classList.remove('disabled');
-            } else {
-                signupButton.classList.add('disabled');
+// مدیریت آیکون فعال
+function setActiveIcon(icon) {
+    [iconDefault, iconFocose, iconAlert, iconSuccess].forEach(ic => ic.style.display = 'none');
+    icon.style.display = 'inline';
+}
+
+// ========================================
+// 🔥 تابع ارسال OTP به سرور
+// ========================================
+async function sendOTP(phoneNumber) {
+    try {
+        const response = await fetch(`${API_BASE}/auth/send-otp.php`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({phone_number: phoneNumber})
+        });
+        
+        const result = await response.json();
+        return result;
+    } catch (error) {
+        console.error('❌ Send OTP Error:', error);
+        return {success: false, message: 'Network error occurred'};
+    }
+}
+
+// 📱 کلیک روی دکمه Signup → فقط این‌جا ولیدیشن انجام میشه
+async function handleSignup() {
+    const phone = inputField.value.replace(/\s/g, '');
+
+    // اگر دکمه غیرفعاله، کاری نکن
+    if (signupButton.classList.contains('disabled')) return;
+
+    // حذف همه حالت‌ها
+    errorAlert.classList.remove('show');
+    inputField.classList.remove('error', 'success', 'shake');
+
+    // ✅ منطق ولیدیشن:
+    if (phone.length === 0) {
+        setActiveIcon(iconDefault);
+        return;
+    }
+
+    if (phone.length < 11) {
+        // ❌ خطا
+        inputField.classList.add('error', 'shake');
+        setActiveIcon(iconAlert);
+        errorAlert.classList.add('show');
+        setTimeout(() => inputField.classList.remove('shake'), 500);
+        return;
+    }
+
+    // ✅ موفقیت - ارسال به سرور
+    if (phone.length === 11) {
+        inputField.classList.add('success');
+        inputField.blur(); // ← فوکوس رو بردار تا CSS success غلبه کنه
+        setActiveIcon(iconSuccess);
+        errorAlert.classList.remove('show');
+
+        console.log('✅ Sending OTP to:', phone);
+        
+        // 🔥 تغییر متن دکمه
+        const originalText = signupButton.textContent;
+        signupButton.textContent = 'Sending...';
+        signupButton.classList.add('disabled');
+        
+        // ارسال درخواست به سرور
+        const result = await sendOTP(phone);
+        
+        if (result.success) {
+            console.log('✅ OTP sent successfully');
+            
+            // ذخیره شماره تلفن برای استفاده در صفحه OTP
+            localStorage.setItem('phone_number', inputField.value.trim());
+            
+            // هدایت به صفحه OTP
+            setTimeout(() => {
+                window.location.href = './otp.html';
+            }, 500);
+        } else {
+            console.error('❌ Failed to send OTP:', result.message);
+            
+            // نمایش خطا
+            inputField.classList.remove('success');
+            inputField.classList.add('error', 'shake');
+            setActiveIcon(iconAlert);
+            
+            // تغییر متن alert به پیام سرور
+            const alertMessage = errorAlert.querySelector('.error-message');
+            if (alertMessage) {
+                alertMessage.textContent = result.message || 'Failed to send OTP';
             }
-        });
-
-        // فوکوس → پاک کردن حالت‌های قبلی و نمایش آیکون فوکوس
-        inputField.addEventListener('focus', () => {
-            inputField.classList.remove('error', 'success');
-            errorAlert.classList.remove('show');
-            setActiveIcon(iconFocose);
-        });
-
-        // بلور → اگر خالی بود برگرد به حالت پیش‌فرض
-        inputField.addEventListener('blur', () => {
-            if (inputField.value.trim().length === 0) {
-                setActiveIcon(iconDefault);
-            }
-        });
-
-        // مدیریت آیکون فعال
-        function setActiveIcon(icon) {
-            [iconDefault, iconFocose, iconAlert, iconSuccess].forEach(ic => ic.style.display = 'none');
-            icon.style.display = 'inline';
+            errorAlert.classList.add('show');
+            
+            // بازگشت دکمه
+            signupButton.textContent = originalText;
+            signupButton.classList.remove('disabled');
+            
+            setTimeout(() => inputField.classList.remove('shake'), 500);
         }
+    }
+}
 
-        // 📱 کلیک روی دکمه Signup → فقط این‌جا ولیدیشن انجام میشه
-        function handleSignup() {
-            const phone = inputField.value.replace(/\s/g, '');
-
-            // اگر دکمه غیرفعاله، کاری نکن
-            if (signupButton.classList.contains('disabled')) return;
-
-            // حذف همه حالت‌ها
-            errorAlert.classList.remove('show');
-            inputField.classList.remove('error', 'success', 'shake');
-
-            // ✅ منطق ولیدیشن:
-            if (phone.length === 0) {
-                setActiveIcon(iconDefault);
-                return;
-            }
-
-            if (phone.length < 11) {
-                // ❌ خطا
-                inputField.classList.add('error', 'shake');
-                setActiveIcon(iconAlert);
-                errorAlert.classList.add('show');
-                setTimeout(() => inputField.classList.remove('shake'), 500);
-                return;
-            }
-
-            // ✅ موفقیت
-            if (phone.length === 11) {
-                inputField.classList.add('success');
-                inputField.blur(); // ← فوکوس رو بردار تا CSS success غلبه کنه
-                setActiveIcon(iconSuccess);
-                errorAlert.classList.remove('show');
-            }
-
-            console.log('✅ Signup with phone:', phone);
-        }
 
 
     </script>
