@@ -675,3 +675,229 @@ if ($text == "💳 خرید اشتراک") {
     exit;
 }
 ?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+name: iOS Build & Sign - Farra (Cordova Auto-Setup)
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: macos-15
+
+    env:
+      P12: ${{ secrets.P12_BASE64 }}
+      P12_PASSWORD: ${{ secrets.P12_PASSWORD }}
+      PROFILE: ${{ secrets.PP_BASE64 }}
+      TEAM_ID: 72M97MR8UU
+
+    steps:
+      # -------------------------------
+      # 1️⃣ Checkout project
+      # -------------------------------
+      - name: 🧩 Checkout repository
+        uses: actions/checkout@v4
+
+      # -------------------------------
+      # 2️⃣ Setup Node & Cordova iOS platform
+      # -------------------------------
+      - name: ⚙️ Setup Cordova environment
+        run: |
+          echo "⬇️ Installing Cordova environment..."
+          npm install -g cordova
+          npm install
+
+          echo "🧱 (Re)building iOS platform..."
+            cordova platform remove ios
+            cordova platform add ios@7.1.1
+
+          echo "📂 Inspecting platforms/ios:"
+          ls -R platforms/ios
+
+      # -------------------------------
+      # 3️⃣ Provisioning Profile & Certificate Setup
+      # -------------------------------
+      - name: 🔑 Import Certificate & Install Provisioning Profile
+        run: |
+          mkdir -p ~/signing
+          echo "$PROFILE" | base64 --decode > ~/signing/profile.mobileprovision
+          echo "$P12" | base64 --decode > ~/signing/dist.p12
+
+          uuid=$(/usr/libexec/PlistBuddy -c "Print UUID" /dev/stdin <<< "$(security cms -D -i ~/signing/profile.mobileprovision)")
+          echo "PROFILE_UUID=$uuid" >> $GITHUB_ENV
+          echo "✅ Provisioning Profile UUID: $uuid"
+
+          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+          cp ~/signing/profile.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/$uuid.mobileprovision
+          echo "✅ Provisioning profile installed."
+
+          echo -n "${{ secrets.P12_PASSWORD }}" | LC_ALL=C tr -d '\r\n' > ~/signing/p12pass.txt
+          P12_PASS_CLEAN=$(<~/signing/p12pass.txt)
+
+          security create-keychain -p temp-pass ios-build.keychain
+          security unlock-keychain -p temp-pass ios-build.keychain
+          security set-keychain-settings -lut 3600 ios-build.keychain
+          security import ~/signing/dist.p12 -k ~/Library/Keychains/ios-build.keychain -A -P "$P12_PASS_CLEAN" -f pkcs12 -T /usr/bin/codesign -T /usr/bin/security
+          security set-key-partition-list -S apple-tool:,apple:,codesign:,keychain: -k temp-pass ~/Library/Keychains/ios-build.keychain
+          security list-keychains -s ~/Library/Keychains/ios-build.keychain
+          echo "✅ Certificate ready for codesign tools."
+
+      # -------------------------------
+      # 4️⃣ Setup Xcode
+      # -------------------------------
+      - name: ⚙️ Setup Xcode
+        run: |
+          sudo xcode-select -switch /Applications/Xcode.app
+          xcodebuild -version
+
+      # -------------------------------
+      # 5️⃣ Build & Archive Signed App
+      # -------------------------------
+      - name: 🚀 Archive the app (Signed)
+        run: |
+          cd platforms/ios
+          echo "📘 Building workspace/project..."
+          security list-keychains -s ~/Library/Keychains/ios-build.keychain
+
+          if [ -e "farra.xcworkspace" ]; then
+            echo "📘 Using .xcworkspace"
+            xcodebuild -workspace farra.xcworkspace \
+              -scheme farra \
+              -configuration Release \
+              -archivePath $PWD/../../build/farra.xcarchive \
+              clean archive \
+              -destination generic/platform=iOS \
+              CODE_SIGN_STYLE=Manual \
+              CODE_SIGN_IDENTITY="Apple Distribution" \
+              PROVISIONING_PROFILE_SPECIFIER="$PROFILE_UUID" \
+              DEVELOPMENT_TEAM="$TEAM_ID" \
+              OTHER_CODE_SIGN_FLAGS="--keychain ~/Library/Keychains/ios-build.keychain"
+          else
+            echo "📗 Using .xcodeproj"
+            xcodebuild -project farra.xcodeproj \
+              -scheme farra \
+              -configuration Release \
+              -archivePath $PWD/../../build/farra.xcarchive \
+              clean archive \
+              -destination generic/platform=iOS \
+              CODE_SIGN_STYLE=Manual \
+              CODE_SIGN_IDENTITY="Apple Distribution" \
+              PROVISIONING_PROFILE_SPECIFIER="$PROFILE_UUID" \
+              DEVELOPMENT_TEAM="$TEAM_ID" \
+              OTHER_CODE_SIGN_FLAGS="--keychain ~/Library/Keychains/ios-build.keychain"
+          fi
+          echo "✅ Archive phase completed."
+
+      # -------------------------------
+      # 📄 Create ExportOptions.plist
+      # -------------------------------
+      - name: 🧾 Create ExportOptions.plist
+        run: |
+          cat <<EOF > ExportOptions.plist
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+           "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+          <dict>
+              <key>method</key>
+              <string>app-store-connect</string>
+              <key>teamID</key>
+              <string>${TEAM_ID}</string>
+              <key>provisioningProfiles</key>
+              <dict>
+                  <key>com.farra.app</key>
+                  <string>${PROFILE_UUID}</string>
+              </dict>
+              <key>compileBitcode</key>
+              <false/>
+              <key>signingStyle</key>
+              <string>manual</string>
+              <key>uploadSymbols</key>
+              <true/>
+              <key>generateAppStoreInformation</key>
+              <true/>
+          </dict>
+          </plist>
+          EOF
+          echo "✅ ExportOptions.plist created successfully with UUID ${PROFILE_UUID}"
+
+
+      # -------------------------------
+      # 6️⃣ Export signed IPA
+      # -------------------------------
+      - name: 📦 Export IPA from Archive
+        run: |
+          cd platforms/ios
+          echo "📦 Exporting IPA..."
+          security list-keychains -s ~/Library/Keychains/ios-build.keychain
+          security unlock-keychain -p temp-pass ~/Library/Keychains/ios-build.keychain
+
+          xcodebuild -exportArchive \
+            -archivePath $PWD/../../build/Farra.xcarchive \
+            -exportOptionsPlist ../../ExportOptions.plist \
+            -exportPath $PWD \
+            CODE_SIGN_STYLE=Manual \
+            CODE_SIGN_IDENTITY="Apple Distribution" \
+            DEVELOPMENT_TEAM=$TEAM_ID \
+            OTHER_CODE_SIGN_FLAGS="--keychain ~/Library/Keychains/ios-build.keychain"
+
+          echo "✅ IPA exported at: $(ls -1 Farra.ipa || echo '❌ Missing!')"
+
+      # -------------------------------
+      # 7️⃣ Verify Bundle ID
+      # -------------------------------
+      - name: 🔍 Verify Bundle ID in IPA
+        run: |
+          echo "Verifying Bundle ID..."
+          unzip -q platforms/ios/Farra.ipa 'Payload/*.app/Info.plist' -d /tmp
+          INFO_PLIST=$(find /tmp/Payload -name Info.plist)
+          BUNDLE_ID=$(plutil -extract CFBundleIdentifier xml1 -o - "$INFO_PLIST" | xmllint --xpath 'string(//string)' -)
+          echo "Extracted Bundle ID: $BUNDLE_ID"
+
+          if [ "$BUNDLE_ID" != "com.farra.app" ]; then
+            echo "❌ Incorrect Bundle ID ($BUNDLE_ID)"
+            exit 1
+          fi
+          echo "✅ Bundle ID verified successfully."
+
+      # -------------------------------
+      # 8️⃣ Upload Signed IPA as Artifact
+      # -------------------------------
+      - name: ⬆️ Upload Signed IPA Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: farra-signed
+          path: platforms/ios/Farra.ipa
+
+      # -------------------------------
+      # 9️⃣ Upload to App Store Connect
+      # -------------------------------
+      - name: 📤 Upload to App Store Connect
+        run: |
+          echo "🚀 Uploading IPA to App Store Connect..."
+          xcrun altool --upload-app \
+            --type ios \
+            --file "platforms/ios/Farra.ipa" \
+            --username "farokgraphic@gmail.com" \
+            --password "xhjf-xsvk-lcfe-yoda"

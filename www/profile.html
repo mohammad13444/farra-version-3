@@ -640,6 +640,19 @@ backdrop-filter: blur(6px);
       font-size: 14px;
       margin-top: 4px;
     }
+/* === Hide Google Translate UI completely === */
+.goog-te-banner-frame,
+.goog-te-gadget,
+.goog-te-menu-frame,
+.goog-te-balloon-frame,
+.goog-te-combo,
+.goog-logo-link {
+  display: none !important;
+}
+
+body {
+  top: 0 !important;
+}
 
   </style>
 </head>
@@ -741,7 +754,7 @@ backdrop-filter: blur(6px);
     />
   </svg>
 
-  <img src="./img//12.jpg" alt="">
+  <img src="./img/Default_profile.svg" alt="">
 </div>
 
 
@@ -750,22 +763,26 @@ backdrop-filter: blur(6px);
     </div>
 
     <div class="profile-info">
-      <h3>Muhammed Bagher Rezaei</h3>
+      <h3 id="profileName"></h3>
 
       <div class="profile-meta">
-        <span><svg class="svggg" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none">
-  <path d="M8.24964 0.75C9.34339 4.34372 12.1557 7.15617 15.7493 8.25C12.1557 9.34383 9.34339 12.1562 8.24964 15.75C7.15589 12.1562 4.34354 9.34383 0.75 8.25C4.34354 7.15617 7.15589 4.34372 8.24964 0.75Z" stroke="#5C5C66" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-</svg> Phone Number</span>
-        <span><svg class="svggg" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none">
-  <path d="M8.24964 0.75C9.34339 4.34372 12.1557 7.15617 15.7493 8.25C12.1557 9.34383 9.34339 12.1562 8.24964 15.75C7.15589 12.1562 4.34354 9.34383 0.75 8.25C4.34354 7.15617 7.15589 4.34372 8.24964 0.75Z" stroke="#5C5C66" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-</svg> E‑Mail Address</span>
+        <span><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M15.9738 14.9842L15.9729 5.01751C15.9729 3.16797 14.4729 1.66797 12.6234 1.66797H7.51618C5.66663 1.66797 4.16663 3.16797 4.16663 5.01842L4.16753 14.9851C4.16753 16.8346 5.66753 18.3346 7.51708 18.3346H12.6234C14.4738 18.3346 15.9738 16.8346 15.9738 14.9842Z" stroke="#5C5C66" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M10.0705 14.9372V14.8926M10.0705 14.6582C9.94257 14.6582 9.83887 14.7619 9.83887 14.8895C9.83887 15.0175 9.94257 15.1212 10.0705 15.1212C10.1986 15.1212 10.3023 15.0175 10.3023 14.8895C10.3023 14.7619 10.1986 14.6582 10.0705 14.6582Z" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg><span id="profilePhone"></span></span>
+        <span><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+  <path d="M14.8728 7.06445C14.8728 7.06445 12.064 10.4356 10.0096 10.4356C7.95609 10.4356 5.11572 7.06445 5.11572 7.06445" stroke="#5C5C66" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" fill-rule="evenodd" clip-rule="evenodd" d="M1.66675 9.64516C1.66675 3.66184 3.75008 1.66797 10.0001 1.66797C16.2501 1.66797 18.3334 3.66184 18.3334 9.64516C18.3334 15.6276 16.2501 17.6224 10.0001 17.6224C3.75008 17.6224 1.66675 15.6276 1.66675 9.64516Z" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>       <span id="profileEmail"></span>
+</span>
       </div>
 
       <div class="profile-divider">
         
       </div>
 
-      <div class="join-date">Join Date</div>
+        <div class="join-date" id="profileJoinDate">—</div>
+
     </div>
 
   </div>
@@ -792,19 +809,21 @@ backdrop-filter: blur(6px);
 
      <div class="item">
   <div class="left">
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-      <path d="M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z"
-        stroke="#706DF2" stroke-width="1.5"/>
-    </svg>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <path opacity="0.4" d="M4.96093 18.4968C1.29067 14.6989 1.31553 8.64493 5.05391 4.87738C7.39445 2.51846 10.6442 1.6082 13.6863 2.15306" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M19.0393 5.04883C22.7095 8.84666 22.6846 14.9007 18.9463 18.6683C16.6058 21.0272 13.356 21.9374 10.3138 21.3925" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M14.0072 8.65625H11.1079C10.2462 8.65625 9.54785 9.35462 9.54785 10.2174C9.54785 11.0789 10.2462 11.7784 11.1079 11.7784H12.8927C13.7543 11.7784 14.4538 12.4768 14.4538 13.3395C14.4538 14.2011 13.7543 14.9005 12.8927 14.9005H9.99319" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M2 18.2625L4.98053 18.855L5.56972 15.8906" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M22 5.28188L19.0195 4.68945L18.4303 7.65378" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M12.0001 14.8971V16.2075M12.0001 7.33594V8.6581" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
     <span><a href="./profile-Transactions.html" class="text-decoration-none" style="color: #706DF2;">Transactions</a></span>
   </div>
 
   <div class="right">
-    <span class="value">Text</span>
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-      <path d="M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z"
-        stroke="#706DF2" stroke-width="1.5"/>
-    </svg>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <path d="M8.73494 20.3876C8.16294 20.6958 7.44941 20.4822 7.14106 19.9102C6.93224 19.5228 6.96306 19.0704 7.18247 18.7229C7.28682 18.5575 7.43412 18.4158 7.61847 18.3164L7.62071 18.3151L7.63306 18.3084L7.68635 18.2791C7.73424 18.2525 7.80612 18.2123 7.89871 18.1594C8.08388 18.0536 8.35094 17.8975 8.67247 17.6997C9.31769 17.3028 10.1715 16.7448 11.0194 16.0942C11.8742 15.4383 12.6849 14.7172 13.2712 13.9997C13.8803 13.2543 14.1179 12.6701 14.1179 12.2661C14.1179 11.8614 13.88 11.2764 13.271 10.5308C12.6847 9.81277 11.874 9.09141 11.0192 8.43522C10.1713 7.7844 9.31753 7.22614 8.67235 6.82911C8.35082 6.6313 8.08377 6.47514 7.89859 6.36924C7.80553 6.31603 7.71224 6.26311 7.618 6.21203C7.04636 5.90356 6.83283 5.19015 7.14118 4.61836C7.44953 4.04644 8.16318 3.8328 8.73506 4.14116C8.84647 4.20129 8.95661 4.2638 9.06653 4.32665C9.27058 4.44333 9.55959 4.61238 9.90538 4.82516C10.5947 5.24931 11.5203 5.8537 12.4519 6.56876C13.3764 7.27846 14.3452 8.12616 15.0934 9.04239C15.819 9.93077 16.4708 11.045 16.4708 12.2661C16.4708 13.4869 15.8187 14.6007 15.0932 15.4885C14.345 16.4043 13.3762 17.2516 12.4517 17.961C11.5202 18.6757 10.5945 19.2798 9.90521 19.7038C9.55944 19.9165 9.27042 20.0856 9.06638 20.2022C8.96431 20.2605 8.88332 20.3058 8.82694 20.3371L8.76118 20.3734L8.74294 20.3832L8.73765 20.3861L8.73494 20.3876Z" fill="#706DF2"/>
+</svg>
   </div>
 </div>
 
@@ -816,13 +835,12 @@ backdrop-filter: blur(6px);
 
       <div class="item language-trigger">
   <div class="left">
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-      <path d="M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75
-               C14.4369 11.0626 11.0621 14.4375 9.74957 18.75
-               C8.43707 14.4375 5.06225 11.0626 0.75 9.75
-               C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z"
-        stroke="#706DF2" stroke-width="1.5"/>
-    </svg>
+   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <path d="M12 2.38672C6.47711 2.38672 2 6.86387 2 12.3867C2 17.9096 6.47711 22.3867 12 22.3867C17.5228 22.3867 22 17.9096 22 12.3867C22 11.1674 21.7818 9.999 21.3822 8.91853" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round"/>
+  <path d="M22 12.2715L18.4203 12.9544C18.4203 12.9544 16.443 14.984 15.6772 15.291V18.0343L17.0719 20.7569" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M2.09155 11.7058C4.80566 12.59 4.06233 10.3428 5.77532 9.65601C6.18555 9.47938 9.30755 8.51698 9.43677 8.89308C10.2602 11.151 10.8909 10.0049 8.91821 11.9635C6.66444 14.0442 9.26199 14.8571 9.43677 16.7157C9.60066 18.4593 11.0355 20.0191 9.67744 22.0357" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M18 2L18.1168 2.31549C18.557 3.50511 19.4949 4.44305 20.6845 4.88324L21 4.99999L20.6845 5.11673C19.4949 5.55693 18.557 6.49487 18.1168 7.68448L18 8L17.8833 7.68448C17.4431 6.49487 16.5052 5.55693 15.3155 5.11673L15 4.99999L15.3155 4.88324C16.5052 4.44305 17.4431 3.50511 17.8833 2.31549L18 2Z" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
     <span>Language</span>
   </div>
 
@@ -836,20 +854,21 @@ backdrop-filter: blur(6px);
 
       <div class="item">
         <div class="left">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-            <path d="M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z"
-              stroke="#706DF2" stroke-width="1.5"/>
-          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <path d="M13.1992 3.44141H6.78716C3.92762 3.44141 2 5.79175 2 8.67939V15.138C2 18.0266 3.92762 20.3759 6.78716 20.3684H16.0198C18.8805 20.3759 20.8081 18.0266 20.8081 15.138V11.5" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M14.5776 10.8763L12.7765 12.3402C11.9896 12.9662 10.8749 12.9662 10.0878 12.3402L5.87366 8.94336" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M19 2.69922L19.1168 3.01471C19.557 4.20432 20.4949 5.14226 21.6845 5.58246L22 5.69921L21.6845 5.81595C20.4949 6.25615 19.557 7.19409 19.1168 8.3837L19 8.69922L18.8833 8.3837C18.4431 7.19409 17.5052 6.25615 16.3155 5.81595L16 5.69921L16.3155 5.58246C17.5052 5.14226 18.4431 4.20432 18.8833 3.01471L19 2.69922Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
           <span><a href="./profile-notifications.html" class="text-decoration-none" style="color: #706DF2;">Notifications</a></span>
         </div>
       </div>
 
       <div class="item">
         <div class="left">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-            <path d="M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z"
-              stroke="#706DF2" stroke-width="1.5"/>
-          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <path d="M20.3652 10.0009C20.3524 10.8843 20.3417 11.4508 20.3417 12.7447C20.3417 19.5371 12.2039 22.0009 12.2039 22.0009C12.2039 22.0009 4.0672 19.5382 4.0672 12.7447C4.0672 5.95118 3.77053 5.42037 4.42387 4.7674C5.07831 4.11334 11.1372 2.00091 12.2039 2.00091C12.7122 2.00091 13.3513 1.92941 15 2.50092" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M18 3L18.1168 3.31549C18.557 4.50511 19.4949 5.44305 20.6845 5.88324L21 5.99999L20.6845 6.11673C19.4949 6.55693 18.557 7.49487 18.1168 8.68448L18 9L17.8833 8.68448C17.4431 7.49487 16.5052 6.55693 15.3155 6.11673L15 5.99999L15.3155 5.88324C16.5052 5.44305 17.4431 4.50511 17.8833 3.31549L18 3Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
               <span><a href="./profile-login-security.html" class="text-decoration-none" style="color: #706DF2;">Login & Security</a></span>
 
         </div>
@@ -857,10 +876,12 @@ backdrop-filter: blur(6px);
 
       <div class="item danger">
         <div class="left">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-            <path d="M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z"
-              stroke="#FF595B" stroke-width="1.5"/>
-          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <path d="M19.8691 9.27539L19.1891 18.5833C19.0486 20.5088 17.4454 22.0006 15.5135 22.0006H8.85414C6.92337 22.0006 5.31906 20.5088 5.17853 18.5823L4.49854 9.27539" stroke="#FF595B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M21.3673 5.78125H3" stroke="#FF595B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M16.3742 5.77941L15.8153 3.02811C15.6532 2.42162 15.1029 2.00001 14.4759 2.00001H9.8965C9.26624 1.99785 8.71382 2.41947 8.55057 3.02811L7.99707 5.77941" stroke="#FF595B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M10.0741 11.7578V16.7675M13.8303 11.7578V16.7675" stroke="#FF595B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
           <span>Delete Account</span>
         </div>
       </div>
@@ -872,20 +893,24 @@ backdrop-filter: blur(6px);
 
       <div class="item">
         <div class="left">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-            <path d="M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z"
-              stroke="#706DF2" stroke-width="1.5"/>
-          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M9.79107 15.6172C5.5889 15.6172 2 16.2523 2 18.7972C2 21.3422 5.56703 22.0002 9.79107 22.0002C13.9943 22.0002 17.5821 21.364 17.5821 18.8202C17.5821 16.2764 14.0162 15.6172 9.79107 15.6172Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M9.79106 11.9873C12.5491 11.9873 14.7847 9.75171 14.7847 6.99363C14.7847 4.23555 12.5491 2 9.79106 2C7.03407 2 4.79849 4.23555 4.79849 6.99363C4.78869 9.74188 7.00784 11.9774 9.75718 11.9873H9.79106Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <g opacity="0.4">
+    <path d="M18.9761 10.0898V14.4735" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M21.2125 12.2812H16.7415" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>
           <span>Invite a Friend</span>
         </div>
       </div>
 
       <div class="item">
         <div class="left">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-            <path d="M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z"
-              stroke="#706DF2" stroke-width="1.5"/>
-          </svg>
+         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <path d="M12.0258 3.00019C11.5198 2.9918 11.0281 3.2637 10.7795 3.74371L8.74505 7.80367C8.54282 8.20367 8.15728 8.47922 7.71395 8.54144L3.16952 9.19587C2.8673 9.23591 2.58733 9.37702 2.37622 9.5959C1.86067 10.1315 1.87732 10.9826 2.41176 11.4981L5.70174 14.6559C6.02396 14.9636 6.17174 15.4114 6.09508 15.8503L5.31728 20.3091C5.26951 20.6025 5.31953 20.9025 5.45842 21.1658C5.81175 21.8312 6.63728 22.0846 7.30283 21.7312L11.365 19.6258C11.5723 19.5187 11.7994 19.4672 12.0258 19.471" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M12.0259 3C12.2321 3.00341 12.4407 3.05333 12.6362 3.15464C12.8884 3.28464 13.094 3.4902 13.2251 3.74352L15.2562 7.80237C15.4573 8.20237 15.8428 8.47792 16.2862 8.54014L20.8306 9.19457C21.5672 9.29124 22.085 9.9679 21.9884 10.7046C21.9484 11.0057 21.8072 11.2857 21.5884 11.4968L18.3017 14.6545C17.9784 14.9623 17.8306 15.4101 17.9084 15.8501L18.6862 20.3078C18.8062 21.0523 18.2995 21.7522 17.5551 21.8722C17.2617 21.9189 16.9617 21.8689 16.6995 21.73L12.6395 19.6256C12.4468 19.526 12.2367 19.4744 12.0259 19.4708" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
           <span>Rate App</span>
         </div>
       </div>
@@ -983,9 +1008,13 @@ backdrop-filter: blur(6px);
 
   // تایید (Okay)
   okBtn.addEventListener('click', () => {
-    currentLanguage.textContent = selectedLanguage;
-    languageModal.classList.remove('active');
-  });
+  currentLanguage.textContent = selectedLanguage;
+
+  changeLanguage(selectedLanguage); // 👈 ترجمه کل صفحه
+
+  languageModal.classList.remove('active');
+});
+
 
   // بستن با کلیک بیرون
   languageModal.addEventListener('click', (e) => {
@@ -993,6 +1022,67 @@ backdrop-filter: blur(6px);
       languageModal.classList.remove('active');
     }
   });
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', loadProfile);
+
+async function loadProfile() {
+  const token = localStorage.getItem('access_token');
+
+  if (!token) {
+    location.href = 'signup.html';
+    return;
+  }
+
+  try {
+    const res = await fetch(
+      'https://microcementazma.com/backend/api/user/get-profile.php',
+      {
+        method: 'GET',
+        headers: {
+          'Authorization': 'Bearer ' + token
+        }
+      }
+    );
+
+    const json = await res.json();
+
+    if (!json.success) {
+      localStorage.clear();
+      location.href = 'signup.html';
+      return;
+    }
+
+    const u = json.data;
+
+    document.getElementById('profileName').textContent =
+      u.full_name || '—';
+
+   document.getElementById('profilePhone').textContent =
+  u.phone_number || '—';
+
+
+    document.getElementById('profileEmail').textContent =
+      u.email || '—';
+
+    document.getElementById('profileJoinDate').textContent =
+      formatDate(u.created_at);
+
+  } catch (e) {
+    console.error(e);
+    alert('خطا در دریافت پروفایل');
+  }
+}
+
+function formatDate(dateStr) {
+  if (!dateStr) return '—';
+  const d = new Date(dateStr);
+  return d.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+}
 </script>
 
 

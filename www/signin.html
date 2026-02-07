@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In - Farra</title>
+    <link rel="stylesheet" href="./css/tokens.css">
+    <link rel="stylesheet" href="./css/signup.css">
+</head>
+
+<body>
+    <div class="signup-container">
+        <br><br>
+        
+        <!-- آیکون بالا -->
+        <div style="display: inline-flex; padding: 3px; align-items: center; gap: 10px;">
+            
+
+     <a href="./start.html">
+    <svg style="width: 24px; height: 24px;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <path opacity="0.4" fill-rule="evenodd" clip-rule="evenodd" d="M22 12.2933C22 11.6436 21.4733 11.1168 20.8235 11.1168L3.17647 11.1168C2.52672 11.1168 2 11.6436 2 12.2933C2 12.943 2.52672 13.4697 3.17647 13.4697L20.8235 13.4697C21.4733 13.4697 22 12.943 22 12.2933Z" fill="#706DF2"/>
+  <path d="M9.736 4.14121C10.308 3.83298 11.0215 4.04662 11.3299 4.61862C11.5387 5.00603 11.5079 5.45839 11.2885 5.80592C11.1841 5.97133 11.0368 6.11297 10.8525 6.21239L10.8502 6.21368L10.8379 6.22039L10.7846 6.24968C10.7367 6.27627 10.6648 6.31651 10.5722 6.36945C10.3871 6.47521 10.12 6.63133 9.79847 6.82909C9.15325 7.22603 8.29946 7.78404 7.45157 8.43462C6.59671 9.09051 5.78602 9.81156 5.19973 10.5291C4.59065 11.2745 4.35306 11.8587 4.35306 12.2627C4.35306 12.6674 4.5909 13.2524 5.19993 13.998C5.78623 14.716 6.59692 15.4374 7.45177 16.0936C8.29964 16.7444 9.15342 17.3027 9.79859 17.6997C10.1201 17.8975 10.3872 18.0537 10.5724 18.1596C10.6654 18.2128 10.7587 18.2657 10.8529 18.3168C11.4246 18.6252 11.6381 19.3387 11.3298 19.9104C11.0214 20.4824 10.3078 20.696 9.73589 20.3876C9.62447 20.3275 9.51433 20.265 9.40442 20.2022C9.20037 20.0855 8.91136 19.9164 8.56557 19.7036C7.87624 19.2795 6.9506 18.6751 6.01906 17.96C5.0945 17.2504 4.12578 16.4026 3.37752 15.4864C2.65199 14.598 2.00012 13.4838 2.00012 12.2627C2.00012 11.0419 2.65224 9.92815 3.37771 9.04027C4.12599 8.12451 5.09471 7.27721 6.01926 6.5678C6.95078 5.85309 7.8764 5.24897 8.56573 4.82497C8.91151 4.61227 9.20052 4.44321 9.40457 4.32662C9.50664 4.26827 9.58763 4.22297 9.644 4.19168L9.70977 4.15545L9.728 4.14556L9.7333 4.14274L9.736 4.14121Z" fill="#706DF2"/>
+</svg>
+</a>
+        </div>
+        
+        <br>
+
+        <!-- 🚨 باکس خطا -->
+        <div class="error-alert" id="errorAlert">
+            <svg style="margin-top: 5.50%;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M11.9732 3C13.2857 7.31246 16.6605 10.6874 20.9728 12C16.6605 13.3126 13.2857 16.6875 11.9732 21C10.6607 16.6875 7.28588 13.3126 2.97363 12C7.28588 10.6874 10.6607 7.31246 11.9732 3Z" stroke="#FF595B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <div class="error-content">
+                <div class="error-title">I don't know you!</div>
+                <div class="error-message">The phone number is not registered. Please signup, or check the number.</div>
+            </div>
+        </div>
+
+        <!-- Header -->
+        <div class="header-section">
+            <h1 class="title">Hello again!</h1>
+            <p class="description">please enter your phone number <br> registered on the app, to sign in.</p>
+        </div>
+
+        <!-- Input Field -->
+        <div class="input-group">
+            <div class="input-wrapper">
+                <input type="tel" class="input-field" placeholder="Mobile Phone" id="mobilePhone" oninput="validatePhone()">
+                <div class="input-icon">
+                   
+
+                    <svg style="position: absolute; top: -15%;" class="default-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M19.1686 17.9794L19.1675 6.01946C19.1675 3.8 17.3675 2 15.1481 2H9.01947C6.8 2 5 3.8 5 6.02054L5.00109 17.9806C5.00109 20.2 6.80109 22 9.02054 22H15.1481C17.3686 22 19.1686 20.2 19.1686 17.9794Z" stroke="#A9A7F7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M12.0846 17.9227V17.8691M12.0846 17.5879C11.9311 17.5879 11.8066 17.7123 11.8066 17.8654C11.8066 18.019 11.9311 18.1434 12.0846 18.1434C12.2383 18.1434 12.3628 18.019 12.3628 17.8654C12.3628 17.7123 12.2383 17.5879 12.0846 17.5879Z" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+                   
+                    <svg style="position: absolute; top: -15%;" class="focose" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M19.1686 17.9794L19.1675 6.01946C19.1675 3.8 17.3675 2 15.1481 2H9.01947C6.8 2 5 3.8 5 6.02054L5.00109 17.9806C5.00109 20.2 6.80109 22 9.02054 22H15.1481C17.3686 22 19.1686 20.2 19.1686 17.9794Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M12.0846 17.9227V17.8691M12.0846 17.5879C11.9311 17.5879 11.8066 17.7123 11.8066 17.8654C11.8066 18.019 11.9311 18.1434 12.0846 18.1434C12.2383 18.1434 12.3628 18.019 12.3628 17.8654C12.3628 17.7123 12.2383 17.5879 12.0846 17.5879Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+                   
+
+                    <svg style="position: absolute; top: -15%;" class="alert" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M19.1686 17.9794L19.1675 6.01946C19.1675 3.8 17.3675 2 15.1481 2H9.01947C6.8 2 5 3.8 5 6.02054L5.00109 17.9806C5.00109 20.2 6.80109 22 9.02054 22H15.1481C17.3686 22 19.1686 20.2 19.1686 17.9794Z" stroke="#FF595B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M12.0846 17.9227V17.8691M12.0846 17.5879C11.9311 17.5879 11.8066 17.7123 11.8066 17.8654C11.8066 18.019 11.9311 18.1434 12.0846 18.1434C12.2383 18.1434 12.3628 18.019 12.3628 17.8654C12.3628 17.7123 12.2383 17.5879 12.0846 17.5879Z" stroke="#FF595B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+                   
+
+                    <svg style="position: absolute; top: -15%;" class="success" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M19.1686 17.9794L19.1675 6.01946C19.1675 3.8 17.3675 2 15.1481 2H9.01947C6.8 2 5 3.8 5 6.02054L5.00109 17.9806C5.00109 20.2 6.80109 22 9.02054 22H15.1481C17.3686 22 19.1686 20.2 19.1686 17.9794Z" stroke="#44CD54" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M12.0846 17.9227V17.8691M12.0846 17.5879C11.9311 17.5879 11.8066 17.7123 11.8066 17.8654C11.8066 18.019 11.9311 18.1434 12.0846 18.1434C12.2383 18.1434 12.3628 18.019 12.3628 17.8654C12.3628 17.7123 12.2383 17.5879 12.0846 17.5879Z" stroke="#44CD54" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- دکمه Sign In -->
+        <button class="signup-button" onclick="handleSignIn()">Signin</button>
+
+        <!-- خط جداکننده -->
+        <div class="divider-section">
+            <svg xmlns="http://www.w3.org/2000/svg" width="62" height="2" viewBox="0 0 62 2" fill="none">
+                <path opacity="0.5" d="M61.0695 1.00001L0.214355 1" stroke="#706DF2" />
+            </svg>
+            <h6 class="divider-text">Or continue with</h6>
+            <svg xmlns="http://www.w3.org/2000/svg" width="60" height="2" viewBox="0 0 60 2" fill="none">
+                <path opacity="0.5" d="M59.2143 1.00001L0.930542 1" stroke="#706DF2" />
+            </svg>
+        </div>
+
+        <!-- آیکون‌های اجتماعی -->
+        <div class="social-icons">
+            <div class="social-icon" onclick="handleSocialLogin('google')">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M19.82 11.8997C19.94 11.2886 20 10.6441 20 9.99962C20 9.56404 19.9711 9.13959 19.9156 8.72513C19.8744 8.42067 19.6033 8.19955 19.2967 8.19955H10.6244C10.2799 8.19955 9.99995 8.47956 9.99995 8.82402V11.2752C9.99995 11.6197 10.2799 11.8997 10.6244 11.8997H15.3744C15.57 11.8997 15.7133 12.0997 15.64 12.2808C14.6011 14.8476 11.8733 16.5321 8.82661 15.9687C6.48663 15.5365 4.56884 13.6809 4.06662 11.3552C3.21439 7.40841 6.19663 3.92165 9.99995 3.92165C11.2466 3.92165 12.4022 4.29611 13.3655 4.93725C13.6233 5.10837 13.96 5.0917 14.1777 4.87058L16.0689 2.94495C16.3266 2.68161 16.3111 2.24381 16.0178 2.02047C14.4166 0.802646 12.4366 0.0626179 10.2833 0.00372675C4.86995 -0.146279 0.18215 4.25167 0.00548214 9.66405C-0.180074 15.3398 4.36884 20 9.99995 20C14.87 20 18.93 16.511 19.82 11.8997Z" fill="#706DF2"/>
+</svg>
+            </div>
+            
+            <div class="social-icon" onclick="handleSocialLogin('facebook')">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M18.6882 16.1167C17.843 15.6546 17.2525 14.8463 17.0652 13.8822C16.7694 12.5844 17.2831 11.2446 18.3935 10.4562C18.504 10.3689 18.765 10.1658 18.7945 9.82684C18.824 9.49425 18.6103 9.25425 18.5524 9.19005C17.5094 7.93651 15.8632 7.33131 14.2602 7.6197C13.6814 7.71969 13.1077 7.89967 12.552 8.15648C12.0542 8.39225 11.4658 8.38172 10.9817 8.13333C8.84925 7.01871 6.20849 7.75653 4.96652 9.81632C4.26555 10.9025 3.92769 12.2171 4.01295 13.4854C4.01716 14.7347 4.25292 15.963 4.70866 17.126C5.2286 18.5648 6.05272 19.9026 7.05366 20.9519C7.57887 21.635 8.37773 22.0013 9.1829 22.0002C9.64286 22.0002 10.1049 21.8813 10.5186 21.634C11.3911 21.1761 12.4457 21.1572 13.2856 21.5498C14.5907 22.3655 16.2979 22.0139 17.1326 20.7993C18.0209 19.7857 18.704 18.6396 19.166 17.3797C19.3934 16.7387 19.2934 16.4682 18.6882 16.1167Z" fill="#706DF2"/>
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M11.6766 7.24209H11.684C12.9723 7.22419 14.0953 6.70951 14.8468 5.78961C15.592 4.87603 15.8709 3.68248 15.633 2.42893C15.5836 2.16791 15.3415 1.98056 15.0826 2.00161C13.8838 2.07739 12.8165 2.60576 12.0787 3.49197C11.3293 4.38872 10.9978 5.55596 11.143 6.77898C11.1746 7.04316 11.4104 7.24209 11.6766 7.24209Z" fill="#706DF2"/>
+</svg>
+            </div>
+            <div class="social-icon" onclick="handleSocialLogin('apple')">
+<svg xmlns="http://www.w3.org/2000/svg" width="11" height="20" viewBox="0 0 11 20" fill="none">
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M7.47494 4.97263C7.5587 4.88947 7.66567 4.8421 7.77063 4.8421H10.4954C10.775 4.8421 11 4.60631 11 4.31579V0.526315C11 0.235789 10.775 0 10.4954 0H7.77063C6.45264 0 5.15282 0.557894 4.20217 1.53368C3.24956 2.53368 2.72478 3.85789 2.72478 5.26315V7.58001H0.504589C0.225047 7.58001 0 7.81474 0 8.10632V11.8947C0 12.1863 0.225047 12.4211 0.504589 12.4211H2.72478V19.4737C2.72478 19.7653 2.95084 20 3.22937 20H6.86237C7.1409 20 7.36696 19.7653 7.36696 19.4737V12.4211H10.4954C10.775 12.4211 11 12.1863 11 11.8947V8.10632C11 7.81474 10.775 7.58001 10.4954 7.58001H7.36696V5.26315C7.36696 5.14947 7.40934 5.0421 7.47494 4.97263Z" fill="#706DF2"/>
+</svg>
+            </div>
+        </div>
+
+      
+    </div>
+
+    <script>
+// ========================================
+// 🔧 تنظیمات API
+// ========================================
+const API_BASE = 'https://microcementazma.com/backend/api';
+
+// ========================================
+// 🎯 دریافت المنت‌ها
+// ========================================
+const inputField = document.getElementById('mobilePhone');
+const errorAlert = document.getElementById('errorAlert');
+const signinButton = document.querySelector('.signup-button');
+
+const iconDefault = document.querySelector('.default-icon');
+const iconFocose = document.querySelector('.focose');
+const iconAlert = document.querySelector('.alert');
+const iconSuccess = document.querySelector('.success');
+
+// ========================================
+// ⚙️ مقداردهی اولیه
+// ========================================
+signinButton.classList.add('disabled');
+setActiveIcon(iconDefault);
+
+let isSubmitting = false;
+
+// ========================================
+// 📝 فرمت‌دهی شماره تلفن
+// ========================================
+function validatePhone() {
+    let digits = inputField.value.replace(/\D/g, '');
+    digits = digits.substring(0, 11);
+
+    let formatted = digits;
+    if (digits.length > 4 && digits.length <= 7) {
+        formatted = digits.replace(/(\d{4})(\d+)/, '$1 $2');
+    } else if (digits.length > 7) {
+        formatted = digits.replace(/(\d{4})(\d{3})(\d+)/, '$1 $2 $3');
+    }
+
+    inputField.value = formatted;
+
+    if (digits.length > 0) {
+        signinButton.classList.remove('disabled');
+    } else {
+        signinButton.classList.add('disabled');
+    }
+}
+
+// ========================================
+// 🎨 مدیریت آیکون‌ها
+// ========================================
+function setActiveIcon(icon) {
+    [iconDefault, iconFocose, iconAlert, iconSuccess].forEach(ic => {
+        if (ic) ic.style.display = 'none';
+    });
+    if (icon) icon.style.display = 'inline';
+}
+
+// ========================================
+// 🔥 Event Listeners
+// ========================================
+inputField.addEventListener('input', validatePhone);
+
+inputField.addEventListener('focus', () => {
+    inputField.classList.remove('error', 'success');
+    errorAlert.classList.remove('show');
+    setActiveIcon(iconFocose);
+});
+
+inputField.addEventListener('blur', () => {
+    if (inputField.value.trim().length === 0) {
+        setActiveIcon(iconDefault);
+    }
+});
+
+// ========================================
+// 📡 ارسال OTP برای ورود
+// ========================================
+async function sendOTPForSignIn(phoneNumber) {
+    try {
+        const response = await fetch(`${API_BASE}/auth/send-otp.php`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                phone_number: phoneNumber,
+                purpose: 'login'
+            })
+        });
+        
+        const result = await response.json();
+        console.log('📥 Server Response:', result);
+        return result;
+    } catch (error) {
+        console.error('❌ Network Error:', error);
+        // 🔥 خطای شبکه (سرور در دسترس نیست)
+        return {
+            success: false,
+            server_unavailable: true,
+            message: 'Network connection error. Please check your internet.'
+        };
+    }
+}
+
+// ========================================
+// 🚨 نمایش خطا
+// ========================================
+function showError(title, message) {
+    const errorTitle = errorAlert.querySelector('.error-title');
+    const errorMessage = errorAlert.querySelector('.error-message');
+    
+    errorTitle.textContent = title;
+    errorMessage.textContent = message;
+    errorAlert.classList.add('show');
+    
+    inputField.classList.add('error', 'shake');
+    setActiveIcon(iconAlert);
+    
+    setTimeout(() => inputField.classList.remove('shake'), 500);
+}
+
+// ========================================
+// 🚀 کلیک روی دکمه Sign In
+// ========================================
+async function handleSignIn() {
+    if (isSubmitting) {
+        console.log('⏳ Already submitting...');
+        return;
+    }
+
+    const phone = inputField.value.replace(/\s/g, '');
+
+    if (signinButton.classList.contains('disabled')) return;
+
+    // ✅ پاک کردن خطاهای قبلی
+    errorAlert.classList.remove('show');
+    inputField.classList.remove('error', 'success', 'shake');
+
+    if (phone.length === 0) {
+        setActiveIcon(iconDefault);
+        return;
+    }
+
+    // 🔥 خطای ۱: شماره کمتر از ۱۱ رقم
+    if (phone.length < 11) {
+        showError(
+            'Is it your phone number?',
+            "That doesn't look like a valid phone number. Please check the digits."
+        );
+        return;
+    }
+
+    // ✅ شماره صحیح است، ادامه دهید
+    if (phone.length === 11) {
+        isSubmitting = true;
+
+        inputField.classList.add('success');
+        inputField.blur();
+        setActiveIcon(iconSuccess);
+        errorAlert.classList.remove('show');
+
+        const originalText = signinButton.textContent;
+        signinButton.textContent = 'Sending...';
+        signinButton.classList.add('loading');
+        signinButton.disabled = true;
+
+        console.log('📤 Sending OTP for sign in to:', phone);
+
+        // ✅ پاک کردن login_mode قبلی
+        localStorage.removeItem('login_mode');
+
+        try {
+            const result = await sendOTPForSignIn(phone);
+
+            if (result.success) {
+                console.log('✅ OTP sent successfully');
+
+                localStorage.setItem('phone_number', phone);
+                localStorage.setItem('login_mode', 'true');
+
+                signinButton.textContent = '✓ Sent';
+
+                setTimeout(() => {
+                    window.location.href = './otp.html';
+                }, 800);
+
+            } else {
+                console.error('❌ Failed:', result.message);
+
+                inputField.classList.remove('success');
+
+                // 🔥 خطای ۴: سرور در دسترس نیست
+                if (result.server_unavailable) {
+                    showError(
+                        'Sorry! not my fault!',
+                        'your provider is not responding.'
+                    );
+                }
+                // 🔥 خطای ۲: شماره ثبت نشده
+                else if (result.not_registered) {
+                    showError(
+                        "I dont know you!",
+                        'The phone number is not registered. Please signup, or check the number.'
+                    );
+                }
+                // 🔥 خطای ۳: حساب مسدود شده
+                else if (result.blocked) {
+                    showError(
+                        'You face some problems!',
+                        'Our account has been suspended. Please contact support for help.'
+                    );
+                }
+                // سایر خطاها
+                else if (result.too_many_attempts) {
+                    showError(
+                        'Too many attempts!',
+                        result.message || 'Please try again later.'
+                    );
+                } else {
+                    showError(
+                        'Error!',
+                        result.message || 'Failed to send verification code'
+                    );
+                }
+
+                signinButton.textContent = originalText;
+                signinButton.classList.remove('loading');
+                signinButton.disabled = false;
+
+                isSubmitting = false;
+            }
+        } catch (error) {
+            console.error('❌ Unexpected error:', error);
+            
+            // 🔥 خطای ۴: مشکل شبکه
+            inputField.classList.remove('success');
+            showError(
+                'Sorry! not my fault!',
+                'your provider is not responding.'
+            );
+            
+            signinButton.textContent = originalText;
+            signinButton.classList.remove('loading');
+            signinButton.disabled = false;
+            
+            isSubmitting = false;
+        }
+    }
+}
+
+// ========================================
+// 🎯 Event Listener برای دکمه و Enter
+// ========================================
+signinButton.addEventListener('click', handleSignIn);
+
+inputField.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+        handleSignIn();
+    }
+});
+
+// ========================================
+// 🌐 Social Login (فعلاً غیرفعال)
+// ========================================
+function handleSocialLogin(provider) {
+    console.log(`🔗 Social login with ${provider} - Coming soon!`);
+    alert(`${provider} login will be available soon!`);
+}
+    </script>
+</body>
+</html>

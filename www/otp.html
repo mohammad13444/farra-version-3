@@ -35,31 +35,24 @@
                     stroke="#44CD54" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
             <div class="otp-alert-content">
-
                 <div class="sss">New OTP sent.</div>
             </div>
         </div>
-
-
 
         <br>
         <br>
         <!-- Top Icon -->
         <div style="display: inline-flex;
-padding: 8px;
+padding: 3px;
 align-items: center;
 gap: 10px;">
-            <svg style="width: 24px;
-height: 24px;
-flex-shrink: 0; stroke-width: 1.5px;
-stroke: var(--Icon-Primary-Default, #706DF2);" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                viewBox="0 0 20 20" fill="none">
-                <path
-                    d="M9.9732 1C11.2857 5.31246 14.6605 8.6874 18.9728 10C14.6605 11.3126 11.2857 14.6875 9.9732 19C8.6607 14.6875 5.28588 11.3126 0.973633 10C5.28588 8.6874 8.6607 5.31246 9.9732 1Z"
-                    stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
-
-        </div>
+             <a href="./start.html">
+    <svg style="width: 24px; height: 24px;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <path opacity="0.4" fill-rule="evenodd" clip-rule="evenodd" d="M22 12.2933C22 11.6436 21.4733 11.1168 20.8235 11.1168L3.17647 11.1168C2.52672 11.1168 2 11.6436 2 12.2933C2 12.943 2.52672 13.4697 3.17647 13.4697L20.8235 13.4697C21.4733 13.4697 22 12.943 22 12.2933Z" fill="#706DF2"/>
+  <path d="M9.736 4.14121C10.308 3.83298 11.0215 4.04662 11.3299 4.61862C11.5387 5.00603 11.5079 5.45839 11.2885 5.80592C11.1841 5.97133 11.0368 6.11297 10.8525 6.21239L10.8502 6.21368L10.8379 6.22039L10.7846 6.24968C10.7367 6.27627 10.6648 6.31651 10.5722 6.36945C10.3871 6.47521 10.12 6.63133 9.79847 6.82909C9.15325 7.22603 8.29946 7.78404 7.45157 8.43462C6.59671 9.09051 5.78602 9.81156 5.19973 10.5291C4.59065 11.2745 4.35306 11.8587 4.35306 12.2627C4.35306 12.6674 4.5909 13.2524 5.19993 13.998C5.78623 14.716 6.59692 15.4374 7.45177 16.0936C8.29964 16.7444 9.15342 17.3027 9.79859 17.6997C10.1201 17.8975 10.3872 18.0537 10.5724 18.1596C10.6654 18.2128 10.7587 18.2657 10.8529 18.3168C11.4246 18.6252 11.6381 19.3387 11.3298 19.9104C11.0214 20.4824 10.3078 20.696 9.73589 20.3876C9.62447 20.3275 9.51433 20.265 9.40442 20.2022C9.20037 20.0855 8.91136 19.9164 8.56557 19.7036C7.87624 19.2795 6.9506 18.6751 6.01906 17.96C5.0945 17.2504 4.12578 16.4026 3.37752 15.4864C2.65199 14.598 2.00012 13.4838 2.00012 12.2627C2.00012 11.0419 2.65224 9.92815 3.37771 9.04027C4.12599 8.12451 5.09471 7.27721 6.01926 6.5678C6.95078 5.85309 7.8764 5.24897 8.56573 4.82497C8.91151 4.61227 9.20052 4.44321 9.40457 4.32662C9.50664 4.26827 9.58763 4.22297 9.644 4.19168L9.70977 4.15545L9.728 4.14556L9.7333 4.14274L9.736 4.14121Z" fill="#706DF2"/>
+</svg>
+</a>
+      </div>
 
         <!-- Header -->
         <div class="title">Got message?</div>
@@ -74,7 +67,7 @@ stroke: var(--Icon-Primary-Default, #706DF2);" xmlns="http://www.w3.org/2000/svg
                         stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                 </svg>
             </div>
-            <span class="phone-number">0777 151 6178</span>
+            <span class="phone-number" id="phoneDisplay">0777 151 6178</span>
             <a href="./signup.html" class="change-number">Not your number?</a>
         </div>
 
@@ -85,75 +78,107 @@ stroke: var(--Icon-Primary-Default, #706DF2);" xmlns="http://www.w3.org/2000/svg
             <input type="tel" id="otp3" class="otp-input" maxlength="1">
             <input type="tel" id="otp4" class="otp-input" maxlength="1">
             <input type="tel" id="otp5" class="otp-input" maxlength="1">
+            <input type="tel" id="otp6" class="otp-input" maxlength="1">
         </div>
 
         <!-- Resend -->
-        <div id="resendText" class="resend">Resend code in 120 secs</div>
+        <div id="resendText" style="margin-bottom: 30px;" class="resend">Resend code in 120 secs</div>
 
         <!-- Continue Button -->
         <button id="continueBtn" class="continue-button" disabled>Continue</button>
-        <br>
-        <a href="./onboarding.html">2</a>
-
     </div>
-    <script>
-   // ========================================
-// 🔥 تنظیمات API
+
+<script>
 // ========================================
-const API_BASE = 'http://localhost/farra/backend/api'; // آدرس سرور خودت
+// 🔧 تنظیمات API
+// ========================================
+const API_BASE = 'https://microcementazma.com/backend/api';
 
 // ========================================
-// گرفتن شماره تلفن از localStorage
+// 📞 دریافت شماره تلفن از localStorage
 // ========================================
-const savedPhone = localStorage.getItem('phone_number') || '0777 151 6178';
-document.querySelector('.phone-number').textContent = savedPhone;
+const savedPhone = localStorage.getItem('phone_number');
+const isLoginMode = localStorage.getItem('login_mode') === 'true';
+
+console.log('🔍 Mode:', isLoginMode ? 'LOGIN' : 'REGISTRATION');
+console.log('📱 Phone:', savedPhone);
+
+if (!savedPhone) {
+    console.error('❌ No phone number found');
+    window.location.href = isLoginMode ? './signin.html' : './signup.html';
+}
+
+// نمایش شماره با فرمت
+const formattedPhone = savedPhone.replace(/(\d{4})(\d{3})(\d{4})/, '$1 $2 $3');
+document.getElementById('phoneDisplay').textContent = formattedPhone;
 
 // ========================================
-// متغیرهای اصلی
+// 🎯 دریافت المنت‌ها
 // ========================================
-const correctCode = "12345"; // این دیگه استفاده نمیشه، سرور چک میکنه
-let otpCode = "";
-
-// عناصر
 const inputs = document.querySelectorAll(".otp-input");
 const continueBtn = document.getElementById("continueBtn");
 const alertBoxError = document.getElementById("otpAlert");
 const alertBoxSuccess = document.getElementById("otpAlertSuccess");
 const resendEl = document.getElementById("resendText");
+const changeNumberLink = document.querySelector('.change-number');
 
 // ========================================
-// فیلدهای OTP
+// 🔄 تغییر شماره تلفن
+// ========================================
+if (changeNumberLink) {
+    changeNumberLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        localStorage.removeItem('phone_number');
+        localStorage.removeItem('login_mode');
+        
+        // هدایت به صفحه مناسب
+        window.location.href = isLoginMode ? './signin.html' : './signup.html';
+    });
+}
+
+// ========================================
+// ⚙️ متغیرهای کنترلی
+// ========================================
+let otpCode = "";
+let timer = 120;
+let countdown;
+
+// ✅ کلیدهای localStorage برای مدیریت بلاک چندمرحله‌ای
+const BLOCK_10MIN_KEY = 'resend_blocked_10min';
+const BLOCK_24H_KEY = 'resend_blocked_24h';
+const RESEND_COUNT_KEY = 'resend_count';
+const BLOCK_LEVEL_KEY = 'block_level';
+const OTP_SENT_TIME_KEY = 'otp_sent_time'; // 🔑 کلید جدید برای زمان ارسال OTP
+
+let resendCount = parseInt(localStorage.getItem(RESEND_COUNT_KEY) || '0');
+let blockLevel = parseInt(localStorage.getItem(BLOCK_LEVEL_KEY) || '0');
+
+const RESEND_LIMIT = 2; // بعد از 3 بار (0,1,2) بلاک می‌شه
+
+// ========================================
+// 📝 مدیریت فیلدهای OTP
 // ========================================
 inputs.forEach((inp, idx) => {
-    inp.addEventListener("input", () => {
+    inp.addEventListener("input", (e) => {
         inp.value = inp.value.replace(/[^0-9]/g, '');
         
-        // حرکت به جلو: اگر مقداری وارد شد و آخرین فیلد نیست، برو فیلد بعدی
         if (inp.value.length === 1 && idx < inputs.length - 1) {
             inputs[idx + 1].focus();
         }
         updateCode();
     });
 
-    // 🚀 منطق جدید: حرکت به عقب با Backspace
     inp.addEventListener("keydown", (e) => {
-        // اگر دکمه Backspace فشرده شد
         if (e.key === "Backspace" || e.keyCode === 8) {
-            
-            // اگر اینپوت فعلی خالی است و اینپوت اول نیست
             if (idx > 0 && inp.value.length === 0) {
-                e.preventDefault(); // جلوی حرکت پیش‌فرض مرورگر رو بگیر
-                
+                e.preventDefault();
                 const prevInput = inputs[idx - 1];
                 prevInput.focus();
-                
-                // محتوای اینپوت قبلی رو پاک کن و فوکوس رو اونجا بذار
-                prevInput.value = ''; 
-                updateCode(); 
+                prevInput.value = '';
+                updateCode();
             }
         }
     });
-    // 🚀 پایان منطق جدید
 
     inp.addEventListener("focus", () => {
         inputs.forEach(el => {
@@ -168,7 +193,7 @@ inputs.forEach((inp, idx) => {
 });
 
 // ========================================
-// بروزرسانی وضعیت کد و فعال‌سازی دکمه
+// 🔄 بروزرسانی کد OTP
 // ========================================
 function updateCode() {
     otpCode = Array.from(inputs).map(el => el.value).join("");
@@ -183,75 +208,184 @@ function updateCode() {
 }
 
 // ========================================
-// 🔥 تابع تایید OTP با سرور
+// 📡 تایید OTP با سرور
 // ========================================
 async function verifyOTP(phoneNumber, otpCode) {
     try {
+        console.log('📤 Sending verify request:', {
+            phone_number: phoneNumber, 
+            otp_code: otpCode,
+            purpose: isLoginMode ? 'login' : 'registration'
+        });
+        
         const response = await fetch(`${API_BASE}/auth/verify-otp.php`, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
                 phone_number: phoneNumber,
-                otp_code: otpCode
+                otp_code: otpCode,
+                purpose: isLoginMode ? 'login' : 'registration'
             })
         });
         
         const result = await response.json();
+        console.log('📥 Verify Response:', result);
         
-        if (result.success && result.data.session_token) {
-            // ذخیره session
-            localStorage.setItem('session_token', result.data.session_token);
-            localStorage.setItem('user_id', result.data.user_id);
+        // ✅ ذخیره توکن‌های ضروری
+        if (result.success && result.data) {
+            
+            // حذف session_token برای جلوگیری از ابهام 
+            localStorage.removeItem('session_token');
+            
+            // ذخیره access_token 
+            if (result.data.access_token) {
+                localStorage.setItem('access_token', result.data.access_token);
+                console.log('✅ Access token saved');
+            }
+            
+            // ذخیره user_id 
+            if (result.data.user_id) {
+                localStorage.setItem('user_id', result.data.user_id);
+                console.log('✅ User ID saved');
+            }
+            
+            // ذخیره refresh_token
+            if (result.data.refresh_token) {
+                localStorage.setItem('refresh_token', result.data.refresh_token);
+                console.log('✅ Refresh token saved');
+            }
         }
         
         return result;
     } catch (error) {
-        console.error('❌ Verify OTP Error:', error);
-        return {success: false, message: 'Network error occurred'};
+        console.error('❌ Network Error:', error);
+        return {
+            success: false, 
+            message: 'خطا در اتصال به سرور'
+        };
     }
 }
 
 // ========================================
-// کلیک روی Continue
+// 🚀 کلیک روی دکمه Continue
 // ========================================
 continueBtn.addEventListener("click", async () => {
-    if (otpCode.length < 5) return;
+    if (otpCode.length < 6) {
+        console.warn('⚠️ OTP incomplete');
+        return;
+    }
 
     inputs.forEach(inp => inp.classList.remove("success", "error", "focus"));
 
-    // 🔥 تایید با سرور
-    continueBtn.textContent = 'Verifying...';
+    const originalText = continueBtn.textContent;
+    continueBtn.textContent = '...Verifying';
     continueBtn.disabled = true;
     continueBtn.classList.add('disabled');
     
-    const cleanedPhone = savedPhone.replace(/\s/g, '');
-    const result = await verifyOTP(cleanedPhone, otpCode);
+    console.log('📤 Verifying OTP:', otpCode);
     
-    if (result.success) {
-        inputs.forEach(inp => inp.classList.add("success"));
-        showOtpAlert("success");
+    const cleanedPhone = savedPhone.replace(/\s/g, '');
+
+    // 🔑 بررسی انقضای OTP بر اساس تایمر فرانت‌اند
+    const otpSentTimestamp = localStorage.getItem(OTP_SENT_TIME_KEY);
+    const currentTime = Date.now();
+
+    if (otpSentTimestamp && (currentTime - parseInt(otpSentTimestamp)) / 1000 > 120) {
+        console.warn('⚠️ Frontend: OTP Expired due to timer.');
+        inputs.forEach(inp => inp.classList.add("error")); // Mark inputs as error visually
         
-        // هدایت به صفحه onboarding بعد از 1 ثانیه
-        setTimeout(() => {
-            window.location.href = './onboarding.html';
-        }, 1000);
-    } else {
-        inputs.forEach(inp => inp.classList.add("error"));
-        
-        // نمایش پیام خطا
+        const errorTitle = alertBoxError.querySelector('.otp-alert-title');
         const errorMessage = alertBoxError.querySelector('.otp-alert-message');
-        if (errorMessage) {
-            errorMessage.textContent = result.message || 'Please double check and try again';
-        }
         
+        if (errorTitle) {
+            errorTitle.textContent = 'You are too late!';
+        }
+        if (errorMessage) {
+            errorMessage.textContent = 'Code Expired. Please get a new code.';
+        }
         showOtpAlert("error");
         
-        // بازگشت دکمه به حالت عادی
-        continueBtn.textContent = 'Continue';
+        continueBtn.textContent = originalText;
         continueBtn.disabled = false;
         continueBtn.classList.remove('disabled');
         
-        // پاک کردن فیلدها
+        setTimeout(() => {
+            inputs.forEach(inp => {
+                inp.value = '';
+                inp.classList.remove("error");
+            });
+            inputs[0].focus();
+            updateCode();
+        }, 2000);
+        return; // 🛑 اجرای بقیه کد متوقف می‌شود
+    }
+
+    const result = await verifyOTP(cleanedPhone, otpCode);
+    
+    if (result.success) {
+        console.log('✅ OTP Verified Successfully');
+        inputs.forEach(inp => inp.classList.add("success"));
+        
+        const successMessage = alertBoxSuccess.querySelector('.sss');
+        if (successMessage) {
+            successMessage.textContent = 'Verification successful.';
+        }
+        showOtpAlert("success");
+        
+        continueBtn.textContent = '✓ Verified';
+        
+        // ✅ پاک کردن login_mode بعد از تایید موفق
+        localStorage.removeItem('login_mode');
+        
+        // ✅ ریست کردن شمارنده‌های بلاک و زمان ارسال OTP بعد از موفقیت
+        localStorage.removeItem(RESEND_COUNT_KEY);
+        localStorage.removeItem(BLOCK_LEVEL_KEY);
+        localStorage.removeItem(BLOCK_10MIN_KEY);
+        localStorage.removeItem(BLOCK_24H_KEY);
+        localStorage.removeItem(OTP_SENT_TIME_KEY); // 🔑 پاک کردن زمان ارسال OTP
+        
+        setTimeout(() => {
+            // هدایت به صفحه مناسب
+            if (isLoginMode) {
+                // اگر لاگین بود، به داشبورد برو
+                window.location.href = './home.html';
+            } else {
+                // اگر ثبت نام بود، به onboarding برو
+                window.location.href = './onboarding.html';
+            }
+        }, 1000);
+        
+    } else {
+        console.error('❌ Verification Failed:', result.message);
+        inputs.forEach(inp => inp.classList.add("error"));
+
+        let alertTitle = 'Wrong code?';
+        let alertMessage = 'Please double check and try again'; 
+        
+        if (result.data && result.data.code_expired === true) {
+            alertTitle = 'You are too late!';
+            alertMessage = 'Code Expired. Please get a new code.';
+        }
+        else if (result.data && result.data.too_many_attempts === true) {
+            alertTitle = 'You are stubborn!';
+            alertMessage = `Too many incorrect attempts.\n\nPlease try again in 10 minutes.`;
+        }
+        
+        const errorTitle = alertBoxError.querySelector('.otp-alert-title');
+        const errorMessage = alertBoxError.querySelector('.otp-alert-message');
+        
+        if (errorTitle) {
+             errorTitle.textContent = alertTitle;
+        }
+        if (errorMessage) {
+            errorMessage.textContent = alertMessage;
+        }
+        showOtpAlert("error");
+        
+        continueBtn.textContent = originalText;
+        continueBtn.disabled = false;
+        continueBtn.classList.remove('disabled');
+        
         setTimeout(() => {
             inputs.forEach(inp => {
                 inp.value = '';
@@ -264,30 +398,32 @@ continueBtn.addEventListener("click", async () => {
 });
 
 // ========================================
-// نمایش پیام
+// 🎨 نمایش Alert
 // ========================================
 function showOtpAlert(type) {
     const alertEl = type === "success" ? alertBoxSuccess : alertBoxError;
     alertEl.classList.add("show");
+    
     setTimeout(() => {
         alertEl.classList.remove("show");
     }, 3000);
 }
 
 // ========================================
-// تایمر 120 ثانیه‌ای Resend
+// ⏱️ تایمر Resend
 // ========================================
-let timer = 120;
-let countdown;
-
 function startTimer() {
     clearInterval(countdown);
-    resendEl.classList.remove("resend-link"); // حالت آبی حذف
-    resendEl.classList.add("resend"); // حالت طوسی
+    
+    resendEl.classList.remove("resend-link");
+    resendEl.classList.add("resend");
     resendEl.style.pointerEvents = "none";
-    resendEl.style.marginBottom = "28px";
-    timer = 120;
+    
+    timer = 120; 
     updateResendText();
+
+    // 🔑 ذخیره زمان شروع تایمر (ارسال OTP)
+    localStorage.setItem(OTP_SENT_TIME_KEY, Date.now());
 
     countdown = setInterval(() => {
         timer--;
@@ -295,7 +431,7 @@ function startTimer() {
 
         if (timer <= 0) {
             clearInterval(countdown);
-            resendEl.textContent = "Resend code";
+            resendEl.textContent = "Resend Code";
             resendEl.classList.remove("resend");
             resendEl.classList.add("resend-link");
             resendEl.style.pointerEvents = "auto";
@@ -308,77 +444,210 @@ function updateResendText() {
 }
 
 // ========================================
-// 🔥 تابع ارسال مجدد OTP
+// 🚨 نمایش خطا
 // ========================================
-async function resendOTP(phoneNumber) {
-    try {
-        const response = await fetch(`${API_BASE}/auth/send-otp.php`, {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({phone_number: phoneNumber})
-        });
-        
-        const result = await response.json();
-        return result;
-    } catch (error) {
-        console.error('❌ Resend OTP Error:', error);
-        return {success: false, message: 'Network error'};
-    }
+function showError(title, message) {
+    const errorTitle = alertBoxError.querySelector('.otp-alert-title');
+    const errorMessage = alertBoxError.querySelector('.otp-alert-message');
+    
+    if (errorTitle) errorTitle.textContent = title;
+    if (errorMessage) errorMessage.textContent = message;
+    
+    showOtpAlert("error");
 }
 
 // ========================================
-// کلیک روی متن آبی برای ارسال مجدد
+// 📡 ارسال مجدد OTP
+// ========================================
+async function resendOTP() {
+    const phoneNumber = localStorage.getItem('phone_number');
+    if (!phoneNumber) return { success: false, message: 'No phone number' };
+    
+    const now = Date.now();
+    
+    // کلیدهای مخصوص این شماره
+    const BLOCK_10MIN_KEY = `resend_blocked_10min_${phoneNumber}`;
+    const BLOCK_24H_KEY = `resend_blocked_24h_${phoneNumber}`;
+    const COUNT_KEY = `resend_count_${phoneNumber}`;
+    
+    // بررسی بلاک 24 ساعته
+    const blocked24h = localStorage.getItem(BLOCK_24H_KEY);
+    if (blocked24h && now < parseInt(blocked24h)) {
+        const remaining = Math.ceil((parseInt(blocked24h) - now) / 60000);
+        showError("That's enough for now!", `Try again in ${remaining} minutes.`);
+        return { success: false, message: 'Blocked 24h' };
+    }
+    
+    // بررسی بلاک 10 دقیقه‌ای
+    const blocked10min = localStorage.getItem(BLOCK_10MIN_KEY);
+    if (blocked10min && now < parseInt(blocked10min)) {
+        const remaining = Math.ceil((parseInt(blocked10min) - now) / 60000);
+        showError('You are stubborn!', `Try again in ${remaining} minutes.`);
+        return { success: false, message: 'Blocked 10min' };
+    }
+    
+    // شمارش تلاش‌ها
+    let resendCount = parseInt(localStorage.getItem(COUNT_KEY) || '0');
+    resendCount++;
+    localStorage.setItem(COUNT_KEY, resendCount);
+    
+    // بلاک 24 ساعته بعد از 5 تلاش
+    if (resendCount >= 5) {
+        const blockTime = now + (24 * 60 * 60 * 1000);
+        localStorage.setItem(BLOCK_24H_KEY, blockTime);
+        localStorage.setItem(COUNT_KEY, '0');
+        showError("That's enough for now!", 'You are blocked for 24 hours.');
+        return { success: false, message: 'Blocked after 5 attempts' };
+    }
+    
+    // بلاک 10 دقیقه‌ای بعد از 3 تلاش
+    if (resendCount === 3) {
+        const blockTime = now + (10 * 60 * 1000);
+        localStorage.setItem(BLOCK_10MIN_KEY, blockTime);
+        showError('You are stubborn!', 'Too many attempts. Try again in 10 minutes.');
+        return { success: false, message: 'Blocked after 3 attempts' };
+    }
+    
+   // ارسال OTP
+try {
+    const response = await fetch(`${API_BASE}/auth/send-otp.php`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+            phone_number: phoneNumber,
+            purpose: localStorage.getItem('login_mode') === 'true' ? 'login' : 'registration'
+        })
+    });
+    
+    const result = await response.json();
+    
+    if (result.success) {
+        startTimer(); // این تابع OTP_SENT_TIME_KEY را به‌روزرسانی می‌کند
+        return { success: true, message: 'OTP sent successfully' };
+    } else {
+        showError('Error', result.message || 'Failed to resend OTP');
+        return { success: false, message: result.message || 'Failed to resend OTP' };
+    }
+} catch (error) {
+    showError('Network Error', 'Please check your connection');
+    return { success: false, message: 'Network error' };
+}
+
+}
+
+
+
+
+// ========================================
+// 🚫 بررسی وضعیت بلاک
+// ========================================
+function checkBlockStatus() {
+    const now = Date.now();
+    
+    // ✅ بررسی بلاک 24 ساعته
+    const blocked24h = localStorage.getItem(BLOCK_24H_KEY);
+    if (blocked24h && now < parseInt(blocked24h)) {
+        return {
+            isBlocked: true,
+            type: '24h',
+            title: "That's enough for now!",
+            message: "You've reached the limit for SMS requests. Please try again later."
+        };
+    } else if (blocked24h && now >= parseInt(blocked24h)) {
+        // زمان بلاک 24 ساعته تموم شده
+        localStorage.removeItem(BLOCK_24H_KEY);
+        localStorage.removeItem(RESEND_COUNT_KEY);
+        localStorage.removeItem(BLOCK_LEVEL_KEY);
+        resendCount = 0;
+        blockLevel = 0;
+    }
+    
+    // ✅ بررسی بلاک 10 دقیقه‌ای
+    const blocked10min = localStorage.getItem(BLOCK_10MIN_KEY);
+    if (blocked10min && now < parseInt(blocked10min)) {
+        return {
+            isBlocked: true,
+            type: '10min',
+            title: 'You are stubborn!',
+            message: 'Too many incorrect attempts.\n\nPlease try again in 10 minutes.'
+        };
+    } else if (blocked10min && now >= parseInt(blocked10min)) {
+        // زمان بلاک 10 دقیقه تموم شده
+        localStorage.removeItem(BLOCK_10MIN_KEY);
+        
+        // ✅ اگر قبلاً یک بار بلاک 10 دقیقه‌ای داشته، سطح بلاک رو افزایش بده
+        if (blockLevel === 0) {
+            blockLevel = 1;
+            localStorage.setItem(BLOCK_LEVEL_KEY, '1');
+        }
+        
+        // ریست شمارنده برای دوره بعدی
+        resendCount = 0;
+        localStorage.setItem(RESEND_COUNT_KEY, '0');
+    }
+    
+    return { isBlocked: false };
+}
+
+// ========================================
+// 🔄 کلیک روی Resend (رفع مشکل سلکتور)
 // ========================================
 resendEl.addEventListener("click", async () => {
-    if (resendEl.classList.contains("resend-link")) {
-        console.log("📨 OTP resend triggered");
+    // ✅ بررسی اینکه آیا دکمه فعال است
+    if (!resendEl.classList.contains("resend-link")) return;
+    
+    // ✅ نمایش وضعیت ارسال
+    resendEl.textContent = "...Sending";
+    resendEl.style.pointerEvents = "none";
+    
+    // ✅ فراخوانی تابع resendOTP
+    const result = await resendOTP();
+    
+    // ✅ بررسی نتیجه
+    if (result.success) {
+        // موفقیت - تایمر از داخل resendOTP شروع شده
         
-        // 🔥 ارسال درخواست به سرور
-        resendEl.textContent = "Sending...";
-        resendEl.style.pointerEvents = "none";
+        // 🛠️ اصلاح: فقط عنصر .sss در باکس موفقیت وجود دارد
+        const successMessageEl = alertBoxSuccess.querySelector('.sss'); 
         
-        const cleanedPhone = savedPhone.replace(/\s/g, '');
-        const result = await resendOTP(cleanedPhone);
-        
-        if (result.success) {
-            // نمایش پیام موفقیت
-            const successMessage = alertBoxSuccess.querySelector('.sss');
-            if (successMessage) {
-                successMessage.textContent = 'New OTP sent to your WhatsApp';
-            }
-            showOtpAlert("success");
-            
-            // شروع مجدد تایمر
-            startTimer();
-        } else {
-            // نمایش خطا
-            const errorMessage = alertBoxError.querySelector('.otp-alert-message');
-            if (errorMessage) {
-                errorMessage.textContent = result.message || 'Failed to resend code';
-            }
-            showOtpAlert("error");
-            
-            resendEl.textContent = "Resend code";
-            resendEl.style.pointerEvents = "auto";
+        if (successMessageEl) {
+            successMessageEl.textContent = 'A new verification code has been sent.';
         }
+        
+        showOtpAlert("success");
+    } else {
+        // خطا - پیغام از داخل resendOTP نمایش داده شده
+        resendEl.textContent = "Resend Code";
+        resendEl.style.pointerEvents = "auto";
+        resendEl.classList.add("resend-link");
     }
 });
 
-// ========================================
-// شروع تایمر از همون اول
-// ========================================
-startTimer();
 
 // ========================================
-// 🔥 فوکوس خودکار روی اولین input
+// ⚡ شروع اولیه
 // ========================================
 window.addEventListener('load', () => {
+    // ✅ بررسی وضعیت بلاک در بارگذاری صفحه
+    const blockStatus = checkBlockStatus();
+    
+    if (blockStatus.isBlocked) {
+        const errorTitle = alertBoxError.querySelector('.otp-alert-title');
+        const errorMessage = alertBoxError.querySelector('.otp-alert-message');
+        
+        errorTitle.textContent = blockStatus.title;
+        errorMessage.textContent = blockStatus.message;
+        
+        showOtpAlert("error");
+    }
+    
+    startTimer();
     inputs[0].focus();
 });
 
 
-    </script>
+
+</script>
 
 </body>
-
 </html>

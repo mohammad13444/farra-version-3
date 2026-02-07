@@ -140,7 +140,7 @@
       left: 50%;
       transform: translateX(-50%);
       width: 345px;
-      height: 68px;
+      height: 78px;
 
       border: var(--Border-Width-25, 1px) solid var(--Icon-Error-Default, #FF595B);
       background: rgba(255, 89, 91, 0.10);
@@ -209,12 +209,12 @@
   .error-content {
       flex: 1;
   }
-
+social-icon
   .error-title {
       font-size: 16px;
       font-weight: 700;
       color: #1C1C1E;
-      margin-bottom: 4px;
+      margin-bottom: 0px;
       font-family: "Bonyade Koodak VF bold";
 
   }
@@ -501,17 +501,17 @@
       width: 56px;
       height: 56px;
       background: transparent;
-
+      border-radius: 50px;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
       transition: all 0.3s ease;
+border: 1px solid var(--Surface-Primary-Default, #706DF2);
+
   }
 
-  .social-icon:hover .img1 {
-      content: url('./img/9.png');
-  }
+  
 
   .social-icon-diamond {
       width: 24px;

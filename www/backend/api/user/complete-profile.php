@@ -1,86 +1,96 @@
 <?php
 header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: POST");
+header("Access-Control-Allow-Methods: POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
+
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit;
+}
 
 require_once '../../config/database.php';
 require_once '../../includes/functions.php';
+require_once '../../includes/jwt.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     sendResponse(false, 'Method not allowed', null, 405);
 }
 
-// ✅ بررسی token
-$headers = getallheaders();
-$token = $headers['Authorization'] ?? '';
-$token = str_replace('Bearer ', '', $token);
-
-if (!$token) {
-    sendResponse(false, 'Unauthorized', null, 401);
-}
-
 $db = new Database();
 $conn = $db->getConnection();
 
-// ✅ اعتبارسنجی token
-$stmt = $conn->prepare("
-    SELECT user_id FROM login_sessions 
-    WHERE session_token = ? AND expires_at > NOW()
-");
-$stmt->execute([$token]);
-$session = $stmt->fetch(PDO::FETCH_ASSOC);
+// اعتبارسنجی JWT
+$payload = validateJWT($conn);
+$user_id = $payload['user_id'];
 
-if (!$session) {
-    sendResponse(false, 'Invalid or expired token', null, 401);
-}
-
-$user_id = $session['user_id'];
 $data = json_decode(file_get_contents("php://input"), true);
 
 $full_name = trim($data['full_name'] ?? '');
-$age = intval($data['age'] ?? 0);
-$city = trim($data['city'] ?? '');
-$email = filter_var(trim($data['email'] ?? ''), FILTER_VALIDATE_EMAIL);
+$email = trim($data['email'] ?? '');
+$date_of_birth = $data['date_of_birth'] ?? '';
+$gender = $data['gender'] ?? '';
 
-if (!$full_name || $age < 1 || $age > 120 || !$city || !$email) {
-    sendResponse(false, 'Invalid input data', null, 400);
+// اعتبارسنجی
+$errors = [];
+
+if (empty($full_name) || mb_strlen($full_name) < 3) {
+    $errors[] = 'نام و نام خانوادگی باید حداقل 3 کاراکتر باشد';
+}
+
+if (!empty($email) && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    $errors[] = 'فرمت ایمیل صحیح نیست';
+}
+
+if (!empty($date_of_birth)) {
+    $dob = DateTime::createFromFormat('Y-m-d', $date_of_birth);
+    if (!$dob || $dob->format('Y-m-d') !== $date_of_birth) {
+        $errors[] = 'فرمت تاریخ تولد صحیح نیست (YYYY-MM-DD)';
+    }
+}
+
+if (!empty($gender) && !in_array($gender, ['male', 'female', 'other'])) {
+    $errors[] = 'جنسیت نامعتبر است';
+}
+
+if (!empty($errors)) {
+    sendResponse(false, implode(', ', $errors), null, 400);
 }
 
 try {
     $conn->beginTransaction();
+
+    $stmt = $conn->prepare("
+        UPDATE users 
+        SET full_name = ?, 
+            email = ?, 
+            date_of_birth = ?, 
+            gender = ?, 
+            profile_completed = 1,
+            updated_at = NOW()
+        WHERE user_id = ?
+    ");
     
-    // ✅ بررسی وجود پروفایل
-    $stmt = $conn->prepare("SELECT profile_id FROM user_profiles WHERE user_id = ?");
-    $stmt->execute([$user_id]);
-    $profile = $stmt->fetch(PDO::FETCH_ASSOC);
-    
-    if ($profile) {
-        // به‌روزرسانی
-        $stmt = $conn->prepare("
-            UPDATE user_profiles 
-            SET full_name = ?, age = ?, city = ?, email = ?, profile_completed = 1, updated_at = NOW()
-            WHERE user_id = ?
-        ");
-        $stmt->execute([$full_name, $age, $city, $email, $user_id]);
-    } else {
-        // ایجاد جدید
-        $stmt = $conn->prepare("
-            INSERT INTO user_profiles (user_id, full_name, age, city, email, profile_completed)
-            VALUES (?, ?, ?, ?, ?, 1)
-        ");
-        $stmt->execute([$user_id, $full_name, $age, $city, $email]);
-    }
-    
+    $stmt->execute([
+        $full_name,
+        $email ?: null,
+        $date_of_birth ?: null,
+        $gender ?: null,
+        $user_id
+    ]);
+
+    logActivity($conn, $user_id, 'profile_completed', 'User completed their profile');
+
     $conn->commit();
-    
-    sendResponse(true, 'Profile completed successfully', [
-        'user_id' => $user_id,
+
+    sendResponse(true, 'پروفایل با موفقیت تکمیل شد', [
         'profile_completed' => true
     ]);
-    
+
 } catch (Exception $e) {
-    $conn->rollBack();
+    if ($conn->inTransaction()) {
+        $conn->rollBack();
+    }
     error_log("Complete Profile Error: " . $e->getMessage());
-    sendResponse(false, 'Server error', null, 500);
+    sendResponse(false, 'خطای سرور', null, 500);
 }
 ?>

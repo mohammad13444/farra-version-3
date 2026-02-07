@@ -1,78 +1,102 @@
-const API_BASE = 'http://localhost/farra/backend/api'; // آدرس سرور خودت رو بذار
-
-// ذخیره‌سازی session
-function saveSession(token, userId) {
-    localStorage.setItem('session_token', token);
-    localStorage.setItem('user_id', userId);
-}
-
-function getSessionToken() {
-    return localStorage.getItem('session_token');
-}
-
-// ✅ ارسال OTP
-async function sendOTP(phoneNumber) {
-    try {
-        const response = await fetch(`${API_BASE}/auth/send-otp.php`, {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({phone_number: phoneNumber})
-        });
-        
-        const result = await response.json();
-        return result;
-    } catch (error) {
-        console.error('Send OTP Error:', error);
-        return {success: false, message: 'Network error'};
+const API_CONFIG = {
+    BASE_URL: 'https://microcementazma.com',
+    ENDPOINTS: {
+        SEND_OTP: '/api/auth/send-otp.php',
+        VERIFY_OTP: '/api/auth/verify-otp.php',
+        RESEND_OTP: '/api/auth/resend-otp.php',
+        COMPLETE_PROFILE: '/api/user/complete-profile.php',
+        GET_PROFILE: '/api/user/get-profile.php',
+        REFRESH_TOKEN: '/api/auth/refresh-token.php',
+        LOGOUT: '/api/auth/logout.php'
     }
-}
+};
 
-// ✅ تایید OTP
-async function verifyOTP(phoneNumber, otpCode) {
+// مدیریت توکن
+const TokenManager = {
+    set: (accessToken, refreshToken) => {
+        localStorage.setItem('access_token', accessToken);
+        localStorage.setItem('refresh_token', refreshToken);
+    },
+    
+    get: () => ({
+        access: localStorage.getItem('access_token'),
+        refresh: localStorage.getItem('refresh_token')
+    }),
+    
+    clear: () => {
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('refresh_token');
+    },
+    
+    getAuthHeader: () => {
+        const token = localStorage.getItem('access_token');
+        return token ? { 'Authorization': `Bearer ${token}` } : {};
+    }
+};
+
+// درخواست API با مدیریت خطا
+async function apiRequest(endpoint, method = 'POST', data = null, requiresAuth = false) {
+    const url = `${API_CONFIG.BASE_URL}${endpoint}`;
+    
+    const headers = {
+        'Content-Type': 'application/json',
+        ...(requiresAuth ? TokenManager.getAuthHeader() : {})
+    };
+    
+    const options = {
+        method,
+        headers
+    };
+    
+    if (data && method !== 'GET') {
+        options.body = JSON.stringify(data);
+    }
+    
     try {
-        const response = await fetch(`${API_BASE}/auth/verify-otp.php`, {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-                phone_number: phoneNumber,
-                otp_code: otpCode
-            })
-        });
-        
+        const response = await fetch(url, options);
         const result = await response.json();
         
-        if (result.success && result.data.session_token) {
-            saveSession(result.data.session_token, result.data.user_id);
+        // اگر توکن منقضی شده، تلاش برای refresh
+        if (!result.success && response.status === 401 && requiresAuth) {
+            const refreshed = await refreshAccessToken();
+            if (refreshed) {
+                // تلاش مجدد با توکن جدید
+                headers['Authorization'] = `Bearer ${TokenManager.get().access}`;
+                const retryResponse = await fetch(url, options);
+                return await retryResponse.json();
+            }
         }
         
         return result;
     } catch (error) {
-        console.error('Verify OTP Error:', error);
-        return {success: false, message: 'Network error'};
+        console.error('API Request Error:', error);
+        return {
+            success: false,
+            message: 'خطا در برقراری ارتباط با سرور'
+        };
     }
 }
 
-// ✅ تکمیل پروفایل
-async function completeProfile(profileData) {
-    const token = getSessionToken();
-    if (!token) {
-        return {success: false, message: 'Not authenticated'};
-    }
+// Refresh کردن توکن
+async function refreshAccessToken() {
+    const tokens = TokenManager.get();
+    if (!tokens.refresh) return false;
     
     try {
-        const response = await fetch(`${API_BASE}/user/complete-profile.php`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify(profileData)
+        const result = await apiRequest(API_CONFIG.ENDPOINTS.REFRESH_TOKEN, 'POST', {
+            refresh_token: tokens.refresh
         });
         
-        const result = await response.json();
-        return result;
+        if (result.success) {
+            TokenManager.set(result.data.access_token, result.data.refresh_token);
+            return true;
+        }
+        
+        TokenManager.clear();
+        window.location.href = 'signup.html';
+        return false;
     } catch (error) {
-        console.error('Complete Profile Error:', error);
-        return {success: false, message: 'Network error'};
+        console.error('Token Refresh Error:', error);
+        return false;
     }
 }

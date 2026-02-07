@@ -128,6 +128,78 @@
   font-weight: var(--textfield-font-weight-active);
 }
 
+/* ===== Alert Container ===== */
+.profile-alert {
+    position: fixed;
+    top: -80px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 353px;
+    min-height: 68px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 10px 20px;
+    border-radius: 24px;
+    border: 1px solid #FF595B;
+    background: rgba(255, 89, 91, 0.10);
+    backdrop-filter: blur(8px);
+    opacity: 0;
+    transition: top 0.4s ease-out, opacity 0.4s ease-out;
+    z-index: 99999;
+}
+
+/* ✅ Show State */
+.profile-alert.show {
+    top: 32px;
+    opacity: 1;
+}
+
+/* ❌ Error Style */
+.profile-alert.error {
+    border: 1px solid #FF595B;
+    background: rgba(255, 89, 91, 0.10);
+}
+
+/* ===== Alert Content ===== */
+.profile-alert-content {
+    display: flex;
+    flex-direction: column;
+}
+
+/* ===== Alert Title ===== */
+.profile-alert-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1C1C1E;
+    margin-bottom: 4px;
+    font-family: "Bonyade Koodak VF bold";
+}
+
+/* ===== Alert Message ===== */
+.profile-alert-message {
+    font-size: 13px;
+    color: #48484A;
+    line-height: 1.4;
+    font-family: "Bonyade Koodak VF";
+}
+
+/* ===== Shake Animation ===== */
+@keyframes shake {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    25% { transform: translateX(-50%) translateY(-5px); }
+    50% { transform: translateX(-50%) translateY(0); }
+    75% { transform: translateX(-50%) translateY(-5px); }
+}
+
+.profile-alert.shake {
+    animation: shake 0.5s ease;
+}
+
+
+.shake {
+    animation: shake 0.5s ease-in-out;
+}
 
     .input-icon {
       position: absolute;
@@ -349,7 +421,7 @@
   height: var(--btn-primary-height, 64px);
   padding: var(--btn-primary-padding-vertical, 20px) var(--btn-primary-padding-horizontal, 16px);
   border-radius: var(--btn-primary-border-radius, 40px);
-  background: var(--btn-primary-bg-disabled, #8A8999);
+  background: var(--btn-primary-bg, #706DF2); /* ✅ همیشه فعال */
   color: var(--btn-primary-text-color, #E6E5FF);
   font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
   font-size: var(--Font-Button-Large-Text-Size, 24px);
@@ -360,7 +432,7 @@
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  cursor: not-allowed;
+  cursor: pointer; /* ✅ همیشه کلیک‌پذیر */
   transition: all 0.25s ease;
   margin-bottom: var(--spacing-800, 60px);
 }
