@@ -70,7 +70,7 @@
     <icon src="www/resources/192-192.jpg" width="76"  height="76" />
 
     <!-- ✅ App Store (خیلی حیاتی) -->
-    <icon src="www/resources/192-192.jpg" width="1024" height="1024" />
+    <icon src="www/resources/1024-1024.jpg" width="1024" height="1024" />
 </platform>
 
 
