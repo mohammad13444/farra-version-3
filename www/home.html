@@ -235,7 +235,7 @@
       gap: 42px 28px;
       width: 100%;
       max-width: 600px;
-      margin: 40px auto 60px;
+      margin: 40px auto 40px;
       text-align: center;
     }
 
@@ -269,10 +269,9 @@
       max-width: 900px;
       height: 264px;
       position: relative;
-      border-radius: 20px;
+      border-radius:32px;
       overflow: hidden;
-      box-shadow: 0 8px 18px rgba(120, 100, 255, 0.25);
-      margin: 0 auto 20px;
+      margin: 0 auto 9px;
     }
 
     .hero-section img {
@@ -280,7 +279,7 @@
       display: block;
       height: 264px;
 
-      border-radius: 20px;
+      border-radius: 32px;
     }
 
     .overlay-box {
@@ -290,23 +289,34 @@
       transform: translateX(-50%);
       background: #E2E2FCB2;
       backdrop-filter: blur(12px);
-      border-radius: 20px;
-      padding: 18px 28px;
+      border-radius: 24px;
+      padding: var(--Spacing-500, 20px) var(--Spacing-400, 16px) var(--Spacing-500, 20px) var(--Spacing-600, 24px);
       width: 95%;
       box-shadow: 0 4px 14px rgba(140, 120, 255, 0.25);
     }
 
     .overlay-box h2 {
-      font-size: 18px;
-      font-weight: 700;
-      color: #464153;
+      color: var(--Text-Default-Heading, #45454D);
+
+/* English/Heading/H6 */
+font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+font-size: var(--Font-Headings-H6-Text-Size, 20px);
+font-style: normal;
+font-weight: 700;
+line-height: var(--Font-Headings-H6-Line-Heigth, 28px); /* 140% */
       margin-bottom: 5px;
     }
 
     .overlay-box p {
-      font-size: 14px;
+color: var(--Text-Default-Body, #5C5C66);
+
+/* English/Body/Copy */
+font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+font-size: var(--Font-Copy-Body-Text-Size, 16px);
+font-style: normal;
+font-weight: 400;
+line-height: var(--Font-Copy-Body-Line-Heigth, 20px); /* 125% */
       margin: 0px;
-      color: #68627a;
     }
 
     /* بخش کلی Nearby Hotels با Layout کل صفحه */
@@ -1041,21 +1051,52 @@
 
 
 
+/* CSS - استایل‌های مودال */
 .filter-modal {
-    position: fixed;
-    left: 0;
-    bottom: -100%;
-    width: 100%;
-    height: auto;
-    max-height: 85vh;
-    background: rgba(240, 237, 255, 0.8);
-    backdrop-filter: blur(10px);
-    border-radius: 24px 24px 0 0;
-    box-shadow: 0 -4px 20px rgba(90, 90, 250, 0.15);
-    transition: bottom 0.4s ease;
-    z-index: 999;
-    overflow-y: auto;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: flex-end;
+  z-index: 1000;
+  transition: opacity 0.3s ease;
 }
+
+.filter-modal.hidden {
+  display: none;
+  opacity: 0;
+}
+
+
+
+.filter-modal-content {
+  background: white;
+  width: 100%;
+  border-radius: 20px 20px 0 0;
+  padding: 20px;
+  max-height: 80vh;
+  overflow-y: auto;
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+}
+
+.filter-modal.active .filter-modal-content {
+  transform: translateY(0);
+}
+
+/* افکت focus برای آیکون */
+.filter-icon-svg path {
+  transition: stroke 0.3s ease;
+}
+
+#filter-icon:focus .filter-icon-svg path,
+#filter-icon.active .filter-icon-svg path {
+  stroke: #5856D6;
+}
+
 .filter-modal:not(.hidden) { bottom: 0; }
 
 .filter-modal-content {
@@ -1680,53 +1721,40 @@ height: 30px;
 
     
 
-       <!-- <a href="" style="padding-left: 5px;">
-         <svg class="default-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"
-        fill="none">
-        <path
-          d="M9.9732 1C11.2857 5.31246 14.6605 8.6874 18.9728 10C14.6605 11.3126 11.2857 14.6875 9.9732 19C8.6607 14.6875 5.28588 11.3126 0.973633 10C5.28588 8.6874 8.6607 5.31246 9.9732 1Z"
-          stroke="#A9A7F7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-      </svg></a> -->
+       <a class="deleted" href="" style="padding-right: 8px;">
+      
 
-     <!-- <a href="" style="padding-left: 5px;">
-      <svg class="focose" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-        <path
-          d="M9.9732 1C11.2857 5.31246 14.6605 8.6874 18.9728 10C14.6605 11.3126 11.2857 14.6875 9.9732 19C8.6607 14.6875 5.28588 11.3126 0.973633 10C5.28588 8.6874 8.6607 5.31246 9.9732 1Z"
-          stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-      </svg></a> -->
-
-
-       <a href="focose" style="padding-left: 5px;">
-      <svg class="default-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-  <g clip-path="url(#clip0_1575_18437)">
-    <path opacity="0.4" fill-rule="evenodd" clip-rule="evenodd" d="M1 12C1 3.7494 3.75 1 12 1C20.2501 1 23 3.7494 23 12C23 20.2494 20.2501 23 12 23C3.75 23 1 20.2494 1 12Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M7 8H17" stroke="#706DF2" stroke-width="1.45" stroke-linecap="round"/>
-    <path d="M10 7.00488L10 9.00488" stroke="#706DF2" stroke-width="2" stroke-linecap="round"/>
-    <path d="M14 15L14 17" stroke="#706DF2" stroke-width="2" stroke-linecap="round"/>
-    <path d="M7 16H17" stroke="#706DF2" stroke-width="1.45" stroke-linecap="round"/>
+      <svg  xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <g clip-path="url(#clip0_1609_23780)">
+    <path d="M8 16L16 8M16 16L8 8" stroke="#FF595B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path opacity="0.4" fill-rule="evenodd" clip-rule="evenodd" d="M1 12C1 3.7494 3.75 1 12 1C20.2501 1 23 3.7494 23 12C23 20.2494 20.2501 23 12 23C3.75 23 1 20.2494 1 12Z" stroke="#FF595B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
   </g>
   <defs>
-    <clipPath id="clip0_1575_18437">
+    <clipPath id="clip0_1609_23780">
       <rect width="24" height="24" fill="white"/>
     </clipPath>
   </defs>
-</svg></a>
+</svg> </a>
 
-     <a href="" style="padding-left: 5px;">
-       <svg class="focose" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-  <g clip-path="url(#clip0_1575_18437)">
-    <path opacity="0.4" fill-rule="evenodd" clip-rule="evenodd" d="M1 12C1 3.7494 3.75 1 12 1C20.2501 1 23 3.7494 23 12C23 20.2494 20.2501 23 12 23C3.75 23 1 20.2494 1 12Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M7 8H17" stroke="#706DF2" stroke-width="1.45" stroke-linecap="round"/>
-    <path d="M10 7.00488L10 9.00488" stroke="#706DF2" stroke-width="2" stroke-linecap="round"/>
-    <path d="M14 15L14 17" stroke="#706DF2" stroke-width="2" stroke-linecap="round"/>
-    <path d="M7 16H17" stroke="#706DF2" stroke-width="1.45" stroke-linecap="round"/>
-  </g>
-  <defs>
-    <clipPath id="clip0_1575_18437">
-      <rect width="24" height="24" fill="white"/>
-    </clipPath>
-  </defs>
-</svg></a>
+  
+
+
+      <a href="#" id="filter-icon" style="padding-left: 5px;">
+  <svg class="filter-icon-svg" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+    <g clip-path="url(#clip0_1575_18437)">
+      <path opacity="0.4" fill-rule="evenodd" clip-rule="evenodd" d="M1 12C1 3.7494 3.75 1 12 1C20.2501 1 23 3.7494 23 12C23 20.2494 20.2501 23 12 23C3.75 23 1 20.2494 1 12Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M7 8H17" stroke="#706DF2" stroke-width="1.45" stroke-linecap="round"/>
+      <path d="M10 7.00488L10 9.00488" stroke="#706DF2" stroke-width="2" stroke-linecap="round"/>
+      <path d="M14 15L14 17" stroke="#706DF2" stroke-width="2" stroke-linecap="round"/>
+      <path d="M7 16H17" stroke="#706DF2" stroke-width="1.45" stroke-linecap="round"/>
+    </g>
+    <defs>
+      <clipPath id="clip0_1575_18437">
+        <rect width="24" height="24" fill="white"/>
+      </clipPath>
+    </defs>
+  </svg>
+</a>
 
     </div>
 
@@ -2802,6 +2830,29 @@ document.addEventListener('mousedown', (e) => {
         searchInput.setAttribute('placeholder', 'Search here');
         showDefaultIcon();
     }
+});
+
+// JavaScript - اضافه کنید به فایل JS خودتون
+document.addEventListener('DOMContentLoaded', function() {
+  const filterIcon = document.getElementById('filter-icon');
+  const filterModal = document.getElementById('filter-modal');
+  
+  // باز کردن مودال با کلیک روی آیکون
+  filterIcon.addEventListener('click', function(e) {
+    e.preventDefault(); // جلوگیری از رفتار پیش‌فرض لینک
+    filterModal.classList.remove('hidden');
+    filterModal.classList.add('active');
+    document.body.style.overflow = 'hidden'; // غیرفعال کردن اسکرول
+  });
+  
+  // بستن مودال با کلیک روی backdrop
+  filterModal.addEventListener('click', function(e) {
+    if (e.target === filterModal) {
+      filterModal.classList.add('hidden');
+      filterModal.classList.remove('active');
+      document.body.style.overflow = ''; // فعال کردن اسکرول
+    }
+  });
 });
 
 
