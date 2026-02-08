@@ -59,8 +59,8 @@
 
     </platform>
 
-    <platform name="ios">
-<preference name="ios-CFBundleVersion" value="108" />
+<platform name="ios">
+    <preference name="ios-CFBundleVersion" value="108" />
 
     <!-- iPhone -->
     <icon src="www/resources/48-48.jpg"  width="20"  height="20" />
@@ -69,8 +69,10 @@
     <icon src="www/resources/144-144.jpg" width="60"  height="60" />
     <icon src="www/resources/192-192.jpg" width="76"  height="76" />
 
-
+    <!-- ✅ App Store (خیلی حیاتی) -->
+    <icon src="www/resources/192-192.jpg" width="1024" height="1024" />
 </platform>
+
 
 
 </widget>
