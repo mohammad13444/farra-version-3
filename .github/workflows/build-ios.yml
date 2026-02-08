@@ -119,7 +119,7 @@ jobs:
           if [ -e "farra.xcworkspace" ]; then
             echo "📘 Using .xcworkspace"
             xcodebuild -workspace farra.xcworkspace \
-              -scheme farra \
+              -scheme Farra \
               -configuration Release \
               -archivePath $PWD/../../build/farra.xcarchive \
               clean archive \
@@ -132,7 +132,7 @@ jobs:
           else
             echo "📗 Using .xcodeproj"
             xcodebuild -project farra.xcodeproj \
-              -scheme farra \
+              -scheme Farra \
               -configuration Release \
               -archivePath $PWD/../../build/farra.xcarchive \
               clean archive \
