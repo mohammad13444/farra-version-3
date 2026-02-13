@@ -2,7 +2,7 @@
 
 <widget
     id="com.farra.app"
-    version="1.0.8"
+    version="1.0.9"
     xmlns="http://www.w3.org/ns/widgets"
     xmlns:cdv="http://cordova.apache.org/ns/1.0"
     xmlns:android="http://schemas.android.com/apk/res/android">
@@ -56,6 +56,11 @@
             <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
             <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
         </config-file>
+         <preference name="AndroidXEnabled" value="true" />
+    <config-file parent="/*" target="AndroidManifest.xml">
+        <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+        <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    </config-file>
 
     </platform>
 
@@ -71,6 +76,9 @@
 
     <!-- ✅ App Store (خیلی حیاتی) -->
     <icon src="www/resources/1024-1024.jpg" width="1024" height="1024" />
+    <config-file platform="ios" target="*-Info.plist" parent="NSPhotoLibraryAddUsageDescription">
+        <string>To save transaction image</string>
+    </config-file>
 </platform>
 
 

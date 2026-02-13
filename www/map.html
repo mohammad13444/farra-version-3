@@ -410,8 +410,7 @@ line-height: var(--Font-Copy-Body-Sm-Line-Heigth, 18px); /* 128.571% */
         }
 
         .resort-card {
-            min-width: 200px;
-            width: 166px;
+            min-width: 190px;
             background: var(--Primary-100, #E2E2FC);
             border-radius: 24px;
             overflow: hidden;
@@ -419,7 +418,8 @@ line-height: var(--Font-Copy-Body-Sm-Line-Heigth, 18px); /* 128.571% */
             display: block;
             scroll-snap-align: center; /* 👈 تغییر از start به center */
             flex-shrink: 0;
-            padding-bottom: 15px;
+            padding-bottom: 0px;
+            height: 220px;
         }
 
         .resort-card:hover {
@@ -428,8 +428,8 @@ line-height: var(--Font-Copy-Body-Sm-Line-Heigth, 18px); /* 128.571% */
 
         /* Card Image Section */
         .card-image {
-            width: 100%;
-            height: 140px;
+            width: 190px;
+            height: 155px;
             position: relative;
             display: flex;
             align-items: center;
@@ -640,6 +640,21 @@ backdrop-filter: blur(6px);
                 rgba(0, 0, 0, 0.00) 100%
             );
         }
+        /* اضافه کردن به انتهای بخش style */
+.icon-item.active {
+    background: #706DF2;
+    border-color: #706DF2;
+}
+
+.icon-item.active svg path {
+    stroke: white;
+}
+
+.icon-item {
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
     </style>
 </head>
 <body>
@@ -718,7 +733,8 @@ backdrop-filter: blur(6px);
 
             <!-- Icon Bar -->
             <div class="icon-bar">
-                <div class="icon-item">
+    <div class="icon-item" data-type="villas">
+
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
   <path d="M20.5261 7.5L20.5261 15.2959C20.5261 17.4498 18.8057 19.1981 16.6861 19.1981H7.06985C4.95034 19.1981 3.22987 17.4498 3.22987 15.2959L3.22986 7.5" stroke="#706DF2" stroke-width="1.5" stroke-miterlimit="10"/>
   <path d="M3.22986 15.0898V21.9636" stroke="#706DF2" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"/>
@@ -734,7 +750,7 @@ backdrop-filter: blur(6px);
   </g>
 </svg>
                 </div>
-                <div class="icon-item">
+    <div class="icon-item" data-type="resorts">
                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
   <path d="M20.7191 17.627C20.7191 19.8101 18.9491 21.587 16.759 21.587H6.85544C4.67225 21.587 2.89539 19.817 2.89539 17.627" stroke="#706DF2" stroke-width="1.5" stroke-miterlimit="10"/>
   <path d="M1.48352 21.5868C1.48352 21.5868 8.23972 2 11.883 2C15.299 2 22.1447 21.5868 22.1447 21.5868" stroke="#706DF2" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"/>
@@ -744,7 +760,7 @@ backdrop-filter: blur(6px);
   </g>
 </svg>
                 </div>
-                <div class="icon-item">
+    <div class="icon-item" data-type="hotels">
                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
   <g opacity="0.4">
     <path d="M10.2043 21.6731V18.2421C10.2043 16.8031 9.03316 15.6406 7.59757 15.6406C6.15569 15.6406 4.99084 16.8094 4.99084 18.2421V21.6731" stroke="#706DF2" stroke-width="1.5" stroke-miterlimit="10"/>
@@ -756,7 +772,7 @@ backdrop-filter: blur(6px);
   <path d="M13.1888 13V21.3402" stroke="#706DF2" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"/>
 </svg>
                 </div>
-                <div class="icon-item">
+    <div class="icon-item" data-type="houses">
                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
   <path d="M17.3151 13.8887H20.5671C21.3552 13.8887 22 14.4181 22 15.0651V20.7122C22 21.3593 21.3552 21.8887 20.5671 21.8887H3.43293C2.64482 21.8887 2 21.3593 2 20.7122V15.0651C2 14.4181 2.64482 13.8887 3.43293 13.8887H6.91203" stroke="#706DF2" stroke-width="1.5" stroke-miterlimit="10"/>
   <path d="M6.44446 8V21.8889M17.5556 8V21.8889" stroke="#706DF2" stroke-width="1.5" stroke-miterlimit="10"/>
@@ -767,7 +783,7 @@ backdrop-filter: blur(6px);
   <path d="M4 11C4 11 9.232 3 12.0533 3C14.6987 3 20 11 20 11" stroke="#706DF2" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"/>
 </svg>
                 </div>
-                <div class="icon-item">
+    <div class="icon-item" data-type="apartments">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
   <g opacity="0.4">
     <path d="M14.5671 21.6374V17.7457C14.5671 16.1135 13.2454 14.7949 11.6251 14.7949C9.99777 14.7949 8.68311 16.1207 8.68311 17.7457V21.6374" stroke="#706DF2" stroke-width="1.5" stroke-miterlimit="10"/>
@@ -777,7 +793,7 @@ backdrop-filter: blur(6px);
   <path d="M7.55315 2H15.6899C17.6512 2 19.243 3.59658 19.243 5.56379V19.8617C19.243 21.0449 18.2908 22 17.1111 22H6.13189C4.95225 22 4 21.0449 4 19.8617V5.56379C4 3.59658 5.59181 2 7.55315 2Z" stroke="#706DF2" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"/>
 </svg>
                 </div>
-                <div class="icon-item">
+    <div class="icon-item" data-type="farms">
                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
   <path d="M2.58484 6.17195C2.58484 6.17195 6.3675 2 8.43284 2C10.367 2 14.2808 6.17195 14.2808 6.17195" stroke="#706DF2" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"/>
   <path d="M12.7216 4.56898L13.4036 13.19L18.3532 14.5191C19.4673 14.7396 20.276 15.7181 20.276 16.8605V20.5865C20.276 21.367 19.6426 22.0004 18.8622 22.0004H4.86502C4.08458 22.0004 3.45117 21.367 3.45117 20.5865L4.33922 4.41797" stroke="#706DF2" stroke-width="1.5" stroke-miterlimit="10"/>
@@ -855,206 +871,390 @@ backdrop-filter: blur(6px);
             crossorigin=""></script>
     
     <script>
-        let map;
-        let clusterMarkers = [];
-        let individualMarkers = [];
+let map;
+let clusterMarkers = [];
+let individualMarkers = [];
+let allResortData = [];
+let initialZoom = 11;
+let initialCenter = [33.5186, -86.8104];
+let currentZoomLevel = initialZoom;
+let activeFilter = null; // 🔥 نگهداری فیلتر فعال
 
-        // Initialize when page loads
-        document.addEventListener('DOMContentLoaded', function() {
-            initApp();
-        });
+// ================= INIT =================
+document.addEventListener('DOMContentLoaded', initApp);
+document.addEventListener('deviceready', initApp, false);
 
-        // For Cordova
-        document.addEventListener('deviceready', function() {
-            initApp();
-        }, false);
+function initApp() {
+    map = L.map('map', {
+        zoomControl: false,
+        attributionControl: false
+    }).setView(initialCenter, initialZoom);
 
-        function initApp() {
-            // Initialize map centered on Birmingham, AL
-            map = L.map('map', {
-                zoomControl: false,
-                attributionControl: false
-            }).setView([33.5186, -86.8104], 11);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19
+    }).addTo(map);
 
-            // Add OpenStreetMap tiles
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                maxZoom: 19,
-            }).addTo(map);
+    const resortTypes = ['resorts', 'villas', 'hotels', 'houses', 'apartments', 'farms'];
 
-            // Resort locations with counts
-            const resorts = [
-                { 
-                    name: 'Coalburg', 
-                    count: 10, 
-                    lat: 33.62, 
-                    lng: -86.91,
-                    resorts: generateResorts(10, 33.62, -86.91)
-                },
-                { 
-                    name: 'Fultondale', 
-                    count: 4, 
-                    lat: 33.60, 
-                    lng: -86.78,
-                    resorts: generateResorts(4, 33.60, -86.78)
-                },
-                { 
-                    name: 'Tarrant', 
-                    count: 5, 
-                    lat: 33.58, 
-                    lng: -86.75,
-                    resorts: generateResorts(5, 33.58, -86.75)
-                },
-                { 
-                    name: 'Birmingham', 
-                    count: 50, 
-                    lat: 33.5186, 
-                    lng: -86.8104,
-                    resorts: generateResorts(50, 33.5186, -86.8104)
-                },
-                { 
-                    name: 'Forestdale', 
-                    count: 7, 
-                    lat: 33.56, 
-                    lng: -86.94,
-                    resorts: generateResorts(7, 33.56, -86.94)
-                },
-                { 
-                    name: 'Vestavia Hills', 
-                    count: 8, 
-                    lat: 33.45, 
-                    lng: -86.78,
-                    resorts: generateResorts(8, 33.45, -86.78)
-                },
-                { 
-                    name: 'Hoover', 
-                    count: 20, 
-                    lat: 33.40, 
-                    lng: -86.81,
-                    resorts: generateResorts(20, 33.40, -86.81)
-                }
-            ];
+    allResortData = [
+        { name: 'Coalburg', lat: 33.62, lng: -86.91, items: generateItems(10, 33.62, -86.91, resortTypes) },
+        { name: 'Fultondale', lat: 33.60, lng: -86.78, items: generateItems(4, 33.60, -86.78, resortTypes) },
+        { name: 'Tarrant', lat: 33.58, lng: -86.75, items: generateItems(5, 33.58, -86.75, resortTypes) },
+        { name: 'Birmingham', lat: 33.5186, lng: -86.8104, items: generateItems(50, 33.5186, -86.8104, resortTypes) },
+        { name: 'Forestdale', lat: 33.56, lng: -86.94, items: generateItems(7, 33.56, -86.94, resortTypes) },
+        { name: 'Vestavia Hills', lat: 33.45, lng: -86.78, items: generateItems(8, 33.45, -86.78, resortTypes) },
+        { name: 'Hoover', lat: 33.40, lng: -86.81, items: generateItems(20, 33.40, -86.81, resortTypes) }
+    ];
 
-            // Add cluster markers
-            resorts.forEach(resort => {
-                const markerIcon = L.divIcon({
-                    html: `<div class="resort-marker">${resort.count} Resorts</div>`,
-                    className: 'custom-marker',
-                    iconSize: [120, 40],
-                    iconAnchor: [60, 20]
-                });
+    buildBadgePositions();
+    renderMarkers();
+    setupFilterButtons();
+    
+    // 🔥 لیسنر برای زوم دستی
+    map.on('zoomend', handleZoomChange);
+}
 
-                const marker = L.marker([resort.lat, resort.lng], { icon: markerIcon })
-                    .addTo(map);
-
-                // Add click event to zoom and show individual resorts
-                marker.on('click', function() {
-                    zoomToResort(resort, marker);
-                });
-
-                clusterMarkers.push(marker);
-            });
+// ================= ZOOM HANDLER =================
+function handleZoomChange() {
+    const newZoom = map.getZoom();
+    
+    // اگر کاربر دستی زوم کرد (زوم بیشتر از حالت اولیه)
+    if (newZoom > initialZoom + 1) {
+        // حذف بج‌های مشکی
+        clusterMarkers.forEach(m => map.removeLayer(m));
+        clusterMarkers = [];
+        
+        // نمایش بج‌های آبی با توجه به فیلتر فعال
+        showAllIndividualMarkers(activeFilter);
+    } 
+    // اگر به زوم اولیه برگشت
+    else if (newZoom <= initialZoom + 1) {
+        // حذف بج‌های آبی
+        clearIndividualMarkers();
+        
+        // بازگرداندن بج‌های مشکی
+        if (clusterMarkers.length === 0) {
+            renderMarkers(activeFilter);
         }
+    }
+    
+    currentZoomLevel = newZoom;
+}
 
-        // Generate random resort locations around a center point
-        function generateResorts(count, centerLat, centerLng) {
-            const resorts = [];
-            const radius = 0.02;
-
-            for (let i = 0; i < count; i++) {
-                const angle = (Math.PI * 2 * i) / count;
-                const distance = radius * (0.3 + Math.random() * 0.7);
-                
-                resorts.push({
-                    name: `Resort ${i + 1}`,
-                    lat: centerLat + Math.cos(angle) * distance,
-                    lng: centerLng + Math.sin(angle) * distance,
-                    price: '$' + (Math.floor(Math.random() * 150) + 50),
-                    rating: (3.5 + Math.random() * 1.5).toFixed(1)
-                });
+// ================= SHOW ALL BLUE BADGES =================
+function showAllIndividualMarkers(filterType = null) {
+    clearIndividualMarkers();
+    
+    const bounds = map.getBounds();
+    
+    allResortData.forEach(location => {
+        location.items.forEach(item => {
+            // 🔥 اگر فیلتر فعال است، فقط آیتم‌های فیلتر شده نمایش داده شوند
+            if (filterType && item.type !== filterType) {
+                return;
             }
-
-            return resorts;
-        }
-
-        // Zoom to resort area and show individual locations
-        function zoomToResort(resort, clickedMarker) {
-            // Remove existing individual markers
-            individualMarkers.forEach(marker => map.removeLayer(marker));
-            individualMarkers = [];
-
-            // Hide only the clicked marker
-            map.removeLayer(clickedMarker);
-
-            // Zoom to the area (2x zoom)
-            const currentZoom = map.getZoom();
-            map.setView([resort.lat, resort.lng], currentZoom + 2, {
-                animate: true,
-                duration: 0.5
-            });
-
-            // Add individual resort markers
-            setTimeout(() => {
-                resort.resorts.forEach(individualResort => {
-                    const markerIcon = L.divIcon({
+            
+            const itemLatLng = L.latLng(item.lat, item.lng);
+            
+            // فقط آیتم‌هایی که در محدوده نمایش نقشه هستند
+            if (bounds.contains(itemLatLng)) {
+                const marker = L.marker([item.lat, item.lng], {
+                    icon: L.divIcon({
                         html: `<div class="individual-resort-marker">
                                    <span class="sparkle">
                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
   <path d="M6.74971 0.75C7.62471 3.62497 9.87458 5.87493 12.7494 6.75C9.87458 7.62507 7.62471 9.875 6.74971 12.75C5.87471 9.875 3.62483 7.62507 0.75 6.75C3.62483 5.87493 5.87471 3.62497 6.74971 0.75Z" stroke="#E2E2FC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
                                    </span>
-                                   ${individualResort.price}
+                                   ${item.price}
                                </div>`,
                         className: 'custom-marker',
                         iconSize: [80, 35],
                         iconAnchor: [40, 17]
-                    });
-
-                    const marker = L.marker([individualResort.lat, individualResort.lng], { icon: markerIcon })
-                        .addTo(map);
-
-                    individualMarkers.push(marker);
+                    })
+                }).addTo(map);
+                
+                marker.on('click', () => {
+                    showCards([item], location.name);
                 });
+                
+                individualMarkers.push(marker);
+            }
+        });
+    });
+}
 
-                // Show cards
-                showCards(resort.resorts, resort.name);
-            }, 500);
-        }
+// ================= ICONS =================
+function getCategoryIcon(type) {
+    const icons = {
+        'resorts': `
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <path d="M20.719 17.6267C20.719 19.8099 18.949 21.5868 16.7589 21.5868H6.85537C4.67217 21.5868 2.89531 19.8168 2.89531 17.6267" stroke="#45454D" stroke-width="1.5" stroke-miterlimit="10"/>
+  <path d="M1.48347 21.5868C1.48347 21.5868 8.23967 2 11.8829 2C15.2989 2 22.1446 21.5868 22.1446 21.5868" stroke="#45454D" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"/>
+  <g opacity="0.4">
+    <path d="M11.7452 12.5028C12.8596 12.5028 13.7631 11.5993 13.7631 10.4849C13.7631 9.3704 12.8596 8.46695 11.7452 8.46695C10.6307 8.46695 9.72728 9.3704 9.72728 10.4849C9.72728 11.5993 10.6307 12.5028 11.7452 12.5028Z" stroke="#45454D" stroke-width="1.5" stroke-miterlimit="10"/>
+    <path d="M14.6653 22V17.8884C14.6653 16.3113 13.3843 15.0372 11.814 15.0372C10.2369 15.0372 8.96281 16.3182 8.96281 17.8884V22" stroke="#45454D" stroke-width="1.5" stroke-miterlimit="10"/>
+  </g>
+</svg>
+        `,
+        'villas': `
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <path d="M20.5262 7.5L20.5262 15.2959C20.5262 17.4498 18.8057 19.1981 16.6862 19.1981H7.06989C4.95038 19.1981 3.22992 17.4498 3.22992 15.2959L3.2299 7.5" stroke="#45454D" stroke-width="1.5" stroke-miterlimit="10"/>
+  <path d="M3.2299 15.0898V21.9636" stroke="#45454D" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"/>
+  <path d="M9.16313 19.1982V21.9636" stroke="#45454D" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"/>
+  <path d="M14.5862 19.1982V21.9636" stroke="#45454D" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"/>
+  <path d="M20.5261 15.2893V21.9636" stroke="#45454D" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"/>
+  <path d="M1 10C1 10 8.194 2 12.0733 2C15.7107 2 23 10 23 10" stroke="#45454D" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"/>
+  <g opacity="0.4">
+    <path d="M11.8126 10.0309C12.8712 10.0309 13.7293 9.15889 13.7293 8.08316C13.7293 7.00743 12.8712 6.13538 11.8126 6.13538C10.754 6.13538 9.89586 7.00743 9.89586 8.08316C9.89586 9.15889 10.754 10.0309 11.8126 10.0309Z" stroke="#45454D" stroke-width="1.5" stroke-miterlimit="10"/>
+    <path d="M14.5383 15.0506C14.5383 13.5429 13.3137 12.3249 11.8126 12.3249C10.3049 12.3249 9.08685 13.5495 9.08685 15.0506" stroke="#45454D" stroke-width="1.5" stroke-miterlimit="10"/>
+    <path d="M9.08685 15.0506V18.8666" stroke="#45454D" stroke-width="1.5"/>
+    <path d="M14.5383 15.0506V18.8666" stroke="#45454D" stroke-width="1.5"/>
+  </g>
+</svg>
+        `,
+        'hotels': `
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <g opacity="0.4">
+    <path d="M10.2043 21.6732V18.2422C10.2043 16.8032 9.03313 15.6407 7.59754 15.6407C6.15566 15.6407 4.99081 16.8095 4.99081 18.2422V21.6732" stroke="#45454D" stroke-width="1.5" stroke-miterlimit="10"/>
+    <path d="M7.59753 13.3561C8.61642 13.3561 9.44239 12.5318 9.44239 11.515C9.44239 10.4981 8.61642 9.67378 7.59753 9.67378C6.57865 9.67378 5.75267 10.4981 5.75267 11.515C5.75267 12.5318 6.57865 13.3561 7.59753 13.3561Z" stroke="#45454D" stroke-width="1.5" stroke-miterlimit="10"/>
+  </g>
+  <path d="M13.4847 13.8435H19.4726C20.8641 13.8435 21.9912 14.9683 21.9912 16.3571V20.429C21.9912 21.2962 21.286 22 20.4171 22H3.57411C2.7052 22 2 21.2962 2 20.429V5.14194C2 3.40759 3.4104 2 5.14822 2H10.0406C11.7784 2 13.1888 3.40759 13.1888 5.14194V13.5482C13.1888 13.7116 13.321 13.8435 13.4847 13.8435Z" stroke="#45454D" stroke-width="1.5" stroke-miterlimit="10"/>
+  <path d="M15.2037 8.92326H13.1888" stroke="#45454D" stroke-width="1.5" stroke-miterlimit="10"/>
+  <path d="M17.8796 11.4368C19.2706 11.4368 20.3982 10.3114 20.3982 8.92325C20.3982 7.53505 19.2706 6.4097 17.8796 6.4097C16.4887 6.4097 15.3611 7.53505 15.3611 8.92325C15.3611 10.3114 16.4887 11.4368 17.8796 11.4368Z" stroke="#45454D" stroke-width="1.5" stroke-miterlimit="10"/>
+  <path d="M13.1888 13V21.3402" stroke="#45454D" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"/>
+</svg>
+        `,
+        'houses': `
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <path d="M17.3151 13.8889H20.5671C21.3552 13.8889 22 14.4183 22 15.0654V20.7124C22 21.3595 21.3552 21.8889 20.5671 21.8889H3.43293C2.64482 21.8889 2 21.3595 2 20.7124V15.0654C2 14.4183 2.64482 13.8889 3.43293 13.8889H6.91203" stroke="#45454D" stroke-width="1.5" stroke-miterlimit="10"/>
+  <path d="M6.44445 8V21.8889M17.5556 8V21.8889" stroke="#45454D" stroke-width="1.5" stroke-miterlimit="10"/>
+  <g opacity="0.4">
+    <path d="M14.7778 21.3333V17.7109C14.7778 16.0325 13.5298 14.6667 12 14.6667C10.4635 14.6667 9.22222 16.0325 9.22222 17.7109V21.3333" stroke="#45454D" stroke-width="1.5" stroke-miterlimit="10"/>
+    <path d="M11.7222 12.4444C12.7961 12.4444 13.6667 11.5739 13.6667 10.5C13.6667 9.42611 12.7961 8.55556 11.7222 8.55556C10.6483 8.55556 9.77778 9.42611 9.77778 10.5C9.77778 11.5739 10.6483 12.4444 11.7222 12.4444Z" stroke="#45454D" stroke-width="1.5" stroke-miterlimit="10"/>
+  </g>
+  <path d="M4 11C4 11 9.232 3 12.0533 3C14.6987 3 20 11 20 11" stroke="#45454D" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"/>
+</svg>
+        `,
+        'apartments': `
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <g opacity="0.4">
+    <path d="M14.5671 21.6365V17.7448C14.5671 16.1126 13.2453 14.794 11.6251 14.794C9.99772 14.794 8.68306 16.1198 8.68306 17.7448V21.6365" stroke="#45454D" stroke-width="1.5" stroke-miterlimit="10"/>
+    <path d="M15 7H8" stroke="#45454D" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"/>
+    <path d="M15 11H8" stroke="#45454D" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"/>
+  </g>
+  <path d="M7.55315 2H15.6899C17.6512 2 19.243 3.59658 19.243 5.56379V19.8617C19.243 21.0449 18.2908 22 17.1111 22H6.13189C4.95225 22 4 21.0449 4 19.8617V5.56379C4 3.59658 5.59181 2 7.55315 2Z" stroke="#45454D" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"/>
+</svg>
+        `,
+        'farms': `
+           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <path d="M2.5848 6.17195C2.5848 6.17195 6.36746 2 8.4328 2C10.3669 2 14.2808 6.17195 14.2808 6.17195" stroke="#45454D" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"/>
+  <path d="M12.7216 4.56855L13.4036 13.1895L18.3532 14.5186C19.4673 14.7392 20.276 15.7176 20.276 16.8601V20.5861C20.276 21.3666 19.6426 22 18.8621 22H4.865C4.08455 22 3.45115 21.3666 3.45115 20.5861L4.3392 4.41754" stroke="#45454D" stroke-width="1.5" stroke-miterlimit="10"/>
+  <path d="M13.4036 13.1895L14 21.5" stroke="#45454D" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"/>
+  <g opacity="0.4">
+    <path d="M11.2975 21.5686V18.1695C11.2975 16.7439 10.1373 15.5922 8.71505 15.5922C7.28658 15.5922 6.13258 16.7501 6.13258 18.1695V21.5686" stroke="#45454D" stroke-width="1.5" stroke-miterlimit="10"/>
+    <path d="M8.50609 13.3288C9.5155 13.3288 10.3338 12.5122 10.3338 11.5048C10.3338 10.4974 9.5155 9.68076 8.50609 9.68076C7.49668 9.68076 6.6784 10.4974 6.6784 11.5048C6.6784 12.5122 7.49668 13.3288 8.50609 13.3288Z" stroke="#45454D" stroke-width="1.5" stroke-miterlimit="10"/>
+  </g>
+</svg>
+        `
+    };
+    
+    return icons[type] || icons['resorts'];
+}
 
-        // Show resort cards at the bottom - Single Column
-      // Show resort cards at the bottom - Single Column
-function showCards(resorts, areaName) {
-    const cardsContainer = document.getElementById('cardsContainer');
-    const cardsWrapper = document.getElementById('cardsWrapper');
-    const bottomFade = document.getElementById('bottomFade');
+// ================= DATA =================
+function generateItems(count, lat, lng, types) {
+    const radius = 0.02;
+    return Array.from({ length: count }, (_, i) => {
+        const angle = (Math.PI * 2 * i) / count;
+        const type = types[Math.floor(Math.random() * types.length)];
+        const distance = radius * (0.3 + Math.random() * 0.7);
+        return {
+            name: `${capitalize(type)} ${i + 1}`,
+            lat: lat + Math.cos(angle) * distance,
+            lng: lng + Math.sin(angle) * distance,
+            price: `$${Math.floor(Math.random() * 150 + 50)}`,
+            rating: (3.5 + Math.random() * 1.5).toFixed(1),
+            type
+        };
+    });
+}
 
-    cardsWrapper.innerHTML = '';
+function getCategoryCounts(items) {
+    return items.reduce((acc, item) => {
+        acc[item.type] = (acc[item.type] || 0) + 1;
+        return acc;
+    }, {});
+}
 
-    resorts.forEach((resort) => {
-        const card = document.createElement('div');
-        card.className = 'resort-card';
-        card.innerHTML = `
-            <div class="card-image">
-                <img src="./img/42.png" alt="${resort.name}">
+function capitalize(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+}
 
-                <div class="card-rating">${resort.rating}</div>
-                <div class="card-price-section">
-                    <span class="card-price">${resort.price}</span>
-                    <span class="card-sparkle"> <svg class="kir" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none">
-  <path d="M8.24964 0.75C9.34339 4.34372 12.1557 7.15617 15.7493 8.25C12.1557 9.34383 9.34339 12.1562 8.24964 15.75C7.15589 12.1562 4.34354 9.34383 0.75 8.25C4.34354 7.15617 7.15589 4.34372 8.24964 0.75Z" stroke="#E6E5FF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-</svg></span>
-                </div>
-            </div>
-            <div class="card-content">
-                <div class="card-title">${resort.name}</div>
-                <div class="card-location">${areaName} • Country</div>
-            </div>
-        `;
-        cardsWrapper.appendChild(card);
+// ================= BADGE POSITIONS =================
+function buildBadgePositions() {
+    allResortData.forEach(location => {
+        const counts = getCategoryCounts(location.items);
+        const types = Object.keys(counts);
+        const radius = 0.015;
+        const angles = [0, 60, 120, 180, 240, 300];
+
+        location.badges = types.map((type, i) => {
+            const angle = angles[i % angles.length] * Math.PI / 180;
+            return {
+                type,
+                count: counts[type],
+                badgeLat: location.lat + Math.cos(angle) * radius,
+                badgeLng: location.lng + Math.sin(angle) * radius
+            };
+        });
+    });
+}
+
+// ================= RENDER =================
+function renderMarkers(filterType = null) {
+    clusterMarkers.forEach(m => map.removeLayer(m));
+    clusterMarkers = [];
+
+    allResortData.forEach(location => {
+        const badges = filterType
+            ? location.badges.filter(b => b.type === filterType)
+            : location.badges;
+
+        badges.forEach(badge => {
+            const marker = L.marker(
+                [badge.badgeLat, badge.badgeLng],
+                {
+                    icon: L.divIcon({
+                        html: `<div class="resort-marker">${badge.count} ${capitalize(badge.type)}</div>`,
+                        className: 'custom-marker',
+                        iconSize: [120, 40],
+                        iconAnchor: [60, 20]
+                    })
+                }
+            ).addTo(map);
+
+            marker.locationData = { ...location, ...badge };
+
+            marker.on('click', () => zoomToLocation(marker.locationData));
+            clusterMarkers.push(marker);
+        });
+    });
+}
+
+// ================= ZOOM =================
+function zoomToLocation(data) {
+    clearIndividualMarkers();
+    
+    clusterMarkers.forEach(m => map.removeLayer(m));
+
+    map.setView([data.badgeLat, data.badgeLng], map.getZoom() + 2, {
+        animate: true,
+        duration: 0.5
     });
 
-    cardsContainer.classList.add('active');
-    bottomFade.classList.add('active');
+    setTimeout(() => {
+        const filtered = data.items.filter(i => i.type === data.type);
+        
+        filtered.forEach(item => {
+            const marker = L.marker([item.lat, item.lng], {
+                icon: L.divIcon({
+                    html: `<div class="individual-resort-marker">
+                               <span class="sparkle">
+                               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+  <path d="M6.74971 0.75C7.62471 3.62497 9.87458 5.87493 12.7494 6.75C9.87458 7.62507 7.62471 9.875 6.74971 12.75C5.87471 9.875 3.62483 7.62507 0.75 6.75C3.62483 5.87493 5.87471 3.62497 6.74971 0.75Z" stroke="#E2E2FC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+                               </span>
+                               ${item.price}
+                           </div>`,
+                    className: 'custom-marker',
+                    iconSize: [80, 35],
+                    iconAnchor: [40, 17]
+                })
+            }).addTo(map);
+            individualMarkers.push(marker);
+        });
+
+        showCards(filtered, data.name);
+    }, 400);
 }
+
+// ================= RESET =================
+function resetMap() {
+    clearIndividualMarkers();
+    document.getElementById('cardsContainer').classList.remove('active');
+    document.getElementById('bottomFade').classList.remove('active');
+
+    map.setView(initialCenter, initialZoom, {
+        animate: true,
+        duration: 0.5
+    });
+    
+    renderMarkers(activeFilter); // 🔥 حفظ فیلتر هنگام ریست
+}
+
+function clearIndividualMarkers() {
+    individualMarkers.forEach(m => map.removeLayer(m));
+    individualMarkers = [];
+}
+
+// ================= UI =================
+function setupFilterButtons() {
+    document.querySelectorAll('.icon-item').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const type = btn.dataset.type;
+            
+            if (activeFilter === type) {
+                // غیرفعال کردن فیلتر
+                btn.classList.remove('active');
+                activeFilter = null;
+                resetMap();
+                renderMarkers();
+            } else {
+                // فعال کردن فیلتر جدید
+                document.querySelectorAll('.icon-item').forEach(i => i.classList.remove('active'));
+                btn.classList.add('active');
+                activeFilter = type;
+                
+                // اگر در حالت زوم هستیم، بج‌های آبی را به‌روز کن
+                if (map.getZoom() > initialZoom + 1) {
+                    showAllIndividualMarkers(activeFilter);
+                } else {
+                    // در غیر این صورت بج‌های مشکی را فیلتر کن
+                    resetMap();
+                    renderMarkers(activeFilter);
+                }
+            }
+        });
+    });
+}
+
+function showCards(items, area) {
+    const wrapper = document.getElementById('cardsWrapper');
+    wrapper.innerHTML = '';
+    items.forEach(item => {
+        wrapper.innerHTML += `
+            <div class="resort-card">
+                <div class="card-image">
+                    <img src="./img/42.png" alt="${item.name}">
+                    <div class="card-rating">${item.rating}</div>
+                    <div class="card-price-section">
+                        <span class="card-price">${item.price}</span>
+                        <span class="card-sparkle">${getCategoryIcon(item.type)}</span>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <div class="card-title">${item.name}</div>
+                    <div class="card-location">${area} • Country</div>
+                </div>
+            </div>
+        `;
+    });
+    
+    document.getElementById('cardsContainer').classList.add('active');
+    document.getElementById('bottomFade').classList.add('active');
+}
+
 
     </script>
 </body>

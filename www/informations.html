@@ -3,7 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" 
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" 
+    crossorigin=""/>    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
   <title>Farra - Hotel Info</title>
   <style>
@@ -114,8 +116,7 @@ line-height: var(--Font-Copy-Body-Line-Heigth, 20px); /* 125% */
     }
 
     .hero-tab svg {
-      width: 16px;
-      height: 16px;
+      
       stroke: #fff;
     }
 
@@ -411,8 +412,8 @@ line-height: var(--Font-Copy-Body-Line-Heigth, 20px); /* 125% */
     }
 
     .contact-icon {
-      width: 18px;
-      height: 18px;
+      width: 24px;
+      height: 24px;
       color: #7e6ef8;
       display: inline-flex;
       justify-content: center;
@@ -420,8 +421,7 @@ line-height: var(--Font-Copy-Body-Line-Heigth, 20px); /* 125% */
     }
 
     .contact-icon svg {
-      width: 18px;
-      height: 18px;
+      
       stroke: #7e6ef8;
       stroke-width: 1.6;
       fill: none;
@@ -638,7 +638,7 @@ backdrop-filter: blur(6px);
   width: 354px;
   height: 235px;
   object-fit: cover;
-  border-radius: 24px;
+border-radius: var(--Border-Radius-600, 24px);
   box-shadow: 0 0 25px rgba(0, 0, 0, 0.25);
 }
 
@@ -647,6 +647,7 @@ backdrop-filter: blur(6px);
   position: absolute;
   top: 10px;
   right: 15px;
+
 }
 
 /* 📸 نوار بندانگشتی‌ها ؛ اسکرول کاملاً تا لبه راست و چپ */
@@ -869,6 +870,37 @@ line-height: var(--Font-Copy-Body-Line-Heigth, 20px);
   color: #4e4cd4;
 }
 
+.image-caption {
+  position: absolute;
+  left: 8px;
+  right: 12px;
+  bottom: 8px;
+color: var(--Text-Default-Body, #5C5C66);
+
+/* English/Body/Copy */
+font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+font-size: var(--Font-Copy-Body-Text-Size, 16px);
+font-style: normal;
+font-weight: 400;
+line-height: var(--Font-Copy-Body-Line-Heigth, 20px); /* 125% */  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+display: flex;
+width: 338px;
+height: 42px;
+padding: var(--Spacing-300, 12px) var(--Spacing-400, 16px);
+align-items: center;
+gap: 10px;
+border-radius: var(--Border-Radius-600, 24px);
+background: rgba(239, 239, 254, 0.70);
+backdrop-filter: blur(6px);
+  text-align: left;
+
+
+
+  pointer-events: none; /* ✅ کلیک عکس مختل نشه */
+}
+
+
 /* 🔹 متن داخل مودال */
 .fara-modal-body {
   position: relative;
@@ -890,6 +922,13 @@ line-height: var(--Font-Copy-Body-Line-Heigth, 20px);
 .fara-modal.show .fara-modal-content {
   transform: translateY(0);
 }
+.city-map iframe {
+  width: 100%;
+  height: 200px; /* اگر قبلاً عکس height داشت */
+  border: none;
+  border-radius: 24px;
+}
+
   </style>
 </head>
 <body>
@@ -899,22 +938,28 @@ line-height: var(--Font-Copy-Body-Line-Heigth, 20px);
     <div class="hero-header">
       <div class="hero-icons">
         <div class="hero-icon-btn">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-  <path d="M11.9732 3C13.2857 7.31246 16.6605 10.6874 20.9728 12C16.6605 13.3126 13.2857 16.6875 11.9732 21C10.6607 16.6875 7.28588 13.3126 2.97363 12C7.28588 10.6874 10.6607 7.31246 11.9732 3Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M2 18.8571C2 18.3838 2.38376 18 2.85714 18H21.1429C21.6162 18 22 18.3838 22 18.8571C22 19.3305 21.6162 19.7143 21.1429 19.7143H2.85714C2.38376 19.7143 2 19.3305 2 18.8571Z" fill="#706DF2"/>
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M2 4.85714C2 4.38376 2.38376 4 2.85714 4H21.1429C21.6162 4 22 4.38376 22 4.85714C22 5.33053 21.6162 5.71429 21.1429 5.71429H2.85714C2.38376 5.71429 2 5.33053 2 4.85714Z" fill="#706DF2"/>
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M2 11.8571C2 11.3838 2.38376 11 2.85714 11H21.1429C21.6162 11 22 11.3838 22 11.8571C22 12.3305 21.6162 12.7143 21.1429 12.7143H2.85714C2.38376 12.7143 2 12.3305 2 11.8571Z" fill="#706DF2"/>
 </svg>
         </div>
       </div>
-      <div class="hero-logo"><svg xmlns="http://www.w3.org/2000/svg" width="58" height="21" viewBox="0 0 58 21" fill="none">
+      <div class="hero-logo">
+        <svg xmlns="http://www.w3.org/2000/svg" width="58" height="21" viewBox="0 0 58 21" fill="none">
   <path d="M23.1031 13.715C22.9899 14.3515 22.8604 15.2961 22.7132 16.5516C22.6395 17.1772 22.5155 18.0445 22.4105 18.7584C22.3055 19.4723 21.6674 20.0261 20.9271 20.0139L19.456 19.9908C18.7047 19.9786 18.0612 19.4099 18.0067 18.6634C18.0026 18.6146 17.9971 18.5861 17.9862 18.5847C17.914 18.6173 17.8144 18.6878 17.6876 18.7951C16.5928 19.7288 15.5144 20.1944 14.4536 20.1944C12.8353 20.1944 11.6082 19.5578 10.7725 18.2861C9.97896 17.0972 9.72946 15.6762 10.0212 14.0244C10.3593 12.1161 11.1501 10.5811 12.3935 9.41661C13.6861 8.21139 15.269 7.60742 17.1436 7.60742C18.4457 7.60742 19.3946 8.06209 19.9891 8.97008C20.015 9.01215 20.0409 9.03251 20.0654 9.03251C20.0941 9.03251 20.2345 8.78821 20.3954 8.48962C20.7362 7.85579 21.4656 7.53142 22.1664 7.70514L22.9286 7.8938C23.7889 8.10688 24.3042 8.98365 24.067 9.83464C23.7234 11.0697 23.2776 12.7459 23.1072 13.715H23.1031ZM19.0838 13.7896C19.2078 13.0879 19.0892 12.507 18.7266 12.0496C18.3639 11.5909 17.8253 11.3615 17.1123 11.3615C16.3992 11.3615 15.7816 11.5882 15.2621 12.0428C14.7413 12.4975 14.4196 13.0798 14.2928 13.7896C14.1742 14.4587 14.305 15.0328 14.6841 15.5119C15.0631 15.991 15.5853 16.2299 16.2493 16.2299C16.9541 16.2299 17.5718 16.0005 18.1008 15.5418C18.6298 15.083 18.957 14.4994 19.0838 13.7882V13.7896Z" fill="#706DF2"/>
   <path d="M56.0445 13.715C55.9313 14.3515 55.8018 15.2961 55.6546 16.5516C55.5809 17.1772 55.4569 18.0445 55.3519 18.7584C55.2469 19.4723 54.6088 20.0261 53.8685 20.0139L52.3974 19.9908C51.6461 19.9786 51.0026 19.4099 50.9481 18.6634C50.944 18.6146 50.9385 18.5861 50.9276 18.5847C50.8554 18.6173 50.7558 18.6878 50.629 18.7951C49.5342 19.7288 48.4558 20.1944 47.3951 20.1944C45.7767 20.1944 44.5496 19.5578 43.7139 18.2861C42.9204 17.0972 42.6709 15.6762 42.9626 14.0244C43.3008 12.1161 44.0915 10.5811 45.335 9.41661C46.6275 8.21139 48.2104 7.60742 50.0851 7.60742C51.3871 7.60742 52.336 8.06209 52.9305 8.97008C52.9564 9.01215 52.9823 9.03251 53.0068 9.03251C53.0355 9.03251 53.1759 8.78821 53.3368 8.48962C53.6776 7.85579 54.407 7.53142 55.1078 7.70514L55.87 7.8938C56.7303 8.10688 57.2456 8.98365 57.0084 9.83464C56.6648 11.0697 56.219 12.7459 56.0486 13.715H56.0445ZM52.0238 13.7896C52.1479 13.0879 52.0293 12.507 51.6666 12.0496C51.3039 11.5909 50.7654 11.3615 50.0523 11.3615C49.3393 11.3615 48.7216 11.5882 48.2022 12.0428C47.6814 12.4975 47.3596 13.0798 47.2328 13.7896C47.1142 14.4587 47.2451 15.0328 47.6241 15.5119C48.0031 15.991 48.5253 16.2299 49.1893 16.2299C49.8942 16.2299 50.5118 16.0005 51.0408 15.5418C51.5698 15.083 51.897 14.4994 52.0238 13.7882V13.7896Z" fill="#706DF2"/>
   <path d="M2.28785 20.1944C1.64159 20.1944 1.16713 20.1088 0.860364 19.9406C0.554962 19.7709 0.404987 19.5551 0.414531 19.2932C0.422712 19.0312 0.444526 18.7394 0.478611 18.4177L1.94836 10.0708C1.99881 9.78305 1.89791 9.63918 1.64296 9.63918H0.674941C0.249559 9.63918 0.0709535 9.4451 0.139124 9.05557L0.444526 7.50833C0.529057 7.17038 0.775833 7.00073 1.18349 7.00073H1.97836C2.07652 6.36554 2.1256 5.84979 2.17741 5.27569C2.30557 3.84381 2.72959 2.62095 3.83395 1.62202C4.93831 0.62446 6.37397 0.125 8.14231 0.125C9.55206 0.125 10.7205 0.434448 11.6463 1.05063C12.572 1.66817 13.0356 2.43365 13.0356 3.34706C13.0356 4.07454 12.8147 4.71244 12.3729 5.26211C11.9312 5.81179 11.2931 6.08731 10.4615 6.08731C9.79884 6.08731 9.27802 5.91901 8.85536 5.6435C7.36926 4.67172 8.10686 3.03761 8.75311 2.99283C8.15185 2.7621 6.63165 3.2317 6.43396 4.56586C6.224 5.97602 7.44424 6.93558 8.95762 7.00208H10.0783C10.1806 7.00208 10.2733 7.03601 10.3592 7.10388C10.4437 7.17174 10.4696 7.28982 10.4355 7.45947L10.1547 9.18451C10.1206 9.33652 10.0661 9.45052 9.98972 9.52653C9.91337 9.60253 9.77294 9.64054 9.56979 9.64054H7.30108C7.08021 9.64054 6.94387 9.76676 6.89343 10.0206L5.55047 17.5301C5.50003 17.902 5.4264 18.2155 5.33369 18.4693C5.23962 18.7231 5.08283 18.9973 4.86196 19.2945C4.64108 19.5904 4.31796 19.8143 3.89394 19.9663C3.46856 20.1184 2.9341 20.1944 2.28785 20.1944Z" fill="#706DF2" stroke="#706DF2" stroke-width="0.25" stroke-miterlimit="10"/>
   <path d="M29.0007 6.646C29.1534 6.65414 29.2938 6.65821 29.4206 6.684C29.5474 6.70979 29.666 6.75593 29.7778 6.8238C29.8883 6.89166 29.9851 6.95002 30.071 7.00159C30.1555 7.05181 30.2373 7.13324 30.3136 7.24318C30.39 7.35312 30.45 7.43726 30.4922 7.49698C30.5345 7.5567 30.585 7.64899 30.6449 7.77657C30.7049 7.90279 30.7431 7.99237 30.7595 8.04259C30.7758 8.09281 30.8058 8.18238 30.8481 8.30861C30.8904 8.43483 30.9122 8.50812 30.9122 8.52441C30.9626 8.67642 31.039 8.75242 31.1412 8.75242C31.2258 8.75242 31.3362 8.67642 31.4725 8.52441C32.6955 7.10339 33.8517 6.39355 34.9383 6.39355C35.4823 6.39355 35.954 6.51163 36.3522 6.74915C36.7516 6.98666 37.0407 7.28254 37.2193 7.63678C37.3979 7.99237 37.4865 8.3819 37.4865 8.804C37.4865 9.71741 37.2316 10.4028 36.7216 10.8588C36.2117 11.3149 35.5655 11.5442 34.7842 11.5442C34.3929 11.5442 34.0357 11.4723 33.714 11.3284C33.3908 11.1846 33.1441 11.0326 32.975 10.8724C32.8046 10.7123 32.6137 10.5603 32.401 10.4164C32.1883 10.2725 31.9893 10.2006 31.8025 10.2006C31.1562 10.2006 30.7322 10.8344 30.5277 12.1034L29.6101 17.5323C29.542 17.9219 29.4615 18.2381 29.3674 18.4838C29.2734 18.7294 29.1207 18.9995 28.9093 19.2954C28.6966 19.5913 28.3735 19.8152 27.9413 19.9672C27.5078 20.1192 26.9856 20.1952 26.3734 20.1952C25.7108 20.1952 25.2227 20.1111 24.9077 19.9414C24.5928 19.7731 24.4401 19.5519 24.4496 19.2818C24.4578 19.0117 24.4796 18.7158 24.5137 18.3942L25.6862 11.3162C25.6862 11.3162 25.9848 6.47906 28.9993 6.64736L29.0007 6.646Z" fill="#706DF2"/>
   <path d="M35.5192 6.646C35.6719 6.65414 35.8124 6.65821 35.9392 6.684C36.066 6.70979 36.1846 6.75593 36.2964 6.8238C36.4068 6.89166 36.5036 6.95002 36.5895 7.00159C36.674 7.05181 36.7558 7.13324 36.8322 7.24318C36.9085 7.35312 36.9685 7.43726 37.0108 7.49698C37.0531 7.5567 37.1035 7.64899 37.1635 7.77657C37.2235 7.90279 37.2617 7.99237 37.278 8.04259C37.2944 8.09281 37.3244 8.18238 37.3667 8.30861C37.4089 8.43483 37.4307 8.50812 37.4307 8.52441C37.4812 8.67642 37.5575 8.75242 37.6598 8.75242C37.7443 8.75242 37.8547 8.67642 37.9911 8.52441C39.2141 7.10339 40.3702 6.39355 41.4569 6.39355C42.0009 6.39355 42.4726 6.51163 42.8707 6.74915C43.2702 6.98666 43.5592 7.28254 43.7378 7.63678C43.9164 7.99237 44.0051 8.3819 44.0051 8.804C44.0051 9.71741 43.7501 10.4028 43.2402 10.8588C42.7303 11.3149 42.084 11.5442 41.3028 11.5442C40.9115 11.5442 40.5543 11.4723 40.2325 11.3284C39.9094 11.1846 39.6626 11.0326 39.4936 10.8724C39.3231 10.7123 39.1323 10.5603 38.9196 10.4164C38.7069 10.2725 38.5078 10.2006 38.321 10.2006C37.6748 10.2006 37.2508 10.8344 37.0462 12.1034L36.1287 17.5323C36.0605 17.9219 35.9801 18.2381 35.886 18.4838C35.7919 18.7294 35.6392 18.9995 35.4279 19.2954C35.2152 19.5913 34.8921 19.8152 34.4599 19.9672C34.0263 20.1192 33.5041 20.1952 32.892 20.1952C32.2293 20.1952 31.7412 20.1111 31.4263 19.9414C31.1114 19.7731 30.9587 19.5519 30.9682 19.2818C30.9764 19.0117 30.9982 18.7158 31.0323 18.3942L32.2048 11.3162C32.2048 11.3162 32.5034 6.47906 35.5179 6.64736L35.5192 6.646Z" fill="#706DF2"/>
-</svg></div>
+</svg>
+</div>
       <div class="hero-icons">
         <div class="hero-icon-btn">
          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-  <path d="M11.9732 3C13.2857 7.31246 16.6605 10.6874 20.9728 12C16.6605 13.3126 13.2857 16.6875 11.9732 21C10.6607 16.6875 7.28588 13.3126 2.97363 12C7.28588 10.6874 10.6607 7.31246 11.9732 3Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M12 22C17.5232 22 22 17.5221 22 12C22 6.47676 17.5232 2 12 2C6.47676 2 2 6.47676 2 12C2 17.5221 6.47676 22 12 22Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M16.482 11.9992C16.482 14.4749 14.4744 16.4814 11.9988 16.4814C9.52309 16.4814 7.5166 14.4749 7.5166 11.9992C7.5166 9.52357 9.52309 7.51709 11.9988 7.51709C14.4744 7.51709 16.482 9.52357 16.482 11.9992Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M5.10433 18.8969L8.55297 15.4482M18.8972 18.8969L15.4485 15.4482M8.55192 8.55157L5.10327 5.104M15.4485 8.55157L18.8972 5.104" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
         </div>
       </div>
@@ -922,20 +967,31 @@ line-height: var(--Font-Copy-Body-Line-Heigth, 20px);
 
     <div class="hero-tabs">
       <div class="hero-tab">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-  <path d="M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z" stroke="#E2E2FC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <path d="M2 16.5097V14.7238C2 13.1854 3.24649 11.939 4.78486 11.939H19.2151C20.7534 11.939 22 13.1854 22 14.7238V16.5097C22 18.0482 20.7534 19.2946 19.2151 19.2946H4.78486C3.24649 19.2946 2 18.0482 2 16.5097Z" stroke="#E2E2FC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M6.17429 15.6167H5.60889M9.56853 15.6167H9.00309" stroke="#E2E2FC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M12 8.33545V11.9387" stroke="#E2E2FC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M6.79395 11.9394V4" stroke="#E2E2FC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M17.2061 11.9394V4" stroke="#E2E2FC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
         <span>Option 1</span>
       </div>
       <div class="hero-tab">
-       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-  <path d="M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z" stroke="#E2E2FC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <path opacity="0.4" d="M15.9316 14.2256H17.9295" stroke="#E2E2FC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M6.05981 14.2256H8.05767" stroke="#E6E5FF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M2 9.57129C8.62638 10.5108 15.3522 10.5108 21.9785 9.57129" stroke="#E6E5FF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M2.00318 19.7317C2.00126 20.3469 2.49949 20.8468 3.11477 20.8468H5.31715C5.93107 20.8468 6.42874 20.349 6.42874 19.7352V19.2796C6.42874 18.6658 6.92642 18.168 7.54033 18.168H16.4475C17.0615 18.168 17.5591 18.6658 17.5591 19.2796V19.7352C17.5591 20.349 18.0568 20.8468 18.6707 20.8468H20.8883C21.5022 20.8468 21.9999 20.349 21.9999 19.7352V13.9243C21.9993 13.0232 21.7117 12.1454 21.1791 11.4185L19.8832 9.67947C19.7795 9.53296 19.6959 9.37372 19.6349 9.20489L18.4685 5.96513C18.1766 5.13238 17.4173 4.49659 16.5463 4.35579C13.5374 3.8814 10.473 3.8814 7.46416 4.35579C6.59694 4.50018 5.84282 5.13523 5.55268 5.96513L4.38628 9.20489C4.32503 9.36693 4.24145 9.51951 4.13792 9.65838L2.82044 11.4723C2.29935 12.1914 2.01959 13.0572 2.02131 13.9454L2.00318 19.7317Z" stroke="#E6E5FF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
         <span>Option 1</span>
       </div>
       <div class="hero-tab">
-       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-  <path d="M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z" stroke="#E2E2FC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <path d="M2.03528 17.0344C1.8154 12.8711 2.64013 7.57994 4.04047 3.7109C4.19688 3.27878 4.61216 3 5.07173 3H18.9298C19.3699 3 19.7719 3.2555 19.9382 3.66296C21.4503 7.36775 22.193 12.5033 21.9569 16.6106C21.8992 17.6128 21.8839 18.7325 20.7171 19.0841C19.1236 19.5641 17.4071 19.8269 15.7635 20.1808C13.7128 20.6223 12.8552 17.8309 11.9641 16.4844C11.1032 17.8099 10.2413 20.645 8.21168 20.1808L4.07951 19.2358C2.78592 18.94 2.11342 18.5142 2.03528 17.0344Z" stroke="#E2E2FC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <g opacity="0.4">
+    <path d="M15.2139 6.85156V12.933C15.2139 14.9959 13.7752 16.4755 12.0006 16.4755C10.226 16.4755 8.78735 14.9959 8.78735 12.933V6.85156" stroke="#E6E5FF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M3.50317 6.77148H20.4978" stroke="#E6E5FF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
 </svg>
         <span>Option 1</span>
       </div>
@@ -950,7 +1006,8 @@ line-height: var(--Font-Copy-Body-Line-Heigth, 20px);
       <h1 class="hotel-title">The Hotel Name</h1>
       <div class="hotel-location">
        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-  <path d="M11.9732 3C13.2857 7.31246 16.6605 10.6874 20.9728 12C16.6605 13.3126 13.2857 16.6875 11.9732 21C10.6607 16.6875 7.28588 13.3126 2.97363 12C7.28588 10.6874 10.6607 7.31246 11.9732 3Z" stroke="#5C5C66" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" fill-rule="evenodd" clip-rule="evenodd" d="M15.1225 10.5674C15.1225 9.03266 13.8788 7.78906 12.3441 7.78906C10.8105 7.78906 9.56689 9.03266 9.56689 10.5674C9.56689 12.101 10.8105 13.3447 12.3441 13.3447C13.8788 13.3447 15.1225 12.101 15.1225 10.5674Z" stroke="#5C5C66" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M12.3328 22C9.11276 22 4 16.3986 4 10.4429C4 5.78051 7.73011 2 12.3328 2C16.9354 2 20.6667 5.78051 20.6667 10.4429C20.6667 16.3986 15.5539 22 12.3328 22Z" stroke="#5C5C66" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
         <span>City • Country</span>
       </div>
@@ -1005,20 +1062,32 @@ line-height: var(--Font-Copy-Body-Line-Heigth, 20px);
 <div id="imageViewerOverlay" class="image-viewer-overlay">
   <div class="image-viewer-content">
     <div class="image-wrapper">
-      <img id="mainViewerImage" src="" alt="Large view" class="main-viewer-img">
+      
 
+      <img id="mainViewerImage" src="" alt="Large view" class="main-viewer-img">
+<div class="image-caption">
+Image Caption
+</div>
       <!-- 🔹 SVG بالای راست -->
       <div class="top-right-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-          <path d="M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z" stroke="#E2E2FC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
+       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <path d="M20.3288 14.9238V14.9336M14.5583 4.55884C14.5583 3.14591 13.4124 2 11.9994 2C10.5866 2 9.44063 3.14591 9.44063 4.55884C9.44063 5.97177 10.5866 7.11768 11.9994 7.11768C13.4124 7.11768 14.5583 5.97177 14.5583 4.55884ZM7.11767 17.3235C7.11767 15.9105 5.97177 14.7646 4.55883 14.7646C3.14591 14.7646 2 15.9105 2 17.3235C2 18.7364 3.14591 19.8822 4.55883 19.8822C5.97177 19.8822 7.11767 18.7364 7.11767 17.3235ZM22 17.3235C22 15.9105 20.8541 14.7646 19.4411 14.7646C18.0282 14.7646 16.8823 15.9105 16.8823 17.3235C16.8823 18.7364 18.0282 19.8822 19.4411 19.8822C20.8541 19.8822 22 18.7364 22 17.3235Z" stroke="#E2E2FC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M14.2048 21.0979C15.5366 20.7552 16.7377 20.099 17.7257 19.2114" stroke="#E6E5FF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M3.66888 10.7456C3.5078 11.4115 3.41699 12.0979 3.41699 12.8039C3.41699 13.5304 3.5078 14.2471 3.6786 14.9227" stroke="#E6E5FF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M9.8005 21.1163C8.47079 20.7639 7.27515 20.1002 6.29248 19.2051" stroke="#E6E5FF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M5.60669 7.07441C6.62612 5.9339 7.94716 5.06691 9.44117 4.60205" stroke="#E6E5FF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M14.5586 4.60205C16.0418 5.06582 17.3531 5.92417 18.3628 7.04414" stroke="#E6E5FF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M20.3389 10.7456C20.4999 11.4115 20.5907 12.0979 20.5907 12.8039C20.5907 13.5304 20.4999 14.2471 20.3291 14.9227" stroke="#E6E5FF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
       </div>
     </div>
 
     <div class="thumbnail-scroll"></div>
-    <span class="close-btn" id="closeViewer"><a href="#about"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-  <path d="M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-</svg></a></span>
+    <span class="close-btn" id="closeViewer"><a href="#about"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <path d="M4 20L20 4M20 20L4 4" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg></a>
+
+</span>
   </div>
 </div>
 
@@ -1031,28 +1100,48 @@ line-height: var(--Font-Copy-Body-Line-Heigth, 20px);
       <!-- ستون اول -->
       <div class="col-6 p-0">
         <div class="column-box">
-          <p><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-  <path d="M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z" stroke="#5C5C66" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M21.4395 8.81927C22.1563 9.54795 22.1952 10.4182 21.5163 11.1664C21.1152 11.6086 20.6903 12.0324 20.2481 12.4334C19.5811 13.0378 18.554 13.0118 17.9172 12.3772C15.8112 10.2767 13.7085 8.17385 11.6089 6.06782C10.9678 5.42456 10.9592 4.3856 11.5872 3.73044C11.997 3.3034 12.4132 2.88284 12.8425 2.47742C13.529 1.82983 14.4403 1.84389 15.1204 2.50229C15.4793 2.84933 21.1043 8.47872 21.4395 8.81927Z" stroke="#5C5C66" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M8.82008 21.4376C9.54879 22.1544 10.4191 22.1933 11.1672 21.5143C11.6083 21.1133 12.0332 20.6883 12.4343 20.2462C13.0375 19.5791 13.0127 18.5521 12.377 17.9153C10.2774 15.8093 8.17466 13.7065 6.06864 11.6069C5.42537 10.9659 4.38642 10.9572 3.73125 11.5854C3.30421 11.9951 2.88366 12.4113 2.47824 12.8405C1.82956 13.527 1.84362 14.4384 2.5031 15.1184L8.82008 21.4376Z" stroke="#5C5C66" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M2.3645 18.8462L5.16245 21.6442" stroke="#5C5C66" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M18.8464 2.36377L21.6443 5.16172" stroke="#5C5C66" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M14.4035 10.0359C12.612 11.8274 11.3239 13.1164 9.5 14.9402C11.2914 13.1478 12.6166 11.8239 14.4393 10" stroke="#5C5C66" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 </svg> Serv & Facilites 1</p>
-          <p><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-  <path d="M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z" stroke="#5C5C66" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <path opacity="0.4" d="M19.6519 2.02441C19.6562 5.36168 19.6573 19.1129 19.6519 21.0988C19.6509 21.7096 19.279 22.0977 18.7871 21.9409C18.4767 21.8426 14.8325 19.3994 15.2573 10.6319C15.3276 9.72164 15.7222 9.10868 16.399 8.64165C16.5211 8.55624 19.0951 6.90545 19.186 6.81247C19.5892 6.40059 19.6962 5.89897 19.6432 5.26871" stroke="#5C5C66" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M4.22702 2L4 7.79778C4 9.79023 5.6162 11.4053 7.60861 11.4053C9.60214 11.4053 11.2173 9.79023 11.2173 7.79778L10.9913 2" stroke="#5C5C66" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M7.60889 11.4053L7.60983 22" stroke="#5C5C66" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M7.60889 7.32103V2" stroke="#5C5C66" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 </svg> Serv & Facilites 1</p>
-          <p><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-  <path d="M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z" stroke="#5C5C66" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <path d="M21.8241 14.4778C21.462 13.2442 20.5949 12.2074 20.3679 10.9263C20.1722 9.82145 20.3603 8.71224 20.0641 7.60411C19.6468 6.04406 18.5689 4.71214 17.1787 3.90889C14.957 2.62669 12.6748 2.70778 10.5244 4.10996C9.51578 4.7662 8.47248 5.28945 7.3438 5.68839C4.22698 6.79003 2.05179 9.89281 2.00098 13.1848C1.92638 17.9264 6.12432 21.8812 10.8541 21.4488C12.5191 21.2963 14.0467 20.4984 15.7278 20.7763C17.9754 21.1482 19.8013 20.4303 21.1063 18.5513C21.916 17.3859 22.2274 15.8486 21.8241 14.4778Z" stroke="#5C5C66" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M9.80611 17.4919C11.8894 17.5006 13.6083 15.7849 13.6138 13.6908C13.6192 11.5415 11.9467 9.85714 9.80723 9.85499C7.70229 9.85174 5.99307 11.5426 5.98442 13.6356C5.97469 15.747 7.69582 17.4832 9.80611 17.4919Z" stroke="#5C5C66" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M8.52783 13.0215C8.7646 12.5598 9.24672 12.2441 9.8035 12.2441" stroke="#5C5C66" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 </svg> Serv & Facilites 1</p>
         </div>
       </div>
       <!-- ستون دوم -->
       <div class="col-6 p-0">
         <div class="box2">
-         <p><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-  <path d="M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z" stroke="#5C5C66" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+         <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <path d="M2.03528 17.0344C1.8154 12.8711 2.64013 7.57994 4.04047 3.7109C4.19688 3.27878 4.61216 3 5.07173 3H18.9298C19.3699 3 19.7719 3.2555 19.9382 3.66296C21.4503 7.36775 22.193 12.5033 21.9569 16.6106C21.8992 17.6128 21.8839 18.7325 20.7171 19.0841C19.1236 19.5641 17.4071 19.8269 15.7635 20.1808C13.7128 20.6223 12.8552 17.8309 11.9641 16.4844C11.1032 17.8099 10.2413 20.645 8.21168 20.1808L4.07951 19.2358C2.78592 18.94 2.11342 18.5142 2.03528 17.0344Z" stroke="#5C5C66" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <g opacity="0.4">
+    <path d="M15.2139 6.85156V12.933C15.2139 14.9959 13.7752 16.4755 12.0006 16.4755C10.226 16.4755 8.78735 14.9959 8.78735 12.933V6.85156" stroke="#5C5C66" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M3.50317 6.77148H20.4978" stroke="#5C5C66" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
 </svg> Serv & Facilites 1</p>
-          <p><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-  <path d="M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z" stroke="#5C5C66" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <path opacity="0.4" d="M15.9316 14.2256H17.9295" stroke="#5C5C66" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M6.05981 14.2256H8.05767" stroke="#5C5C66" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M2 9.57129C8.62638 10.5108 15.3522 10.5108 21.9785 9.57129" stroke="#5C5C66" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M2.00318 19.7317C2.00126 20.3469 2.49949 20.8468 3.11477 20.8468H5.31715C5.93107 20.8468 6.42874 20.349 6.42874 19.7352V19.2796C6.42874 18.6658 6.92642 18.168 7.54033 18.168H16.4475C17.0615 18.168 17.5591 18.6658 17.5591 19.2796V19.7352C17.5591 20.349 18.0568 20.8468 18.6707 20.8468H20.8883C21.5022 20.8468 21.9999 20.349 21.9999 19.7352V13.9243C21.9993 13.0232 21.7117 12.1454 21.1791 11.4185L19.8832 9.67947C19.7795 9.53296 19.6959 9.37372 19.6349 9.20489L18.4685 5.96513C18.1766 5.13238 17.4173 4.49659 16.5463 4.35579C13.5374 3.8814 10.473 3.8814 7.46416 4.35579C6.59694 4.50018 5.84282 5.13523 5.55268 5.96513L4.38628 9.20489C4.32503 9.36693 4.24145 9.51951 4.13792 9.65838L2.82044 11.4723C2.29935 12.1914 2.01959 13.0572 2.02131 13.9454L2.00318 19.7317Z" stroke="#5C5C66" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 </svg> Serv & Facilites 1</p>
-          <p><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-  <path d="M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z" stroke="#5C5C66" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <path d="M2 16.5097V14.7238C2 13.1854 3.24649 11.939 4.78486 11.939H19.2151C20.7534 11.939 22 13.1854 22 14.7238V16.5097C22 18.0482 20.7534 19.2946 19.2151 19.2946H4.78486C3.24649 19.2946 2 18.0482 2 16.5097Z" stroke="#5C5C66" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M6.17429 15.6167H5.60889M9.56853 15.6167H9.00309" stroke="#5C5C66" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M12 8.33545V11.9387" stroke="#5C5C66" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M6.79395 11.9394V4" stroke="#5C5C66" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M17.2061 11.9394V4" stroke="#5C5C66" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 </svg> Serv & Facilites 1</p>
         </div>
       </div>
@@ -1062,8 +1151,9 @@ line-height: var(--Font-Copy-Body-Line-Heigth, 20px);
     <!-- Contact -->
     <h2 class="section-title">Contact</h2>
     <div class="contact-map">
-      <img src="./img/Image.png" alt="Map">
-    </div>
+<div id="map" style="height: 400px; width: 100%;"></div>
+  
+ </div>
 
     <div class="card contact-card">
     
@@ -1078,8 +1168,9 @@ line-height: var(--Font-Copy-Body-Line-Heigth, 20px);
       <div class="contact-icon-group">
         <span class="contact-icon">
           <!-- sparkle icon -->
-         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-  <path d="M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <path d="M20.4162 3.81471C19.8922 3.15183 18.985 2.8002 18.0575 3.11913L4.43082 7.81047C2.5761 8.44871 2.50737 11.0453 4.325 11.7818L9.00869 13.6779C9.29596 13.7939 9.55135 13.9705 9.7595 14.1922" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M20.4159 3.81348C20.8312 4.33888 21.0056 5.05982 20.7586 5.79741L16.1535 19.5529C15.5305 21.413 12.9329 21.5036 12.1822 19.6903L10.1726 14.832C10.0739 14.5928 9.93299 14.3761 9.75928 14.191" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
         </span>
         <a href="#" class="contact-link">Direction</a>
@@ -1091,14 +1182,21 @@ line-height: var(--Font-Copy-Body-Line-Heigth, 20px);
       <p class="contact-text mb-0">+964 750 885 1869</p>
       <div class="contact-icon-group">
         <span class="contact-icon">
-         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-  <path d="M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <a href="sms:+9647508851869">
+         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <path d="M7.49932 20.9298C7.25609 20.8076 6.98907 20.7654 6.72421 20.8281C5.82369 21.04 4.37076 21.4022 3.31348 21.6681C2.71241 21.8194 2.1654 21.2843 2.30486 20.6811C2.56756 19.5417 2.93187 17.9569 3.10483 17.1644C3.15889 16.918 3.12538 16.6639 3.01836 16.4358C2.38486 15.0791 2 13.5776 2 12.0002C2 5.87607 7.57932 0.991854 13.9057 2.17885C17.8807 2.92478 21.0752 6.12038 21.8211 10.0943C23.0081 16.4207 18.1239 22 11.9998 22C10.4333 22 8.86794 21.6217 7.49932 20.9298Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M8.22328 8.06714C6.68278 9.61521 7.85031 12.0746 9.90433 14.1286C11.9583 16.1827 14.3788 17.3112 15.9269 15.7708L16.0696 15.628C16.6901 15.0086 16.5993 13.9783 15.8804 13.4768C15.648 13.3157 15.4048 13.1449 15.1463 12.9643C14.5874 12.5719 13.8231 12.6325 13.3399 13.1135L13.0783 13.373C11.9529 12.7027 11.3821 12.0583 10.6221 10.9168L10.8816 10.6552C11.3616 10.1709 11.4221 9.40656 11.0308 8.84766C10.8491 8.58929 10.6794 8.34605 10.5173 8.11363C10.0168 7.39473 8.9865 7.305 8.36598 7.92444L8.22328 8.06714Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
+ </a>
         </span>
         <span class="contact-icon">
-         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-  <path d="M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <a href="tel:+9647508851869">
+         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <path opacity="0.4" d="M15.0032 2C18.899 2.43263 21.9769 5.50632 22.4137 9.40211" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M15.0032 5.72949C16.8674 6.0916 18.3242 7.54949 18.6874 9.4137" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M11.5069 12.4973C15.7058 16.6951 16.6584 11.8387 19.3318 14.5103C21.9093 17.0871 23.3918 17.6034 20.1251 20.8681C19.716 21.1969 17.1171 25.1519 7.98365 16.0207C-1.15095 6.88842 2.80165 4.28678 3.13047 3.87784C6.40396 0.604048 6.91245 2.09409 9.48989 4.67087C12.1622 7.34368 7.30793 8.29938 11.5069 12.4973Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
+</a>
         </span>
       </div>
     </div>
@@ -1108,14 +1206,21 @@ line-height: var(--Font-Copy-Body-Line-Heigth, 20px);
       <p class="contact-text mb-0">+964 750 885 1869</p>
       <div class="contact-icon-group">
         <span class="contact-icon">
-         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-  <path d="M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <a href="sms:+9647508851869">
+         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <path d="M7.49932 20.9298C7.25609 20.8076 6.98907 20.7654 6.72421 20.8281C5.82369 21.04 4.37076 21.4022 3.31348 21.6681C2.71241 21.8194 2.1654 21.2843 2.30486 20.6811C2.56756 19.5417 2.93187 17.9569 3.10483 17.1644C3.15889 16.918 3.12538 16.6639 3.01836 16.4358C2.38486 15.0791 2 13.5776 2 12.0002C2 5.87607 7.57932 0.991854 13.9057 2.17885C17.8807 2.92478 21.0752 6.12038 21.8211 10.0943C23.0081 16.4207 18.1239 22 11.9998 22C10.4333 22 8.86794 21.6217 7.49932 20.9298Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M8.22328 8.06714C6.68278 9.61521 7.85031 12.0746 9.90433 14.1286C11.9583 16.1827 14.3788 17.3112 15.9269 15.7708L16.0696 15.628C16.6901 15.0086 16.5993 13.9783 15.8804 13.4768C15.648 13.3157 15.4048 13.1449 15.1463 12.9643C14.5874 12.5719 13.8231 12.6325 13.3399 13.1135L13.0783 13.373C11.9529 12.7027 11.3821 12.0583 10.6221 10.9168L10.8816 10.6552C11.3616 10.1709 11.4221 9.40656 11.0308 8.84766C10.8491 8.58929 10.6794 8.34605 10.5173 8.11363C10.0168 7.39473 8.9865 7.305 8.36598 7.92444L8.22328 8.06714Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
+ </a>
         </span>
         <span class="contact-icon">
-         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-  <path d="M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <a href="tel:+9647508851869">
+         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <path opacity="0.4" d="M15.0032 2C18.899 2.43263 21.9769 5.50632 22.4137 9.40211" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M15.0032 5.72949C16.8674 6.0916 18.3242 7.54949 18.6874 9.4137" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M11.5069 12.4973C15.7058 16.6951 16.6584 11.8387 19.3318 14.5103C21.9093 17.0871 23.3918 17.6034 20.1251 20.8681C19.716 21.1969 17.1171 25.1519 7.98365 16.0207C-1.15095 6.88842 2.80165 4.28678 3.13047 3.87784C6.40396 0.604048 6.91245 2.09409 9.48989 4.67087C12.1622 7.34368 7.30793 8.29938 11.5069 12.4973Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
+</a>
         </span>
       </div>
     </div>
@@ -1124,8 +1229,8 @@ line-height: var(--Font-Copy-Body-Line-Heigth, 20px);
     <div class="contact-row">
       <p class="contact-text mb-0">www.hotel.com</p>
       <span class="contact-icon">
-       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-  <path d="M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <path d="M8.73506 20.3876C8.16306 20.6958 7.44953 20.4822 7.14118 19.9102C6.93236 19.5228 6.96318 19.0704 7.18259 18.7229C7.28695 18.5575 7.43424 18.4158 7.61859 18.3164L7.62083 18.3151L7.63318 18.3084L7.68648 18.2791C7.73436 18.2525 7.80624 18.2123 7.89883 18.1594C8.08401 18.0536 8.35106 17.8975 8.67259 17.6997C9.31782 17.3028 10.1716 16.7448 11.0195 16.0942C11.8744 15.4383 12.6851 14.7172 13.2713 13.9997C13.8804 13.2543 14.118 12.6701 14.118 12.2661C14.118 11.8614 13.8802 11.2764 13.2711 10.5308C12.6848 9.81277 11.8741 9.09141 11.0193 8.43522C10.1714 7.7844 9.31765 7.22614 8.67248 6.82911C8.35095 6.6313 8.08389 6.47514 7.89871 6.36924C7.80565 6.31603 7.71236 6.26311 7.61812 6.21203C7.04648 5.90356 6.83295 5.19015 7.1413 4.61836C7.44965 4.04644 8.1633 3.8328 8.73518 4.14116C8.84659 4.20129 8.95674 4.2638 9.06665 4.32665C9.2707 4.44333 9.55971 4.61238 9.9055 4.82516C10.5948 5.24931 11.5205 5.8537 12.452 6.56876C13.3766 7.27846 14.3453 8.12616 15.0935 9.04239C15.8191 9.93077 16.4709 11.045 16.4709 12.2661C16.4709 13.4869 15.8188 14.6007 15.0934 15.4885C14.3451 16.4043 13.3764 17.2516 12.4518 17.961C11.5203 18.6757 10.5947 19.2798 9.90534 19.7038C9.55956 19.9165 9.27055 20.0856 9.0665 20.2022C8.96443 20.2605 8.88344 20.3058 8.82706 20.3371L8.7613 20.3734L8.74306 20.3832L8.73777 20.3861L8.73506 20.3876Z" fill="#706DF2"/>
 </svg>
       </span>
     </div>
@@ -1134,8 +1239,8 @@ line-height: var(--Font-Copy-Body-Line-Heigth, 20px);
     <div class="contact-row">
       <p class="contact-text mb-0">info@hotel.com</p>
       <span class="contact-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-  <path d="M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <path d="M8.73506 20.3876C8.16306 20.6958 7.44953 20.4822 7.14118 19.9102C6.93236 19.5228 6.96318 19.0704 7.18259 18.7229C7.28695 18.5575 7.43424 18.4158 7.61859 18.3164L7.62083 18.3151L7.63318 18.3084L7.68648 18.2791C7.73436 18.2525 7.80624 18.2123 7.89883 18.1594C8.08401 18.0536 8.35106 17.8975 8.67259 17.6997C9.31782 17.3028 10.1716 16.7448 11.0195 16.0942C11.8744 15.4383 12.6851 14.7172 13.2713 13.9997C13.8804 13.2543 14.118 12.6701 14.118 12.2661C14.118 11.8614 13.8802 11.2764 13.2711 10.5308C12.6848 9.81277 11.8741 9.09141 11.0193 8.43522C10.1714 7.7844 9.31765 7.22614 8.67248 6.82911C8.35095 6.6313 8.08389 6.47514 7.89871 6.36924C7.80565 6.31603 7.71236 6.26311 7.61812 6.21203C7.04648 5.90356 6.83295 5.19015 7.1413 4.61836C7.44965 4.04644 8.1633 3.8328 8.73518 4.14116C8.84659 4.20129 8.95674 4.2638 9.06665 4.32665C9.2707 4.44333 9.55971 4.61238 9.9055 4.82516C10.5948 5.24931 11.5205 5.8537 12.452 6.56876C13.3766 7.27846 14.3453 8.12616 15.0935 9.04239C15.8191 9.93077 16.4709 11.045 16.4709 12.2661C16.4709 13.4869 15.8188 14.6007 15.0934 15.4885C14.3451 16.4043 13.3764 17.2516 12.4518 17.961C11.5203 18.6757 10.5947 19.2798 9.90534 19.7038C9.55956 19.9165 9.27055 20.0856 9.0665 20.2022C8.96443 20.2605 8.88344 20.3058 8.82706 20.3371L8.7613 20.3734L8.74306 20.3832L8.73777 20.3861L8.73506 20.3876Z" fill="#706DF2"/>
 </svg>
       </span>
     </div>
@@ -1155,22 +1260,28 @@ line-height: var(--Font-Copy-Body-Line-Heigth, 20px);
     <!-- Bottom Actions -->
     <div class="bottom-actions">
       <div class="action-btn" id="openTerms">
-  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
-    <path d="M15.9993 1C18.1868 8.18743 23.8114 13.8123 30.9986 16C23.8114 18.1877 18.1868 23.8125 15.9993 31C13.8118 23.8125 8.18708 18.1877 1 16C8.18708 13.8123 13.8118 8.18743 15.9993 1Z" stroke="#706DF2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-  </svg>
+  <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" fill="none">
+  <path d="M12.342 37.998C8.19711 37.9066 4.9104 34.472 5.00186 30.3272V9.31291C5.09916 5.23421 8.44228 1.98255 12.5229 2.00007H23.8249C24.9419 2.00007 26.0103 2.45347 26.7827 3.25909L30.5744 7.20838L34.3661 11.1577C35.0977 11.9224 35.5083 12.9402 35.5083 13.9968V30.3272C35.5357 34.437 32.3015 37.8326 28.1935 38M12.342 37.998C12.4023 37.998 12.4626 38 12.5229 38H28.1935M12.342 37.998C12.4023 37.998 28.1935 38 28.1935 38" stroke="#706DF2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M24.791 2.125V7.91028C24.789 10.7338 27.0754 13.0242 29.899 13.0301H35.3768" stroke="#706DF2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M13.2871 28.9636H22.2053M13.2871 22.1224H26.7413M13.2871 15.2812H19.1717" stroke="#706DF2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
   <span>Terms</span>
 </div>
       <!-- ✅ دکمه باز کردن مودال Privacy -->
 <div class="action-btn" id="openPrivacy">
-  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
-    <path d="M15.9993 1C18.1868 8.18743 23.8114 13.8123 30.9986 16C23.8114 18.1877 18.1868 23.8125 15.9993 31C13.8118 23.8125 8.18708 18.1877 1 16C8.18708 13.8123 13.8118 8.18743 15.9993 1Z" stroke="#706DF2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-  </svg>
+  <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" fill="none">
+  <path opacity="0.4" d="M10.9858 32.6814C11.3452 29.8634 13.8203 26.7334 19.9684 26.7334C26.1836 26.7334 28.6427 29.8813 28.9858 32.7334" stroke="#706DF2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" fill-rule="evenodd" clip-rule="evenodd" d="M25.3859 16.5337C25.3859 19.5159 22.9674 21.9338 19.9859 21.9338C17.0045 21.9338 14.5859 19.5159 14.5859 16.5337C14.5859 13.5516 17.0045 11.1338 19.9859 11.1338C22.9674 11.1338 25.3859 13.5516 25.3859 16.5337Z" stroke="#706DF2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M34.8781 21.3388C34.8781 33.5652 19.9995 38 19.9995 38C19.9995 38 5.12284 33.5672 5.12284 21.3388C5.12284 9.11047 4.58048 8.15501 5.77499 6.97967C6.97154 5.80238 18.0492 2 19.9995 2C21.9517 2 33.0274 5.79264 34.2239 6.97967C35.4185 8.16475 34.8781 9.11243 34.8781 21.3388Z" stroke="#706DF2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
   <span>Privacy</span>
 </div>
+
+
       <div class="action-btn">
-       <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
-  <path d="M15.9993 1C18.1868 8.18743 23.8114 13.8123 30.9986 16C23.8114 18.1877 18.1868 23.8125 15.9993 31C13.8118 23.8125 8.18708 18.1877 1 16C8.18708 13.8123 13.8118 8.18743 15.9993 1Z" stroke="#706DF2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
+      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+    <path d="M15.9993 1C18.1868 8.18743 23.8114 13.8123 30.9986 16C23.8114 18.1877 18.1868 23.8125 15.9993 31C13.8118 23.8125 8.18708 18.1877 1 16C8.18708 13.8123 13.8118 8.18743 15.9993 1Z" stroke="#706DF2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
         <span>Sample</span>
       </div>
     </div>
@@ -1244,8 +1355,14 @@ line-height: var(--Font-Copy-Body-Line-Heigth, 20px);
           </div>
         </div>
       </div>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" 
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" 
+            crossorigin=""></script>
+    
 <script>
-const photoItems = document.querySelectorAll(".photos-grid .photo-item:not(.photo-more)");
+const photoImages = document.querySelectorAll(
+  ".photos-grid .photo-item img"
+);
 const moreBtn = document.querySelector(".photo-more");
 const overlay = document.getElementById("imageViewerOverlay");
 const mainImg = document.getElementById("mainViewerImage");
@@ -1253,36 +1370,81 @@ const thumbnailsContainer = document.querySelector(".thumbnail-scroll");
 const closeBtn = document.getElementById("closeViewer");
 const bottomNav = document.querySelector(".fara-bottom-nav");
 
-// 📸 بازشدن مودال
-moreBtn.addEventListener("click", () => {
+/* -------------------------
+   کلیک روی هر عکس
+-------------------------- */
+photoImages.forEach((imgEl, index) => {
+  imgEl.addEventListener("click", () => {
+    openViewer(index);
+  });
+});
+
+/* -------------------------
+   کلیک روی 9 more
+   ➜ باز شود
+   ➜ برود روی عکس اول
+-------------------------- */
+if (moreBtn) {
+  moreBtn.addEventListener("click", () => {
+    openViewer(0);
+  });
+}
+
+/* -------------------------
+   باز کردن مودال
+-------------------------- */
+function openViewer(startIndex) {
   thumbnailsContainer.innerHTML = "";
 
-  photoItems.forEach((item, index) => {
-    const thumb = item.querySelector("img").cloneNode();
-    thumb.addEventListener("click", () => showImage(index));
+  photoImages.forEach((img, i) => {
+    const thumb = document.createElement("img");
+    thumb.src = img.src;
+
+    if (i === startIndex) {
+      thumb.classList.add("active");
+      mainImg.src = img.src;
+    }
+
+    thumb.addEventListener("click", () => {
+      setActiveImage(i);
+    });
+
     thumbnailsContainer.appendChild(thumb);
   });
 
-  showImage(0);
   overlay.style.display = "flex";
   document.body.style.overflow = "hidden";
-if (bottomNav) bottomNav.style.visibility = "hidden"; // مودال باز میشه ولی فضا حفظ میشه
-});
+  if (bottomNav) bottomNav.style.visibility = "hidden";
+}
+map = L.map('map', {
+    zoomControl: false,
+    attributionControl: false
+}).setView([33.5186, -86.8104], 11);
 
-function showImage(index) {
+// اضافه کردن تایل‌های OpenStreetMap
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+}).addTo(map);
+
+/* -------------------------
+   تغییر عکس فعال
+-------------------------- */
+function setActiveImage(index) {
   const thumbs = thumbnailsContainer.querySelectorAll("img");
-  thumbs.forEach(el => el.classList.remove("active"));
+  thumbs.forEach(t => t.classList.remove("active"));
+
   thumbs[index].classList.add("active");
   mainImg.src = thumbs[index].src;
 }
 
-// بستن مودال
+/* -------------------------
+   بستن مودال
+-------------------------- */
 closeBtn.addEventListener("click", () => {
   overlay.style.display = "none";
   document.body.style.overflow = "auto";
-if (bottomNav) bottomNav.style.visibility = "visible"; // برگردوندن حالت
+  if (bottomNav) bottomNav.style.visibility = "visible";
 });
-
 </script>
 
 <script>

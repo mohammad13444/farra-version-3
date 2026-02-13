@@ -88,39 +88,53 @@
        margin-bottom: 24px;
    }
 
-   /* ===== Phone Info ===== */
-   .phone-info {
-       display: flex;
-       align-items: center;
-       margin-bottom: 25px;
-   }
+  /* ===== Phone Info ===== */
+.phone-info {
+    display: flex;
+    align-items: center;  /* ✅ همراستا کردن عمودی */
+    gap: 8px;  /* ✅ فاصله یکسان بین المان‌ها */
+    margin-bottom: 25px;
+}
 
-   .phone-icon {
-       width: 20px;
-       height: 20px;
-              margin-right: 15px;
+.phone-icon {
+    width: 24px;  /* ✅ سایز دقیق SVG */
+    height: 24px;
+    flex-shrink: 0;  /* ✅ جلوگیری از کوچک شدن */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
-   }
+.phone-icon svg {
+    width: 24px;
+    height: 24px;
+}
 
-   .phone-icon-diamond {
-       width: 100%;
-       height: 100%;
-       border: 2px solid #8B7AB8;
-       transform: rotate(45deg);
-       border-radius: 3px;
-   }
+.phone-number {
+    color: var(--Text-Primary-Default, #706DF2);
+    font-size: var(--Font-Headings-H6-Text-Size, 16px);
+    font-style: normal;
+    font-weight: bold;
+    line-height: var(--Font-Headings-H6-Line-Heigth, 28px);
+    white-space: nowrap;  /* ✅ جلوگیری از شکستن شماره */
+}
 
-   .phone-number {
-       color: var(--Text-Primary-Default, #706DF2);
-       text-align: center;
+.change-number {
+    color: var(--Text-Primary-Default, #706DF2);
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: opacity 0.2s;
+    margin-left: 4px;  /* ✅ فاصله کوچک از شماره */
+}
 
-       /* English/Heading/H6 */
-       font-size: var(--Font-Headings-H6-Text-Size, 16px);
-       font-style: normal;
-       font-weight: bold;
-       line-height: var(--Font-Headings-H6-Line-Heigth, 28px);
-       /* 140% */
-   }
+.change-number:hover {
+    opacity: 0.8;
+}
+
+
+   
 
    .change-number {
        margin-left: 30px;
@@ -327,54 +341,74 @@
 
 
    .otp-alert {
-       position: fixed;
-       top: -80px;
-       left: 50%;
-       transform: translateX(-50%);
-       width: 353px;
-       min-height: 68px;
-       display: flex;
-       align-items: flex-start;
-       gap: 12px;
-       padding: 10px 20px;
-       background: rgba(255, 89, 91, 0.10);
-       border-radius: var(--Border-Radius-600, 24px);
-       border: var(--Border-Width-25, 1px) solid var(--Icon-Error-Default, #FF595B);
-       background: rgba(255, 89, 91, 0.10);
+    position: fixed;
+    top: -80px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 353px;
+    min-height: 70px;
+    
+    /* ✅ وسط‌چین کردن محتوا */
+    display: flex;
+    align-items: center;           /* وسط‌چین عمودی */
+    justify-content: flex-start;   /* شروع از سمت راست */
+    gap: 12px;
+    
+    padding: 10px 20px;
+    background: rgba(255, 89, 91, 0.10);
+    border-radius: var(--Border-Radius-600, 24px);
+    border: var(--Border-Width-25, 1px) solid var(--Icon-Error-Default, #FF595B);
+    backdrop-filter: blur(8px);
+    
+    opacity: 0;
+    transition: top 0.4s ease-out, opacity 0.4s ease-out;
+    z-index: 99999;
+}
 
-       backdrop-filter: blur(8px);
+.otp-alert.show {
+    top: 32px;
+    opacity: 1;
+}
 
-       opacity: 0;
-       transition: top 0.4s ease-out, opacity 0.4s ease-out;
-       z-index: 99999;
-   }
+.otp-alert.success {
+    border-radius: var(--Border-Radius-600, 24px);
+    border: var(--Border-Width-25, 1px) solid var(--Icon-Success-Default, #44CD54);
+    background: rgba(68, 205, 84, 0.10);
+    backdrop-filter: blur(8px);
+}
 
-   .otp-alert.show {
-       top: 32px;
-       opacity: 1;
-   }
+/* ✅ آیکون */
+.otp-alert svg {
+    flex-shrink: 0;      /* جلوگیری از کوچک شدن */
+    align-self: center;  /* وسط‌چین عمودی */
+}
 
-   .otp-alert.success {
-       border-radius: var(--Border-Radius-600, 24px);
-       border: var(--Border-Width-25, 1px) solid var(--Icon-Success-Default, #44CD54);
-       background: rgba(68, 205, 84, 0.10);
-       backdrop-filter: blur(8px);
+/* ✅ محتوای متنی */
+.otp-alert-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* وسط‌چین عمودی */
+    gap: 2px;
+}
 
-   }
+.otp-alert-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--Text-Default-Heading, #45454D);
+    margin: 0;
+    font-family: "Bonyade Koodak VF bold";
+    text-align: left;  /* یا right اگه RTL هست */
+}
 
-   .otp-alert-title {
-       font-size: 16px;
-       font-weight: 700;
-       color: #1C1C1E;
-       margin-bottom: 4px;
-       font-family: "Bonyade Koodak VF bold";
-   }
+.otp-alert-message {
+    font-size: 13px;
+    color: var(--Text-Default-Body, #5C5C66);
+    line-height: 1.4;
+    margin: 0;
+    text-align: left;  /* یا right اگه RTL هست */
+}
 
-   .otp-alert-message1 {
-       font-size: 13px;
-       color: #48484A;
-       line-height: 1.4;
-   }
 
    .sss {
        color: var(--Text-Default-Body, #5C5C66);

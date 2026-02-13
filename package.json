@@ -13,8 +13,11 @@
   "author": "Apache Cordova Team",
   "license": "Apache-2.0",
   "devDependencies": {
+    "com.darktalker.cordova.screenshot": "github:gitawego/cordova-screenshot",
     "cordova-android": "^14.0.1",
     "cordova-ios": "^7.1.1",
+    "cordova-plugin-file": "^8.1.3",
+    "cordova-plugin-intent": "github:napolitano/cordova-plugin-intent",
     "cordova-plugin-statusbar": "^4.0.0"
   },
   "cordova": {
@@ -23,7 +26,14 @@
       "ios"
     ],
     "plugins": {
-      "cordova-plugin-statusbar": {}
+      "cordova-plugin-statusbar": {},
+      "com.darktalker.cordova.screenshot": {},
+      "com.napolitano.cordova.plugin.intent": {
+        "PACKAGE_NAME": "com.farra.app"
+      },
+      "cordova-plugin-file": {
+        "ANDROIDX_WEBKIT_VERSION": "1.4.0"
+      }
     }
   },
   "dependencies": {

@@ -1,6 +1,6 @@
  @font-face {
      font-family: "Bonyade Koodak VF";
-     src: url("../BonyadeKoodak-VF.ttf") format("truetype");
+     src: url("../fonts/BonyadeKoodakKoochak-Medium.ttf") format("truetype");
      font-weight: 100 900;
      /* 👈 اجازه بده تمام بازه وزن‌ها فعال بشه */
      font-display: swap;
@@ -19,27 +19,65 @@
  }
 
  body {
-     font-family: "Bonyade Koodak VF";
+    font-family: "Bonyade Koodak VF";
+    background: #EFEFFE;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0px 24px;
+    position: relative;
+}
 
-     background: #EFEFFE;
-     min-height: 100vh;
-     display: flex;
-     flex-direction: column;
-     justify-content: center;
-     align-items: center;
-     padding: 0px 24px;
-     position: relative;
- }
+/* ===== کانتینر اصلی ===== */
+.orginal {
+    width: 100%;
+    max-width: 400px;
+    padding: 60px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - 120px);
+}
 
- .container {
-     width: 100%;
-     max-width: 400px;
-     display: flex;
-     flex-direction: column;
-     align-items: center;
-     text-align: center;
-     padding-top: 10%;
- }
+.container {
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding-top: 10%;
+}
+
+/* ... بقیه استایل‌ها ... */
+
+/* ===== Responsive ===== */
+@media (max-height: 700px) {
+    .orginal {
+        padding: 40px 0;
+        min-height: calc(100vh - 80px);
+    }
+
+    .container {
+        padding-top: 5%;
+    }
+
+    .location-info {
+        margin-top: 20px;
+        margin-bottom: 40px;
+    }
+}
+
+@media (max-height: 600px) {
+    .orginal {
+        padding: 20px 0;
+        min-height: auto;
+    }
+}
+
 
  /* Custom blob-shaped image container */
  .image-container {
@@ -123,13 +161,14 @@
  .location-subtitle {
 
      color: var(--Text-Default-Heading, #45454D);
+text-align: center;
 
-     text-align: center;
-     font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
-     font-size: var(--Font-Button-Large-Text-Size, 24px);
-     font-style: normal;
-     font-weight: 400;
-     line-height: 24px;
+/* English/Body/LCopy */
+font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+font-size: var(--Font-Copy-Body-Lg-Text-Size, 20px);
+font-style: normal;
+font-weight: 100;
+line-height: var(--Font-Copy-Body-Lg-Line-Heigth, 24px); /* 120% */
      /* 100% */
  }
 
@@ -157,7 +196,7 @@
      font-family: var(--btn-primary-font-family, "Bonyade Koodak VF");
      font-size: var(--btn-primary-font-size, 24px);
      font-weight: var(--btn-primary-font-weight, 500);
-     line-height: var(--btn-primary-line-height, 24px);
+     line-height: var(--btn-primary-line-height, 30px);
      color: var(--btn-primary-text-color, #E6E5FF);
      background: var(--btn-primary-bg-default);
      cursor: pointer;

@@ -5,6 +5,8 @@
   <title>Transactions</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <link rel="stylesheet" href="./css/header.css">
 
   <style>
        @font-face {
@@ -28,25 +30,7 @@
 
    
 
-        /* Header with Blur Effect */
-        .header {
-            position: relative;
-            display: flex;
-            align-items: center;
-      justify-content: space-between;
-            overflow: visible;
-
-
-
-               width: 100%;
-      background: transparent;
-      display: flex;
-      align-items: center;
-      padding: 16px 13px;
-      /* پدینگ داخلی 13px به 0 تغییر کرد چون پدینگ کانتینر 24px است */
-      border-radius: 16px;
-      padding-top: 24px;
-        }
+       
 
           /* ⚠️ توجه: آیکون‌های چپ و راست هدر باید خارج از پدینگ کانتینر قرار می‌گرفتند. 
            اما برای حفظ کد شما، پدینگ header به 0 تغییر کرد تا پدینگ 24px از body اعمال شود. */
@@ -109,127 +93,6 @@
         }
 
        /* اینپوت وسط و کشیده */
-/* =============================
-   🔍 SEARCH BOX — نسخه نهایی Farra
-   ============================= */
-
-.search-box {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  height: 48px;
-  width: 100%;
-  max-width: 500px;
-  border-radius: 50px;
-  border: 1px solid #C6C5FA; /* حالت default */
-  padding: 0 10px;
-  padding-left: 15px;
-  box-sizing: border-box;
-  background: #F8F7FC;
-  transition: all 0.25s ease;
-}
-
-/* ====== Input ====== */
-.search-box input {
-  flex: 1;
-  border: none;
-  outline: none;
-  background: transparent;
-  font-family: "Bonyade Koodak VF", sans-serif;
-  font-size: 16px;
-  color: #232323; /* رنگ متن در حالت معمول */
-  padding-left: 10px;
-  padding-right: 15px;
-  min-width: 0;
-
-
-  color: var(--Textbox-Default-Text, #A9A7F7);
-
-
-font-weight: 400;
-
-}
-
-/* ====== SVG Icons ====== */
-.search-box svg {
-  width: 20px;
-  height: 20px;
-  flex-shrink: 0;
-  display: inline-block;
-}
-
-.search-box svg path {
-  stroke: #C6C5FA; /* رنگ پیش‌فرض آیکن */
-  transition: stroke 0.25s ease;
-}
-
-/* ====== Hover ====== */
-.search-box:hover {
-  border-color: #9795F3;
-}
-
-/* ====== Focus ====== */
-.search-box:focus-within {
-  border: 2px solid #706DF2; /* بوردر ضخیم آبی در فوکوس */
-}
-
-.search-box:focus-within input {
-  color: #5C5C66; /* رنگ متن در فوکوس */
-      font-weight: 500;
-
-}
-
-.search-box:focus-within svg path {
-  stroke: #706DF2 !important; /* آبی در فوکوس */
-}
-
-/* placeholder در فوکوس */
-.search-box input::placeholder {
-  color: #A9A7F7;
-  transition: opacity 0.3s ease, color 0.3s ease;
-
-}
-
-.search-box:focus-within input::placeholder {
-  opacity: 0.5;
-  color: #706DF2;
-  
-}
-
-/* ====== Filled (وقتی مقدار داره و فوکوس نداره) ====== */
-.search-box.filled:not(:focus-within) {
-  border: 1px solid #706DF2; /* آبی ثابت */
-}
-
-.search-box.filled:not(:focus-within) input {
-  color: #706DF2;
-  font-weight: 500;
-}
-
-.search-box.filled:not(:focus-within) svg path {
-  stroke: #706DF2;
-}
-
-/* ====== Error / Success ====== */
-.search-box.error {
-  border: 2px solid #FF595B;
-}
-.search-box.success {
-  border: 2px solid #44CD54;
-}
-
-/* ====== آیکن‌ها ====== */
-.search-box .star img {
-  width: 24px;
-  height: 24px;
-  transition: transform 0.3s ease;
-}
-
-.search-box .star:hover img {
-  transform: scale(1.08);
-}
-
 
     /* ===== Title ===== */
     h1{
@@ -628,77 +491,9 @@ backdrop-filter: blur(6px);
 
 <body>
 
-  <div class="home-container">
+  <div class="home-container" style="margin-top: 12%;">
     <!-- Header -->
-    <div class="header">
-                    <div class="header-blur"></div>
-
-      <div class="star"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="16" viewBox="0 0 20 16" fill="none">
-  <path fill-rule="evenodd" clip-rule="evenodd" d="M0 14.8571C0 14.3838 0.38376 14 0.857143 14H19.1429C19.6162 14 20 14.3838 20 14.8571C20 15.3305 19.6162 15.7143 19.1429 15.7143H0.857143C0.38376 15.7143 0 15.3305 0 14.8571Z" fill="#706DF2"/>
-  <path fill-rule="evenodd" clip-rule="evenodd" d="M0 0.857143C0 0.38376 0.38376 0 0.857143 0H19.1429C19.6162 0 20 0.38376 20 0.857143C20 1.33053 19.6162 1.71429 19.1429 1.71429H0.857143C0.38376 1.71429 0 1.33053 0 0.857143Z" fill="#706DF2"/>
-  <path fill-rule="evenodd" clip-rule="evenodd" d="M0 7.85714C0 7.38377 0.38376 7 0.857143 7H19.1429C19.6162 7 20 7.38377 20 7.85714C20 8.33051 19.6162 8.71429 19.1429 8.71429H0.857143C0.38376 8.71429 0 8.33051 0 7.85714Z" fill="#706DF2"/>
-</svg></div>
-      <div class="logo"><svg xmlns="http://www.w3.org/2000/svg" width="58" height="21" viewBox="0 0 58 21" fill="none">
-  <path d="M23.103 13.715C22.9898 14.3515 22.8603 15.2961 22.713 16.5516C22.6394 17.1772 22.5153 18.0445 22.4104 18.7584C22.3054 19.4723 21.6673 20.0261 20.927 20.0139L19.4559 19.9908C18.7046 19.9786 18.0611 19.4099 18.0066 18.6634C18.0025 18.6146 17.997 18.5861 17.9861 18.5847C17.9138 18.6173 17.8143 18.6878 17.6875 18.7951C16.5927 19.7288 15.5143 20.1944 14.4535 20.1944C12.8352 20.1944 11.6081 19.5578 10.7723 18.2861C9.97884 17.0972 9.72933 15.6762 10.0211 14.0244C10.3592 12.1161 11.15 10.5811 12.3934 9.41661C13.6859 8.21139 15.2688 7.60742 17.1435 7.60742C18.4456 7.60742 19.3945 8.06209 19.9889 8.97008C20.0149 9.01215 20.0408 9.03251 20.0653 9.03251C20.0939 9.03251 20.2344 8.78821 20.3952 8.48962C20.7361 7.85579 21.4655 7.53142 22.1663 7.70514L22.9284 7.8938C23.7888 8.10688 24.3041 8.98365 24.0669 9.83464C23.7233 11.0697 23.2775 12.7459 23.1071 13.715H23.103ZM19.0836 13.7896C19.2077 13.0879 19.0891 12.507 18.7264 12.0496C18.3638 11.5909 17.8252 11.3615 17.1122 11.3615C16.3991 11.3615 15.7815 11.5882 15.262 12.0428C14.7412 12.4975 14.4194 13.0798 14.2926 13.7896C14.174 14.4587 14.3049 15.0328 14.6839 15.5119C15.063 15.991 15.5852 16.2299 16.2491 16.2299C16.954 16.2299 17.5716 16.0005 18.1006 15.5418C18.6296 15.083 18.9568 14.4994 19.0836 13.7882V13.7896Z" fill="#706DF2"/>
-  <path d="M56.0439 13.715C55.9307 14.3515 55.8012 15.2961 55.6539 16.5516C55.5803 17.1772 55.4563 18.0445 55.3513 18.7584C55.2463 19.4723 54.6082 20.0261 53.8679 20.0139L52.3968 19.9908C51.6455 19.9786 51.002 19.4099 50.9475 18.6634C50.9434 18.6146 50.9379 18.5861 50.927 18.5847C50.8548 18.6173 50.7552 18.6878 50.6284 18.7951C49.5336 19.7288 48.4552 20.1944 47.3944 20.1944C45.7761 20.1944 44.549 19.5578 43.7133 18.2861C42.9198 17.0972 42.6703 15.6762 42.962 14.0244C43.3001 12.1161 44.0909 10.5811 45.3343 9.41661C46.6268 8.21139 48.2098 7.60742 50.0844 7.60742C51.3865 7.60742 52.3354 8.06209 52.9299 8.97008C52.9558 9.01215 52.9817 9.03251 53.0062 9.03251C53.0348 9.03251 53.1753 8.78821 53.3362 8.48962C53.677 7.85579 54.4064 7.53142 55.1072 7.70514L55.8694 7.8938C56.7297 8.10688 57.245 8.98365 57.0078 9.83464C56.6642 11.0697 56.2184 12.7459 56.048 13.715H56.0439ZM52.0232 13.7896C52.1473 13.0879 52.0287 12.507 51.666 12.0496C51.3033 11.5909 50.7648 11.3615 50.0517 11.3615C49.3387 11.3615 48.721 11.5882 48.2016 12.0428C47.6808 12.4975 47.359 13.0798 47.2322 13.7896C47.1136 14.4587 47.2445 15.0328 47.6235 15.5119C48.0025 15.991 48.5247 16.2299 49.1887 16.2299C49.8936 16.2299 50.5112 16.0005 51.0402 15.5418C51.5692 15.083 51.8964 14.4994 52.0232 13.7882V13.7896Z" fill="#706DF2"/>
-  <path d="M2.28773 20.1944C1.64147 20.1944 1.16701 20.1088 0.860242 19.9406C0.55484 19.7709 0.404865 19.5551 0.414409 19.2932C0.42259 19.0312 0.444404 18.7394 0.478489 18.4177L1.94824 10.0708C1.99868 9.78305 1.89779 9.63918 1.64284 9.63918H0.674819C0.249437 9.63918 0.0708314 9.4451 0.139002 9.05557L0.444404 7.50833C0.528935 7.17038 0.775711 7.00073 1.18337 7.00073H1.97823C2.0764 6.36554 2.12548 5.84979 2.17729 5.27569C2.30545 3.84381 2.72947 2.62095 3.83383 1.62202C4.93818 0.62446 6.37385 0.125 8.14218 0.125C9.55194 0.125 10.7204 0.434448 11.6461 1.05063C12.5719 1.66817 13.0354 2.43365 13.0354 3.34706C13.0354 4.07454 12.8146 4.71244 12.3728 5.26211C11.9311 5.81179 11.293 6.08731 10.4613 6.08731C9.79872 6.08731 9.2779 5.91901 8.85524 5.6435C7.36913 4.67172 8.10673 3.03761 8.75299 2.99283C8.15173 2.7621 6.63153 3.2317 6.43384 4.56586C6.22387 5.97602 7.44412 6.93558 8.9575 7.00208H10.0782C10.1805 7.00208 10.2732 7.03601 10.3591 7.10388C10.4436 7.17174 10.4695 7.28982 10.4354 7.45947L10.1546 9.18451C10.1205 9.33652 10.0659 9.45052 9.9896 9.52653C9.91324 9.60253 9.77281 9.64054 9.56967 9.64054H7.30096C7.08009 9.64054 6.94375 9.76676 6.8933 10.0206L5.55035 17.5301C5.49991 17.902 5.42628 18.2155 5.33357 18.4693C5.2395 18.7231 5.0827 18.9973 4.86183 19.2945C4.64096 19.5904 4.31783 19.8143 3.89382 19.9663C3.46843 20.1184 2.93398 20.1944 2.28773 20.1944Z" fill="#706DF2" stroke="#706DF2" stroke-width="0.25" stroke-miterlimit="10"/>
-  <path d="M29.0009 6.64502C29.1536 6.65317 29.2941 6.65724 29.4209 6.68303C29.5477 6.70881 29.6663 6.75496 29.7781 6.82282C29.8885 6.89068 29.9853 6.94904 30.0712 7.00062C30.1557 7.05083 30.2375 7.13227 30.3139 7.2422C30.3902 7.35214 30.4502 7.43629 30.4925 7.49601C30.5348 7.55572 30.5852 7.64802 30.6452 7.7756C30.7052 7.90182 30.7434 7.99139 30.7597 8.04161C30.7761 8.09183 30.8061 8.18141 30.8483 8.30763C30.8906 8.43385 30.9124 8.50714 30.9124 8.52343C30.9629 8.67544 31.0392 8.75144 31.1415 8.75144C31.226 8.75144 31.3364 8.67544 31.4728 8.52343C32.6958 7.10241 33.8519 6.39258 34.9386 6.39258C35.4826 6.39258 35.9543 6.51066 36.3524 6.74817C36.7519 6.98569 37.0409 7.28156 37.2195 7.6358C37.3981 7.9914 37.4868 8.38092 37.4868 8.80302C37.4868 9.71643 37.2318 10.4018 36.7219 10.8579C36.212 11.3139 35.5657 11.5433 34.7845 11.5433C34.3932 11.5433 34.036 11.4713 33.7142 11.3275C33.3911 11.1836 33.1443 11.0316 32.9753 10.8714C32.8048 10.7113 32.6139 10.5593 32.4013 10.4154C32.1886 10.2715 31.9895 10.1996 31.8027 10.1996C31.1565 10.1996 30.7325 10.8334 30.5279 12.1024L29.6104 17.5314C29.5422 17.9209 29.4618 18.2371 29.3677 18.4828C29.2736 18.7284 29.1209 18.9985 28.9096 19.2944C28.6969 19.5903 28.3738 19.8142 27.9416 19.9662C27.508 20.1182 26.9858 20.1943 26.3736 20.1943C25.711 20.1943 25.2229 20.1101 24.908 19.9404C24.593 19.7722 24.4403 19.5509 24.4499 19.2808C24.4581 19.0107 24.4799 18.7149 24.514 18.3932L25.6865 11.3153C25.6865 11.3153 25.9851 6.47808 28.9996 6.64638L29.0009 6.64502Z" fill="#706DF2"/>
-  <path d="M35.5195 6.64502C35.6722 6.65317 35.8126 6.65724 35.9394 6.68303C36.0662 6.70881 36.1848 6.75496 36.2966 6.82282C36.4071 6.89068 36.5039 6.94904 36.5898 7.00062C36.6743 7.05083 36.7561 7.13227 36.8324 7.2422C36.9088 7.35214 36.9688 7.43629 37.011 7.49601C37.0533 7.55572 37.1038 7.64802 37.1637 7.7756C37.2237 7.90182 37.2619 7.99139 37.2783 8.04161C37.2946 8.09183 37.3246 8.18141 37.3669 8.30763C37.4092 8.43385 37.431 8.50714 37.431 8.52343C37.4814 8.67544 37.5578 8.75144 37.66 8.75144C37.7446 8.75144 37.855 8.67544 37.9913 8.52343C39.2143 7.10241 40.3705 6.39258 41.4571 6.39258C42.0011 6.39258 42.4728 6.51066 42.871 6.74817C43.2704 6.98569 43.5595 7.28156 43.7381 7.6358C43.9167 7.9914 44.0053 8.38092 44.0053 8.80302C44.0053 9.71643 43.7504 10.4018 43.2404 10.8579C42.7305 11.3139 42.0843 11.5433 41.303 11.5433C40.9117 11.5433 40.5545 11.4713 40.2328 11.3275C39.9096 11.1836 39.6629 11.0316 39.4938 10.8714C39.3234 10.7113 39.1325 10.5593 38.9198 10.4154C38.7071 10.2715 38.5081 10.1996 38.3213 10.1996C37.675 10.1996 37.251 10.8334 37.0465 12.1024L36.1289 17.5314C36.0608 17.9209 35.9803 18.2371 35.8862 18.4828C35.7922 18.7284 35.6395 18.9985 35.4281 19.2944C35.2154 19.5903 34.8923 19.8142 34.4601 19.9662C34.0266 20.1182 33.5044 20.1943 32.8922 20.1943C32.2296 20.1943 31.7415 20.1101 31.4265 19.9404C31.1116 19.7722 30.9589 19.5509 30.9684 19.2808C30.9766 19.0107 30.9984 18.7149 31.0325 18.3932L32.205 11.3153C32.205 11.3153 32.5036 6.47808 35.5181 6.64638L35.5195 6.64502Z" fill="#706DF2"/>
-</svg></div>
-      <div class="star"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
-  <path d="M10.75 20.75C16.2732 20.75 20.75 16.2721 20.75 10.75C20.75 5.22676 16.2732 0.75 10.75 0.75C5.22676 0.75 0.75 5.22676 0.75 10.75C0.75 16.2721 5.22676 20.75 10.75 20.75Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-  <path fill-rule="evenodd" clip-rule="evenodd" d="M15.2319 10.7497C15.2319 13.2254 13.2243 15.2319 10.7487 15.2319C8.27297 15.2319 6.26648 13.2254 6.26648 10.7497C6.26648 8.27406 8.27297 6.26758 10.7487 6.26758C13.2243 6.26758 15.2319 8.27406 15.2319 10.7497Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-  <path opacity="0.4" d="M3.85433 17.6464L7.30297 14.1977M17.6472 17.6464L14.1985 14.1977M7.30192 7.30108L3.85327 3.85352M14.1985 7.30108L17.6472 3.85352" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-</svg></div>
-    </div>
-
-    <!-- Search Box -->
-    <div class="search-box" id="search-box">
-      <!-- آیکون سمت چپ (Default) -->
     
-      <svg class="default-icon" xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
-  <path d="M9.73856 18.7271C14.7028 18.7271 18.7271 14.7028 18.7271 9.73856C18.7271 4.77431 14.7028 0.75 9.73856 0.75C4.77431 0.75 0.75 4.77431 0.75 9.73856C0.75 14.7028 4.77431 18.7271 9.73856 18.7271Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-  <path opacity="0.4" d="M15.9902 16.457L19.5143 19.9719" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
-      <!-- آیکون سمت چپ (Focus) -->
-    
-
-
-<input type="text" placeholder="Search here" oninput="this.parentElement.classList.toggle('filled', this.value.trim() !== '')">
-
-
-      <!-- آیکون سمت راست (Default) -->
-      <a href="" style="padding-right: 3px;">
-       
- <svg class="default-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-  <!-- دایره اصلی -->
-  <path opacity="0.4" fill-rule="evenodd" clip-rule="evenodd"
-        d="M0.75 11.75C0.75 3.4994 3.5 0.75 11.75 0.75C20.0001 0.75 22.75 3.4994 22.75 11.75C22.75 19.9994 20.0001 22.75 11.75 22.75C3.5 22.75 0.75 19.9994 0.75 11.75Z"
-        stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-
-  <!-- علامت + در مرکز دایره -->
-  <g transform="translate(12 15)"> <!-- مرکز دایره (11.75 ~ 12) -->
-    <!-- خط عمودی -->
-    <path d="M0 -2L0 2" stroke="#706DF2" stroke-width="2" stroke-linecap="round"/>
-    <!-- خط افقی -->
-    <path d="M-5 0H5" stroke="#706DF2" stroke-width="1.45" stroke-linecap="round"/>
-  </g>
-    <g transform="translate(12 8)"> <!-- مرکز دایره (11.75 ~ 12) -->
-    <!-- خط عمودی -->
-    <path d="M0 -2L0 2" stroke="#706DF2" stroke-width="2" stroke-linecap="round"/>
-    <!-- خط افقی -->
-    <path d="M-5 0H5" stroke="#706DF2" stroke-width="1.45" stroke-linecap="round"/>
-  </g>
-</svg>
-
-
-      </a>
-      <!-- آیکون سمت راست (Focus) -->
-      <a href="" style="padding-right: 3px;">
-        
-      </a>
-    </div>
-    <br>
 </div>
 
   <!-- ===== Page Title ===== -->
@@ -836,19 +631,28 @@ backdrop-filter: blur(6px);
     <!-- Section -->
     <div class="tx-section">
       <div class="tx-row">
-        <span><svg style="width: 18px; height: 18px;" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-  <path d="M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M3 12.7252C3 5.76917 5.319 3.45117 12.274 3.45117C19.23 3.45117 21.549 5.76917 21.549 12.7252C21.549 19.6812 19.23 21.9992 12.274 21.9992C5.319 21.9992 3 19.6812 3 12.7252Z" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M3.27539 9.27441H21.2833" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M16.6787 13.2109H16.6877" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M12.2793 13.2109H12.2883" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M7.87158 13.2109H7.88058" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M16.6787 17.0625H16.6877" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M12.2793 17.0625H12.2883" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M7.87158 17.0625H7.88058" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M16.2832 2V5.262" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M8.2749 2V5.262" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 </svg> &nbsp; Date</span>
         <span>Thursday 24/05/2025</span>
       </div>
       <div class="tx-row">
-        <span>Ref. Code</span>
+        <span style="padding-left: 34px;">Ref. Code</span>
         <span>2560521456</span>
       </div>
       <div class="tx-row">
-        <span>Bank</span>
-        <span> <svg style="width: 18px; height: 18px;" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-  <path d="M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <span style="padding-left: 34px;">Bank</span>
+        <span> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <path d="M18.0595 12.0634L15.1078 9.79916L8.37366 4.66776H13.0007C14.6549 4.66776 16.0018 6.01455 16.0018 7.6687C16.0018 8.12154 15.9009 8.55091 15.7202 8.93571L17.8648 10.5805C18.3763 9.72877 18.6696 8.73393 18.6696 7.6687C18.6673 4.53637 16.1308 2 13.0007 2H4V4.63961L11.8041 10.6274L11.8557 10.6673L15.9454 13.8067C16.0041 13.8442 16.0604 13.8841 16.1167 13.924L16.173 13.9662C16.9145 14.5411 17.3791 15.4585 17.3322 16.4791C17.2571 18.0863 15.9009 19.3346 14.2912 19.3346H6.66784V13.3351H13.4606L9.98563 10.6673H4V22H14.3335C17.4636 22 20 19.4636 20 16.3336C20 14.6302 19.2468 13.1028 18.0572 12.0634" fill="#00A69C"/>
 </svg> &nbsp;FIB</span>
       </div>
     </div>
@@ -857,17 +661,21 @@ backdrop-filter: blur(6px);
 
     <div class="tx-section">
       <div class="tx-row">
-        <span><svg style="width: 18px; height: 18px;" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-  <path d="M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <path d="M19.9673 15.735C19.9673 18.1728 18.4496 19.8939 16.0107 19.8939H5.95779C3.51782 19.8939 2 18.1728 2 15.735V9.15994C2 6.72213 3.51782 5 5.95779 5H15.029" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M14.1523 10.2871H2" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M6.34961 15.6123H9.31282" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M6.34961 15.6123H9.31282" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M19.9663 5.66699V11.6042M19.9663 5.66699L17.9351 7.70805M19.9663 5.66699L21.9998 7.70805" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 </svg> &nbsp;Paid By</span>
         <span>Muhammed Bagher</span>
       </div>
       <div class="tx-row">
-        <span>Card Number</span>
+        <span style="padding-left: 32px;">Card Number</span>
         <span>2156 **** 2334</span>
       </div>
       <div class="tx-row">
-        <span>Via</span>
+        <span style="padding-left: 32px;">Via</span>
         <span>FIB Gateway</span>
       </div>
     </div>
@@ -876,27 +684,41 @@ backdrop-filter: blur(6px);
 
     <div class="tx-section">
       <div class="tx-row">
-        <span><svg style="width: 18px; height: 18px;" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-  <path d="M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M12.0388 14.5635C8.71891 14.5635 5.8877 15.1062 5.8877 17.2779C5.8877 19.4508 8.70377 20.0119 12.0388 20.0119C15.3564 20.0119 18.1898 19.4681 18.1898 17.2963C18.1898 15.1256 15.3748 14.5635 12.0388 14.5635Z" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M16.2859 7.24844C16.2859 9.59422 14.3844 11.4969 12.0374 11.4969C9.69154 11.4969 7.79004 9.59422 7.79004 7.24844C7.79004 4.90261 9.69154 3 12.0374 3C14.3844 3 16.2859 4.90261 16.2859 7.24844Z" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M5.12417 13.0225H5.11553C3.28211 13.3079 2 13.9749 2 15.3196C2 16.0137 2.34485 16.5282 2.93401 16.9012" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M18.876 13.0225H18.8846C20.7181 13.3079 22.0001 13.9749 22.0001 15.3196C22.0001 16.0137 21.6553 16.5282 21.0661 16.9012" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M18.5464 9.81427C19.9008 9.3073 20.6825 7.85223 20.316 6.41879C20.0198 5.25993 19.0588 4.44807 17.9453 4.28809" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M5.45264 9.81427C4.09811 9.3073 3.31654 7.85223 3.683 6.41879C3.9792 5.25993 4.94023 4.44807 6.0537 4.28809" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 </svg> &nbsp;For</span>
         <span>2 adults / 3 Children</span>
       </div>
           <div class="tx-row">
-        <span>and</span>
+        <span style="padding-left: 30px;">and</span>
         <span>3 Children</span>
       </div>
       <div class="tx-row">
-        <span><svg style="width: 18px; height: 18px;" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-  <path d="M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M3 12.7252C3 5.76917 5.319 3.45117 12.274 3.45117C19.23 3.45117 21.549 5.76917 21.549 12.7252C21.549 19.6812 19.23 21.9992 12.274 21.9992C5.319 21.9992 3 19.6812 3 12.7252Z" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M3.27539 9.27441H21.2833" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M16.6787 13.2109H16.6877" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M12.2793 13.2109H12.2883" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M7.87158 13.2109H7.88058" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M16.6787 17.0625H16.6877" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M12.2793 17.0625H12.2883" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M7.87158 17.0625H7.88058" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M16.2832 2V5.262" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M8.2749 2V5.262" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 </svg> &nbsp;From</span>
         <span>Thursday 24/05/2025</span>
       </div>
       <div class="tx-row">
-        <span>To</span>
+        <span style="padding-left: 30px;">To</span>
        <span>Thursday 24/05/2025</span>
       </div>
       <div class="tx-row">
-        <span>For</span>
+        <span style="padding-left: 30px;">For</span>
         <span>3 days and 2 nights</span>
       </div>
     </div>
@@ -952,22 +774,126 @@ backdrop-filter: blur(6px);
       </a>
     </div>
   </div>
+    <script src="./js/header.js"></script>
+
 <script>
-  const txModal = document.getElementById('txModal');
-  const txCards = document.querySelectorAll('.transaction-card');
+  
+// =================================================================
+// 1. متغیرهای DOM (در دسترس در تمام اسکریپت)
+// =================================================================
+const txModal = document.getElementById('txModal');
+const txCards = document.querySelectorAll('.transaction-card');
+const shareBtn = document.querySelector('.tx-share');
 
-  txCards.forEach(card => {
-    card.addEventListener('click', () => {
-      txModal.classList.add('active');
-    });
+
+// =================================================================
+// 2. کدهای DOM خالص (اجرا بلافاصله)
+//    باز و بسته کردن مودال، نیازی به Cordova ندارد
+// =================================================================
+
+// 2.1. باز کردن مودال هنگام کلیک روی کارت‌های تراکنش
+txCards.forEach(card => {
+  card.addEventListener('click', () => {
+    txModal.classList.add('active');
   });
+});
 
-  // بستن با کلیک بیرون
-  txModal.addEventListener('click', (e) => {
-    if (e.target === txModal) {
-      txModal.classList.remove('active');
+// 2.2. بستن مودال هنگام کلیک بیرون از آن (بر اساس تاریخچه مکالمات قبلی)
+txModal.addEventListener('click', (e) => {
+  if (e.target === txModal) {
+    txModal.classList.remove('active');
+  }
+});
+
+
+// =================================================================
+// 3. کدهای Cordova (منتظر رویداد deviceready می‌ماند)
+// =================================================================
+
+// این خط اصلی‌ترین قانون Cordova است
+document.addEventListener('deviceready', onDeviceReady, false);
+
+function onDeviceReady() {
+    
+    // یک لاگ برای اطمینان از اینکه deviceready فعال شده است
+    console.log("DEVICE READY - Cordova plugins are loaded!");
+
+    // 3.1. فانکشن Share
+    // --- داخل فانکشن onDeviceReady ---
+// ⚠️ نیاز به نصب cordova-plugin-file دارید!
+
+shareBtn.addEventListener('click', async () => {
+    
+    const sheet = document.querySelector('.tx-sheet');
+    shareBtn.textContent = '...';
+    shareBtn.disabled = true;
+
+    try {
+        const canvas = await html2canvas(sheet, {
+            backgroundColor: '#ffffff',
+            scale: 2
+        });
+        
+        // 1. تبدیل Canvas به Blob
+        const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg'));
+        
+        // 2. مسیر ذخیره موقت
+        const fileName = "share_farra_" + new Date().getTime() + ".jpg";
+        const folder = window.cordova.file.cacheDirectory;
+        const filePath = folder + fileName;
+        
+        // 3. ذخیره Blob به عنوان یک فایل موقت
+        window.resolveLocalFileSystemURL(folder, function(dirEntry) {
+            dirEntry.getFile(fileName, {create: true, exclusive: false}, function(fileEntry) {
+                fileEntry.createWriter(function(fileWriter) {
+                    fileWriter.onwriteend = function() {
+                        // 4. دریافت Content URI برای Intent
+                        window.plugins.intent.getUri(filePath, function(uri) {
+                            
+                            // 5. اجرای Intent با URI فایل
+                            window.plugins.intent.startActivity({
+                                action: window.plugins.intent.ACTION_SEND,
+                                type: 'image/jpeg', 
+                                extras: {
+                                    'android.intent.extra.STREAM': uri, // ارسال Content URI
+                                    'android.intent.extra.TEXT': 'Check out my transaction details from Farra!',
+                                }
+                            },
+                            () => {
+                                console.log('Intent Success: Image Shared');
+                                // پس از Share، فایل موقت را حذف کن
+                                fileEntry.remove(() => console.log("Temp file removed"));
+                                shareBtn.textContent = 'Share';
+                                shareBtn.disabled = false;
+                            },
+                            (err) => {
+                                console.error("Intent failed (Image Share):", err);
+                                alert("Share failed. " + err);
+                                shareBtn.textContent = 'Share';
+                                shareBtn.disabled = false;
+                            });
+
+                        }, (err) => alert("Error getting URI: " + err));
+                    };
+                    fileWriter.write(blob);
+                }, (err) => alert("Error creating file writer: " + err));
+            }, (err) => alert("Error getting file entry: " + err));
+        }, (err) => alert("Error resolving local file system URL: " + err));
+        
+    } catch (error) {
+        alert('Error during canvas or file process!');
+        console.error(error);
+        shareBtn.textContent = 'Share';
+        shareBtn.disabled = false;
     }
-  });
+});
+
+}
+
+
+
+
+
 </script>
 
 </body>

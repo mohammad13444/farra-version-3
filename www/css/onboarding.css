@@ -240,7 +240,6 @@
   padding: 17px;
   font-family: var(--textfield-font-family);
   font-size: var(--textfield-font-size);
-  transition: var(--textfield-transition);
   cursor: pointer;
 }
 
@@ -361,22 +360,18 @@
       display: block;
     }
 
-    .city-options {
-      opacity: 0;
-      transform: translateY(-10px);
-      transition: all 0.3s ease;
-      margin-top: 12px;
-      margin-left: 30px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
+    
 
     .city-option {
+      width: 100%;
       cursor: pointer;
       padding: 4px 0;
       color: #706DF2;
       transition: padding-left 0.2s ease, color 0.2s ease;
+      margin: 0px;
+      border: none;
+      font-size: 20px;
+      
     }
 
     .city-option:hover {
@@ -384,18 +379,61 @@
       padding-left: 8px;
     }
 
-    .city-input.expanded {
-      height: 300px;
-      /* ارتفاع کشیده */
-    }
+   .city-input.expanded {
+    /* ❌ حتماً height: 300px; را حذف کنید (که در کد شما حذف شده بود) */
+    
+    position: relative;
+    /* این Z-Index باید بالاترین باشد تا input روی لیست قرار گیرد. */
+    z-index: 10002; 
+    
+    border: 2px solid #6366F1;
+    border-bottom: none;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
 
-    .city-input.expanded .city-options {
-      pointer-events: auto;
-  visibility: visible;
-  opacity: 1;
-  transform: translateY(0);
-  height: auto;
-    }
+
+   /* استایل‌های مربوط به باز شدن و پوشش‌دهی */
+.city-input.expanded .city-options {
+    /* ✨ تنظیم Position و ابعاد (کاملاً ضروری) */
+    position: absolute; /* باید مطلق باشد تا محتوای دیگر را هل ندهد */
+    top: 100%; /* شروع دقیقاً از پایین المان والد (city-input) */
+    left: 0;
+    right: 0;
+    
+    /* ✨ پوشش‌دهی و Z-Index (کاملاً ضروری) */
+  background: var(--textfield-bg-default);
+
+    z-index: 10001; /* باید بالاتر از z-index فیلدهای ایمیل و دکمه باشد */
+    
+    /* ✨ استایل‌های ظاهری */
+    border: 2px solid #6366F1;
+    border-top: none; /* چسبیدن به فیلد ورودی */
+    border-bottom-left-radius: var(--textfield-border-radius-lg);
+    border-bottom-right-radius: var(--textfield-border-radius-lg);
+    padding: 20px; /* این پدینگ داخلی است */
+    padding-top: 0px;
+    padding-left: 40px;
+    padding-bottom: 17px;
+    max-height: 280px;
+    overflow-y: auto;
+    color: var(--Text-Primary-Default, #706DF2);
+    
+    /* استایل‌های انیمیشن قبلی را نگه می‌داریم: */
+    pointer-events: auto;
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+    height: auto;
+
+     left: -1.5px !important; 
+    right: -1.5px !important;
+    
+    /* ❌ این دو خط را حذف کنید چون باعث فاصله و خراب شدن ظاهر می‌شوند */
+    /* margin-top: 12px; */
+    /* margin-left: 30px; */ 
+}
+
 
     .city-input.expanded .city-icon-right {
       transform: rotate(180deg);
@@ -472,7 +510,15 @@
 
     .city-label {
       padding-left: 5px;
+      
     }
+/* وقتی City فوکوس یا باز شده است */
+.city-input.focused .city-label,
+.city-input.expanded .city-label {
+    color: var(--Text-Primary-Default, #706DF2);
+}
+
+
 
     /* Responsive adjustments */
     @media (max-height: 700px) {

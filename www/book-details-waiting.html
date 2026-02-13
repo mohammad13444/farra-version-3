@@ -1,75 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Page</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
-<title>book-details-waiting</title>
-<style>
-     @font-face {
+      <link rel="stylesheet" href="./css/header.css">
+
+    <style>
+          @font-face {
       font-family: "Bonyade Koodak VF";
       src: url("./BonyadeKoodak-VF.ttf") format("truetype");
       font-weight: 100 900;
       /* 👈 اجازه بده تمام بازه وزن‌ها فعال بشه */
       font-display: swap;
   }
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-
-  body {
-    font-family: "Bonyade Koodak VF";
-  background: var(--Surface-Page, #EFEFFE);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    overflow-x: hidden;
-    color: #4a4a55;
-    min-height: 100vh;
-    padding: 24px 24px 24px;
-  }
-
-  .wrapper {
-    width: 100%;
-    max-width: 390px;
-  }
-
-    /* Header with Blur Effect */
-        .header {
-            position: relative;
-            display: flex;
-            align-items: center;
-      justify-content: space-between;
-            overflow: visible;
-
-
-
-               width: 100%;
-      background: transparent;
-      display: flex;
-      align-items: center;
-      padding: 16px 13px;
-      /* پدینگ داخلی 13px به 0 تغییر کرد چون پدینگ کانتینر 24px است */
-      border-radius: 16px;
-      padding-top: 24px;
+        :root {
+            --primary-bg-color: #F1F0FF;
+            --secondary-bg-color: #EDEBF6;
+            --accent-color: #706DF2;
+            --text-dark: #333333;
+            --text-medium: #6B6B6B;
+            --text-light: #AAAAAA;
+            --text-lighter: #BCBCC0;
+            --border-color: #D9D9F7;
         }
 
-          /* ⚠️ توجه: آیکون‌های چپ و راست هدر باید خارج از پدینگ کانتینر قرار می‌گرفتند. 
-           اما برای حفظ کد شما، پدینگ header به 0 تغییر کرد تا پدینگ 24px از body اعمال شود. */
+        body {
+            font-family: "Bonyade Koodak VF";
+background: var(--Surface-Page, #EFEFFE);
 
 
-    .star {
-      color: #8e83e6;
-      font-size: 24px;
-    }
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 400px; /* Assuming a mobile screen width */
+            padding: 24px;
+            box-sizing: border-box;
+            min-height: 100vh;
+            background-color: #F1F0FF; /* Simulate inner content white background */
+            position: relative; /* For the bottom navigation bar */
+        }
 
-    .logo {
-      font-size: 28px;
-      font-weight: 700;
-      color: #8877f3;
-    }
+    
+
+  
 
         .header-blur {
             position: absolute;
@@ -114,133 +97,13 @@
             font-size: 24px;
         }
 
-       /* اینپوت وسط و کشیده */
-/* =============================
-   🔍 SEARCH BOX — نسخه نهایی Farra
-   ============================= */
+     
 
-.search-box {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  height: 48px;
-  width: 100%;
-  max-width: 500px;
-  border-radius: 50px;
-  border: 1px solid #C6C5FA; /* حالت default */
-  padding: 0 10px;
-  padding-left: 15px;
-  box-sizing: border-box;
-  background: #F8F7FC;
-  transition: all 0.25s ease;
-}
-
-/* ====== Input ====== */
-.search-box input {
-  flex: 1;
-  border: none;
-  outline: none;
-  background: transparent;
-  font-family: "Bonyade Koodak VF", sans-serif;
-  font-size: 16px;
-  color: #232323; /* رنگ متن در حالت معمول */
-  padding-left: 10px;
-  padding-right: 15px;
-  min-width: 0;
+    
 
 
-  color: var(--Textbox-Default-Text, #A9A7F7);
-
-
-font-weight: 400;
-
-}
-
-/* ====== SVG Icons ====== */
-.search-box svg {
-  width: 20px;
-  height: 20px;
-  flex-shrink: 0;
-  display: inline-block;
-}
-
-.search-box svg path {
-  stroke: #C6C5FA; /* رنگ پیش‌فرض آیکن */
-  transition: stroke 0.25s ease;
-}
-
-/* ====== Hover ====== */
-.search-box:hover {
-  border-color: #9795F3;
-}
-
-/* ====== Focus ====== */
-.search-box:focus-within {
-  border: 2px solid #706DF2; /* بوردر ضخیم آبی در فوکوس */
-}
-
-.search-box:focus-within input {
-  color: #5C5C66; /* رنگ متن در فوکوس */
-      font-weight: 500;
-
-}
-
-.search-box:focus-within svg path {
-  stroke: #706DF2 !important; /* آبی در فوکوس */
-}
-
-/* placeholder در فوکوس */
-.search-box input::placeholder {
-  color: #A9A7F7;
-  transition: opacity 0.3s ease, color 0.3s ease;
-
-}
-
-.search-box:focus-within input::placeholder {
-  opacity: 0.5;
-  color: #706DF2;
-  
-}
-
-/* ====== Filled (وقتی مقدار داره و فوکوس نداره) ====== */
-.search-box.filled:not(:focus-within) {
-  border: 1px solid #706DF2; /* آبی ثابت */
-}
-
-.search-box.filled:not(:focus-within) input {
-  color: #706DF2;
-  font-weight: 500;
-}
-
-.search-box.filled:not(:focus-within) svg path {
-  stroke: #706DF2;
-}
-
-/* ====== Error / Success ====== */
-.search-box.error {
-  border: 2px solid #FF595B;
-}
-.search-box.success {
-  border: 2px solid #44CD54;
-}
-
-/* ====== آیکن‌ها ====== */
-.search-box .star img {
-  width: 24px;
-  height: 24px;
-  transition: transform 0.3s ease;
-}
-
-.search-box .star:hover img {
-  transform: scale(1.08);
-}
-
-
- 
-
-  .title {
-    color: var(--Text-Default-Heading, #45454D);
+        h1 {
+            color: var(--Text-Default-Heading, #45454D);
 
 /* English/Heading/H4 */
 font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
@@ -248,11 +111,12 @@ font-size: var(--Font-Headings-H4-Text-Size, 32px);
 font-style: normal;
 font-weight: 700;
 line-height: var(--Font-Headings-H4-Line-Heigth, 48px); /* 150% */
-    
-  }
+            margin-top: 25px;
+            margin-bottom: 5px;
+        }
 
-  .subtitle {
-  color: var(--Text-Default-Caption, #8A8999);
+        .description {
+            color: var(--Text-Default-Caption, #8A8999);
 
 /* English/Body/LCopy */
 font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
@@ -260,161 +124,64 @@ font-size: var(--Font-Copy-Body-Lg-Text-Size, 20px);
 font-style: normal;
 font-weight: 400;
 line-height: var(--Font-Copy-Body-Lg-Line-Heigth, 24px); /* 120% */
-    margin-bottom: 32px;
-  }
-
-  /* ---- Gradient Card ---- */
-   /* Booking Card */
-        .booking-card {
-            margin: 0 0px 24px;
-            border-radius: var(--Border-Radius-700, 28px);
-background: linear-gradient(166deg, var(--Secondary-500, #60EABC) -27.43%, #706DF2 70.27%);
-box-shadow: 0 4px 2px -8px rgba(64, 62, 151, 0.10), 0 16px 28px -8px rgba(75, 73, 168, 0.20);
-            padding: var(--Spacing-600, 24px) var(--Spacing-600, 24px) var(--Spacing-400, 16px) var(--Spacing-600, 24px);
-            position: relative;
-            overflow: hidden;
-            
+            margin-bottom: 25px;
+            margin-top: 5px;
         }
 
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 28px;
-        }
+        /* ====== Hotel Info Box ====== */
+.hotel-box {
+  display: flex;
+  align-items: center;
+  border-radius: var(--Border-Radius-800, 32px);
+background: var(--Primary-100, #E2E2FC);
+  padding: 8px 12px 8px 8px;
+  margin-bottom: 12px;
+}
+.hotel-box img {
+ width: 70px;
+height: 72px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-right: 10px;
+}
+.hotel-info h4 {
+ color: var(--Text-Default-Heading, #45454D);
 
-        .card-logo {
-            font-size: 18px;
-            font-weight: 700;
-            color: #FFFFFF;
-            font-style: italic;
-        }
-
-        .card-number {
-color: var(--Text-On-Color-Body, #e4e4f2e5);
-
-/* English/Body/Copy */
-font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
-font-size: var(--Font-Copy-Body-Text-Size, 14px);
-font-style: normal;
-font-weight: 300;
-line-height: var(--Font-Copy-Body-Line-Heigth, 20px); /* 125% */
-            letter-spacing: 0.5px;
-        }
-
-        .card-content {
-            color: #FFFFFF;
-        }
-
-        .card-hotel-name {
-        text-align: start;
-color: var(--Text-On-Color-Heading, #E6E5FF);
-
-/* English/Heading/H5 */
-font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
-font-size: 24px;
-font-style: normal;
-font-weight: 400;
-line-height: var(--Font-Headings-H5-Line-Heigth, 36px); /* 150% */
-            margin-bottom: 4px;
-            margin-top: 24px;
-        }
-
-        .card-location {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: var(--Text-On-Color-Body, #CFCFE6);
-text-align: center;
-
-/* English/Body/Copy */
-font-size: var(--Font-Copy-Body-Text-Size, 16px);
-font-style: normal;
-font-weight: 300;
-line-height: var(--Font-Copy-Body-Line-Heigth, 20px); /* 125% */
-            
-        }
-
-        .card-location-text {
-            color: var(--Text-On-Color-Body, #CFCFE6);
-
-/* English/Body/Copy */
+/* English/Body/Strong Medium Body */
 font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
 font-size: var(--Font-Copy-Body-Text-Size, 16px);
-font-style: normal;
-font-weight: 400;
-line-height: var(--Font-Copy-Body-Line-Heigth, 20px); /* 125% */
-        }
-
-        .see-contact {
-            color: #FFFFFF;
-            text-decoration: underline;
-            cursor: pointer;
-color: var(--Text-Primary-On-Color, #E2E2FC);
-
-/* English/TextButton/Small */
-font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
-font-size: var(--Font-Button-Small-Text-Button, 14px);
-font-style: normal;
-font-weight: 400;
-line-height: normal;
-text-decoration: none;
-        }
-
-        .card-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .card-guests {
-        color: var(--Text-On-Color-Caption, #d1d0ecda);
-text-align: center;
-
-/* English/Body/SCopy */
-font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
-font-size: var(--Font-Copy-Body-Sm-Text-Size, 14px);
-font-style: normal;
-font-weight: 300;
-line-height: var(--Font-Copy-Body-Sm-Line-Heigth, 18px); /* 128.571% */
-        }
-
-        .card-price {
-        color: var(--Text-On-Color-Caption, #d1d0ecce);
-
-/* English/Body/Strong Small Body */
-font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
-font-size: var(--Font-Copy-Body-Sm-Text-Size, 14px);
 font-style: normal;
 font-weight: 700;
-line-height: var(--Font-Copy-Body-Sm-Line-Heigth, 18px); /* 128.571% */
-            letter-spacing: 0.5px;
-        }
+line-height: var(--Font-Copy-Body-Line-Heigth, 20px); /* 125% */
+  margin: 0;
+  font-weight: 600;
+}
+.hotel-info p {
+  color: var(--Text-Default-Caption, #8A8999);
 
-        .card-decoration {
-            position: absolute;
-            bottom: 24px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: rgba(255, 255, 255, 0.12);
-            font-size: 28px;
-        }
+/* English/Body/Copy */
+font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+font-size: var(--Font-Copy-Body-Text-Size, 16px);
+font-style: normal;
+font-weight: 400;
+line-height: var(--Font-Copy-Body-Line-Heigth, 20px); /* 125% */
+  margin: 3px 0 8px;
+}
+.hotel-info span {
+  display: block;
+ color: var(--Text-Default-Body, #5C5C66);
 
-     .card-content {
-    color: #FFFFFF;
-    text-align: center; /* اضافه کنید */
+/* English/Body/Copy */
+font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+font-size: var(--Font-Copy-Body-Text-Size, 16px);
+font-style: normal;
+font-weight: 400;
+line-height: var(--Font-Copy-Body-Line-Heigth, 20px); /* 125% */
 }
 
-.card-content svg {
-    width: calc(100% + 68px); /* عرض کارت + دو طرف padding (24px * 2) */
-    margin-left: -40px; /* منفی padding چپ */
-    margin-right: -40px; /* منفی padding راست */
-    margin-top: 16px;
-    margin-bottom: 16px;
-    display: block;
-}
+      
 
-
+      
         .booking-info-box {
   width: 100%;
 border-radius: var(--Border-Radius-600, 24px);
@@ -427,9 +194,7 @@ background: var(--Primary-100, #E2E2FC);
 }
 
 .booking-info-box .row {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
+
   color: var(--Text-Default-Heading, #45454D);
 
 /* English/Body/Copy */
@@ -438,6 +203,32 @@ font-size: var(--Font-Copy-Body-Text-Size, 16px);
 font-style: normal;
 font-weight: 400;
 line-height: var(--Font-Copy-Body-Line-Heigth, 20px); /* 125% */
+}
+
+
+
+
+
+.booking-info-box .small-text .right {
+  font-size: 14px;
+  color: #5B5B65;
+}
+
+.booking-info-box .divider {
+  border-bottom: 1px solid rgba(70, 70, 90, 0.15);
+  margin: 16px 0;
+}
+
+.booking-info-box .info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  color: var(--Text-Default-Heading, #45454D);
+  font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+  font-size: var(--Font-Copy-Body-Text-Size, 16px);
+  font-style: normal;
+  font-weight: 400;
+  line-height: var(--Font-Copy-Body-Line-Heigth, 20px);
   margin: 8px 0;
 }
 
@@ -445,7 +236,6 @@ line-height: var(--Font-Copy-Body-Line-Heigth, 20px); /* 125% */
   display: flex;
   align-items: center;
   gap: 16px;
-  
   font-weight: 400;
 }
 
@@ -458,1083 +248,77 @@ line-height: var(--Font-Copy-Body-Line-Heigth, 20px); /* 125% */
   color: #5B5B65;
 }
 
-.booking-info-box .divider {
-  border-bottom: 1px solid rgba(70, 70, 90, 0.15);
-  margin: 16px 0;
-}
-
-.booking-info-box .row.total .left span {
+.booking-info-box .info-row.total .left span {
   font-weight: 600;
 }
 
-.booking-info-box .row.total .right {
+.booking-info-box .info-row.total .right {
   font-weight: 700;
   color: #333;
 }
 
+
+
 .booking-info-box svg {
   flex-shrink: 0;
 }
+
 .sssn{
     padding-left: 35px;
 }
- 
 
-  /* ---- Support ---- */
-  .support {
-    margin-top: 28px;
-    text-align: center;
-  }
 
-  .support h2 {
-  color: var(--Text-Default-Heading, #45454D);
-text-align: center;
 
-/* English/Heading/H6 */
-font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
-font-size: var(--Font-Headings-H6-Text-Size, 20px);
-font-style: normal;
-font-weight: 700;
-line-height: var(--Font-Headings-H6-Line-Heigth, 28px); /* 140% */
-    position: relative;
-    margin-bottom: 16px;
-  }
 
-  .support h2::before,
-  .support h2::after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    width: 90px;
-    height: 1px;
-    background: rgba(100, 100, 120, 0.15);
-  }
 
-   .support h2::before {
-    left: 0;
-  }
-  .support h2::after {
-    right: 0;
-  }
-
-
-  .support p {
-    color: var(--Text-Default-Body, #5C5C66);
-text-align: center;
-
-/* English/Body/LCopy */
-font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
-font-size: var(--Font-Copy-Body-Lg-Text-Size, 20px);
-font-style: normal;
-font-weight: 400;
-line-height: var(--Font-Copy-Body-Lg-Line-Heigth, 24px); /* 120% */
-  text-align: center;
-      margin-bottom: 16px;
-  }
-
-  
-
-  .support a {
-    display: block;
-    margin-top: 6px;
-    color: #706df2;
-    font-weight: 400;
-    font-size: 16px;
-    text-decoration: none;
-  }
-
-/* ---- Card Flip Container ---- */
-.card-flip-container {
-  perspective: 1000px;
-  margin: 0 0px 12px;
-  height: 215px;
-}
-
-.card-flip-inner {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  transition: transform 0.8s;
-  transform-style: preserve-3d;
-}
-
-.card-flip-container.flipped .card-flip-inner {
-  transform: rotateY(180deg);
-}
-
-.card-front, .card-back {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-}
-
-.card-back {
-  transform: rotateY(180deg);
-}
-
-/* ---- Card Back Design ---- */
-.card-back-content {
-  border-radius: var(--Border-Radius-700, 28px);
-  background: linear-gradient(166deg, #60EABC -27.43%, #706DF2 70.27%);
-  box-shadow: 0 4px 2px -8px rgba(64, 62, 151, 0.10), 0 16px 28px -8px rgba(75, 73, 168, 0.20);
-  padding: 24px;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-}
-
-.card-back-header {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 28px;
-}
-
-
-
-.card-back-code {
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 14px;
-  letter-spacing: 0.5px;
-}
-
-.qr-section {
-  display: flex;
-  gap: 16px;
-  flex: 1;
-  height: 1px;
-}
-
-
-.qr-code-wrapper svg{
- 
-  background-color: #E2E2FC;
-  padding: 10px;
-  border-radius: 10px;
-}
-
-.qr-text-section {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 0px;
-  height: auto;
-}
-
-.qr-description {
- color: var(--Text-On-Color-Body, #CFCFE6);
-
-/* English/Body/Copy */
-font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
-font-size: var(--Font-Copy-Body-Text-Size, 15px);
-font-style: normal;
-font-weight: 400;
-line-height: var(--Font-Copy-Body-Line-Heigth, 20px); /* 125% */
-word-wrap: break-word; /* این خط رو اضافه کن */
-  overflow-wrap: break-word; /* این خط رو هم اضافه کن */
-}
-
-
-
-.card-back-btn {
-  color: #E2E2FC;
-  font-size: 14px;
-  font-weight: 400;
-  font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
-
-  background: none;
-  margin-top: 12px;
-  margin-right: 5px;
-  border: none;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-#ppp{
-  margin-left: 100px;
-}
-
-/* موبایل کوچک */
-@media (max-width: 408px) {
- 
-
-  .qr-section {
-    gap: 16px;
-  }
-
-  .qr-description {
-    font-size: 13px;
-    line-height: 16px;
-  }
-
-  .card-back-btn {
-    font-size: 12px;
-    margin-top: 25px;
-  }
-  #ppp{
-  margin-left: 50px;
-}
-}
-
-
-
-
-/* ---- Flip Button ---- */
-.ddd {
- display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto 32px auto;
-  cursor: pointer;
-  margin-bottom: 32px;
-  transition: all 0.3s ease;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-}
-
-.ddd svg {
-  stroke: #706DF2;
-  transition: stroke 0.3s ease;
-}
-
-.ddd:hover {
-  transform: scale(1.1);
-}
-
-.ddd:active {
-  transform: scale(0.95);
-}
-
-/* وقتی کارت چرخید، دکمه بک‌گراند آبی تیره بگیره */
-.card-flip-container.flipped ~ .ddd {
-  background: #5A57C2;
-}
-
-/* SVG سفید بشه وقتی بک‌گراند داره */
-.card-flip-container.flipped ~ .ddd svg {
-  stroke: #fff;
-}
-
-.contact-modal {
-  position: fixed;
-  left: 0;
-  bottom: -100%;
-  width: 100%;
-  height: auto;
-  border-radius: var(--Border-Radius-600, 24px) var(--Border-Radius-600, 24px) var(--Border-Radius-0, 0) var(--Border-Radius-0, 0);
-background: rgba(226, 226, 252, 0.70);
-backdrop-filter: blur(6px);
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  transition: bottom 0.7s ease-in-out;
-  z-index: 999;
-    padding: 24px;
-
-}
-.contact-modal.active {
-  bottom: 0;
-}
-.contact-card {
-  width: 100%;
-  height: auto;
-  overflow-y: auto;
-  color: #1a155f;
-  font-family: "Poppins", sans-serif;
-}
-
-.contact-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-weight: 600;
-  color: #252382;
-  margin-bottom: 16px;
-}
-
-.contact-header h3{
-  color: var(--Text-Default-Heading, #45454D);
-
-/* English/Heading/H5 */
-font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
-font-size: 24px;
-font-style: normal;
-font-weight: 500;
-line-height: var(--Font-Headings-H5-Line-Heigth, 36px); /* 150% */
-}
-
-.contact-header a {
-color: var(--Text-Primary-Default, #706DF2);
-
-/* English/TextButton/Large */
-font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
-font-size: var(--Font-Button-Large-Text-Button, 20px);
-font-style: normal;
-font-weight: 500;
-line-height: 20px; /* 100% */  text-decoration: none;
-}
-
-.hotel-info {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 24px;
-  margin-bottom: 16px;
-}
-.hotel-img {
-  width: 106px;
-height: 81px;
-  border-radius: 18px;
-  object-fit: cover;
-}
-.hotel-name-block h2 {
-color: var(--Text-Default-Heading, #45454D);
-text-align: center;
-
-/* English/Heading/H5 */
-font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
-font-size: 24px;
-font-style: normal;
-font-weight: 500;
-line-height: var(--Font-Headings-H5-Line-Heigth, 36px); /* 150% */  margin: 0;
-}
-.hotel-name-block p {
- color: var(--Text-Default-Body, #5C5C66);
-
-/* English/Body/Copy */
-font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
-font-size: var(--Font-Copy-Body-Text-Size, 16px);
-font-style: normal;
-font-weight: 400;
-line-height: var(--Font-Copy-Body-Line-Heigth, 20px); /* 125% */
-  margin: 3px 0 0 0;
-}
-.divider {
-  width: 100%;
-  height: 1px;
-  background: rgba(170,170,255,0.3);
-  margin: 12px 0;
-}
-.contact-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0px;
-  color: #1b1b5f;
-  font-size: 15px;
-  margin-bottom: 6px;
-}
-
-.contact-row span{
-  color: var(--Text-Default-Heading, #45454D);
-
-/* English/Body/Copy */
-font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
-font-size: var(--Font-Copy-Body-Text-Size, 16px);
-font-style: normal;
-font-weight: 400;
-line-height: var(--Font-Copy-Body-Line-Heigth, 20px); /* 125% */
-}
-
-.left-icon svg,
-.right-icon svg {
-  flex-shrink: 0;
-}
-.address span {
-  flex: 1;
-  word-break: break-word;
-}
-.okay-btn {
-  width: 100%;
-border-radius: 40px;
-background: var(--Primary-500, #706DF2); color: var(--Text-Primary-On-Color, #E2E2FC);
-text-align: center;
-
-/* English/Button/Medium */
-font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
-font-size: var(--Font-Button-Medium-Text-Size, 20px);
-font-style: normal;
-font-weight: 500;
-line-height: normal;
-  padding: 12px 16px;
-  border: none;
-  margin-top: 32px;
-  cursor: pointer;
-}
-.okay-btn:hover {
-  background: #5A57C2;
-}
-
-.okay-btn:active{
-  background: #434191;
-}
-</style>
-<style>
-/* ✅ Success Notification */
-.success-notification {
-  position: fixed; /* 👈 مستقل از مودال */
-  top: 24px;
-  left: 50%;
-  transform: translateX(-50%) scale(0.7);
-  opacity: 0;
-  width: 100%;
-  max-width: 365px;
-  padding: 14px 20px;
- border-radius: var(--Border-Radius-600, 24px);
-border: var(--Border-Width-25, 1px) solid var(--Icon-Success-Default, #44CD54);
-background: rgba(68, 205, 84, 0.10);
-backdrop-filter: blur(8px);
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  z-index: 9999; /* 👈 بالای همه‌چیز */
-  transition: transform 0.4s ease, opacity 0.4s ease;
-}
-
-/* حالت نمایش (یهو میاد) */
-.success-notification.show {
-  opacity: 1;
-  transform: translateX(-50%) scale(1);
-}
-
-/* متن داخل نوتیف */
-.notification-text {
- color: var(--Text-Default-Body, #5C5C66);
-
-/* English/Body/Copy */
-font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
-font-size: var(--Font-Copy-Body-Text-Size, 16px);
-font-style: normal;
-font-weight: 400;
-line-height: var(--Font-Copy-Body-Line-Heigth, 20px); /* 125% */
-}
-
-/* آیکن الماس سبز */
-.diamond-icon path {
-  stroke: #60EABC;
-}
-.notification-content {
-  display: flex;
-  align-items: center; /* 👈 این دقیقا کاری رو می‌کنه که شما می‌خواید */
-  gap: 10px;
-
-  
-}
-
-
-
-</style>
-
+    </style>
 </head>
 <body>
-<div class="wrapper">
-  <!-- Card Flip Container -->
-
-<!-- Notification Box -->
-<div class="success-notification" id="successNotification">
-  <div class="notification-content">
-    <!-- Diamond Icon SVG (similar to the one in the image) -->
-   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-  <path d="M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z" stroke="#44CD54" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
-    <p class="notification-text">Hotel Transylvania added to your contacts successfully.</p>
-  </div>
-</div>
-
-
- <div class="header">
-
-      <div class="star"><img src="./img/17.png" width="24px" alt="Menu Icon"></div>
-      <div class="logo"><img src="./img/15.png" width="56.94px" alt="Farra Logo"></div>
-      <div class="star"><img src="./img/17.png" width="24px" alt="Notification Icon"></div>
-    </div>
-
-    <!-- Search Box -->
-    <div class="search-box" id="search-box">
-      <!-- آیکون سمت چپ (Default) -->
-      <svg class="default-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"
-        fill="none">
-        <path
-          d="M9.9732 1C11.2857 5.31246 14.6605 8.6874 18.9728 10C14.6605 11.3126 11.2857 14.6875 9.9732 19C8.6607 14.6875 5.28588 11.3126 0.973633 10C5.28588 8.6874 8.6607 5.31246 9.9732 1Z"
-          stroke="#A9A7F7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-      </svg>
-      <!-- آیکون سمت چپ (Focus) -->
-    
-
-
-<input type="text" placeholder="Search Anywhere you want." oninput="this.parentElement.classList.toggle('filled', this.value.trim() !== '')">
-
-
-      <!-- آیکون سمت راست (Default) -->
-      <a href="" style="padding-right: 3px;">
-        <svg class="default-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"
-          fill="none">
-          <path
-            d="M9.9732 1C11.2857 5.31246 14.6605 8.6874 18.9728 10C14.6605 11.3126 11.2857 14.6875 9.9732 19C8.6607 14.6875 5.28588 11.3126 0.973633 10C5.28588 8.6874 8.6607 5.31246 9.9732 1Z"
-            stroke="#A9A7F7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-        </svg>
-      </a>
-      <!-- آیکون سمت راست (Focus) -->
-      <a href="" style="padding-right: 3px;">
-        
-      </a>
-    </div>
-  
-<br>
-
-  <div class="title">Book Details</div>
-  <div class="subtitle">Please fill out the required information <br>field and then tap on continue.</div>
-
-  <!-- Gradient Card -->
- 
-<div class="card-flip-container" id="cardFlipContainer">
-  <div class="card-flip-inner">
-    
-    <!-- Front of Card -->
-    <div class="card-front">
-      <div class="booking-card">
-        <div class="card-header">
-          <span class="card-logo">
-            <!-- لوگوی farra -->
-<span class="card-logo"><svg xmlns="http://www.w3.org/2000/svg" width="58" height="21" viewBox="0 0 58 21" fill="none">
-  <path d="M23.1031 13.715C22.9899 14.3515 22.8604 15.2961 22.7132 16.5516C22.6395 17.1772 22.5155 18.0445 22.4105 18.7584C22.3055 19.4723 21.6674 20.0261 20.9271 20.0139L19.456 19.9908C18.7047 19.9786 18.0612 19.4099 18.0067 18.6634C18.0026 18.6146 17.9971 18.5861 17.9862 18.5847C17.914 18.6173 17.8144 18.6878 17.6876 18.7951C16.5928 19.7288 15.5144 20.1944 14.4536 20.1944C12.8353 20.1944 11.6082 19.5578 10.7725 18.2861C9.97896 17.0972 9.72946 15.6762 10.0212 14.0244C10.3593 12.1161 11.1501 10.5811 12.3935 9.41661C13.6861 8.21139 15.269 7.60742 17.1436 7.60742C18.4457 7.60742 19.3946 8.06209 19.9891 8.97008C20.015 9.01215 20.0409 9.03251 20.0654 9.03251C20.0941 9.03251 20.2345 8.78821 20.3954 8.48962C20.7362 7.85579 21.4656 7.53142 22.1664 7.70514L22.9286 7.8938C23.7889 8.10688 24.3042 8.98365 24.067 9.83464C23.7234 11.0697 23.2776 12.7459 23.1072 13.715H23.1031ZM19.0838 13.7896C19.2078 13.0879 19.0892 12.507 18.7266 12.0496C18.3639 11.5909 17.8253 11.3615 17.1123 11.3615C16.3992 11.3615 15.7816 11.5882 15.2621 12.0428C14.7413 12.4975 14.4196 13.0798 14.2928 13.7896C14.1742 14.4587 14.305 15.0328 14.6841 15.5119C15.0631 15.991 15.5853 16.2299 16.2493 16.2299C16.9541 16.2299 17.5718 16.0005 18.1008 15.5418C18.6298 15.083 18.957 14.4994 19.0838 13.7882V13.7896Z" fill="#EFEFFE"/>
-  <path d="M56.0445 13.715C55.9313 14.3515 55.8018 15.2961 55.6546 16.5516C55.5809 17.1772 55.4569 18.0445 55.3519 18.7584C55.2469 19.4723 54.6088 20.0261 53.8685 20.0139L52.3974 19.9908C51.6461 19.9786 51.0026 19.4099 50.9481 18.6634C50.944 18.6146 50.9385 18.5861 50.9276 18.5847C50.8554 18.6173 50.7558 18.6878 50.629 18.7951C49.5342 19.7288 48.4558 20.1944 47.3951 20.1944C45.7767 20.1944 44.5496 19.5578 43.7139 18.2861C42.9204 17.0972 42.6709 15.6762 42.9626 14.0244C43.3008 12.1161 44.0915 10.5811 45.335 9.41661C46.6275 8.21139 48.2104 7.60742 50.0851 7.60742C51.3871 7.60742 52.336 8.06209 52.9305 8.97008C52.9564 9.01215 52.9823 9.03251 53.0068 9.03251C53.0355 9.03251 53.1759 8.78821 53.3368 8.48962C53.6776 7.85579 54.407 7.53142 55.1078 7.70514L55.87 7.8938C56.7303 8.10688 57.2456 8.98365 57.0084 9.83464C56.6648 11.0697 56.219 12.7459 56.0486 13.715H56.0445ZM52.0238 13.7896C52.1479 13.0879 52.0293 12.507 51.6666 12.0496C51.3039 11.5909 50.7654 11.3615 50.0523 11.3615C49.3393 11.3615 48.7216 11.5882 48.2022 12.0428C47.6814 12.4975 47.3596 13.0798 47.2328 13.7896C47.1142 14.4587 47.2451 15.0328 47.6241 15.5119C48.0031 15.991 48.5253 16.2299 49.1893 16.2299C49.8942 16.2299 50.5118 16.0005 51.0408 15.5418C51.5698 15.083 51.897 14.4994 52.0238 13.7882V13.7896Z" fill="#EFEFFE"/>
-  <path d="M2.28785 20.1944C1.64159 20.1944 1.16713 20.1088 0.860364 19.9406C0.554962 19.7709 0.404987 19.5551 0.414531 19.2932C0.422712 19.0312 0.444526 18.7394 0.478611 18.4177L1.94836 10.0708C1.99881 9.78305 1.89791 9.63918 1.64296 9.63918H0.674941C0.249559 9.63918 0.0709535 9.4451 0.139124 9.05557L0.444526 7.50833C0.529057 7.17038 0.775833 7.00073 1.18349 7.00073H1.97836C2.07652 6.36554 2.1256 5.84979 2.17741 5.27569C2.30557 3.84381 2.72959 2.62095 3.83395 1.62202C4.93831 0.62446 6.37397 0.125 8.14231 0.125C9.55206 0.125 10.7205 0.434448 11.6463 1.05063C12.572 1.66817 13.0356 2.43365 13.0356 3.34706C13.0356 4.07454 12.8147 4.71244 12.3729 5.26211C11.9312 5.81179 11.2931 6.08731 10.4615 6.08731C9.79884 6.08731 9.27802 5.91901 8.85536 5.6435C7.36926 4.67172 8.10686 3.03761 8.75311 2.99283C8.15185 2.7621 6.63165 3.2317 6.43396 4.56586C6.224 5.97602 7.44424 6.93558 8.95762 7.00208H10.0783C10.1806 7.00208 10.2733 7.03601 10.3592 7.10388C10.4437 7.17174 10.4696 7.28982 10.4355 7.45947L10.1547 9.18451C10.1206 9.33652 10.0661 9.45052 9.98972 9.52653C9.91337 9.60253 9.77294 9.64054 9.56979 9.64054H7.30108C7.08021 9.64054 6.94387 9.76676 6.89343 10.0206L5.55047 17.5301C5.50003 17.902 5.4264 18.2155 5.33369 18.4693C5.23962 18.7231 5.08283 18.9973 4.86196 19.2945C4.64108 19.5904 4.31796 19.8143 3.89394 19.9663C3.46856 20.1184 2.9341 20.1944 2.28785 20.1944Z" fill="#EFEFFE" stroke="#EFEFFE" stroke-width="0.25" stroke-miterlimit="10"/>
-  <path d="M29.0007 6.646C29.1534 6.65414 29.2938 6.65821 29.4206 6.684C29.5474 6.70979 29.666 6.75593 29.7778 6.8238C29.8883 6.89166 29.9851 6.95002 30.071 7.00159C30.1555 7.05181 30.2373 7.13324 30.3136 7.24318C30.39 7.35312 30.45 7.43726 30.4922 7.49698C30.5345 7.5567 30.585 7.64899 30.6449 7.77657C30.7049 7.90279 30.7431 7.99237 30.7595 8.04259C30.7758 8.09281 30.8058 8.18238 30.8481 8.30861C30.8904 8.43483 30.9122 8.50812 30.9122 8.52441C30.9626 8.67642 31.039 8.75242 31.1412 8.75242C31.2258 8.75242 31.3362 8.67642 31.4725 8.52441C32.6955 7.10339 33.8517 6.39355 34.9383 6.39355C35.4823 6.39355 35.954 6.51163 36.3522 6.74915C36.7516 6.98666 37.0407 7.28254 37.2193 7.63678C37.3979 7.99237 37.4865 8.3819 37.4865 8.804C37.4865 9.71741 37.2316 10.4028 36.7216 10.8588C36.2117 11.3149 35.5655 11.5442 34.7842 11.5442C34.3929 11.5442 34.0357 11.4723 33.714 11.3284C33.3908 11.1846 33.1441 11.0326 32.975 10.8724C32.8046 10.7123 32.6137 10.5603 32.401 10.4164C32.1883 10.2725 31.9893 10.2006 31.8025 10.2006C31.1562 10.2006 30.7322 10.8344 30.5277 12.1034L29.6101 17.5323C29.542 17.9219 29.4615 18.2381 29.3674 18.4838C29.2734 18.7294 29.1207 18.9995 28.9093 19.2954C28.6966 19.5913 28.3735 19.8152 27.9413 19.9672C27.5078 20.1192 26.9856 20.1952 26.3734 20.1952C25.7108 20.1952 25.2227 20.1111 24.9077 19.9414C24.5928 19.7731 24.4401 19.5519 24.4496 19.2818C24.4578 19.0117 24.4796 18.7158 24.5137 18.3942L25.6862 11.3162C25.6862 11.3162 25.9848 6.47906 28.9993 6.64736L29.0007 6.646Z" fill="#EFEFFE"/>
-  <path d="M35.5192 6.646C35.6719 6.65414 35.8124 6.65821 35.9392 6.684C36.066 6.70979 36.1846 6.75593 36.2964 6.8238C36.4068 6.89166 36.5036 6.95002 36.5895 7.00159C36.674 7.05181 36.7558 7.13324 36.8322 7.24318C36.9085 7.35312 36.9685 7.43726 37.0108 7.49698C37.0531 7.5567 37.1035 7.64899 37.1635 7.77657C37.2235 7.90279 37.2617 7.99237 37.278 8.04259C37.2944 8.09281 37.3244 8.18238 37.3667 8.30861C37.4089 8.43483 37.4307 8.50812 37.4307 8.52441C37.4812 8.67642 37.5575 8.75242 37.6598 8.75242C37.7443 8.75242 37.8547 8.67642 37.9911 8.52441C39.2141 7.10339 40.3702 6.39355 41.4569 6.39355C42.0009 6.39355 42.4726 6.51163 42.8707 6.74915C43.2702 6.98666 43.5592 7.28254 43.7378 7.63678C43.9164 7.99237 44.0051 8.3819 44.0051 8.804C44.0051 9.71741 43.7501 10.4028 43.2402 10.8588C42.7303 11.3149 42.084 11.5442 41.3028 11.5442C40.9115 11.5442 40.5543 11.4723 40.2325 11.3284C39.9094 11.1846 39.6626 11.0326 39.4936 10.8724C39.3231 10.7123 39.1323 10.5603 38.9196 10.4164C38.7069 10.2725 38.5078 10.2006 38.321 10.2006C37.6748 10.2006 37.2508 10.8344 37.0462 12.1034L36.1287 17.5323C36.0605 17.9219 35.9801 18.2381 35.886 18.4838C35.7919 18.7294 35.6392 18.9995 35.4279 19.2954C35.2152 19.5913 34.8921 19.8152 34.4599 19.9672C34.0263 20.1192 33.5041 20.1952 32.892 20.1952C32.2293 20.1952 31.7412 20.1111 31.4263 19.9414C31.1114 19.7731 30.9587 19.5519 30.9682 19.2818C30.9764 19.0117 30.9982 18.7158 31.0323 18.3942L32.2048 11.3162C32.2048 11.3162 32.5034 6.47906 35.5179 6.64736L35.5192 6.646Z" fill="#EFEFFE"/>
-</svg></span>              <!-- همون SVG قبلی -->
-            </svg>
-          </span>
-          <span class="card-number">3F5D-HTRSSE-02</span>
-        </div>
-        <div class="card-content">
-          <h3 class="card-hotel-name">Hotel Name</h3>
-          <div class="card-location">
-            <span class="card-location-text">City • Country</span>
-            <a href="#" class="see-contact">See Contact</a>
-          </div>
-          <svg xmlns="http://www.w3.org/2000/svg" width="356" height="1" viewBox="0 0 356 1" fill="none">
-            <g style="mix-blend-mode:soft-light">
-              <path d="M356 0.5H0" stroke="#C6C5FA"/>
-            </g>
-          </svg>
-          <div class="card-footer">
-            <span class="card-guests">Guests Number • 3 nights & 2 days</span>
-            <span class="card-price">$1460</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Back of Card -->
-    <div class="card-back">
-      <div class="card-back-content">
-        <div class="card-back-header">
-          <span class="card-back-logo">
-            <span class="card-logo"><svg xmlns="http://www.w3.org/2000/svg" width="58" height="21" viewBox="0 0 58 21" fill="none">
-  <path d="M23.1031 13.715C22.9899 14.3515 22.8604 15.2961 22.7132 16.5516C22.6395 17.1772 22.5155 18.0445 22.4105 18.7584C22.3055 19.4723 21.6674 20.0261 20.9271 20.0139L19.456 19.9908C18.7047 19.9786 18.0612 19.4099 18.0067 18.6634C18.0026 18.6146 17.9971 18.5861 17.9862 18.5847C17.914 18.6173 17.8144 18.6878 17.6876 18.7951C16.5928 19.7288 15.5144 20.1944 14.4536 20.1944C12.8353 20.1944 11.6082 19.5578 10.7725 18.2861C9.97896 17.0972 9.72946 15.6762 10.0212 14.0244C10.3593 12.1161 11.1501 10.5811 12.3935 9.41661C13.6861 8.21139 15.269 7.60742 17.1436 7.60742C18.4457 7.60742 19.3946 8.06209 19.9891 8.97008C20.015 9.01215 20.0409 9.03251 20.0654 9.03251C20.0941 9.03251 20.2345 8.78821 20.3954 8.48962C20.7362 7.85579 21.4656 7.53142 22.1664 7.70514L22.9286 7.8938C23.7889 8.10688 24.3042 8.98365 24.067 9.83464C23.7234 11.0697 23.2776 12.7459 23.1072 13.715H23.1031ZM19.0838 13.7896C19.2078 13.0879 19.0892 12.507 18.7266 12.0496C18.3639 11.5909 17.8253 11.3615 17.1123 11.3615C16.3992 11.3615 15.7816 11.5882 15.2621 12.0428C14.7413 12.4975 14.4196 13.0798 14.2928 13.7896C14.1742 14.4587 14.305 15.0328 14.6841 15.5119C15.0631 15.991 15.5853 16.2299 16.2493 16.2299C16.9541 16.2299 17.5718 16.0005 18.1008 15.5418C18.6298 15.083 18.957 14.4994 19.0838 13.7882V13.7896Z" fill="#EFEFFE"/>
-  <path d="M56.0445 13.715C55.9313 14.3515 55.8018 15.2961 55.6546 16.5516C55.5809 17.1772 55.4569 18.0445 55.3519 18.7584C55.2469 19.4723 54.6088 20.0261 53.8685 20.0139L52.3974 19.9908C51.6461 19.9786 51.0026 19.4099 50.9481 18.6634C50.944 18.6146 50.9385 18.5861 50.9276 18.5847C50.8554 18.6173 50.7558 18.6878 50.629 18.7951C49.5342 19.7288 48.4558 20.1944 47.3951 20.1944C45.7767 20.1944 44.5496 19.5578 43.7139 18.2861C42.9204 17.0972 42.6709 15.6762 42.9626 14.0244C43.3008 12.1161 44.0915 10.5811 45.335 9.41661C46.6275 8.21139 48.2104 7.60742 50.0851 7.60742C51.3871 7.60742 52.336 8.06209 52.9305 8.97008C52.9564 9.01215 52.9823 9.03251 53.0068 9.03251C53.0355 9.03251 53.1759 8.78821 53.3368 8.48962C53.6776 7.85579 54.407 7.53142 55.1078 7.70514L55.87 7.8938C56.7303 8.10688 57.2456 8.98365 57.0084 9.83464C56.6648 11.0697 56.219 12.7459 56.0486 13.715H56.0445ZM52.0238 13.7896C52.1479 13.0879 52.0293 12.507 51.6666 12.0496C51.3039 11.5909 50.7654 11.3615 50.0523 11.3615C49.3393 11.3615 48.7216 11.5882 48.2022 12.0428C47.6814 12.4975 47.3596 13.0798 47.2328 13.7896C47.1142 14.4587 47.2451 15.0328 47.6241 15.5119C48.0031 15.991 48.5253 16.2299 49.1893 16.2299C49.8942 16.2299 50.5118 16.0005 51.0408 15.5418C51.5698 15.083 51.897 14.4994 52.0238 13.7882V13.7896Z" fill="#EFEFFE"/>
-  <path d="M2.28785 20.1944C1.64159 20.1944 1.16713 20.1088 0.860364 19.9406C0.554962 19.7709 0.404987 19.5551 0.414531 19.2932C0.422712 19.0312 0.444526 18.7394 0.478611 18.4177L1.94836 10.0708C1.99881 9.78305 1.89791 9.63918 1.64296 9.63918H0.674941C0.249559 9.63918 0.0709535 9.4451 0.139124 9.05557L0.444526 7.50833C0.529057 7.17038 0.775833 7.00073 1.18349 7.00073H1.97836C2.07652 6.36554 2.1256 5.84979 2.17741 5.27569C2.30557 3.84381 2.72959 2.62095 3.83395 1.62202C4.93831 0.62446 6.37397 0.125 8.14231 0.125C9.55206 0.125 10.7205 0.434448 11.6463 1.05063C12.572 1.66817 13.0356 2.43365 13.0356 3.34706C13.0356 4.07454 12.8147 4.71244 12.3729 5.26211C11.9312 5.81179 11.2931 6.08731 10.4615 6.08731C9.79884 6.08731 9.27802 5.91901 8.85536 5.6435C7.36926 4.67172 8.10686 3.03761 8.75311 2.99283C8.15185 2.7621 6.63165 3.2317 6.43396 4.56586C6.224 5.97602 7.44424 6.93558 8.95762 7.00208H10.0783C10.1806 7.00208 10.2733 7.03601 10.3592 7.10388C10.4437 7.17174 10.4696 7.28982 10.4355 7.45947L10.1547 9.18451C10.1206 9.33652 10.0661 9.45052 9.98972 9.52653C9.91337 9.60253 9.77294 9.64054 9.56979 9.64054H7.30108C7.08021 9.64054 6.94387 9.76676 6.89343 10.0206L5.55047 17.5301C5.50003 17.902 5.4264 18.2155 5.33369 18.4693C5.23962 18.7231 5.08283 18.9973 4.86196 19.2945C4.64108 19.5904 4.31796 19.8143 3.89394 19.9663C3.46856 20.1184 2.9341 20.1944 2.28785 20.1944Z" fill="#EFEFFE" stroke="#EFEFFE" stroke-width="0.25" stroke-miterlimit="10"/>
-  <path d="M29.0007 6.646C29.1534 6.65414 29.2938 6.65821 29.4206 6.684C29.5474 6.70979 29.666 6.75593 29.7778 6.8238C29.8883 6.89166 29.9851 6.95002 30.071 7.00159C30.1555 7.05181 30.2373 7.13324 30.3136 7.24318C30.39 7.35312 30.45 7.43726 30.4922 7.49698C30.5345 7.5567 30.585 7.64899 30.6449 7.77657C30.7049 7.90279 30.7431 7.99237 30.7595 8.04259C30.7758 8.09281 30.8058 8.18238 30.8481 8.30861C30.8904 8.43483 30.9122 8.50812 30.9122 8.52441C30.9626 8.67642 31.039 8.75242 31.1412 8.75242C31.2258 8.75242 31.3362 8.67642 31.4725 8.52441C32.6955 7.10339 33.8517 6.39355 34.9383 6.39355C35.4823 6.39355 35.954 6.51163 36.3522 6.74915C36.7516 6.98666 37.0407 7.28254 37.2193 7.63678C37.3979 7.99237 37.4865 8.3819 37.4865 8.804C37.4865 9.71741 37.2316 10.4028 36.7216 10.8588C36.2117 11.3149 35.5655 11.5442 34.7842 11.5442C34.3929 11.5442 34.0357 11.4723 33.714 11.3284C33.3908 11.1846 33.1441 11.0326 32.975 10.8724C32.8046 10.7123 32.6137 10.5603 32.401 10.4164C32.1883 10.2725 31.9893 10.2006 31.8025 10.2006C31.1562 10.2006 30.7322 10.8344 30.5277 12.1034L29.6101 17.5323C29.542 17.9219 29.4615 18.2381 29.3674 18.4838C29.2734 18.7294 29.1207 18.9995 28.9093 19.2954C28.6966 19.5913 28.3735 19.8152 27.9413 19.9672C27.5078 20.1192 26.9856 20.1952 26.3734 20.1952C25.7108 20.1952 25.2227 20.1111 24.9077 19.9414C24.5928 19.7731 24.4401 19.5519 24.4496 19.2818C24.4578 19.0117 24.4796 18.7158 24.5137 18.3942L25.6862 11.3162C25.6862 11.3162 25.9848 6.47906 28.9993 6.64736L29.0007 6.646Z" fill="#EFEFFE"/>
-  <path d="M35.5192 6.646C35.6719 6.65414 35.8124 6.65821 35.9392 6.684C36.066 6.70979 36.1846 6.75593 36.2964 6.8238C36.4068 6.89166 36.5036 6.95002 36.5895 7.00159C36.674 7.05181 36.7558 7.13324 36.8322 7.24318C36.9085 7.35312 36.9685 7.43726 37.0108 7.49698C37.0531 7.5567 37.1035 7.64899 37.1635 7.77657C37.2235 7.90279 37.2617 7.99237 37.278 8.04259C37.2944 8.09281 37.3244 8.18238 37.3667 8.30861C37.4089 8.43483 37.4307 8.50812 37.4307 8.52441C37.4812 8.67642 37.5575 8.75242 37.6598 8.75242C37.7443 8.75242 37.8547 8.67642 37.9911 8.52441C39.2141 7.10339 40.3702 6.39355 41.4569 6.39355C42.0009 6.39355 42.4726 6.51163 42.8707 6.74915C43.2702 6.98666 43.5592 7.28254 43.7378 7.63678C43.9164 7.99237 44.0051 8.3819 44.0051 8.804C44.0051 9.71741 43.7501 10.4028 43.2402 10.8588C42.7303 11.3149 42.084 11.5442 41.3028 11.5442C40.9115 11.5442 40.5543 11.4723 40.2325 11.3284C39.9094 11.1846 39.6626 11.0326 39.4936 10.8724C39.3231 10.7123 39.1323 10.5603 38.9196 10.4164C38.7069 10.2725 38.5078 10.2006 38.321 10.2006C37.6748 10.2006 37.2508 10.8344 37.0462 12.1034L36.1287 17.5323C36.0605 17.9219 35.9801 18.2381 35.886 18.4838C35.7919 18.7294 35.6392 18.9995 35.4279 19.2954C35.2152 19.5913 34.8921 19.8152 34.4599 19.9672C34.0263 20.1192 33.5041 20.1952 32.892 20.1952C32.2293 20.1952 31.7412 20.1111 31.4263 19.9414C31.1114 19.7731 30.9587 19.5519 30.9682 19.2818C30.9764 19.0117 30.9982 18.7158 31.0323 18.3942L32.2048 11.3162C32.2048 11.3162 32.5034 6.47906 35.5179 6.64736L35.5192 6.646Z" fill="#EFEFFE"/>
-</svg></span>
-          </span>
-          <span class="card-back-code">3P5B-HTR356-02</span>
-        </div>
-        
-        <div class="qr-section">
-          <div class="qr-code-wrapper">
-          <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 50 50" fill="none">
-  <path d="M2.88 0H0V2.88H2.88V0Z" fill="#161630"/>
-  <path d="M5.76 0H2.88V2.88H5.76V0Z" fill="#161630"/>
-  <path d="M8.64 0H5.76V2.88H8.64V0Z" fill="#161630"/>
-  <path d="M11.52 0H8.64V2.88H11.52V0Z" fill="#161630"/>
-  <path d="M14.4 0H11.52V2.88H14.4V0Z" fill="#161630"/>
-  <path d="M17.28 0H14.4V2.88H17.28V0Z" fill="#161630"/>
-  <path d="M20.16 0H17.28V2.88H20.16V0Z" fill="#161630"/>
-  <path d="M28.8 0H25.92V2.88H28.8V0Z" fill="#161630"/>
-  <path d="M37.44 0H34.56V2.88H37.44V0Z" fill="#161630"/>
-  <path d="M40.32 0H37.44V2.88H40.32V0Z" fill="#161630"/>
-  <path d="M43.2 0H40.32V2.88H43.2V0Z" fill="#161630"/>
-  <path d="M46.08 0H43.2V2.88H46.08V0Z" fill="#161630"/>
-  <path d="M48.96 0H46.08V2.88H48.96V0Z" fill="#161630"/>
-  <path d="M54.72 0H51.84V2.88H54.72V0Z" fill="#161630"/>
-  <path d="M57.6 0H54.72V2.88H57.6V0Z" fill="#161630"/>
-  <path d="M60.48 0H57.6V2.88H60.48V0Z" fill="#161630"/>
-  <path d="M63.36 0H60.48V2.88H63.36V0Z" fill="#161630"/>
-  <path d="M66.24 0H63.36V2.88H66.24V0Z" fill="#161630"/>
-  <path d="M69.12 0H66.24V2.88H69.12V0Z" fill="#161630"/>
-  <path d="M72 0H69.12V2.88H72V0Z" fill="#161630"/>
-  <path d="M2.88 2.88H0V5.76H2.88V2.88Z" fill="#161630"/>
-  <path d="M20.16 2.88H17.28L17.28 5.76H20.16V2.88Z" fill="#161630"/>
-  <path d="M25.92 2.88H23.04V5.76H25.92V2.88Z" fill="#161630"/>
-  <path d="M28.8 2.88H25.92V5.76H28.8V2.88Z" fill="#161630"/>
-  <path d="M31.68 2.88H28.8V5.76H31.68V2.88Z" fill="#161630"/>
-  <path d="M54.72 2.88H51.84V5.76H54.72V2.88Z" fill="#161630"/>
-  <path d="M72 2.88H69.12V5.76H72V2.88Z" fill="#161630"/>
-  <path d="M2.88 5.76H0V8.64H2.88V5.76Z" fill="#161630"/>
-  <path d="M8.64 5.76H5.76V8.64H8.64V5.76Z" fill="#161630"/>
-  <path d="M11.52 5.76H8.64V8.64H11.52V5.76Z" fill="#161630"/>
-  <path d="M14.4 5.76H11.52V8.64H14.4V5.76Z" fill="#161630"/>
-  <path d="M20.16 5.76H17.28V8.64H20.16V5.76Z" fill="#161630"/>
-  <path d="M28.8 5.76H25.92V8.64H28.8V5.76Z" fill="#161630"/>
-  <path d="M31.68 5.76H28.8V8.64H31.68V5.76Z" fill="#161630"/>
-  <path d="M34.56 5.76H31.68V8.64H34.56V5.76Z" fill="#161630"/>
-  <path d="M40.32 5.76H37.44V8.64H40.32V5.76Z" fill="#161630"/>
-  <path d="M46.08 5.76H43.2V8.64H46.08V5.76Z" fill="#161630"/>
-  <path d="M48.96 5.76H46.08V8.64H48.96V5.76Z" fill="#161630"/>
-  <path d="M54.72 5.76H51.84V8.64H54.72V5.76Z" fill="#161630"/>
-  <path d="M60.48 5.76H57.6V8.64H60.48V5.76Z" fill="#161630"/>
-  <path d="M63.36 5.76H60.48V8.64H63.36V5.76Z" fill="#161630"/>
-  <path d="M66.24 5.76H63.36V8.64H66.24V5.76Z" fill="#161630"/>
-  <path d="M72 5.76H69.12V8.64H72V5.76Z" fill="#161630"/>
-  <path d="M2.88 8.64H0V11.52H2.88V8.64Z" fill="#161630"/>
-  <path d="M8.64 8.64H5.76V11.52H8.64V8.64Z" fill="#161630"/>
-  <path d="M11.52 8.64H8.64V11.52H11.52V8.64Z" fill="#161630"/>
-  <path d="M14.4 8.64H11.52V11.52H14.4V8.64Z" fill="#161630"/>
-  <path d="M20.16 8.64H17.28V11.52H20.16V8.64Z" fill="#161630"/>
-  <path d="M28.8 8.64H25.92V11.52H28.8V8.64Z" fill="#161630"/>
-  <path d="M34.56 8.64H31.68V11.52H34.56V8.64Z" fill="#161630"/>
-  <path d="M43.2 8.64H40.32V11.52H43.2L43.2 8.64Z" fill="#161630"/>
-  <path d="M46.08 8.64H43.2L43.2 11.52H46.08V8.64Z" fill="#161630"/>
-  <path d="M48.96 8.64H46.08V11.52H48.96V8.64Z" fill="#161630"/>
-  <path d="M54.72 8.64H51.84V11.52H54.72V8.64Z" fill="#161630"/>
-  <path d="M60.48 8.64H57.6V11.52H60.48V8.64Z" fill="#161630"/>
-  <path d="M63.36 8.64H60.48V11.52H63.36V8.64Z" fill="#161630"/>
-  <path d="M66.24 8.64H63.36V11.52H66.24V8.64Z" fill="#161630"/>
-  <path d="M72 8.64H69.12V11.52H72V8.64Z" fill="#161630"/>
-  <path d="M2.88 11.52H0V14.4H2.88V11.52Z" fill="#161630"/>
-  <path d="M8.64 11.52H5.76V14.4H8.64V11.52Z" fill="#161630"/>
-  <path d="M11.52 11.52H8.64V14.4H11.52V11.52Z" fill="#161630"/>
-  <path d="M14.4 11.52H11.52V14.4H14.4V11.52Z" fill="#161630"/>
-  <path d="M20.16 11.52H17.28V14.4H20.16V11.52Z" fill="#161630"/>
-  <path d="M31.68 11.52H28.8V14.4H31.68V11.52Z" fill="#161630"/>
-  <path d="M37.44 11.52H34.56V14.4H37.44V11.52Z" fill="#161630"/>
-  <path d="M54.72 11.52H51.84V14.4H54.72V11.52Z" fill="#161630"/>
-  <path d="M60.48 11.52H57.6V14.4H60.48V11.52Z" fill="#161630"/>
-  <path d="M63.36 11.52H60.48V14.4H63.36V11.52Z" fill="#161630"/>
-  <path d="M66.24 11.52H63.36V14.4H66.24V11.52Z" fill="#161630"/>
-  <path d="M72 11.52H69.12V14.4H72V11.52Z" fill="#161630"/>
-  <path d="M2.88 14.4H0V17.28H2.88V14.4Z" fill="#161630"/>
-  <path d="M20.16 14.4H17.28V17.28H20.16V14.4Z" fill="#161630"/>
-  <path d="M34.56 14.4H31.68V17.28H34.56V14.4Z" fill="#161630"/>
-  <path d="M40.32 14.4H37.44V17.28H40.32V14.4Z" fill="#161630"/>
-  <path d="M43.2 14.4H40.32V17.28H43.2V14.4Z" fill="#161630"/>
-  <path d="M48.96 14.4H46.08V17.28H48.96V14.4Z" fill="#161630"/>
-  <path d="M54.72 14.4H51.84V17.28H54.72V14.4Z" fill="#161630"/>
-  <path d="M72 14.4H69.12V17.28H72V14.4Z" fill="#161630"/>
-  <path d="M2.88 17.28H0V20.16H2.88V17.28Z" fill="#161630"/>
-  <path d="M5.76 17.28L2.88 17.28V20.16H5.76V17.28Z" fill="#161630"/>
-  <path d="M8.64 17.28H5.76V20.16H8.64V17.28Z" fill="#161630"/>
-  <path d="M11.52 17.28H8.64V20.16H11.52V17.28Z" fill="#161630"/>
-  <path d="M14.4 17.28H11.52V20.16H14.4V17.28Z" fill="#161630"/>
-  <path d="M17.28 17.28L14.4 17.28V20.16H17.28L17.28 17.28Z" fill="#161630"/>
-  <path d="M20.16 17.28H17.28L17.28 20.16H20.16V17.28Z" fill="#161630"/>
-  <path d="M25.92 17.28H23.04V20.16H25.92V17.28Z" fill="#161630"/>
-  <path d="M31.68 17.28L28.8 17.28V20.16H31.68V17.28Z" fill="#161630"/>
-  <path d="M37.44 17.28H34.56V20.16H37.44V17.28Z" fill="#161630"/>
-  <path d="M43.2 17.28H40.32V20.16H43.2V17.28Z" fill="#161630"/>
-  <path d="M48.96 17.28H46.08V20.16H48.96V17.28Z" fill="#161630"/>
-  <path d="M54.72 17.28H51.84V20.16H54.72V17.28Z" fill="#161630"/>
-  <path d="M57.6 17.28L54.72 17.28V20.16H57.6V17.28Z" fill="#161630"/>
-  <path d="M60.48 17.28H57.6V20.16H60.48V17.28Z" fill="#161630"/>
-  <path d="M63.36 17.28H60.48V20.16H63.36V17.28Z" fill="#161630"/>
-  <path d="M66.24 17.28H63.36V20.16H66.24V17.28Z" fill="#161630"/>
-  <path d="M69.12 17.28L66.24 17.28V20.16H69.12V17.28Z" fill="#161630"/>
-  <path d="M72 17.28H69.12V20.16H72V17.28Z" fill="#161630"/>
-  <path d="M25.92 20.16H23.04V23.04H25.92V20.16Z" fill="#161630"/>
-  <path d="M28.8 20.16H25.92V23.04H28.8V20.16Z" fill="#161630"/>
-  <path d="M34.56 20.16H31.68V23.04H34.56V20.16Z" fill="#161630"/>
-  <path d="M43.2 20.16H40.32V23.04H43.2V20.16Z" fill="#161630"/>
-  <path d="M46.08 20.16H43.2V23.04H46.08V20.16Z" fill="#161630"/>
-  <path d="M2.88 23.04H0V25.92H2.88V23.04Z" fill="#161630"/>
-  <path d="M5.76 23.04H2.88V25.92H5.76V23.04Z" fill="#161630"/>
-  <path d="M20.16 23.04H17.28V25.92H20.16V23.04Z" fill="#161630"/>
-  <path d="M25.92 23.04H23.04V25.92H25.92V23.04Z" fill="#161630"/>
-  <path d="M28.8 23.04H25.92V25.92H28.8V23.04Z" fill="#161630"/>
-  <path d="M31.68 23.04H28.8V25.92H31.68V23.04Z" fill="#161630"/>
-  <path d="M37.44 23.04H34.56V25.92H37.44V23.04Z" fill="#161630"/>
-  <path d="M43.2 23.04H40.32V25.92H43.2V23.04Z" fill="#161630"/>
-  <path d="M48.96 23.04H46.08V25.92H48.96V23.04Z" fill="#161630"/>
-  <path d="M51.84 23.04H48.96V25.92H51.84V23.04Z" fill="#161630"/>
-  <path d="M54.72 23.04H51.84V25.92H54.72V23.04Z" fill="#161630"/>
-  <path d="M69.12 23.04H66.24V25.92H69.12V23.04Z" fill="#161630"/>
-  <path d="M2.88 25.92H0V28.8H2.88V25.92Z" fill="#161630"/>
-  <path d="M5.76 25.92H2.88V28.8H5.76V25.92Z" fill="#161630"/>
-  <path d="M14.4 25.92H11.52V28.8H14.4V25.92Z" fill="#161630"/>
-  <path d="M17.28 25.92H14.4V28.8H17.28L17.28 25.92Z" fill="#161630"/>
-  <path d="M25.92 25.92H23.04V28.8H25.92V25.92Z" fill="#161630"/>
-  <path d="M31.68 25.92H28.8V28.8H31.68V25.92Z" fill="#161630"/>
-  <path d="M34.56 25.92H31.68V28.8H34.56V25.92Z" fill="#161630"/>
-  <path d="M37.44 25.92H34.56V28.8H37.44V25.92Z" fill="#161630"/>
-  <path d="M40.32 25.92H37.44V28.8H40.32V25.92Z" fill="#161630"/>
-  <path d="M43.2 25.92H40.32V28.8H43.2V25.92Z" fill="#161630"/>
-  <path d="M46.08 25.92H43.2V28.8H46.08V25.92Z" fill="#161630"/>
-  <path d="M48.96 25.92H46.08V28.8H48.96V25.92Z" fill="#161630"/>
-  <path d="M51.84 25.92H48.96V28.8H51.84V25.92Z" fill="#161630"/>
-  <path d="M54.72 25.92H51.84V28.8H54.72V25.92Z" fill="#161630"/>
-  <path d="M63.36 25.92H60.48V28.8H63.36V25.92Z" fill="#161630"/>
-  <path d="M66.24 25.92H63.36V28.8H66.24V25.92Z" fill="#161630"/>
-  <path d="M69.12 25.92H66.24V28.8H69.12V25.92Z" fill="#161630"/>
-  <path d="M72 25.92H69.12V28.8H72V25.92Z" fill="#161630"/>
-  <path d="M8.64 28.8H5.76V31.68H8.64V28.8Z" fill="#161630"/>
-  <path d="M17.28 28.8H14.4V31.68H17.28V28.8Z" fill="#161630"/>
-  <path d="M20.16 28.8H17.28V31.68H20.16V28.8Z" fill="#161630"/>
-  <path d="M23.04 28.8H20.16V31.68H23.04V28.8Z" fill="#161630"/>
-  <path d="M31.68 28.8H28.8V31.68H31.68V28.8Z" fill="#161630"/>
-  <path d="M37.44 28.8H34.56V31.68H37.44V28.8Z" fill="#161630"/>
-  <path d="M43.2 28.8H40.32V31.68H43.2V28.8Z" fill="#161630"/>
-  <path d="M57.6 28.8H54.72V31.68H57.6V28.8Z" fill="#161630"/>
-  <path d="M63.36 28.8H60.48V31.68H63.36V28.8Z" fill="#161630"/>
-  <path d="M66.24 28.8H63.36V31.68H66.24V28.8Z" fill="#161630"/>
-  <path d="M72 28.8H69.12V31.68H72V28.8Z" fill="#161630"/>
-  <path d="M2.88 31.68H0V34.56H2.88V31.68Z" fill="#161630"/>
-  <path d="M11.52 31.68H8.64V34.56H11.52V31.68Z" fill="#161630"/>
-  <path d="M14.4 31.68H11.52V34.56H14.4V31.68Z" fill="#161630"/>
-  <path d="M23.04 31.68H20.16V34.56H23.04V31.68Z" fill="#161630"/>
-  <path d="M25.92 31.68H23.04V34.56H25.92V31.68Z" fill="#161630"/>
-  <path d="M28.8 31.68H25.92V34.56H28.8V31.68Z" fill="#161630"/>
-  <path d="M37.44 31.68H34.56V34.56H37.44V31.68Z" fill="#161630"/>
-  <path d="M40.32 31.68H37.44V34.56H40.32V31.68Z" fill="#161630"/>
-  <path d="M48.96 31.68H46.08V34.56H48.96V31.68Z" fill="#161630"/>
-  <path d="M51.84 31.68H48.96V34.56H51.84V31.68Z" fill="#161630"/>
-  <path d="M63.36 31.68H60.48V34.56H63.36V31.68Z" fill="#161630"/>
-  <path d="M2.88 34.56H0V37.44H2.88V34.56Z" fill="#161630"/>
-  <path d="M5.76 34.56H2.88V37.44H5.76V34.56Z" fill="#161630"/>
-  <path d="M8.64 34.56H5.76V37.44H8.64V34.56Z" fill="#161630"/>
-  <path d="M11.52 34.56H8.64V37.44H11.52V34.56Z" fill="#161630"/>
-  <path d="M14.4 34.56H11.52V37.44H14.4V34.56Z" fill="#161630"/>
-  <path d="M20.16 34.56H17.28V37.44H20.16V34.56Z" fill="#161630"/>
-  <path d="M23.04 34.56H20.16V37.44H23.04V34.56Z" fill="#161630"/>
-  <path d="M25.92 34.56H23.04V37.44H25.92V34.56Z" fill="#161630"/>
-  <path d="M28.8 34.56H25.92V37.44H28.8V34.56Z" fill="#161630"/>
-  <path d="M34.56 34.56H31.68V37.44H34.56V34.56Z" fill="#161630"/>
-  <path d="M46.08 34.56H43.2V37.44H46.08V34.56Z" fill="#161630"/>
-  <path d="M51.84 34.56H48.96V37.44H51.84V34.56Z" fill="#161630"/>
-  <path d="M54.72 34.56H51.84V37.44H54.72V34.56Z" fill="#161630"/>
-  <path d="M57.6 34.56H54.72V37.44H57.6V34.56Z" fill="#161630"/>
-  <path d="M66.24 34.56H63.36V37.44H66.24V34.56Z" fill="#161630"/>
-  <path d="M5.76 37.44H2.88V40.32H5.76V37.44Z" fill="#161630"/>
-  <path d="M8.64 37.44H5.76V40.32H8.64V37.44Z" fill="#161630"/>
-  <path d="M28.8 37.44H25.92V40.32H28.8V37.44Z" fill="#161630"/>
-  <path d="M31.68 37.44H28.8V40.32H31.68V37.44Z" fill="#161630"/>
-  <path d="M34.56 37.44H31.68V40.32H34.56V37.44Z" fill="#161630"/>
-  <path d="M37.44 37.44H34.56V40.32H37.44V37.44Z" fill="#161630"/>
-  <path d="M57.6 37.44H54.72V40.32H57.6V37.44Z" fill="#161630"/>
-  <path d="M63.36 37.44H60.48V40.32H63.36V37.44Z" fill="#161630"/>
-  <path d="M5.76 40.32H2.88V43.2H5.76V40.32Z" fill="#161630"/>
-  <path d="M20.16 40.32H17.28V43.2H20.16V40.32Z" fill="#161630"/>
-  <path d="M23.04 40.32H20.16V43.2H23.04V40.32Z" fill="#161630"/>
-  <path d="M31.68 40.32H28.8V43.2H31.68V40.32Z" fill="#161630"/>
-  <path d="M43.2 40.32H40.32V43.2H43.2V40.32Z" fill="#161630"/>
-  <path d="M48.96 40.32H46.08V43.2H48.96V40.32Z" fill="#161630"/>
-  <path d="M51.84 40.32H48.96V43.2H51.84V40.32Z" fill="#161630"/>
-  <path d="M60.48 40.32H57.6V43.2H60.48V40.32Z" fill="#161630"/>
-  <path d="M72 40.32H69.12V43.2H72V40.32Z" fill="#161630"/>
-  <path d="M2.88 43.2L0 43.2V46.08H2.88V43.2Z" fill="#161630"/>
-  <path d="M8.64 43.2L5.76 43.2V46.08H8.64V43.2Z" fill="#161630"/>
-  <path d="M14.4 43.2H11.52V46.08H14.4V43.2Z" fill="#161630"/>
-  <path d="M17.28 43.2L14.4 43.2V46.08H17.28L17.28 43.2Z" fill="#161630"/>
-  <path d="M23.04 43.2H20.16V46.08H23.04V43.2Z" fill="#161630"/>
-  <path d="M31.68 43.2H28.8V46.08H31.68V43.2Z" fill="#161630"/>
-  <path d="M37.44 43.2H34.56V46.08H37.44V43.2Z" fill="#161630"/>
-  <path d="M46.08 43.2H43.2L43.2 46.08H46.08V43.2Z" fill="#161630"/>
-  <path d="M54.72 43.2L51.84 43.2V46.08H54.72V43.2Z" fill="#161630"/>
-  <path d="M60.48 43.2H57.6V46.08H60.48V43.2Z" fill="#161630"/>
-  <path d="M63.36 43.2L60.48 43.2V46.08H63.36V43.2Z" fill="#161630"/>
-  <path d="M2.88 46.08H0V48.96H2.88V46.08Z" fill="#161630"/>
-  <path d="M5.76 46.08H2.88V48.96H5.76V46.08Z" fill="#161630"/>
-  <path d="M11.52 46.08H8.64V48.96H11.52V46.08Z" fill="#161630"/>
-  <path d="M14.4 46.08H11.52V48.96H14.4V46.08Z" fill="#161630"/>
-  <path d="M20.16 46.08H17.28L17.28 48.96H20.16V46.08Z" fill="#161630"/>
-  <path d="M23.04 46.08H20.16V48.96H23.04V46.08Z" fill="#161630"/>
-  <path d="M25.92 46.08H23.04V48.96H25.92V46.08Z" fill="#161630"/>
-  <path d="M28.8 46.08H25.92V48.96H28.8V46.08Z" fill="#161630"/>
-  <path d="M31.68 46.08H28.8V48.96H31.68V46.08Z" fill="#161630"/>
-  <path d="M37.44 46.08H34.56V48.96H37.44V46.08Z" fill="#161630"/>
-  <path d="M40.32 46.08H37.44V48.96H40.32V46.08Z" fill="#161630"/>
-  <path d="M48.96 46.08H46.08V48.96H48.96V46.08Z" fill="#161630"/>
-  <path d="M51.84 46.08H48.96V48.96H51.84V46.08Z" fill="#161630"/>
-  <path d="M54.72 46.08H51.84V48.96H54.72V46.08Z" fill="#161630"/>
-  <path d="M57.6 46.08H54.72V48.96H57.6V46.08Z" fill="#161630"/>
-  <path d="M60.48 46.08H57.6V48.96H60.48V46.08Z" fill="#161630"/>
-  <path d="M63.36 46.08H60.48V48.96H63.36V46.08Z" fill="#161630"/>
-  <path d="M66.24 46.08H63.36V48.96H66.24V46.08Z" fill="#161630"/>
-  <path d="M69.12 46.08H66.24V48.96H69.12V46.08Z" fill="#161630"/>
-  <path d="M72 46.08H69.12V48.96H72V46.08Z" fill="#161630"/>
-  <path d="M25.92 48.96H23.04V51.84H25.92V48.96Z" fill="#161630"/>
-  <path d="M31.68 48.96H28.8V51.84H31.68V48.96Z" fill="#161630"/>
-  <path d="M46.08 48.96H43.2V51.84H46.08V48.96Z" fill="#161630"/>
-  <path d="M48.96 48.96H46.08V51.84H48.96V48.96Z" fill="#161630"/>
-  <path d="M60.48 48.96H57.6V51.84H60.48V48.96Z" fill="#161630"/>
-  <path d="M63.36 48.96H60.48V51.84H63.36V48.96Z" fill="#161630"/>
-  <path d="M69.12 48.96H66.24V51.84H69.12V48.96Z" fill="#161630"/>
-  <path d="M2.88 51.84H0V54.72H2.88V51.84Z" fill="#161630"/>
-  <path d="M5.76 51.84H2.88V54.72H5.76V51.84Z" fill="#161630"/>
-  <path d="M8.64 51.84H5.76V54.72H8.64V51.84Z" fill="#161630"/>
-  <path d="M11.52 51.84H8.64V54.72H11.52V51.84Z" fill="#161630"/>
-  <path d="M14.4 51.84H11.52V54.72H14.4V51.84Z" fill="#161630"/>
-  <path d="M17.28 51.84H14.4V54.72H17.28V51.84Z" fill="#161630"/>
-  <path d="M20.16 51.84H17.28V54.72H20.16V51.84Z" fill="#161630"/>
-  <path d="M37.44 51.84H34.56V54.72H37.44V51.84Z" fill="#161630"/>
-  <path d="M43.2 51.84H40.32V54.72H43.2L43.2 51.84Z" fill="#161630"/>
-  <path d="M48.96 51.84H46.08V54.72H48.96V51.84Z" fill="#161630"/>
-  <path d="M54.72 51.84H51.84V54.72H54.72V51.84Z" fill="#161630"/>
-  <path d="M60.48 51.84H57.6V54.72H60.48V51.84Z" fill="#161630"/>
-  <path d="M63.36 51.84H60.48V54.72H63.36V51.84Z" fill="#161630"/>
-  <path d="M2.88 54.72H0V57.6H2.88V54.72Z" fill="#161630"/>
-  <path d="M20.16 54.72H17.28L17.28 57.6H20.16V54.72Z" fill="#161630"/>
-  <path d="M31.68 54.72H28.8V57.6H31.68V54.72Z" fill="#161630"/>
-  <path d="M34.56 54.72H31.68V57.6H34.56V54.72Z" fill="#161630"/>
-  <path d="M37.44 54.72H34.56V57.6H37.44V54.72Z" fill="#161630"/>
-  <path d="M40.32 54.72H37.44V57.6H40.32V54.72Z" fill="#161630"/>
-  <path d="M46.08 54.72H43.2L43.2 57.6H46.08V54.72Z" fill="#161630"/>
-  <path d="M48.96 54.72H46.08V57.6H48.96V54.72Z" fill="#161630"/>
-  <path d="M60.48 54.72H57.6V57.6H60.48V54.72Z" fill="#161630"/>
-  <path d="M66.24 54.72H63.36V57.6H66.24V54.72Z" fill="#161630"/>
-  <path d="M72 54.72H69.12V57.6H72V54.72Z" fill="#161630"/>
-  <path d="M2.88 57.6H0V60.48H2.88V57.6Z" fill="#161630"/>
-  <path d="M8.64 57.6H5.76V60.48H8.64V57.6Z" fill="#161630"/>
-  <path d="M11.52 57.6H8.64V60.48H11.52V57.6Z" fill="#161630"/>
-  <path d="M14.4 57.6H11.52V60.48H14.4V57.6Z" fill="#161630"/>
-  <path d="M20.16 57.6H17.28V60.48H20.16V57.6Z" fill="#161630"/>
-  <path d="M28.8 57.6H25.92V60.48H28.8V57.6Z" fill="#161630"/>
-  <path d="M48.96 57.6H46.08V60.48H48.96V57.6Z" fill="#161630"/>
-  <path d="M51.84 57.6H48.96V60.48H51.84V57.6Z" fill="#161630"/>
-  <path d="M54.72 57.6H51.84V60.48H54.72V57.6Z" fill="#161630"/>
-  <path d="M57.6 57.6H54.72V60.48H57.6V57.6Z" fill="#161630"/>
-  <path d="M60.48 57.6H57.6V60.48H60.48V57.6Z" fill="#161630"/>
-  <path d="M72 57.6H69.12V60.48H72V57.6Z" fill="#161630"/>
-  <path d="M2.88 60.48H0V63.36H2.88V60.48Z" fill="#161630"/>
-  <path d="M8.64 60.48H5.76V63.36H8.64V60.48Z" fill="#161630"/>
-  <path d="M11.52 60.48H8.64V63.36H11.52V60.48Z" fill="#161630"/>
-  <path d="M14.4 60.48H11.52V63.36H14.4V60.48Z" fill="#161630"/>
-  <path d="M20.16 60.48H17.28V63.36H20.16V60.48Z" fill="#161630"/>
-  <path d="M28.8 60.48H25.92V63.36H28.8V60.48Z" fill="#161630"/>
-  <path d="M37.44 60.48H34.56V63.36H37.44V60.48Z" fill="#161630"/>
-  <path d="M40.32 60.48H37.44V63.36H40.32V60.48Z" fill="#161630"/>
-  <path d="M43.2 60.48H40.32V63.36H43.2V60.48Z" fill="#161630"/>
-  <path d="M46.08 60.48H43.2V63.36H46.08V60.48Z" fill="#161630"/>
-  <path d="M48.96 60.48H46.08V63.36H48.96V60.48Z" fill="#161630"/>
-  <path d="M57.6 60.48H54.72V63.36H57.6V60.48Z" fill="#161630"/>
-  <path d="M66.24 60.48H63.36V63.36H66.24V60.48Z" fill="#161630"/>
-  <path d="M69.12 60.48H66.24V63.36H69.12V60.48Z" fill="#161630"/>
-  <path d="M2.88 63.36H0V66.24H2.88V63.36Z" fill="#161630"/>
-  <path d="M8.64 63.36H5.76V66.24H8.64V63.36Z" fill="#161630"/>
-  <path d="M11.52 63.36H8.64V66.24H11.52V63.36Z" fill="#161630"/>
-  <path d="M14.4 63.36H11.52V66.24H14.4V63.36Z" fill="#161630"/>
-  <path d="M20.16 63.36H17.28V66.24H20.16V63.36Z" fill="#161630"/>
-  <path d="M28.8 63.36H25.92V66.24H28.8V63.36Z" fill="#161630"/>
-  <path d="M31.68 63.36H28.8V66.24H31.68V63.36Z" fill="#161630"/>
-  <path d="M40.32 63.36H37.44V66.24H40.32V63.36Z" fill="#161630"/>
-  <path d="M43.2 63.36H40.32V66.24H43.2V63.36Z" fill="#161630"/>
-  <path d="M46.08 63.36H43.2V66.24H46.08V63.36Z" fill="#161630"/>
-  <path d="M48.96 63.36H46.08V66.24H48.96V63.36Z" fill="#161630"/>
-  <path d="M54.72 63.36H51.84V66.24H54.72V63.36Z" fill="#161630"/>
-  <path d="M60.48 63.36H57.6V66.24H60.48V63.36Z" fill="#161630"/>
-  <path d="M63.36 63.36H60.48V66.24H63.36V63.36Z" fill="#161630"/>
-  <path d="M2.88 66.24H0V69.12H2.88V66.24Z" fill="#161630"/>
-  <path d="M20.16 66.24H17.28V69.12H20.16V66.24Z" fill="#161630"/>
-  <path d="M25.92 66.24H23.04V69.12H25.92V66.24Z" fill="#161630"/>
-  <path d="M28.8 66.24H25.92V69.12H28.8V66.24Z" fill="#161630"/>
-  <path d="M31.68 66.24H28.8V69.12H31.68V66.24Z" fill="#161630"/>
-  <path d="M34.56 66.24H31.68V69.12H34.56V66.24Z" fill="#161630"/>
-  <path d="M40.32 66.24H37.44V69.12H40.32V66.24Z" fill="#161630"/>
-  <path d="M43.2 66.24H40.32V69.12H43.2V66.24Z" fill="#161630"/>
-  <path d="M46.08 66.24H43.2V69.12H46.08V66.24Z" fill="#161630"/>
-  <path d="M48.96 66.24H46.08V69.12H48.96V66.24Z" fill="#161630"/>
-  <path d="M51.84 66.24H48.96V69.12H51.84V66.24Z" fill="#161630"/>
-  <path d="M57.6 66.24H54.72V69.12H57.6V66.24Z" fill="#161630"/>
-  <path d="M60.48 66.24H57.6V69.12H60.48V66.24Z" fill="#161630"/>
-  <path d="M2.88 69.12H0V72H2.88V69.12Z" fill="#161630"/>
-  <path d="M5.76 69.12H2.88V72H5.76V69.12Z" fill="#161630"/>
-  <path d="M8.64 69.12H5.76V72H8.64V69.12Z" fill="#161630"/>
-  <path d="M11.52 69.12H8.64V72H11.52V69.12Z" fill="#161630"/>
-  <path d="M14.4 69.12H11.52V72H14.4V69.12Z" fill="#161630"/>
-  <path d="M17.28 69.12H14.4V72H17.28L17.28 69.12Z" fill="#161630"/>
-  <path d="M20.16 69.12H17.28L17.28 72H20.16V69.12Z" fill="#161630"/>
-  <path d="M25.92 69.12H23.04V72H25.92V69.12Z" fill="#161630"/>
-  <path d="M31.68 69.12H28.8V72H31.68V69.12Z" fill="#161630"/>
-  <path d="M37.44 69.12H34.56V72H37.44V69.12Z" fill="#161630"/>
-  <path d="M43.2 69.12H40.32V72H43.2V69.12Z" fill="#161630"/>
-  <path d="M48.96 69.12H46.08V72H48.96V69.12Z" fill="#161630"/>
-  <path d="M54.72 69.12H51.84V72H54.72V69.12Z" fill="#161630"/>
-  <path d="M57.6 69.12H54.72V72H57.6V69.12Z" fill="#161630"/>
-  <path d="M63.36 69.12H60.48V72H63.36V69.12Z" fill="#161630"/>
-  <path d="M66.24 69.12H63.36V72H66.24V69.12Z" fill="#161630"/>
-  <path d="M69.12 69.12H66.24V72H69.12V69.12Z" fill="#161630"/>
-  <path d="M72 69.12H69.12V72H72V69.12Z" fill="#161630"/>
-</svg>
-          </div>
-          
-          <div class="qr-text-section">
-            <p class="qr-description">
-              Please ask the host to scan this code in Farra app to verify your booking and payment
-            </p>
-            
-            <div class="card-back-actions">
-              <button class="card-back-btn">Share</button>
-              <button class="card-back-btn" id="ppp">Print</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</div>
-<!-- 🔹 Modal -->
-<div class="contact-modal" id="contactModal">
-  <div class="contact-card">
-    <!-- Header -->
-    <div class="contact-header">
-      <h3>Contact Card</h3>
-      <a href="#" class="add-to-contacts">Add to Contacts</a>
-    </div>
-
-
-    <!-- Hotel Info -->
-    <div class="hotel-info">
-      <img src="./img/42.png" alt="Hotel" class="hotel-img">
-      <div class="hotel-name-block">
-        <h2>Hotel Name</h2>
-        <p>City • Country</p>
-      </div>
-    </div>
-
-    <div class="divider"></div>
-
-    <!-- Phones -->
-    <div class="contact-row">
-      <div class="left-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-  <path d="M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-</svg> <span style="margin-left: 15px;" >Telephone number</span>
-      </div>
-      
-      <div class="right-icon">
-        <svg style="margin-right: 15px;" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none">
-          <path d="M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 
-          11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 
-          0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z" 
-          stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none">
-          <path d="M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 
-          11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 
-          0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z" 
-          stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        <br>
+    <div class="container">
        
-      </div>
-      
-    </div>
-    <div class="contact-row">
-      <span style="margin-top: 15px; margin-left: 40px;">Telephone number</span>
-       <div class="right-icon">
-        <svg style="margin-right: 15px;" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none">
-          <path d="M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 
-          11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 
-          0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z" 
-          stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none">
-          <path d="M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 
-          11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 
-          0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z" 
-          stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        <br>
-       
+
+
+
+
+        <h1>Book Details</h1>
+        <p class="description">Please fill out the required information field and then tap on continue.</p>
+
+        <div class="hotel-box">
+      <img src="./img/52.png" alt="Hotel">
+      <div class="hotel-info">
+        <h4>Hotel Transylvania</h4>
+        <p>3 dyas • 2 people</p>
+        <span>250 USD / Night</span>
       </div>
     </div>
 
-    <div class="divider"></div>
-
-    <!-- Website -->
-    <div class="contact-row">
-      <div class="left-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-  <path d="M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>      <span style="margin-left: 15px;">www.hotel.com</span>
-
-      </div>
-      <div class="right-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none">
-          <path d="M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 
-          11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 
-          0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z" 
-          stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </div>
-    </div>
-
-    <div class="contact-row">
-      <span style="margin-top: 15px; margin-left: 40px;">info@hotel.com</span>
-    </div>
-
-    <div class="divider"></div>
-
-    <!-- Address -->
-    <div class="contact-row address">
-      <div class="left-icon">
-        <svg  xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-  <path d="M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
-      </div>
-      <span style="margin-left: 20px;">No.1, Third Floor, Kasra Building, Mellat Street, Behesht Boulevard, Pardisan, Qom</span>
-      <div class="right-icon">
-        <svg style="margin-left: 25px;" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none">
-          <path d="M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 
-          11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 
-          0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z" 
-          stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </div>
-    </div>
-
-    <!-- Button -->
-    <button class="okay-btn" id="closeModal">Okay</button>
-  </div>
-</div>
-       <div class="ddd" id="flipButton">
-  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-    <path d="M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z"  stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-  </svg>
-</div>
-<style>
-
-
-</style>
-      <div class="booking-info-box">
-         <div class="row">
+        <div class="booking-info-box">
+             <div class="info-row">
     <div class="left">
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-  <path d="M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <path d="M6.01507 18.1017C5.85183 20.1611 7.01939 21.8649 9.28646 22H14.6756C16.9437 21.8649 18.1102 20.1611 17.947 18.1017C17.8108 16.6724 16.4778 15.3698 14.1729 13.1568C13.4312 12.3849 13.4324 11.614 14.1729 10.8421C16.4778 8.62919 17.8108 7.32757 17.947 5.89838C18.1102 3.83892 16.9437 2.13513 14.6756 2H9.28646C7.01939 2.13513 5.85183 3.83892 6.01507 5.89838C6.15129 7.32757 7.48426 8.62919 9.78913 10.8421C10.5308 11.614 10.5308 12.3849 9.78913 13.1568C7.48426 15.3698 6.15129 16.6724 6.01507 18.1017Z" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M6.00659 18.5639C6.35686 18.7337 6.78605 18.8439 7.35686 18.8439C9.66609 18.8439 9.66609 17.0039 11.9763 17.0039C14.2865 17.0039 14.2865 18.8439 16.5969 18.8439C17.1665 18.8439 17.5969 18.7337 17.9569 18.5639" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
       <span>Status</span>
     </div>
     <div class="right" style="margin-right: 28%; border-radius: var(--Border-Radius-300, 12px);
-background: var(--Surface-Primary-Default, #706DF2); padding: 0 var(--Spacing-200, 8px); font-weight: 400; color: var(--Text-Primary-On-Color, #E2E2FC);
+background: var(--Surface-Success-Default, #706DF2); padding: 0 var(--Spacing-200, 8px); font-weight: 400; color: var(--Text-Primary-On-Color, #E2E2FC);
 line-height: var(--Font-Copy-Body-Line-Heigth, 20px); padding-top: 3px; font-size: 16px;">Waiting</div>
   </div>
     <div class="divider"></div>
-
-  <div class="row">
+  <div class="info-row">
     <div class="left">
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-  <path d="M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <path d="M7.71268 6.1582C10.3163 6.1582 12.4254 8.26838 12.4254 10.8709C12.4254 12.7944 11.2719 14.4457 9.62067 15.178V20.0918C9.62067 21.1464 8.76612 21.9998 7.71268 21.9998C6.65924 21.9998 5.80362 21.1464 5.80362 20.0918L5.80474 15.178C4.15457 14.4457 3 12.7944 3 10.8709C3 8.26838 5.1102 6.1582 7.71268 6.1582Z" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M11.2407 7.73836C11.4496 7.45833 11.7108 7.19828 12.0097 6.96937C12.4608 6.62823 12.9609 6.39823 13.4809 6.26821C13.791 6.19821 14.111 6.1582 14.431 6.1582C15.6612 6.1582 16.8713 6.71827 17.6614 7.76949L21.1017 12.3388C22.4318 14.1201 22.0818 16.6504 20.3016 17.9905C18.5215 19.3206 15.9912 18.9706 14.65 17.1904L11.7408 13.31" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M13.4801 6.27154V4.97142C13.4801 3.33126 12.1498 2 10.4997 2C8.85844 2 7.53833 3.33126 7.53833 4.97142V10.572" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
       <span>Rooms</span>
     </div>
     <div class="right" style="margin-right: 35%;">$1200</div>
   </div>
 
-  <div class="row">
+  <div class="info-row">
     <div class="left">
       
       <span class="sssn">Added Beds</span>
@@ -1544,17 +328,26 @@ line-height: var(--Font-Copy-Body-Line-Heigth, 20px); padding-top: 3px; font-siz
 
   <div class="divider"></div>
 
-  <div class="row">
+  <div class="info-row">
     <div class="left">
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-  <path d="M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M3 12.7252C3 5.76917 5.319 3.45117 12.274 3.45117C19.23 3.45117 21.549 5.76917 21.549 12.7252C21.549 19.6812 19.23 21.9992 12.274 21.9992C5.319 21.9992 3 19.6812 3 12.7252Z" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M3.27539 9.27344H21.2833" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M16.6787 13.2109H16.6877" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M12.2793 13.2109H12.2883" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M7.87158 13.2109H7.88058" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M16.6787 17.0625H16.6877" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M12.2793 17.0625H12.2883" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M7.87158 17.0625H7.88058" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M16.2832 2V5.262" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M8.2749 2V5.262" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
       <span style="color: #5C5C66;">From</span>
     </div>
     <div class="right" style="color: #5C5C66; text-align: left;">Thursday 24/05/2025</div>
   </div>
 
-  <div class="row">
+  <div class="info-row">
     <div class="left">
      
       <span class="sssn" style="color: #5C5C66;">To</span>
@@ -1562,7 +355,7 @@ line-height: var(--Font-Copy-Body-Line-Heigth, 20px); padding-top: 3px; font-siz
     <div class="right" style="color: #5C5C66;">Thursday 24/05/2025</div>
   </div>
 
-  <div class="row small-text">
+  <div class="info-row small-text">
     <div class="left">
      
       <span class="sssn" style="color: #5C5C66;">For</span>
@@ -1572,17 +365,22 @@ line-height: var(--Font-Copy-Body-Line-Heigth, 20px); padding-top: 3px; font-siz
 
   <div class="divider"></div>
 
-  <div class="row">
+  <div class="info-row">
     <div class="left">
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-  <path d="M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M12.0388 14.5645C8.71891 14.5645 5.8877 15.1072 5.8877 17.2789C5.8877 19.4517 8.70377 20.0128 12.0388 20.0128C15.3564 20.0128 18.1898 19.4691 18.1898 17.2973C18.1898 15.1266 15.3748 14.5645 12.0388 14.5645Z" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M16.2859 7.24844C16.2859 9.59422 14.3844 11.4969 12.0374 11.4969C9.69154 11.4969 7.79004 9.59422 7.79004 7.24844C7.79004 4.90261 9.69154 3 12.0374 3C14.3844 3 16.2859 4.90261 16.2859 7.24844Z" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M5.12417 13.0234H5.11553C3.28211 13.3088 2 13.9758 2 15.3206C2 16.0146 2.34485 16.5292 2.93401 16.9022" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M18.876 13.0234H18.8846C20.7181 13.3088 22.0001 13.9758 22.0001 15.3206C22.0001 16.0146 21.6553 16.5292 21.0661 16.9022" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M18.5466 9.8133C19.9011 9.30632 20.6827 7.85126 20.3162 6.41781C20.0201 5.25895 19.0591 4.44709 17.9456 4.28711" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M5.45264 9.8133C4.09811 9.30632 3.31654 7.85126 3.683 6.41781C3.9792 5.25895 4.94023 4.44709 6.0537 4.28711" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
       <span style="color: #5C5C66;">For</span>
     </div>
     <div class="right" style="color: #5C5C66; margin-right: 91px;">2 Adults</div>
   </div>
 
-  <div class="row">
+  <div class="info-row">
     <div class="left">
      
       <span class="sssn" style="color: #5C5C66;">and</span>
@@ -1592,10 +390,15 @@ line-height: var(--Font-Copy-Body-Line-Heigth, 20px); padding-top: 3px; font-siz
 
   <div class="divider"></div>
 
-  <div class="row total">
+  <div class="info-row total">
     <div class="left">
-     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-  <path d="M9.74957 0.75C11.0621 5.06246 14.4369 8.4374 18.7492 9.75C14.4369 11.0626 11.0621 14.4375 9.74957 18.75C8.43707 14.4375 5.06225 11.0626 0.75 9.75C5.06225 8.4374 8.43707 5.06246 9.74957 0.75Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <path d="M6.75793 20.7801L5.91358 21.1844C5.02598 21.6093 3.99892 20.9616 4 19.9779L4.01081 6.36014C4.01081 3.66816 5.50924 2 8.19582 2H16.3064C19.0005 2 20.4654 3.66816 20.4654 6.36014L20.4848 19.9746C20.4859 20.9595 19.4588 21.6082 18.5702 21.1822L17.7324 20.7812C17.2285 20.539 16.6458 20.5216 16.128 20.7335L13.7431 21.7066C12.782 22.098 11.7041 22.098 10.743 21.7055L8.36231 20.7335C7.84445 20.5216 7.26173 20.539 6.75793 20.7801Z" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <g opacity="0.4">
+    <path d="M14.0559 8.73242H11.4364C10.6579 8.73242 10.0266 9.3638 10.0266 10.1433C10.0266 10.9217 10.6579 11.5531 11.4364 11.5531H13.0483C13.8277 11.5531 14.4592 12.1844 14.4592 12.9639C14.4592 13.7423 13.8277 14.3736 13.0483 14.3736H10.4287" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M12.2422 14.375V15.5589" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M12.2422 7.54297V8.7376" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
 </svg>
       <span style="color: #5C5C66; font-size: 20px;">Total Price</span>
     </div>
@@ -1603,68 +406,10 @@ line-height: var(--Font-Copy-Body-Line-Heigth, 20px); padding-top: 3px; font-siz
   </div>
 </div>
 
-  <!-- Support -->
-  <div class="support">
-    <h2>Support</h2>
 
-    <p>in case of any problem or need help call support team by tapping following link.</p>
-    <a href="#">Call Support</a>
-  </div>
-<script>
-  const flipButton = document.getElementById('flipButton');
-  const cardContainer = document.getElementById('cardFlipContainer');
-  
-  flipButton.addEventListener('click', function() {
-    cardContainer.classList.toggle('flipped');
-  });
-</script>
-<script>
-const seeContact = document.querySelector('.see-contact');
-const contactModal = document.getElementById('contactModal');
-const closeModalBtn = document.getElementById('closeModal');
+       
 
-// باز کردن مودال
-seeContact.addEventListener('click', e => {
-  e.preventDefault();
-  contactModal.classList.add('active');
-});
+       <script src="./js/header.js"></script>
 
-// بستن مودال با دکمه OK
-closeModalBtn.addEventListener('click', () => {
-  contactModal.classList.remove('active');
-});
-
-// بستن مودال با کلیک بیرون از کارت
-document.addEventListener('click', e => {
-  const isModalActive = contactModal.classList.contains('active');
-  const clickedInsideModal = e.target.closest('.contact-card');
-
-  // فقط وقتی مودال فعاله و کلیک بیرون از کارت انجام شده
-  if (isModalActive && !clickedInsideModal && !e.target.closest('.see-contact')) {
-    contactModal.classList.remove('active');
-  }
-});
-
-</script>
-<script>
-// ✅ نوتیفیکیشن مستقل از مودال، بالای صفحه
-const addBtn = document.querySelector('.add-to-contacts');
-const successNotif = document.getElementById('successNotification');
-
-addBtn.addEventListener('click', e => {
-  e.preventDefault();
-
-  // نوتیفیکیشن بیاد بالا
-  successNotif.classList.add('show');
-
-  // بعد از 3 ثانیه خودکار محو بشه
-  setTimeout(() => {
-    successNotif.classList.remove('show');
-  }, 3000);
-});
-
-</script>
-
-</div>
 </body>
 </html>

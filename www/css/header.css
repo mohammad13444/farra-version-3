@@ -1,0 +1,1232 @@
+/* ============================================================
+   Fara Header Component - Complete Styles
+   استخراج شده از کد اصلی
+   ============================================================ */
+
+@font-face {
+    font-family: "Bonyade Koodak VF";
+    src: url("./BonyadeKoodak-VF.ttf") format("truetype");
+    font-weight: 100 900;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Bonyade Koodak VF bold";
+    src: url("../fonts/BonyadeKoodakKoochak-Bold.ttf") format("truetype");
+    font-weight: 100 900;
+    font-display: swap;
+}
+
+/* ═══════════════════════════════════════════════════════
+   بخش ۱: Reset & Base Styles
+   ═══════════════════════════════════════════════════════ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+
+
+
+/* ═══════════════════════════════════════════════════════
+   بخش ۲: Headers Fixed (هدر ثابت بالای صفحه)
+   ═══════════════════════════════════════════════════════ */
+.headers-fixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100000;
+    background: #EFEFFE;
+    padding: 16px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 0px;
+}
+
+/* ═══════════════════════════════════════════════════════
+   بخش ۳: Header (لوگو و آیکن‌ها)
+   ═══════════════════════════════════════════════════════ */
+.header {
+    width: 100%;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 13px;
+    border-radius: 16px;
+    margin-top: 0px;
+}
+
+.star {
+    color: #8e83e6;
+    font-size: 24px;
+}
+
+.logo {
+    font-size: 28px;
+    font-weight: 700;
+    color: #8877f3;
+}
+
+/* =============================
+   🔍 SEARCH BOX — نسخه نهایی Farra (CSS-Only)
+   ============================= */
+
+.search-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  height: 48px;
+  width: 100%;
+  max-width: 500px;
+  border-radius: 50px;
+  /* حالت Default: خالی و بدون فوکوس */
+  border: 1px solid #C6C5FA; 
+  padding: 0 10px;
+  padding-left: 15px;
+  box-sizing: border-box;
+  background: #F8F7FC;
+  transition: all 0.25s ease;
+}
+
+/* ====== Input Base Style ====== */
+.search-box input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: "Bonyade Koodak VF", sans-serif;
+  font-size: 16px;
+  padding-left: 10px;
+  padding-right: 15px;
+  min-width: 0;
+  font-weight: 400;
+  transition: color 0.25s ease, font-weight 0.25s ease;
+}
+
+/* رنگ متن و Placeholder در حالت Default (خالی) */
+.search-box:has(input:placeholder-shown) input {
+    color: #A9A7F7;
+}
+
+.search-box input::placeholder {
+  color: #A9A7F7;
+  transition: opacity 0.3s ease, color 0.3s ease;
+}
+
+
+/* ====== SVG Icons Base Style ====== */
+.search-box svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  display: inline-block;
+}
+
+.search-box svg path {
+  /* رنگ پیش‌فرض آیکن (خاموش) */
+  stroke: #C6C5FA; 
+  transition: stroke 0.25s ease;
+}
+
+
+/* ═══════════════════════════════════════════════════════
+   ✅ CSS-ONLY States
+   ═══════════════════════════════════════════════════════ */
+
+
+/* ====== حالت پر شده (Filled) - بدون فوکوس ====== */
+/* وقتی input پر است و فوکوس ندارد */
+.search-box:has(input:not(:placeholder-shown)):not(:focus-within) {
+  border: 1px solid #706DF2; /* آبی ثابت */
+background: var(--Primitives-White, #F8F7FC);
+}
+
+/* رنگ متن در حالت پر شده (غیر فوکوس) */
+.search-box:has(input:not(:placeholder-shown)):not(:focus-within) input {
+  color: #706DF2;
+  font-weight: 500;
+}
+
+/* رنگ آیکن (Search Icon) در حالت پر شده (غیر فوکوس) */
+.search-box:has(input:not(:placeholder-shown)):not(:focus-within) svg path {
+  stroke: #706DF2;
+}
+
+
+/* ====== حالت فوکوس (Focus) ====== */
+/* این حالت همیشه بر حالت‌های خالی و پر ارجحیت دارد */
+.search-box:focus-within {
+  border: 2px solid #706DF2; /* ضخامت 2px */
+}
+
+.search-box:focus-within input {
+  color: #5C5C66; /* رنگ متن در فوکوس */
+  font-weight: 500;
+}
+
+.search-box:focus-within svg path {
+  /* آیکن‌ها در فوکوس روشن (آبی) می‌شوند */
+  stroke: #706DF2 !important; 
+}
+
+/* placeholder در فوکوس */
+.search-box:focus-within input::placeholder {
+  opacity: 0.5;
+  color: #706DF2;
+}
+
+/* ═══════════════════════════════════════════════════════
+   🔴 آیکون Deleted - قرمز و نمایش هوشمند (CSS-Only)
+   ═══════════════════════════════════════════════════════ */
+
+.search-box .deleted {
+    /* مخفی سازی پیش‌فرض */
+    padding-right: 0px;
+    margin-left: 8px;
+    transition: all 0.3s ease;
+    flex-shrink: 0; /* برای اطمینان از عدم کوچک شدن */
+}
+/* ✅ درست */
+.search-box #deleted-btn {
+    display: none;
+}
+/* ✅ وقتی input پر است */
+.search-box:has(input:not(:placeholder-shown)) #deleted-btn {
+    display: inline-flex !important;
+}
+
+/* 2. رنگ ثابت قرمز برای آیکون Delete در همه حالات */
+.search-box .deleted svg path {
+    stroke: #FF3B30 !important; /* قرمز iOS */
+    transition: stroke 0.3s ease;
+}
+
+.search-box .deleted:hover svg path {
+    stroke: #CC0000 !important;
+}
+
+/* ═══════════════════════════════════════════════════════
+   سایر استایل‌ها
+   ═══════════════════════════════════════════════════════ */
+
+/* ====== Hover ====== */
+.search-box:hover {
+  border-color: #9795F3;
+}
+
+/* ====== Error / Success ====== */
+.search-box.error {
+  border: 2px solid #FF595B;
+}
+.search-box.success {
+  border: 2px solid #44CD54;
+}
+
+/* ====== آیکن ستاره ====== */
+.search-box .star img {
+  width: 24px;
+  height: 24px;
+  transition: transform 0.3s ease;
+}
+
+.search-box .star:hover img {
+  transform: scale(1.08);
+}
+
+
+
+
+/* ═══════════════════════════════════════════════════════
+   ⚫ متن و آیکون مشکی در حالت focus (active)
+   ═══════════════════════════════════════════════════════ */
+
+
+
+#open-filters {
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* حالت فعال؛ بگراند و عکس 24.PNG */
+#open-filters.active-filter {
+    background-color: #5A57C2;
+      padding: 5px;
+width: 30px;
+height: 30px;
+}
+
+svg#open-filters.active-filter path {
+    stroke: #ffffff !important;
+}
+
+/* اختیاری: وقتی فعال شد رنگ خط SVG سفید شه */
+
+/* ═══════════════════════════════════════════════════════
+   بخش ۵: Filter Button (دکمه فیلتر)
+   ═══════════════════════════════════════════════════════ */
+
+
+/* ═══════════════════════════════════════════════════════
+   بخش ۹: Filter Modal (مودال فیلتر) - نسخه کامل
+   ═══════════════════════════════════════════════════════ */
+
+.filter-modal {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+    max-height: 80vh;
+    background: #fff;
+    border-radius: 32px 32px 0 0;
+    padding: 24px;
+    box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.15);
+    z-index: 100001;
+    transform: translateY(100%);
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow-y: auto;
+}
+
+.filter-modal.active {
+    transform: translateY(0);
+}
+
+.filter-modal.hidden {
+    display: none;
+}
+
+.filter-modal-content {
+    width: 100%;
+}
+
+.filter-modal-content h3 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #45454D;
+    margin-bottom: 24px;
+    font-family: "Bonyade Koodak VF", sans-serif;
+}
+
+/* بخش‌های مختلف فیلتر */
+.filter-modal .section {
+    margin-bottom: 24px;
+}
+
+.filter-modal .section h4 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #45454D;
+    margin-bottom: 12px;
+    font-family: "Bonyade Koodak VF", sans-serif;
+}
+
+/* دکمه‌های Type */
+.options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.options button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border: 1.5px solid #DCD4FF;
+    border-radius: 50px;
+    background: #F8F7FC;
+    font-family: "Bonyade Koodak VF", sans-serif;
+    font-size: 14px;
+    color: #45454D;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.options button:hover {
+    background: #E2E2FC;
+    border-color: #706DF2;
+}
+
+.options button.active-option {
+    background: #706DF2;
+    color: #fff;
+    border-color: #706DF2;
+}
+
+.options button img {
+    width: 22px;
+    height: 22px;
+}
+
+/* Input با آیکن */
+.input-icon-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.input-icon-wrapper input {
+    width: 100%;
+    padding: 14px 48px 14px 16px;
+    border: 1.5px solid #DCD4FF;
+    border-radius: 50px;
+    background: #F8F7FC;
+    font-family: "Bonyade Koodak VF", sans-serif;
+    font-size: 15px;
+    color: #5C5C66;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.input-icon-wrapper input:focus {
+    border-color: #706DF2;
+    background: #fff;
+}
+
+.input-icon-wrapper input::placeholder {
+    color: #A9A9B3;
+}
+
+.input-icon-wrapper.filled input {
+    color: #45454D;
+    font-weight: 500;
+}
+
+/* آیکن‌های داخل input */
+.input-icon-wrapper .icon-single {
+    position: absolute;
+    right: 16px;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.input-icon-wrapper .icon-single.active {
+    filter: brightness(0) saturate(100%) invert(42%) sepia(93%) saturate(1234%) hue-rotate(226deg);
+}
+
+/* حالت دو آیکن (City) */
+.input-icon-wrapper.double-icons input {
+    padding-left: 48px;
+    padding-right: 48px;
+}
+
+.input-icon-wrapper .icon-left {
+    position: absolute;
+    left: 16px;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.input-icon-wrapper .icon-right {
+    position: absolute;
+    right: 16px;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.input-icon-wrapper .icon-left.active,
+.input-icon-wrapper .icon-right.active {
+    filter: brightness(0) saturate(100%) invert(42%) sepia(93%) saturate(1234%) hue-rotate(226deg);
+}
+
+/* حالت Date و Bed & Room */
+.date {
+    display: flex;
+    gap: 12px;
+}
+
+.date .input-icon-wrapper {
+    flex: 1;
+}
+
+/* دکمه Apply */
+.apply {
+    width: 100%;
+    padding: 16px;
+    background: #706DF2;
+    color: #fff;
+    border: none;
+    border-radius: 50px;
+    font-family: "Bonyade Koodak VF", sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    margin-top: 24px;
+}
+
+.apply:hover {
+    background: #5A57C2;
+}
+
+
+/* ═══════════════════════════════════════════════════════
+   بخش ۶: Search Overlay (پاپ‌آپ جستجو)
+   ═══════════════════════════════════════════════════════ */
+
+
+.search-overlay {
+    position: fixed;
+    top: 155px; /* جای دقیق زیر سرچ‌باکس */
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 48px);
+    max-width: 480px;
+    background: #ffff;
+    backdrop-filter: blur(14px);
+    border: 2px solid #706DF2;
+    border-radius: 24px;
+    padding: 18px 24px;
+    padding-bottom: 20px;
+    color: #5a51e0;
+    z-index: 1000000;
+    margin-top: 3%;
+    display: none; /* به طور پیش‌فرض خاموش */
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+    /* ================= SEARCH OVERLAY FLOATING ================== */
+    .search-overlay {
+      position: fixed;
+      top: 155px;
+      /* جای دقیق زیر سرچ‌باکس */
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 48px);
+      max-width: 480px;
+      background: #ffff;
+      backdrop-filter: blur(14px);
+      border: 2px solid #706DF2;
+      border-radius: 24px;
+      padding: 18px 24px;
+      padding-bottom: 20px;
+      color: #5a51e0;
+      z-index: 100000;
+      display: none;
+      /* به طور پیش‌فرض خاموش */
+      opacity: 0;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+.search-overlay:has(#results-box:not([style*="display: none"])) .popup-header {
+    display: none !important;
+}
+
+/* یا می‌توانید به صورت مستقیم این کلاس را اضافه کنید: */
+.search-overlay.show-results .popup-header {
+    display: none !important;
+}
+    /* حالت فعال بعد از فوکوس */
+    .search-overlay.active {
+      display: block;
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+
+    .popup-header h4 {
+      font-size: 18px;
+      font-weight: 600;
+      color: #45454D;
+      font-family: "Bonyade Koodak VF", sans-serif;
+    }
+
+    .clear-btn {
+      background: transparent;
+      border: none;
+      color: #6a61ef;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    .search-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .search-list li {
+      font-size: 20px;
+      color: #706DF2;
+      padding: 10px 0;
+      cursor: pointer;
+      transition: color 0.2s ease;
+    }
+
+    .search-list li:hover {
+      color: #5A57C2;
+    }
+
+    /* های‌لایت کلمه داخل نتیجه */
+    .highlight {
+      color: #4b43c4;
+      font-weight: 600;
+    }
+
+    .no-results {
+      display: none;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      gap: 8px;
+      border-radius: 14px;
+      padding: 0px;
+      text-align: center;
+    }
+
+    .no-results h3 {
+      color: #45454D;
+      font-weight: 700;
+      font-size: 20px;
+      margin: 0;
+    }
+
+    .no-results p {
+      color: #5C5C66;
+      font-size: 17px;
+      font-weight: 400;
+      margin: 2px 0 0;
+    }
+
+    .results {
+      background: #f8f7ff;
+      border-radius: 20px;
+      padding: 0px;
+      color: #333;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 5;
+      font-family: "Bonyade Koodak VF";
+    }
+
+    .results-title {
+      font-size: 1.35rem;
+      font-weight: 600;
+      color: #2c2a40;
+    }
+
+    .category-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: .4rem;
+      padding: 0 .3rem;
+    }
+
+    .count {
+      background: #2D2C6180;
+      color: #E2E2FC;
+      border-radius: 999px;
+      padding: 0 .5rem;
+      padding-top: 2px;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .hotel-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 0;
+      padding-top: 5px;
+      border-bottom: 1px solid #ddd;
+      cursor: pointer;
+      transition: background 0.25s ease;
+    }
+
+  
+
+    .thumb {
+      width: 64px;
+      height: 64px;
+      border-radius: 14px;
+      object-fit: cover;
+    }
+
+    .info h3 {
+      font-size: 15.5px;
+      font-weight: 600;
+      margin: 0;
+      color: #2c2a40;
+    }
+
+    .info p {
+      margin: 2px 0;
+      font-size: 13.5px;
+      color: #6e6b7e;
+    }
+
+    .price {
+      color: #403ab0;
+      font-weight: 500;
+    }
+
+   
+
+/* ═══════════════════════════════════════════════════════
+   بخش ۹: Filter Modal (مودال فیلتر)
+   ═══════════════════════════════════════════════════════ */
+.filter-modal {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 73.50vh;
+    padding: 0px;
+      border-radius: var(--Border-Radius-600, 24px) var(--Border-Radius-600, 24px) var(--Border-Radius-0, 0) var(--Border-Radius-0, 0);
+background: rgba(226, 226, 252, 0.70);
+box-shadow: 0 -2px 4px 0 var(--Primary-100, #E2E2FC);
+backdrop-filter: blur(6px);
+    z-index: 100001;
+    transform: translateY(100%);
+    transition: transform 0.4s ease;
+    overflow-y: auto;
+}
+
+.filter-modal:not(.hidden) {
+    transform: translateY(0);
+}
+
+.filter-modal.active .filter-modal-content {
+  transform: translateY(0);
+}
+
+/* افکت focus برای آیکون */
+.filter-icon-svg path {
+  transition: stroke 0.3s ease;
+}
+
+#filter-icon:focus .filter-icon-svg path,
+#filter-icon.active .filter-icon-svg path {
+  stroke: #5856D6;
+}
+
+.filter-modal:not(.hidden) { bottom: 0; }
+
+.filter-modal-content {
+    padding: 24px;
+    padding-bottom: 24px;
+    font-family: "Bonyade Koodak VF", sans-serif;
+    color: #3c3c5a;
+}
+.filter-modal-content h3 {
+    font-size: 24px;
+    font-weight: 500;
+    margin-bottom: 22px;
+}
+.section { margin-bottom: 20px; }
+.section h4 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+/* ═══════════════════════════════════════════════════════
+   OPTIONS BUTTONS - نسخه نهایی با SVG
+   ═══════════════════════════════════════════════════════ */
+
+.options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+/* =======================
+   دکمه اصلی
+======================= */
+.options button {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid #b2aefc;
+    border-radius: 32px;
+    background: transparent;
+    padding: var(--Spacing-100, 6px) var(--Spacing-300, 8px) var(--Spacing-100, 6px) var(--Spacing-200, 8px);
+
+    font-size: 16px;
+    
+    font-weight: 400;
+    color: #6a65c9;
+    font-family: "Bonyade Koodak VF", sans-serif;
+    transition: background 0.25s ease,
+                border-color 0.25s ease,
+                color 0.25s ease;
+    cursor: pointer;
+    box-sizing: border-box;
+    white-space: nowrap;
+}
+
+/* =======================
+   آیکن‌ها
+======================= */
+.icon {
+    display: flex;
+    align-items: center;
+}
+
+.icon svg {
+    width: 20px;
+    height: 20px;
+    transition: stroke 0.25s ease;
+}
+
+/* آیکن سمت راست پیش‌فرض مخفی */
+.icon.right {
+    display: none;
+}
+
+/* =======================
+   متن وسط
+======================= */
+.label {
+    line-height: 1;
+    text-align: center;
+}
+
+/* =======================
+   حالت فعال
+======================= */
+.options button.active-option {
+    background: #706DF2;
+    color: #fff;
+    border-color: #5A57C2;
+    /* 👇 افکت باز شدن موقع فعال شدن */
+   
+}
+
+/* سفید شدن SVG در حالت فعال */
+.options button.active-option svg path {
+    stroke: #ffffff;
+}
+
+.options button.active-option svg g {
+    opacity: 1;
+}
+
+/* ✅ نمایش آیکن سمت راست */
+.options button.active-option .icon.right {
+    display: flex;
+}
+
+/* =======================
+   هاور
+======================= */
+.options button:hover:not(.active-option) {
+    border-color: #706DF2;
+}
+
+
+/* 🔹 ورودی‌ها با آیکن؛ حالت عادی، فوکوس و Filled */
+.input-icon-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+/* عادی */
+.input-icon-wrapper input {
+    width: 100%;
+    height: 48px;
+    border: 1px solid #C6C5FA;
+    border-radius: 32px;
+    padding: 10px 50px;
+    font-size: 16px;
+    background: #F8F7FC;
+    font-family: "Bonyade Koodak VF";
+    color: #A9A7F7;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+.input-icon-wrapper input::placeholder {
+    color: #A9A7F7;
+    transition: opacity 0.25s ease;
+        font-weight: 400;
+        font-size: 16px;
+
+}
+.input-icon-wrapper input:focus::placeholder { opacity: 0; }
+
+/* آیکن‌ها در سه حالت */
+.icon-left, .icon-right, .icon-single {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 22px;
+    height: 22px;
+    cursor: pointer;
+    transition: 0.3s ease;
+    content: url('./img/18.png');
+}
+.icon-left { left: 16px; }
+.icon-right { right: 16px; }
+.icon-single { left: 16px; }
+
+/* فوکوس */
+.input-icon-wrapper:focus-within input {
+    border: 2px solid #706DF2;
+    color: #5C5C66;
+    outline: none;
+    box-shadow: none;
+}
+.input-icon-wrapper:focus-within .icon-left,
+.input-icon-wrapper:focus-within .icon-right,
+.input-icon-wrapper:focus-within .icon-single {
+    color: #706DF2;
+    filter: brightness(1.15);
+}
+
+/* Filled */
+.input-icon-wrapper.filled input {
+    border: 1px solid #706DF2;
+    color: #706DF2;
+    background: #F8F7FC;
+}
+.input-icon-wrapper.filled .icon-left,
+.input-icon-wrapper.filled .icon-right,
+.input-icon-wrapper.filled .icon-single {
+    content: url('./img/17.png');
+    filter: brightness(1.15);
+}
+
+/* افکت کلیک */
+.icon-left.active, .icon-right.active, .icon-single.active {
+    filter: drop-shadow(0 0 8px #00ff91);
+    transform: translateY(-50%) scale(1.1);
+}
+/* 1. حالت پیش‌فرض (خالی): از همان استایل SVG درون‌خطی استفاده می‌کنیم */
+.input-icon-wrapper .icon-single path {
+    /* اطمینان حاصل می‌کند که در حالت عادی، رنگ کم‌رنگ (#A9A7F7) که در HTML آمده است، حفظ شود. */
+    stroke: #A9A7F7;
+    transition: stroke 0.3s ease;
+}
+
+/* 2. حالت فوکوس: آیکون روشن شود */
+.input-icon-wrapper:focus-within .icon-single path {
+    stroke: #706DF2; /* رنگ روشن (آبی پررنگ) */
+}
+
+/* 3. حالت Filled: آیکون روشن شود */
+.input-icon-wrapper.filled .icon-single path {
+    stroke: #706DF2; /* رنگ روشن (آبی پررنگ) */
+}
+
+/* برای opacity=0.4 (بخش‌های داخلی) */
+
+/* حالت فوکوس */
+.input-icon-wrapper:focus-within .icon-single path[opacity="0.4"] {
+    stroke: #706DF2;
+    opacity: 0.6; /* کمی opacity را هم افزایش می‌دهیم تا روشن‌تر به نظر برسد */
+}
+
+/* حالت Filled */
+.input-icon-wrapper.filled .icon-single path[opacity="0.4"] {
+    stroke: #706DF2;
+    opacity: 0.6;
+}
+
+/* بخش تاریخ */
+.date {
+    display: flex;
+    gap: 10px;
+}
+
+/* دکمه اعمال */
+.apply {
+    width: 100%;
+    background: #706DF2;
+    color: #E6E5FF;
+    font-size: 20px;
+    border: none;
+    border-radius: 30px;
+    padding: 12px 0;
+    margin-top: 16px;
+    margin-bottom: 12px;
+    transition: all 0.3s ease;
+    font-family: "Bonyade Koodak VF";
+}
+
+.apply:hover {
+    background: #5A57C2;
+}
+
+.apply:active {
+    background: #434191;
+}
+
+
+/* ═══════════════════════════════════════════════════════
+   بخش ۱۰: Utility Classes
+   ═══════════════════════════════════════════════════════ */
+.hidden {
+    display: none;
+}
+
+.d-flex {
+    display: flex;
+}
+
+.justify-content-between {
+    justify-content: space-between;
+}
+
+.align-items-center {
+    align-items: center;
+}
+
+.mb-2 {
+    margin-bottom: 8px;
+}
+
+.pt-3 {
+    padding-top: 12px;
+}
+
+.mt-3 {
+    margin-top: 12px;
+}
+
+
+
+
+
+   .city-modal {
+      position: fixed;
+      left: 0;
+      bottom: -100%;
+      width: 100%;
+      height: 538px;
+      backdrop-filter: blur(6px);
+      background: #E2E2FCB2;
+      border-top-left-radius: 35px;
+      border-top-right-radius: 35px;
+      box-shadow: 0 -2px 4px 0 var(--Primary-100, #E2E2FC);
+      transition: bottom 0.4s ease;
+      z-index: 1000;
+
+      /* 👇👇 اینا رو اضافه کن تا مودالت اسکرول بشه */
+      overflow-y: auto;
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+      /* برای اسکرول نرم در موبایل */
+    }
+
+    .city-modal.open {
+      bottom: 0;
+    }
+
+    .city-container {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      padding: 24px;
+
+    }
+
+    /* بخش‌های داخلی مثل قبل */
+    .city-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .clear-btn {
+      background: transparent;
+      color: #706DF2;
+      font-weight: 500;
+      border: none;
+    }
+
+   /* ==== CITY SELECTOR FINAL FIXED RIGHT ICON ==== */
+
+.city-input {
+  position: relative;
+  border-radius: 24px;
+  border: 1px solid #C6C5FA; /* دیفالت مثل سرچ‌باکس */
+  color: #A9A7F7;
+  font-size: 18px;
+  font-weight: 400;
+  padding: 8px 8px 8px 12px; /* جا برای آیکن سمت راست */
+  cursor: pointer;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  
+background: var(--Surface-Default, #F5F5FA);
+}
+
+/* ✅ وقتی فوکوس یا کلیک می‌شه */
+.city-input:focus-within {
+  border: 2px solid #706DF2;
+ 
+}
+/* ✅ وقتی فوکوس می‌گیره، رنگ نوشته "City" آبی بشه */
+.city-input:focus-within .city-top .city-label {
+  color: #706DF2;
+  font-weight: 500; /* اگه بخوای کمی ضخیم‌تر دیده بشه */
+}
+
+/* ✅ وقتی منوی شهر باز بشه */
+.city-input.expanded {
+  border: 2px solid #706DF2;
+  padding-bottom: 20px; /* کش بیاد برای منو */
+  border-radius: 24px 24px 0 0; /* ⬅️ پایین صاف */
+}
+
+/* ✅ وقتی گزینه‌ای انتخاب شده و فیلد پره */
+.city-input.filled:not(:focus-within):not(.expanded) {
+  border: 1px solid #706DF2;
+  background: #F8F7FC;
+}
+
+/* متن در حالت پر شده */
+.city-input.filled .city-label,
+.city-input.filled .selected-city {
+  color: #706DF2;
+  font-weight: 500; /* مثل حرف محمد‌جووون */
+}
+
+/* آیکن سمت راست که ثابت بمونه */
+.city-icon-right {
+  position: absolute;
+  right: 18px;
+  top: 8px; /* همیشه بالا ‍‍مثل سرچ‌باکس */
+  transform: none;
+  pointer-events: none;
+  transition: stroke 0.25s ease;
+  z-index: 2;
+}
+
+.city-icon-left{
+  padding-right: 7px;
+}
+
+/* آیکن در حالت‌های فوکوس، باز یا پر */
+.city-input:focus-within svg path,
+.city-input.expanded svg path,
+.city-input.filled svg path {
+  stroke: #706DF2 !important;
+}
+
+/* منوی گزینه‌ها */
+.city-options {
+  position: absolute;
+  top: calc(100% - 4px); /* چسبیده به input */
+  left: 0;
+  right: 0;
+  border-radius: var(--Border-Radius-600, 24px);
+border: var(--Border-Width-50, 2px) solid var(--Border-Primary-Default, #706DF2);
+background: var(--Surface-Default, #F5F5FA);
+  border-top: none;
+  margin-left: -1.50px;
+  margin-right: -1.50px;
+  border-radius: 0 0 24px 24px;
+  padding: 0px 20px 16px;
+
+
+  display: none;
+  flex-direction: column;
+  gap: 8px;
+
+  z-index: 9999; /* روی همه */
+}
+/* موقع باز شدن */
+.city-input.expanded .city-options {
+  display: flex;
+}
+
+.city-option {
+  cursor: pointer;
+  color: var(--Text-Primary-Default, #706DF2);
+padding-left: 21px;
+/* English/Body/LCopy */
+font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+font-size: var(--Font-Copy-Body-Lg-Text-Size, 20px);
+font-style: normal;
+font-weight: 400;
+line-height: var(--Font-Copy-Body-Lg-Line-Heigth, 24px); /* 120% */
+}
+
+.city-option:hover {
+  color: #5A57C2;
+}
+.city-input.expanded .city-icon-right {
+  opacity: 0; /* آیکن محو شود */
+}
+
+
+
+
+
+    .city-map img {
+      width: 100%;
+      border-radius: 24px;
+      object-fit: cover;
+    }
+
+    .apply-filters-btn {
+border-radius: 40px;
+background: var(--Primary-500, #706DF2);      border: none;
+      border-radius: 24px;
+padding: 12px 16px;
+      color: var(--Text-On-Color-Heading, #E6E5FF);
+text-align: center;
+
+margin-top: 20px;
+
+/* English/Button/Medium */
+font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+font-size: var(--Font-Button-Medium-Text-Size, 20px);
+font-style: normal;
+font-weight: 500;
+line-height: normal;
+    }
+
+     .apply-filters-btn:hover {
+      background: #5A57C2;
+    }
+
+
+
+    .filter-btn {
+      background: transparent;
+      color: #706DF2;
+      font-size: 18px;
+      font-weight: 500;
+      border: none;
+      border-radius: 24px;
+      padding: 8px 20px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .filter-btn.active {
+      background: #706DF2;
+      /* آبی همون تم فرّا */
+      color: #fff;
+      /* متن سفید */
+    }
+
+    /* 1. وقتی یک شهر انتخاب شد (کلاس filled فعال شد)، لیبل "City" را مخفی کن */
+.city-input.filled .city-label {
+    display: none !important; /* از !important استفاده می‌کنم تا مطمئن شوم override می‌شود */
+}
+
+/* 2. اطمینان حاصل کن که متن انتخاب شده (نام شهر) کاملاً نمایش داده شود */
+.city-input .selected-city {
+    /* این استایل‌ها را چک کنید تا مطمئن شوید که متن انتخاب شده به اندازه کافی بزرگ و در جای درست قرار گیرد */
+    font-size: 16px; /* اندازه دلخواه متن انتخاب شده */
+    font-weight: 500;
+    color: #2c2a40; /* رنگ متن انتخابی */
+}

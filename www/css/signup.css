@@ -132,37 +132,45 @@
       border-radius: 1px;
   }
 
-  /* ======= 🚨 باکس خطا (مخفی به صورت پیش‌فرض) ======= */
-  .error-alert {
-      position: fixed;
-      top: -80px;
-      /* شروع: خارج از کادر بالایی */
-      left: 50%;
-      transform: translateX(-50%);
-      width: 345px;
-      height: 78px;
+.error-alert {
+    position: fixed;
+    top: -80px; /* شروع: خارج از کادر بالایی */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 345px;
+    height: 78px;
+    
+    border: 1px solid #FF595B;
+    background: rgba(255, 89, 91, 0.10);
+    backdrop-filter: blur(8px);
+    border-radius: 24px;
+    padding: 10px 20px;
+    z-index: 99999;
+    
+    /* ✅ وسط‌چین کردن محتوا */
+    display: flex;
+    align-items: center;        /* وسط‌چین عمودی */
+    justify-content: flex-start; /* شروع از راست (چون RTL) */
+    gap: 12px;
+    
+    opacity: 0;
+    transition: top 0.4s ease-out, opacity 0.4s ease-out;
+}
 
-      border: var(--Border-Width-25, 1px) solid var(--Icon-Error-Default, #FF595B);
-      background: rgba(255, 89, 91, 0.10);
+/* وقتی نمایش داده میشه */
+.error-alert.show {
+    top: 20px;  /* فاصله از بالا */
+    opacity: 1;
+}
 
-      backdrop-filter: blur(8px);
-      border-radius: var(--Border-Radius-600, 24px);
-      padding: 10px 20px;
-      z-index: 99999;
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      opacity: 0;
-      /* مخفی در شروع */
-      transition: top 0.4s ease-out, opacity 0.4s ease-out;
-  }
-
-  /* وقتی نمایش داده می‌شود */
-  .error-alert.show {
-      top: 32px;
-      /* مقصد نهایی */
-      opacity: 1;
-  }
+/* محتوای داخل */
+.error-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* ✅ تراز عمودی وسط */
+    gap: 2px;
+}
 
 
 
@@ -209,11 +217,10 @@
   .error-content {
       flex: 1;
   }
-social-icon
   .error-title {
       font-size: 16px;
       font-weight: 700;
-      color: #1C1C1E;
+color: var(--Text-Default-Heading, #45454D);
       margin-bottom: 0px;
       font-family: "Bonyade Koodak VF bold";
 
@@ -221,7 +228,7 @@ social-icon
 
   .error-message {
       font-size: 13px;
-      color: #48484A;
+color: var(--Text-Default-Body, #5C5C66);
       line-height: 1.4;
   }
 
