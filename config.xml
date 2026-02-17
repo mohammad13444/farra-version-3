@@ -39,7 +39,9 @@
 
     <!-- ================= ANDROID ================= -->
     <platform name="android">
-
+<preference name="AndroidXEnabled" value="true" />
+    <preference name="AndroidXJetifierEnabled" value="true" />
+    <preference name="AndroidPersistentFileLocation" value="Compatibility" />
         <!-- آیکون‌ها -->
         <icon src="www/resources/48-48.jpg" density="mdpi"/>
         <icon src="www/resources/72-72.jpg" density="hdpi"/>
@@ -56,7 +58,6 @@
             <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
             <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
         </config-file>
-         <preference name="AndroidXEnabled" value="true" />
     <config-file parent="/*" target="AndroidManifest.xml">
         <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
         <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />

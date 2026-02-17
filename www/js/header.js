@@ -125,11 +125,7 @@
 
     </div>
 </div>
-<br>
-<br>
-<br>
-<br>
-<br>
+
   <div class="home-container">
 
     <!-- ✅ آیکون فیلتر -->
@@ -346,12 +342,13 @@
   <path   d="M12.3328 22C9.11276 22 4 16.3986 4 10.4429C4 5.78051 7.73011 2 12.3328 2C16.9354 2 20.6667 5.78051 20.6667 10.4429C20.6667 16.3986 15.5539 22 12.3328 22Z" stroke="#A9A7F7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
               </span>
-                <span class="city-label">City</span>
+                <span class="city-label">From</span>
                   <span class="selected-city"></span>
 
                <span class="city-icon-right">
        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-  <path d="M4.14107 8.73482C3.83284 8.16282 4.04648 7.44929 4.61849 7.14094C5.0059 6.93211 5.45825 6.96294 5.80578 7.18235C5.97119 7.2867 6.11284 7.434 6.21225 7.61835L6.21355 7.62058L6.22025 7.63294L6.24954 7.68623C6.27613 7.73411 6.31637 7.806 6.36931 7.89858C6.47508 8.08376 6.63119 8.35082 6.82896 8.67235C7.2259 9.31757 7.7839 10.1714 8.43449 11.0193C9.09037 11.8741 9.81143 12.6848 10.529 13.2711C11.2744 13.8802 11.8586 14.1178 12.2626 14.1178C12.6673 14.1178 13.2523 13.8799 13.9979 13.2709C14.7159 12.6846 15.4373 11.8739 16.0935 11.0191C16.7443 10.1712 17.3025 9.31741 17.6996 8.67223C17.8974 8.3507 18.0535 8.08364 18.1594 7.89847C18.2126 7.80541 18.2656 7.71212 18.3166 7.61788C18.6251 7.04623 19.3385 6.8327 19.9103 7.14106C20.4822 7.44941 20.6959 8.16306 20.3875 8.73494C20.3274 8.84635 20.2649 8.95649 20.202 9.06641C20.0853 9.27046 19.9163 9.55947 19.7035 9.90526C19.2794 10.5946 18.675 11.5202 17.9599 12.4518C17.2502 13.3763 16.4025 14.345 15.4863 15.0933C14.5979 15.8188 13.4837 16.4707 12.2626 16.4707C11.0418 16.4707 9.92802 15.8186 9.04013 15.0931C8.12437 14.3448 7.27708 13.3761 6.56766 12.4516C5.85296 11.52 5.24884 10.5944 4.82484 9.90509C4.61213 9.55931 4.44307 9.2703 4.32649 9.06625C4.26813 8.96418 4.22284 8.8832 4.19154 8.82682L4.15531 8.76105L4.14543 8.74282L4.1426 8.73752L4.14107 8.73482Z" fill="#A9A7F7"/>
+  <path opacity="0.4" fill-rule="evenodd" clip-rule="evenodd" d="M2 11.5726C2 4.39264 4.5 2 12 2C19.5 2 22 4.39264 22 11.5726C22 18.7516 19.5 21.1453 12 21.1453C4.5 21.1453 2 18.7516 2 11.5726Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M8.5 9H15.7292M8.5 14.2089H15.7292" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
 
       </span>
@@ -435,8 +432,9 @@
     <div class="search-overlay">
       <div class="search-popup">
         <div class="popup-header d-flex justify-content-between align-items-center mb-2">
-          <h4 class="popup-title">Recent Searches</h4> <!-- ✅ کلاس اضافه شد -->
-          <button class="clear-btn">Clear All</button>
+          <h4 class="popup-title">Recent Searches</h4>
+<button class="clear-btn">Clear All</button>
+
         </div>
 
         <div class="no-results">
@@ -544,6 +542,141 @@
       </div>
     </div>
     </div>
+
+
+    <div class="home">
+
+     <!-- 🔍 صفحه نتایج فیلتر -->
+    <div id="filter" class="hidden">
+      <br>
+      <br>
+      <div class="filter-results">
+        <h2 class="results-heading">
+          <!-- 55 Search Results -->
+           No Search Results
+          <a href="#" id="toggle-slider">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <path d="M12.965 2.05869L17.9111 2.79923C20.5554 3.19491 21.9208 5.30737 21.5251 7.94848L20.4592 15.075C20.0635 17.7162 18.1403 19.3368 15.4948 18.9411L10.5499 18.2005C7.90555 17.8048 6.54012 15.6934 6.93472 13.0512L8.00176 5.92468C8.39636 3.28357 10.3283 1.66517 12.965 2.05869Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M8.16806 5.19434L4.98964 6.24408C2.44691 7.08085 1.44798 9.39222 2.29555 11.935L4.54531 18.7762C5.38316 21.3091 7.55292 22.5804 10.0849 21.7438L14.8482 20.1794C15.6449 19.9275 16.3108 19.5037 16.7952 18.9685" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+          </a>
+        </h2>
+
+        <!-- دسته‌های فیلتر همان بالا -->
+        <div class="filter-chips">
+           <button><img src="./img/17.png" width="22px" height="22px" alt="">Hotels</button>
+        <button><img src="./img/17.png" width="22px" height="22px" alt="">Apartment</button>
+        <button><img src="./img/17.png" width="22px" height="22px" alt="">Villa</button>
+        <button><img src="./img/17.png" width="22px" height="22px" alt="">Farms</button>
+        <button><img src="./img/17.png" width="22px" height="22px" alt="">Resort</button>
+
+
+
+
+        </div>
+
+        <!-- گروه Hotels -->
+        <!-- <div class="section-group">
+          <div class="group-title">
+            <h3>Hotels</h3>
+            <span>4</span>
+          </div>
+
+          <div class="hotel-card">
+            <img src="./img/29.png" alt="Hotel Transylvania">
+            <div class="info" style="padding: 0px;">
+              <h4>Hotel Transylvania</h4>
+              <p>Bucharest • Romania</p>
+              <strong>50 USD / Night</strong>
+            </div>
+          </div>
+
+        
+
+          <div class="hotel-card">
+            <img src="./img/29.png" alt="">
+            <div class="info" style="padding: 0px;">
+              <h4>Hotel Transylvania</h4>
+              <p>Bucharest • Romania</p>
+              <strong>50 USD / Night</strong>
+            </div>
+          </div>
+
+        
+
+          <div class="hotel-card">
+            <img src="./img/29.png" alt="">
+            <div class="info" style="padding: 0px;">
+              <h4>Hotel Transylvania</h4>
+              <p>Bucharest • Romania</p>
+              <strong>50 USD / Night</strong>
+            </div>
+          </div>
+
+        
+
+          <div class="hotel-card">
+            <img src="./img/29.png" alt="">
+            <div class="info" style="padding: 0px;">
+              <h4>Hotel Transylvania</h4>
+              <p>Bucharest • Romania</p>
+              <strong>50 USD / Night</strong>
+            </div>
+          </div>
+        </div>
+
+       
+        <div class="section-group">
+          <div class="group-title">
+            <h3>Farms</h3>
+            <span>2</span>
+          </div>
+
+          <div class="hotel-card">
+            <img src="./img/29.png" alt="">
+            <div class="info" style="padding: 0px;">
+              <h4>Hotel Transylvania</h4>
+              <p>Bucharest • Romania</p>
+              <strong>50 USD / Night</strong>
+            </div>
+          </div>
+
+        
+
+          <div class="hotel-card">
+            <img src="./img/29.png" alt="">
+            <div class="info" style="padding: 0px;">
+              <h4>Hotel Transylvania</h4>
+              <p>Bucharest • Romania</p>
+              <strong>50 USD / Night</strong>
+            </div>
+          </div> -->
+
+          <!-- <div class="fara-item-box">
+                <div class="fara-img-holder position-relative">
+                    <img src="./img/20.jpg" class="img-fluid rounded-top" alt="">
+                    <div class="fara-star-mark position-absolute">✧ 3.5</div>
+                    <div class="fara-price-bar d-flex justify-content-between align-items-center ">
+                        <span class="fara-price-main">Price <span class="fara-price-sub">/Night</span></span>
+                        <div class="fara-price-icon">⤿</div>
+                    </div>
+                </div>
+                <div class="fara-info-panel px-3 pb-2">
+                    <h4>Hotel Transylvania</h4>
+                    <p>Bucharest • Romania</p>
+                </div>
+            </div> -->
+            <div class="empty-box">
+  <img src="./img/box.png" alt="No Rooms Found">
+  <h3>No Rooms Found!</h3>
+  <p>
+    Sorry, but I could not find any places.please check your search or reset the filters you may applied.
+  </p>
+</div>
+
+        </div>
+      </div>
+      </div>
   `;
 
   /* ─────────────────────────────────────────────
@@ -575,6 +708,25 @@
     const filterModal = document.getElementById('filter-modal');
     const filterBtn = document.getElementById('open-filters');
 const bottomNav = document.querySelector('.bottom-nav');
+const home = document.getElementById('home');         // صفحه اصلی
+const filterPage = document.getElementById('filter'); // صفحه فیلتر
+/* ===== 🟢 کلیک Apply Filters ===== */
+    const applyBtn = document.querySelector('.apply');
+    if (applyBtn) {
+        applyBtn.addEventListener('click', () => {
+            filterModal.classList.add('hidden');
+            home.classList.add('fade-out');
+            setTimeout(() => {
+                home.classList.add('hidden');
+                filterPage.classList.remove('hidden');
+                filterPage.classList.add('fade-in');
+                bottomNav.classList.remove('hide-bottom-nav');
+                triggers.forEach(t => t.classList.add('active-filter'));
+            }, 300);
+            filterOpen = false;
+            filterPageActive = true;
+        });
+    }
 
     // آیکن‌های جستجو
     const defaultIcons = document.querySelectorAll('.default-icon');
@@ -651,6 +803,7 @@ window.addEventListener('scroll', () => {
         deletedBtn.style.display = 'none';
       }
     });
+popupTitle.textContent = 'Search Results';
 
     deletedBtn.addEventListener('click', function (e) {
       e.preventDefault();
@@ -670,64 +823,22 @@ window.addEventListener('scroll', () => {
     /* ────────────────────────────────────────
        🔍 فاز ۱: focus روی input
     ──────────────────────────────────────── */
-  searchInput.addEventListener('focus', function () {
-    showFocusIcons();
-    searchOverlay.classList.add('active'); // ✅ تغییر از style.display به classList
-                    searchOverlay.classList.add('show-results'); // ✅ اضافه شد
 
-
-    if (this.value.trim() === '') {
-        resetToPhase1();
-    }
-});
 
     /* ────────────────────────────────────────
        🔍 فازهای ۲-۴: تایپ کردن
     ──────────────────────────────────────── */
     searchInput.addEventListener('input', function () {
-      const query = this.value.trim().toLowerCase();
+  const query = this.value.trim().toLowerCase();
 
-      if (query === '') {
-        resetToPhase1();
-        return;
-      }
+  if (query === '') {
+    resetToPhase1();
+    return;
+  }
 
-      // فاز ۲: فیلتر لیست
-      showFocusIcons();
-      popupTitle.textContent = 'Search Results';
-      clearBtn.style.display = 'none';
+  
+});
 
-      let anyVisible = false;
-
-      listItems.forEach(item => {
-        const text = item.textContent.toLowerCase();
-        if (text.includes(query)) {
-          item.style.display = 'list-item';
-          item.innerHTML = highlightText(item.textContent, query);
-          anyVisible = true;
-        } else {
-          item.style.display = 'none';
-        }
-      });
-
-      noResults.style.display = 'none';
-      resultsBox.style.display = 'none';
-      searchList.style.display = 'block';
-
-      if (!anyVisible) {
-        // فاز ۳: نتیجه یافت نشد
-        searchList.style.display = 'none';
-        noResults.style.display = 'flex';
-
-        // فاز ۴: نمایش نتایج بعد از ۱.۵ ثانیه
-        setTimeout(() => {
-          if (searchInput.value.trim() !== '') {
-            noResults.style.display = 'none';
-            resultsBox.style.display = 'block';
-          }
-        }, 1500);
-      }
-    });
 
     /* ────────────────────────────────────────
        🔁 ریست به فاز ۱
@@ -744,16 +855,131 @@ window.addEventListener('scroll', () => {
         item.innerHTML = item.textContent;
       });
     }
+const svgFocusIcon = `
+<svg style="margin-right:8px;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+  <path d="M2 16.9515L5.23349 17.6996L5.97728 14.4834" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M18.2162 17.7002L21.9999 21.4753" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M21.6478 5.32623L18.4143 4.57812L17.6705 7.79433" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M18.4053 4.85156C21.8377 8.4029 21.814 14.0645 18.3189 17.5877C16.1297 19.7942 13.0908 20.6439 10.2465 20.1358" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M5.24054 17.4268C1.80812 13.8755 1.83191 8.21384 5.32702 4.69061C7.5162 2.48522 10.5551 1.63442 13.3994 2.14251" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>`;
+
+const svgInputIcon = `
+<svg style="margin-right:0px;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+  <path opacity="0.4" d="M17.6691 16.6162L22 21.2326" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M19.5401 10.77C19.5401 15.6138 15.6138 19.54 10.77 19.54C5.92623 19.54 2 15.6138 2 10.77C2 5.92623 5.92623 2 10.77 2" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M16.5343 8.02025L16.6513 7.7037C17.0923 6.51007 18.0321 5.56896 19.2239 5.12728L19.54 5.01014L19.2239 4.89301C18.0321 4.45133 17.0923 3.51022 16.6513 2.31659L16.5343 2L16.4173 2.31659C15.9763 3.51022 15.0366 4.45133 13.8447 4.89301L13.5286 5.01014L13.8447 5.12728C15.0366 5.56896 15.9763 6.51007 16.4173 7.7037L16.5343 8.02025Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M11.1702 12.3083C11.3689 11.6545 11.8799 11.1428 12.5328 10.9437C11.8799 10.7447 11.3689 10.233 11.1702 9.5791C10.9715 10.233 10.4605 10.7447 9.80762 10.9437C10.4605 11.1428 10.9715 11.6545 11.1702 12.3083Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>`;
 
     /* ────────────────────────────────────────
        ✨ هایلایت متن
     ──────────────────────────────────────── */
-  function highlightText(text, query) {
-  const regex = new RegExp(`(${query})`, 'gi');
-  return text.replace(
-    regex,
-    '<span class="search-highlight">$1</span>'
-  );
+ function highlightText(text, query) {
+  if (!query) return `<span style="color:black;">${text}</span>`;
+
+  const regex = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi'); // حساس به حروف کوچک و بزرگ و ایمن
+  const parts = text.split(regex);
+
+  // parts یک آرایه است که شامل رشته‌های تطابق یافته و غیرتطابق یافته است.
+  // تطابق یافته‌ها در ایندکس‌های فرد قرار دارند، غیرتطابق یافته‌ها در ایندکس‌های زوج
+
+  return parts.map(part => {
+    if (part.toLowerCase() === query.toLowerCase()) {
+      // بخش مطابق: رنگ آبی و بولد
+      return `<span style="color:#706DF2; font-weight: 400;">${part}</span>`;
+    } else {
+      // بخش غیرمطابق: رنگ مشکی
+      return `<span style="color: #8A8999;">${part}</span>`;
+    }
+  }).join('');
+}
+
+searchInput.addEventListener('focus', () => {
+  showFocusIcons();
+  searchBox.classList.add('active');
+  searchBox.classList.remove('filled');
+  searchInput.style.color = '#000';
+  searchInput.setAttribute('placeholder', '');
+
+  searchOverlay.classList.add('active');
+
+  popupTitle.style.display = 'inline-block';
+  popupTitle.textContent = 'Recent Searches';  // ✅ وقتی فقط کلیک کنی
+  clearBtn.style.display = 'inline-block';
+
+  searchList.style.display = 'block';   // ✅ اصلاح شد (listContainer → searchList)
+  noResults.style.display = 'none';     // ✅ اصلاح شد (noResultsBox → noResults)
+  resultsBox.style.display = 'none';
+  
+  if (bottomNav) {
+    bottomNav.classList.remove('hide-bottom-nav');
+  }
+
+  listItems.forEach(item => {
+    const clean = item.textContent.trim().replace(/^✧\s*/, '');
+    item.dataset.text = clean;
+    item.innerHTML = svgFocusIcon + `<span style="color:#4b43c4;font-weight:400">${clean}</span>`;
+    item.style.display = 'block';
+  });
+});
+
+searchInput.addEventListener('input', function () {
+  const query = this.value.trim().toLowerCase();
+
+  if (query === '') {
+    resetToPhase1();
+    return;
+  }
+
+  showFocusIcons();
+  popupTitle.textContent = 'Suggestions';  // ✅ اصلاح شد
+  clearBtn.style.display = 'none';
+
+  let anyVisible = false;
+
+  listItems.forEach(item => {
+    const text = item.textContent.toLowerCase();
+    if (text.includes(query)) {
+      item.style.display = 'list-item';
+      item.innerHTML = svgInputIcon + highlightText(item.textContent, query);
+      anyVisible = true;
+    } else {
+      item.style.display = 'none';
+    }
+  });
+
+  noResults.style.display = 'none';
+  resultsBox.style.display = 'none';
+  searchList.style.display = 'block';
+
+  if (!anyVisible) {
+    searchList.style.display = 'none';
+    noResults.style.display = 'flex';
+
+    setTimeout(() => {
+      if (searchInput.value.trim() !== '') {
+        noResults.style.display = 'none';
+        resultsBox.style.display = 'block';
+      }
+    }, 1500);
+  }
+});
+
+
+function resetToPhase1() {
+  popupTitle.textContent = 'Recent Searches';
+  clearBtn.style.display = 'inline-block';
+  searchList.style.display = 'block';
+  noResults.style.display = 'none';
+  resultsBox.style.display = 'none';
+
+  listItems.forEach(item => {
+    item.style.display = 'list-item';
+    const clean = item.textContent.trim().replace(/^✧\s*/, '');
+    item.dataset.text = clean;
+    item.innerHTML = svgFocusIcon + `<span style="color:#4b43c4;font-weight:400">${clean}</span>`;
+  });
 }
 
 
@@ -981,5 +1207,90 @@ document.addEventListener("DOMContentLoaded", () => {
     attributeFilter: ["class"]
   });
 });
+// ===============================
+// MAP PAGE - AUTO TRANSPARENT HEADER (FIX V2)
+// ===============================
+(function () {
+  function isMapPage() {
+    return (
+      window.location.pathname.includes('map') ||
+      window.location.href.includes('map') ||
+      document.body.classList.contains('map-page')
+    );
+  }
+
+  function applyTransparency() {
+    if (!isMapPage()) return;
+
+    // ✅ CSS Injection - قوی‌ترین روش
+    const styleId = 'map-transparent-header';
+    if (!document.getElementById(styleId)) {
+      const style = document.createElement('style');
+      style.id = styleId;
+      style.textContent = `
+        /* شفاف‌سازی تمام لایه‌های هدر */
+        #fara-header-root,
+        #farra-header-root,
+        [id*="fara"][id*="header"],
+        .headers-fixed,
+        .header-fixed,
+        .header,
+        header {
+          background: transparent !important;
+          background-color: transparent !important;
+          background-image: none !important;
+          box-shadow: none !important;
+          backdrop-filter: none !important;
+          -webkit-backdrop-filter: none !important;
+        }
+        
+        /* اگر blur layer جداگانه‌ای دارید */
+        .header-blur {
+          display: none !important;
+        }
+      `;
+      document.head.appendChild(style);
+      console.log('✅ Transparent header CSS injected for map page');
+    }
+  }
+
+  // اجرا در مراحل مختلف
+  function runFixes() {
+    applyTransparency();
+    
+    // بررسی مجدد بعد از inject شدن DOM
+    setTimeout(applyTransparency, 100);
+    setTimeout(applyTransparency, 300);
+    setTimeout(applyTransparency, 600);
+  }
+
+  // شروع
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', runFixes);
+  } else {
+    runFixes();
+  }
+
+  // Observer برای تغییرات DOM
+  const observer = new MutationObserver(function(mutations) {
+    mutations.forEach(function(mutation) {
+      if (mutation.addedNodes.length) {
+        mutation.addedNodes.forEach(function(node) {
+          if (node.id && node.id.includes('fara')) {
+            applyTransparency();
+          }
+        });
+      }
+    });
+  });
+
+  observer.observe(document.body, {
+    childList: true,
+    subtree: true
+  });
 
 })();
+
+
+})();
+  

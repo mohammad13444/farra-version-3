@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
 <title>Booked Successful</title>
 <style>
@@ -35,6 +36,7 @@ background: var(--Surface-Page, #EFEFFE);
     width: 100%;
     max-width: 390px;
         padding: 24px 24px 24px;
+        padding-top: 0px;
 
   }
 
@@ -49,7 +51,7 @@ background: var(--Surface-Page, #EFEFFE);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 24px;
+  margin-bottom: 0px;
   
 }
 
@@ -865,7 +867,7 @@ line-height: var(--Font-Copy-Body-Line-Heigth, 20px); /* 125% */
   <path opacity="0.4" d="M7.78615 21.1365C11.4884 22.8545 16.0155 22.1919 19.0712 19.1257C22.9725 15.2113 22.98 8.85771 19.0712 4.93577C15.1701 1.02141 8.83142 1.02141 4.92918 4.93577C1.87441 8.00196 1.21286 12.5443 2.92618 16.2591C3.14561 16.8079 3.3164 17.2504 3.3164 17.6789C3.3164 18.8762 2.16519 20.3589 2.93267 21.129C3.70014 21.8991 5.17888 20.744 6.36577 20.7374C6.79167 20.7374 7.23918 20.9153 7.78615 21.1365Z" stroke="#44CD54" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
   <path d="M8.37354 12.099L10.7592 14.4926L15.5294 9.7063" stroke="#44CD54" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
-    <p class="notification-text">Hotel Transylvania added to your contacts successfully.</p>
+<p class="notification-text" data-i18n="successNotification">Hotel Transylvania added to your contacts successfully.</p>
   </div>
 </div>
 
@@ -879,8 +881,8 @@ line-height: var(--Font-Copy-Body-Line-Heigth, 20px); /* 125% */
   </div>
 
 
-  <div class="title">Booked Successful</div>
-  <div class="subtitle">Thanks for the payment.<br>your reserve card is issued.</div>
+  <div class="title" data-i18n="bookedTitle">Booked Successful</div>
+<div class="subtitle" data-i18n="bookedSubtitle">Thanks for the payment.<br>your reserve card is issued.</div>
 
   <!-- Gradient Card -->
  
@@ -1393,7 +1395,7 @@ line-height: var(--Font-Copy-Body-Line-Heigth, 20px); /* 125% */
     </div>
 
     <!-- Button -->
-    <button class="okay-btn" id="closeModal">Okay</button>
+<button class="okay-btn" id="closeModal" data-i18n="okayBtn">Okay</button>
   </div>
 </div>
        <div class="ddd" id="flipButton">
@@ -1426,15 +1428,17 @@ line-height: var(--Font-Copy-Body-Line-Heigth, 20px); /* 125% */
   <path opacity="0.4" d="M7.87158 17.0629H7.88058" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
   <path d="M16.2832 2V5.262" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
   <path d="M8.2749 2V5.262" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>     <div class="label" style="margin-left: 0px;">Date</div>
+</svg>         <div class="label" data-i18n="labelDate" style="margin-left: 0px;">Date</div>
+
       <div class="value" style="margin-left:15px;">Thursday 24/05/2025</div>
     </div>
     <div class="row">
-      <div class="label" style="margin-left:25px;">Ref. Code</div>
+    <div class="label" data-i18n="labelRefCode" style="margin-left:25px;">Ref. Code</div>
       <div class="value" style="margin-left:20px;">2560521456</div>
     </div>
     <div class="row">
-      <div class="label" style="margin-left:25px;">Bank</div>
+          <div class="label" data-i18n="labelBank" style="margin-left:25px;">Bank</div>
+
       <div class="value">
           
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -1453,15 +1457,16 @@ line-height: var(--Font-Copy-Body-Line-Heigth, 20px); /* 125% */
   <path d="M6.3496 15.6122H9.31281" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
   <path d="M6.3496 15.6122H9.31281" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
   <path opacity="0.4" d="M19.9664 5.66722V11.6045M19.9664 5.66722L17.9352 7.70827M19.9664 5.66722L22 7.70827" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>      <div class="label" style="margin-left: 0px;">Paid By</div>
+</svg>          <div class="label" data-i18n="labelPaidBy" style="margin-left: 0px;">Paid By</div>
+
       <div class="value">Muhammed Bagher</div>
     </div>
     <div class="row">
-      <div class="label">Card Number</div>
+    <div class="label" data-i18n="labelCardNumber">Card Number</div>
       <div class="value">2156 **** 2334</div>
     </div>
     <div class="row">
-      <div class="label">Via</div>
+    <div class="label" data-i18n="labelVia">Via</div>
       <div class="value">FIB Gateway</div>
     </div>
 
@@ -1475,12 +1480,12 @@ line-height: var(--Font-Copy-Body-Line-Heigth, 20px); /* 125% */
   <path opacity="0.4" d="M18.8759 13.0225H18.8845C20.718 13.3079 22 13.9749 22 15.3197C22 16.0137 21.6552 16.5283 21.066 16.9013" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
   <path opacity="0.4" d="M18.5466 9.81379C19.901 9.30681 20.6827 7.85175 20.3161 6.4183C20.02 5.25944 19.059 4.44759 17.9455 4.2876" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
   <path opacity="0.4" d="M5.45275 9.81379C4.09823 9.30681 3.31665 7.85175 3.68311 6.4183C3.97932 5.25944 4.94035 4.44759 6.05381 4.2876" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>      <div class="label" style="margin-left: 0px;">For</div>
-      <div class="value">2 adults</div>
+</svg>      <div class="label" data-i18n="labelFor" style="margin-left: 0px;">For</div>
+    <div class="value">2 <span data-i18n="labelAdults">adults</span></div>
     </div>
     <div class="row">
-      <div class="label">and</div>
-      <div class="value">3 Children</div>
+    <div class="label" data-i18n="labelAnd">and</div>
+    <div class="value">3 <span data-i18n="labelChildren">Children</span></div>
     </div>
 
     <div class="divider"></div>
@@ -1497,28 +1502,30 @@ line-height: var(--Font-Copy-Body-Line-Heigth, 20px); /* 125% */
   <path opacity="0.4" d="M7.87158 17.0629H7.88058" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
   <path d="M16.2832 2V5.262" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
   <path d="M8.2749 2V5.262" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>      <div class="label" style="margin-left: 0px;">From</div>
+</svg>          <div class="label" data-i18n="labelFrom" style="margin-left: 0px;">From</div>
+
       <div class="value">Thursday 24/05/2025</div>
     </div>
     <div class="row">
-      <div class="label">To</div>
+    <div class="label" data-i18n="labelTo">To</div>
       <div class="value">Thursday 24/05/2025</div>
     </div>
     <div class="row">
-      <div class="label">For</div>
+    <div class="label" data-i18n="labelFor">For</div>
       <div class="value">3 days and 2 nights</div>
     </div>
 
-    <div class="share">Share</div>
+  <div class="share" data-i18n="shareText">Share</div>
   </div>
 
   <!-- Support -->
-  <div class="support">
-    <h2>Support</h2>
+ <div class="support">
+  <h2 data-i18n="supportTitle">Support</h2>
+  <p data-i18n="supportHint">in case of any problem or need help call support team by tapping following link.</p>
+  <a href="#" data-i18n="supportLink">Call Support</a>
+</div>
+  <script src="cordova.js"></script>
 
-    <p>in case of any problem or need help call support team by tapping following link.</p>
-    <a href="#">Call Support</a>
-  </div>
 <script>
   const flipButton = document.getElementById('flipButton');
   const cardContainer = document.getElementById('cardFlipContainer');
@@ -1571,7 +1578,170 @@ addBtn.addEventListener('click', e => {
     successNotif.classList.remove('show');
   }, 3000);
 });
+document.addEventListener('deviceready', () => {
+    console.log('✅ Cordova is Ready');
 
+    const shareBtn = document.querySelector('.share');
+    const infoBox = document.querySelector('.info-box');
+
+    if (!shareBtn || !infoBox) return;
+
+    const resetBtn = () => {
+        shareBtn.style.opacity = '1';
+        shareBtn.style.pointerEvents = 'auto';
+        shareBtn.innerText = 'Share';
+    };
+
+    shareBtn.addEventListener('click', async () => {
+        try {
+            shareBtn.style.opacity = '0.5';
+            shareBtn.style.pointerEvents = 'none';
+            shareBtn.innerText = '...';
+
+            const canvas = await html2canvas(infoBox, {
+                backgroundColor: '#E2E2FC',
+                scale: 2,
+                useCORS: true
+            });
+
+            const base64Image = canvas.toDataURL('image/jpeg', 0.9);
+
+            window.plugins.socialsharing.share(
+                null,
+                null,
+                base64Image,
+                null,
+                function() {
+                    console.log('Share success');
+                    resetBtn();
+                },
+                function(err) {
+                    console.log('Share cancelled/error: ' + err);
+                    resetBtn();
+                }
+            );
+
+        } catch (error) {
+            console.error(error);
+            resetBtn();
+        }
+    });
+
+}, false);
+const translations = {
+  English: {
+    // ... کلیدهای قبلی ...
+
+    okayBtn: "Okay",
+    contactCardTitle: "Contact Card",
+    addToContacts: "Add to Contacts",
+    labelDate: "Date",
+    labelRefCode: "Ref. Code",
+    labelBank: "Bank",
+    labelPaidBy: "Paid By",
+    labelCardNumber: "Card Number",
+    labelVia: "Via",
+    labelFor: "For",
+    labelAnd: "and",
+    labelAdults: "adults",
+    labelChildren: "Children",
+    labelFrom: "From",
+    labelTo: "To",
+    labelDaysNights: "days and nights",
+    shareText: "Share",
+    supportTitle: "Support",
+    supportHint: "in case of any problem or need help call support team by tapping following link.",
+    supportLink: "Call Support",
+    successNotification: "Hotel Transylvania added to your contacts successfully.",
+    bookedTitle: "Booked Successful",
+    bookedSubtitle: "Thanks for the payment. your reserve card is issued.",
+  },
+
+  Kurdish: {
+    // ... کلیدهای قبلی ...
+
+    okayBtn: "باشە",
+    contactCardTitle: "کارتی پەیوەندی",
+    addToContacts: "زیادکردن بۆ پەیوەندیەکان",
+    labelDate: "بەروار",
+    labelRefCode: "کۆدی چاوپێکەوتن",
+    labelBank: "بانک",
+    labelPaidBy: "پارەدراو لەلایەن",
+    labelCardNumber: "ژمارەی کارت",
+    labelVia: "لە ڕێگەی",
+    labelFor: "بۆ",
+    labelAnd: "و",
+    labelAdults: "مەترسیدار",
+    labelChildren: "منداڵ",
+    labelFrom: "لە",
+    labelTo: "بۆ",
+    labelDaysNights: "ڕۆژ و شەو",
+    shareText: "هاوبەشکردن",
+    supportTitle: "پشتگیری",
+    supportHint: "ئەگەر هەر کێشەیەک هەبوو یان پشتگیری پێویستە، بە کرتەکردن لەسەر لینکی خوارەوە پەیوەندی بە تیمی پشتگیری بکە.",
+    supportLink: "پەیوەندی بە پشتگیری",
+    successNotification: "هوتێل ترانسیلڤانیا بە سەرکەوتوویی زیادکرا بۆ پەیوەندیەکانت.",
+    bookedTitle: "حجز بە سەرکەوتوویی ئەنجامدرا",
+    bookedSubtitle: "سوپاس بۆ پارەدان. کارتی حجزەکەت دەرکرا.",
+  },
+
+  ar: {
+    // ... کلیدهای قبلی ...
+
+    okayBtn: "حسنًا",
+    contactCardTitle: "بطاقة الاتصال",
+    addToContacts: "إضافة إلى جهات الاتصال",
+    labelDate: "التاريخ",
+    labelRefCode: "كود المرجع",
+    labelBank: "البنك",
+    labelPaidBy: "دفع بواسطة",
+    labelCardNumber: "رقم البطاقة",
+    labelVia: "عبر",
+    labelFor: "لـ",
+    labelAnd: "و",
+    labelAdults: "بالغين",
+    labelChildren: "أطفال",
+    labelFrom: "من",
+    labelTo: "إلى",
+    labelDaysNights: "أيام وليالٍ",
+    shareText: "مشاركة",
+    supportTitle: "الدعم",
+    supportHint: "في حالة وجود أي مشكلة أو الحاجة إلى مساعدة، تواصل مع فريق الدعم بالنقر على الرابط التالي.",
+    supportLink: "الاتصال بالدعم",
+    successNotification: "تمت إضافة فندق ترانسيلفانيا إلى جهات اتصالك بنجاح.",
+    bookedTitle: "تم الحجز بنجاح",
+    bookedSubtitle: "شكرًا على الدفع. تم إصدار بطاقة حجزك.",
+  },
+};
+function changeLanguage(lang) {
+    const t = translations[lang];
+    
+    if (!t) {
+      console.error('Language not found:', lang);
+      return;
+    }
+
+    // ترجمه تمام المان‌هایی که data-i18n دارند (متون ثابت)
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if (t[key]) {
+        el.innerHTML = t[key];
+      }
+    });
+    
+    // **اضافه شدن:** تنظیم جهت صفحه (RTL/LTR)
+
+
+    // ذخیره زبان انتخاب‌شده
+    localStorage.setItem('selectedLanguage', lang);
+  }
+
+  // بارگذاری زبان ذخیره‌شده د ابتدای صفحه
+  document.addEventListener('DOMContentLoaded', () => {
+    // اگر زبان ذخیره‌شده‌ای وجود داشت، آن را اعمال کند. در غیر این صورت، انگلیسی را پیش‌فرض می‌گیرد.
+    const savedLang = localStorage.getItem('selectedLanguage') || 'English';
+    changeLanguage(savedLang);
+  });
 </script>
 
 </div>

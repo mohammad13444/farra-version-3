@@ -91,6 +91,7 @@
   box-sizing: border-box;
   background: #F8F7FC;
   transition: all 0.25s ease;
+  direction: ltr !important;
 }
 
 /* ====== Input Base Style ====== */
@@ -452,25 +453,7 @@ svg#open-filters.active-filter path {
     flex: 1;
 }
 
-/* دکمه Apply */
-.apply {
-    width: 100%;
-    padding: 16px;
-    background: #706DF2;
-    color: #fff;
-    border: none;
-    border-radius: 50px;
-    font-family: "Bonyade Koodak VF", sans-serif;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.3s ease;
-    margin-top: 24px;
-}
 
-.apply:hover {
-    background: #5A57C2;
-}
 
 
 /* ═══════════════════════════════════════════════════════
@@ -512,14 +495,15 @@ svg#open-filters.active-filter path {
       backdrop-filter: blur(14px);
       border: 2px solid #706DF2;
       border-radius: 24px;
-      padding: 18px 24px;
-      padding-bottom: 20px;
-      color: #5a51e0;
+      padding: 16px 24px;
+      padding-bottom: 16px;
+      color: #4e44dc;
       z-index: 100000;
       display: none;
       /* به طور پیش‌فرض خاموش */
       opacity: 0;
       transition: opacity 0.3s ease, transform 0.3s ease;
+      direction: ltr !important;
     }
 .search-overlay:has(#results-box:not([style*="display: none"])) .popup-header {
     display: none !important;
@@ -554,12 +538,25 @@ svg#open-filters.active-filter path {
     .search-list {
       list-style: none;
       padding: 0;
+      margin: 0px;
     }
+.popup-title {
+  display: inline-block;
+  font-weight: 600;
+  color: #000;
+  margin-bottom: 8px;
+}
+
+
+
+.clear-btn.hidden {
+  display: none !important;
+}
 
     .search-list li {
       font-size: 20px;
       color: #706DF2;
-      padding: 10px 0;
+      padding: 7px 0;
       cursor: pointer;
       transition: color 0.2s ease;
     }
@@ -760,9 +757,7 @@ backdrop-filter: blur(6px);
     font-weight: 400;
     color: #6a65c9;
     font-family: "Bonyade Koodak VF", sans-serif;
-    transition: background 0.25s ease,
-                border-color 0.25s ease,
-                color 0.25s ease;
+    
     cursor: pointer;
     box-sizing: border-box;
     white-space: nowrap;
@@ -801,7 +796,6 @@ backdrop-filter: blur(6px);
 .options button.active-option {
     background: #706DF2;
     color: #fff;
-    border-color: #5A57C2;
     /* 👇 افکت باز شدن موقع فعال شدن */
    
 }
@@ -997,58 +991,11 @@ backdrop-filter: blur(6px);
 }
 
 
-
-
-
-   .city-modal {
-      position: fixed;
-      left: 0;
-      bottom: -100%;
-      width: 100%;
-      height: 538px;
-      backdrop-filter: blur(6px);
-      background: #E2E2FCB2;
-      border-top-left-radius: 35px;
-      border-top-right-radius: 35px;
-      box-shadow: 0 -2px 4px 0 var(--Primary-100, #E2E2FC);
-      transition: bottom 0.4s ease;
-      z-index: 1000;
-
-      /* 👇👇 اینا رو اضافه کن تا مودالت اسکرول بشه */
-      overflow-y: auto;
-      overflow-x: hidden;
-      -webkit-overflow-scrolling: touch;
-      /* برای اسکرول نرم در موبایل */
-    }
-
-    .city-modal.open {
-      bottom: 0;
-    }
-
-    .city-container {
-      display: flex;
-      flex-direction: column;
-      gap: 18px;
-      padding: 24px;
-
-    }
-
-    /* بخش‌های داخلی مثل قبل */
-    .city-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .clear-btn {
-      background: transparent;
-      color: #706DF2;
-      font-weight: 500;
-      border: none;
-    }
-
-   /* ==== CITY SELECTOR FINAL FIXED RIGHT ICON ==== */
-
+.search-highlight {
+  color: #706DF2;
+  font-weight: 600;
+}
+   
 .city-input {
   position: relative;
   border-radius: 24px;
@@ -1056,8 +1003,8 @@ backdrop-filter: blur(6px);
   color: #A9A7F7;
   font-size: 18px;
   font-weight: 400;
-  padding: 8px 8px 8px 12px; /* جا برای آیکن سمت راست */
-  cursor: pointer;
+min-height: 48px;
+padding: var(--Spacing-200, 8px) var(--Spacing-200, 8px) var(--Spacing-200, 8px) var(--Spacing-300, 12px);  cursor: pointer;
   width: 100%;
   box-sizing: border-box;
   display: flex;
@@ -1065,6 +1012,7 @@ backdrop-filter: blur(6px);
   
 background: var(--Surface-Default, #F5F5FA);
 }
+
 
 /* ✅ وقتی فوکوس یا کلیک می‌شه */
 .city-input:focus-within {

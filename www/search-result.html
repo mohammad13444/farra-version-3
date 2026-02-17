@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        @font-face {
+      font-family: "Bonyade Koodak VF";
+      src: url("./BonyadeKoodak-VF.ttf") format("truetype");
+      font-weight: 100 900;
+      /* 👈 اجازه بده تمام بازه وزن‌ها فعال بشه */
+      font-display: swap;
+  }
+
+  @font-face {
+      font-family: "Bonyade Koodak VF bold";
+      src: url("../fonts/BonyadeKoodakKoochak-Bold.ttf") format("truetype");
+      font-weight: 100 900;
+      /* 👈 اجازه بده تمام بازه وزن‌ها فعال بشه */
+      font-display: swap;
+  }
+
+    /* Reset & Base */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+
+    body {
+      font-family: "Bonyade Koodak VF";
+      background: #EFEFFE;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      /* پر کردن ارتفاع کل صفحه */
+      padding: 0 24px;
+      margin: 0;
+      min-height: 100vh;
+      flex-direction: column;
+
+      width: 100%;
+      min-height: 100vh;
+      overflow-x: hidden;
+      /* 🚀 جلوگیری از اسکرول کل صفحه */
+    }
+
+    .empty-box {
+  max-width: 280px;
+  margin: 60px auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.empty-box img {
+ 
+  margin-bottom: 16px;
+}
+
+.empty-box h3 {
+  margin-top: 8px;
+color: var(--Text-Primary-Default, #706DF2);
+text-align: center;
+
+/* English/Heading/H6 */
+font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+font-size: var(--Font-Headings-H6-Text-Size, 20px);
+font-style: normal;
+font-weight: 700;
+line-height: var(--Font-Headings-H6-Line-Heigth, 28px); /* 140% */
+  margin-bottom: 16px;
+  
+}
+
+.empty-box p {
+ color: var(--Text-Default-Body, #5C5C66);
+text-align: center;
+
+/* English/Body/Copy */
+font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+font-size: var(--Font-Copy-Body-Text-Size, 16px);
+font-style: normal;
+font-weight: 400;
+line-height: var(--Font-Copy-Body-Line-Heigth, 20px); /* 125% */
+}
+
+#filter {
+      background: transparent;
+      min-height: 100vh;
+      padding: 0px;
+      font-family: "Bonyade Koodak VF", sans-serif;
+      color: #3d3c5a;
+    }
+
+    /* ==== هدر ==== */
+    .filter-results h2 {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+
+    /* ==== چیپ‌ها – حالا افقی و از محدوده پدینگ بیرون ==== */
+    .filter-chips {
+      display: flex;
+      flex-direction: row;
+      gap: 12px;
+      overflow-x: auto;
+      overflow-y: hidden;
+      white-space: nowrap;
+      scroll-behavior: smooth;
+      margin-left: -24px;
+      margin-right: -24px;
+      padding-left: 24px;
+      padding-right: 24px;
+      margin-bottom: 26px;
+      scroll-snap-type: x mandatory;
+    }
+
+    .filter-chips::-webkit-scrollbar {
+      display: none;
+      /* حذف اسکرول‌بار */
+    }
+
+    .filter-chips button {
+      flex: 0 0 auto;
+      border: 1px solid #b2aefc;
+      background: transparent;
+      color: #6a65c9;
+      font-size: 16px;
+      padding: 6px 10px;
+      border-radius: 24px;
+      scroll-snap-align: center;
+      position: relative;
+      font-family: "Bonyade Koodak VF", sans-serif;
+    }
+
+    /* حالت فعال */
+    .filter-chips button.active {
+      background-color: #706DF2;
+      /* آبی */
+      border: 1px solid #5A57C2;
+      color: #fff;
+      text-align: left;
+      padding: 0px;
+      /* 👈 متن می‌ره سمت چپ */
+    }
+    
+
+    /* آیکن چپ */
+    .filter-chips button.active::before {
+      content: "";
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 18px;
+      height: 18px;
+      background: url('./img/23.png') center center / contain no-repeat;
+    }
+
+    /* آیکن راست */
+    .filter-chips button.active::after {
+      content: "";
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 18px;
+      height: 18px;
+      background: url('./img/23.png') center center / contain no-repeat;
+    }
+    
+
+    /* فاصله متن از آیکن‌ها */
+    .filter-chips button.active span,
+    .filter-chips button.active {
+      padding-left: 10px;
+      /* فاصله سمت چپ از آیکن */
+      padding-right: 39px;
+      /* فاصله سمت راست از آیکن */
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      /* 👈 متن چپ‌چین */
+    }
+
+
+
+    /* گروه‌ها */
+    .section-group {
+      margin-bottom: 28px;
+    }
+
+    .group-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .group-title h3 {
+      font-size: 20px;
+      font-weight: 700;
+      color: #45454D;
+      margin: 1px;
+    }
+
+    .group-title span {
+      font-size: 14px;
+      font-weight: 700;
+      color: #E2E2FC;
+      background: #2D2C6180;
+      padding: 2px 10px;
+      border-radius: 12px;
+    }
+
+    /* کارت هتل */
+    .hotel-card {
+      display: flex;
+      align-items: center;
+      background: #E2E2FC;
+      border-radius: 20px;
+      margin-bottom: 12px;
+      padding: 5px;
+
+    }
+
+    .section-group.fara-slider-mode .hotel-card:hover{
+      background: #C6C5FA;
+    }
+
+   .section-group.fara-slider-mode .hotel-card .info h4 {
+    font-size: 16px;
+    font-weight: 700;
+    color: #45454D;
+    margin-bottom: 0px;
+}
+
+
+    .hotel-card img {
+      width: 68px;
+      height: 68px;
+      border-radius: 20px;
+      object-fit: cover;
+      margin-right: 14px;
+    }
+
+    .hotel-card .info h4 {
+      font-size: 16px;
+      font-weight: 700;
+      color: #45454D;
+      margin-bottom: 0px;
+    }
+
+    .hotel-card .info p {
+      font-size: 16px;
+      color: #8A8999;
+      font-weight: 400;
+      margin-bottom: 6px;
+    }
+
+    .hotel-card .info strong {
+      font-size: 16px;
+      font-weight: 400;
+      color: #5C5C66;
+    }
+
+    .results-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      /* نوشته چپ، آیکون راست */
+      gap: 8px;
+      /* فاصله بین متن و تصویر */
+      font-size: 26px;
+      font-weight: 400;
+      color: #45454D;
+      margin-bottom: 16px;
+      padding-bottom: 15px;
+    }
+
+    .hotel-card .info {
+    padding: 0;
+    margin-top: 0;
+}
+
+/* حالت دوم (اسلایدی) — پایین‌تر آوردن نوشته‌ها */
+.section-group.fara-slider-mode .hotel-card .info {
+    margin-top: 8px;     
+    margin-left: 14px;         /* 👈 متن کمی پایین‌تر بیاد */
+    transform: translateY(4px);   /* فیکس ظاهری با انیمیشن نرم */
+    transition: transform 0.3s ease, margin-top 0.3s ease;
+}
+
+    /* ===== حالت اسلایدی گروه‌ها ===== */
+    .section-group.fara-slider-mode {
+      display: block;
+      overflow-x: auto;
+      white-space: nowrap;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+
+      /* 👇 پدینگ صفحه خنثی تا کارت از بیرون بیاد */
+      margin-left: -24px;
+      margin-right: -24px;
+      padding-left: 24px;
+      padding-right: 24px;
+      padding-bottom: 16px;
+
+      /* 💡 فقط کارت‌ها اسکرول می‌شن؛ عنوان ثابت بمونه */
+      position: relative;
+    }
+
+    .section-group.fara-slider-mode::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* ✅ عنوان‌ گروه ثابت بماند بالا */
+    .section-group.fara-slider-mode .group-title {
+      position: sticky;
+      /* چسبیده بالا بماند هنگام اسکرول افقی */
+      top: 0;
+      left: 0;
+      z-index: 5;
+      /* همیشه رو باشه */
+      background: transparent;
+    }
+
+    /* فقط در حالت اسلایدی (افقی) قیمت مخفی شود */
+.section-group.fara-slider-mode .hotel-card .info strong {
+    display: none !important;
+}
+
+
+    /* ===== کارت‌ها به صورت افقی ===== */
+    .section-group.fara-slider-mode .hotel-card {
+      display: inline-block;
+      vertical-align: top;
+      width: 231px;
+      height: 269px;
+      border-radius: 22px;
+      background: #eae5ff;
+      overflow: hidden;
+      margin-right: 20px;
+      scroll-snap-align: center;
+      position: relative;
+      animation: slideInRight 0.5s ease;
+    }
+
+    /* ===== تصویر داخل کارت ===== */
+    .section-group.fara-slider-mode .hotel-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 25px 25px 25px 25px;
+    }
+
+    /* ===== اطلاعات زیر تصویر ===== */
+    .section-group.fara-slider-mode .hotel-card .info {
+      padding: 10px 14px;
+      text-align: left;
+    }
+
+   
+
+    .section-group.fara-slider-mode .hotel-card .info p {
+       font-size: 16px;
+      color: #8A8999;
+      font-weight: 400;
+      margin-bottom: 6px;
+    }
+
+    /* ===== افکت ورود کارت ===== */
+    @keyframes slideInRight {
+      from {
+        transform: translateX(60px);
+        opacity: 0;
+      }
+
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+    </style>
+</head>
+<body>
+     <!-- 🔍 صفحه نتایج فیلتر -->
+    <div id="filter" class="hidden">
+      <br>
+      <br>
+      <div class="filter-results">
+        <h2 class="results-heading">
+          <!-- 55 Search Results -->
+           No Search Results
+          <a href="#" id="toggle-slider">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <path d="M12.965 2.05869L17.9111 2.79923C20.5554 3.19491 21.9208 5.30737 21.5251 7.94848L20.4592 15.075C20.0635 17.7162 18.1403 19.3368 15.4948 18.9411L10.5499 18.2005C7.90555 17.8048 6.54012 15.6934 6.93472 13.0512L8.00176 5.92468C8.39636 3.28357 10.3283 1.66517 12.965 2.05869Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M8.16806 5.19434L4.98964 6.24408C2.44691 7.08085 1.44798 9.39222 2.29555 11.935L4.54531 18.7762C5.38316 21.3091 7.55292 22.5804 10.0849 21.7438L14.8482 20.1794C15.6449 19.9275 16.3108 19.5037 16.7952 18.9685" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+          </a>
+        </h2>
+
+        <!-- دسته‌های فیلتر همان بالا -->
+        <div class="filter-chips">
+           <button><img src="./img/17.png" width="22px" height="22px" alt="">Hotels</button>
+        <button><img src="./img/17.png" width="22px" height="22px" alt="">Apartment</button>
+        <button><img src="./img/17.png" width="22px" height="22px" alt="">Villa</button>
+        <button><img src="./img/17.png" width="22px" height="22px" alt="">Farms</button>
+        <button><img src="./img/17.png" width="22px" height="22px" alt="">Resort</button>
+
+
+
+
+        </div>
+
+        <!-- گروه Hotels -->
+        <!-- <div class="section-group">
+          <div class="group-title">
+            <h3>Hotels</h3>
+            <span>4</span>
+          </div>
+
+          <div class="hotel-card">
+            <img src="./img/29.png" alt="Hotel Transylvania">
+            <div class="info" style="padding: 0px;">
+              <h4>Hotel Transylvania</h4>
+              <p>Bucharest • Romania</p>
+              <strong>50 USD / Night</strong>
+            </div>
+          </div>
+
+        
+
+          <div class="hotel-card">
+            <img src="./img/29.png" alt="">
+            <div class="info" style="padding: 0px;">
+              <h4>Hotel Transylvania</h4>
+              <p>Bucharest • Romania</p>
+              <strong>50 USD / Night</strong>
+            </div>
+          </div>
+
+        
+
+          <div class="hotel-card">
+            <img src="./img/29.png" alt="">
+            <div class="info" style="padding: 0px;">
+              <h4>Hotel Transylvania</h4>
+              <p>Bucharest • Romania</p>
+              <strong>50 USD / Night</strong>
+            </div>
+          </div>
+
+        
+
+          <div class="hotel-card">
+            <img src="./img/29.png" alt="">
+            <div class="info" style="padding: 0px;">
+              <h4>Hotel Transylvania</h4>
+              <p>Bucharest • Romania</p>
+              <strong>50 USD / Night</strong>
+            </div>
+          </div>
+        </div>
+
+       
+        <div class="section-group">
+          <div class="group-title">
+            <h3>Farms</h3>
+            <span>2</span>
+          </div>
+
+          <div class="hotel-card">
+            <img src="./img/29.png" alt="">
+            <div class="info" style="padding: 0px;">
+              <h4>Hotel Transylvania</h4>
+              <p>Bucharest • Romania</p>
+              <strong>50 USD / Night</strong>
+            </div>
+          </div>
+
+        
+
+          <div class="hotel-card">
+            <img src="./img/29.png" alt="">
+            <div class="info" style="padding: 0px;">
+              <h4>Hotel Transylvania</h4>
+              <p>Bucharest • Romania</p>
+              <strong>50 USD / Night</strong>
+            </div>
+          </div> -->
+
+          <!-- <div class="fara-item-box">
+                <div class="fara-img-holder position-relative">
+                    <img src="./img/20.jpg" class="img-fluid rounded-top" alt="">
+                    <div class="fara-star-mark position-absolute">✧ 3.5</div>
+                    <div class="fara-price-bar d-flex justify-content-between align-items-center ">
+                        <span class="fara-price-main">Price <span class="fara-price-sub">/Night</span></span>
+                        <div class="fara-price-icon">⤿</div>
+                    </div>
+                </div>
+                <div class="fara-info-panel px-3 pb-2">
+                    <h4>Hotel Transylvania</h4>
+                    <p>Bucharest • Romania</p>
+                </div>
+            </div> -->
+            <div class="empty-box">
+  <img src="./img/box.png" alt="No Rooms Found">
+  <h3>No Rooms Found!</h3>
+  <p>
+    Sorry, but I could not find any places.please check your search or reset the filters you may applied.
+  </p>
+</div>
+
+        </div>
+      </div>
+</body>
+</html>

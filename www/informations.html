@@ -5,7 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" 
     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" 
-    crossorigin=""/>    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    crossorigin=""/>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
   <title>Farra - Hotel Info</title>
   <style>
@@ -30,7 +32,10 @@
 
     /* Hero Section با تصویر پس‌زمینه */
     .hero-section {
-      position: relative;
+       position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1;
       width: 100%;
       height: 450px;
       background: linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.4) 100%),
@@ -41,6 +46,8 @@
       justify-content: space-between;
       padding: 16px 24px 0;
     }
+
+  
 
     /* Header داخل Hero */
     .hero-header {
@@ -111,9 +118,7 @@ line-height: var(--Font-Copy-Body-Line-Heigth, 20px); /* 125% */
       transition: all 0.3s ease;
     }
 
-    .hero-tab:hover {
-      background: rgba(255, 255, 255, 0.25);
-    }
+   
 
     .hero-tab svg {
       
@@ -127,10 +132,11 @@ line-height: var(--Font-Copy-Body-Line-Heigth, 20px); /* 125% */
       margin: 0 auto;
       padding: 0 24px;
       background: #EFEFFE;
-      margin-top: -20px;
+  margin-top: 430px; /* نزدیک به ارتفاع hero */
       border-radius: 24px 24px 0 0;
       position: relative;
       z-index: 10;
+      
     }
 
     /* Hotel Title Section */
@@ -511,6 +517,7 @@ line-height: var(--Font-Copy-Body-Line-Heigth, 20px); /* 125% */
    
 
    .fara-bottom-nav {
+    direction: ltr !important;
     position: fixed;
     left: 24px;                         /* پدینگ چپ صفحه */
     right: 24px;                        /* پدینگ راست صفحه */
@@ -1017,26 +1024,26 @@ backdrop-filter: blur(6px);
     <div class="stats-grid">
       <div class="stat-card">
         <div class="stat-value">00</div>
-        <div class="stat-label">Beds</div>
+<div class="stat-label" data-i18n="bedsLabel">Beds</div>
       </div>
       <div class="stat-card">
         <div class="stat-value">00</div>
-        <div class="stat-label">Availibility</div>
+<div class="stat-label" data-i18n="availabilityLabel">Availibility</div>
       </div>
       <div class="stat-card">
         <div class="stat-value">00</div>
-        <div class="stat-label">Guests</div>
+<div class="stat-label" data-i18n="guestsLabel">Guests</div>
       </div>
     </div>
 
     <!-- About -->
-    <h2 class="section-title" id="about">About</h2>
-    <p class="about-text">
-      Aston Hotel, Alice Springs NT 0870, Australia is a modern hotel. elegant 5 star hotel overlooking the sea. perfect for a romantic, charming.
-    </p>
+  <h2 class="section-title" id="about" data-i18n="aboutTitle">About</h2>
+<p class="about-text" data-i18n="aboutText">
+  Aston Hotel, Alice Springs NT 0870, Australia is a modern hotel. elegant 5 star hotel overlooking the sea. perfect for a romantic, charming.
+</p>
 
     <!-- Photos -->
-    <h2 class="section-title">Photos</h2>
+<h2 class="section-title" data-i18n="photosTitle">Photos</h2>
     <div class="photos-grid">
       <div class="photo-item">
         <img src="./img/46.png" alt="Photo 1">
@@ -1093,7 +1100,7 @@ Image Caption
 
 
     <!-- Services -->
-    <h2 class="section-title">Services</h2>
+<h2 class="section-title" data-i18n="servicesTitle">Services</h2>
   <div class="container">
     <!-- ردیف با دو ستون در موبایل -->
     <div class="row row-gap">
@@ -1149,7 +1156,7 @@ Image Caption
   </div>
 
     <!-- Contact -->
-    <h2 class="section-title">Contact</h2>
+<h2 class="section-title" data-i18n="contactTitle">Contact</h2>
     <div class="contact-map">
 <div id="map" style="height: 400px; width: 100%;"></div>
   
@@ -1173,7 +1180,7 @@ Image Caption
   <path opacity="0.4" d="M20.4159 3.81348C20.8312 4.33888 21.0056 5.05982 20.7586 5.79741L16.1535 19.5529C15.5305 21.413 12.9329 21.5036 12.1822 19.6903L10.1726 14.832C10.0739 14.5928 9.93299 14.3761 9.75928 14.191" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
         </span>
-        <a href="#" class="contact-link">Direction</a>
+<a href="#" class="contact-link" data-i18n="directionLink">Direction</a>
       </div>
     </div>
 
@@ -1249,12 +1256,12 @@ Image Caption
 <br>
     <!-- Know Before -->
     <div class="know-before">
-      <div class="know-before-title">know before you go ...</div>
-      <div class="know-before-list">
-        <div class="know-before-item">guests of the subject 15 minutes year be aware that the maximum place menu be hockey</div>
-        <div class="know-before-item">guests of the subject 15 minutes year be aware that the maximum place menu be hockey</div>
-        <div class="know-before-item">guests of the subject 15 minutes year be aware that the maximum place menu be hockey</div>
-      </div>
+      <div class="know-before-title" data-i18n="knowBeforeTitle">know before you go ...</div>
+<div class="know-before-list">
+  <div class="know-before-item" data-i18n="knowBeforeItem1">guests of the subject 15 minutes year be aware that the maximum place menu be hockey</div>
+  <div class="know-before-item" data-i18n="knowBeforeItem2">guests of the subject 15 minutes year be aware that the maximum place menu be hockey</div>
+  <div class="know-before-item" data-i18n="knowBeforeItem3">guests of the subject 15 minutes year be aware that the maximum place menu be hockey</div>
+</div>
     </div>
 
     <!-- Bottom Actions -->
@@ -1265,7 +1272,7 @@ Image Caption
   <path d="M24.791 2.125V7.91028C24.789 10.7338 27.0754 13.0242 29.899 13.0301H35.3768" stroke="#706DF2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
   <path opacity="0.4" d="M13.2871 28.9636H22.2053M13.2871 22.1224H26.7413M13.2871 15.2812H19.1717" stroke="#706DF2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
-  <span>Terms</span>
+<span data-i18n="termsText">Terms</span>
 </div>
       <!-- ✅ دکمه باز کردن مودال Privacy -->
 <div class="action-btn" id="openPrivacy">
@@ -1274,7 +1281,7 @@ Image Caption
   <path opacity="0.4" fill-rule="evenodd" clip-rule="evenodd" d="M25.3859 16.5337C25.3859 19.5159 22.9674 21.9338 19.9859 21.9338C17.0045 21.9338 14.5859 19.5159 14.5859 16.5337C14.5859 13.5516 17.0045 11.1338 19.9859 11.1338C22.9674 11.1338 25.3859 13.5516 25.3859 16.5337Z" stroke="#706DF2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
   <path d="M34.8781 21.3388C34.8781 33.5652 19.9995 38 19.9995 38C19.9995 38 5.12284 33.5672 5.12284 21.3388C5.12284 9.11047 4.58048 8.15501 5.77499 6.97967C6.97154 5.80238 18.0492 2 19.9995 2C21.9517 2 33.0274 5.79264 34.2239 6.97967C35.4185 8.16475 34.8781 9.11243 34.8781 21.3388Z" stroke="#706DF2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
-  <span>Privacy</span>
+<span data-i18n="privacyText">Privacy</span>
 </div>
 
 
@@ -1282,7 +1289,7 @@ Image Caption
       <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
     <path d="M15.9993 1C18.1868 8.18743 23.8114 13.8123 30.9986 16C23.8114 18.1877 18.1868 23.8125 15.9993 31C13.8118 23.8125 8.18708 18.1877 1 16C8.18708 13.8123 13.8118 8.18743 15.9993 1Z" stroke="#706DF2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
   </svg>
-        <span>Sample</span>
+<span data-i18n="sampleText">Sample</span>
       </div>
     </div>
 
@@ -1292,28 +1299,31 @@ Image Caption
 <div id="termsModal" class="fara-modal">
   <div class="fara-modal-content">
     <div class="fara-modal-header">
-      <h2>Terms & Condition</h2>
+      <h2 data-i18n="termsAndConditionsTitle">Terms & Condition</h2>
       <!-- 👇 کلاس جدید مخصوص کلوز -->
-      <span id="closeTerms" class="fara-close-btn">Close</span>
+      <span id="closeTerms" class="fara-close-btn" data-i18n="closeBtn">Close</span>
     </div>
     <div class="fara-modal-body">
-      <h3>About</h3>
-      <p><strong>Aston Hotel, Alice Springs NT 0870, Australia</strong> is a modern hotel. elegant 5 star hotel overlooking the sea. perfect for a romantic, charming.</p>
-      <p>Aston Hotel, Alice Springs NT 0870, Australia is a modern hotel. elegant 5 star hotel overlooking the sea. perfect for a romantic, charming.</p>
-      <p><strong>Aston Hotel, Alice Springs NT 0870, Australia</strong> is a modern hotel. elegant 5 star hotel overlooking the sea. perfect for a romantic, charming.</p>
-      <p>Aston Hotel, Alice Springs NT 0870, Australia is a modern hotel. elegant 5 star hotel overlooking the sea. perfect for a romantic, charming.</p>
-       <p><strong>Aston Hotel, Alice Springs NT 0870, Australia</strong> is a modern hotel. elegant 5 star hotel overlooking the sea. perfect for a romantic, charming.</p>
-      <p>Aston Hotel, Alice Springs NT 0870, Australia is a modern hotel. elegant 5 star hotel overlooking the sea. perfect for a romantic, charming.</p>
-      <p><strong>Aston Hotel, Alice Springs NT 0870, Australia</strong> is a modern hotel. elegant 5 star hotel overlooking the sea. perfect for a romantic, charming.</p>
-      <p>Aston Hotel, Alice Springs NT 0870, Australia is a modern hotel. elegant 5 star hotel overlooking the sea. perfect for a romantic, charming.</p>
-       <p><strong>Aston Hotel, Alice Springs NT 0870, Australia</strong> is a modern hotel. elegant 5 star hotel overlooking the sea. perfect for a romantic, charming.</p>
-      <p>Aston Hotel, Alice Springs NT 0870, Australia is a modern hotel. elegant 5 star hotel overlooking the sea. perfect for a romantic, charming.</p>
-      <p><strong>Aston Hotel, Alice Springs NT 0870, Australia</strong> is a modern hotel. elegant 5 star hotel overlooking the sea. perfect for a romantic, charming.</p>
-      <p>Aston Hotel, Alice Springs NT 0870, Australia is a modern hotel. elegant 5 star hotel overlooking the sea. perfect for a romantic, charming.</p>
-       <p><strong>Aston Hotel, Alice Springs NT 0870, Australia</strong> is a modern hotel. elegant 5 star hotel overlooking the sea. perfect for a romantic, charming.</p>
-      <p>Aston Hotel, Alice Springs NT 0870, Australia is a modern hotel. elegant 5 star hotel overlooking the sea. perfect for a romantic, charming.</p>
-      <p><strong>Aston Hotel, Alice Springs NT 0870, Australia</strong> is a modern hotel. elegant 5 star hotel overlooking the sea. perfect for a romantic, charming.</p>
-      <p>Aston Hotel, Alice Springs NT 0870, Australia is a modern hotel. elegant 5 star hotel overlooking the sea. perfect for a romantic, charming.</p>
+      <h3 data-i18n="aboutTitleModal">About</h3>
+      <p><strong data-i18n="aboutStrongTextModal">Aston Hotel, Alice Springs NT 0870, Australia</strong data-i18n="aboutStrongTextModal"> is a modern hotel. elegant 5 star hotel overlooking the sea. perfect for a romantic, charming.</p>
+      <p data-i18n="aboutTextModal">Aston Hotel, Alice Springs NT 0870, Australia is a modern hotel. elegant 5 star hotel overlooking the sea. perfect for a romantic, charming.</p>
+      <p><strong data-i18n="aboutStrongTextModal">Aston Hotel, Alice Springs NT 0870, Australia</strong data-i18n="aboutStrongTextModal"> is a modern hotel. elegant 5 star hotel overlooking the sea. perfect for a romantic, charming.</p>
+       <p><strong data-i18n="aboutStrongTextModal">Aston Hotel, Alice Springs NT 0870, Australia</strong data-i18n="aboutStrongTextModal"> is a modern hotel. elegant 5 star hotel overlooking the sea. perfect for a romantic, charming.</p>
+      <p data-i18n="aboutTextModal">Aston Hotel, Alice Springs NT 0870, Australia is a modern hotel. elegant 5 star hotel overlooking the sea. perfect for a romantic, charming.</p>
+      <p><strong data-i18n="aboutStrongTextModal">Aston Hotel, Alice Springs NT 0870, Australia</strong data-i18n="aboutStrongTextModal"> is a modern hotel. elegant 5 star hotel overlooking the sea. perfect for a romantic, charming.</p>
+         <p><strong data-i18n="aboutStrongTextModal">Aston Hotel, Alice Springs NT 0870, Australia</strong data-i18n="aboutStrongTextModal"> is a modern hotel. elegant 5 star hotel overlooking the sea. perfect for a romantic, charming.</p>
+      <p data-i18n="aboutTextModal">Aston Hotel, Alice Springs NT 0870, Australia is a modern hotel. elegant 5 star hotel overlooking the sea. perfect for a romantic, charming.</p>
+      <p><strong data-i18n="aboutStrongTextModal">Aston Hotel, Alice Springs NT 0870, Australia</strong data-i18n="aboutStrongTextModal"> is a modern hotel. elegant 5 star hotel overlooking the sea. perfect for a romantic, charming.</p>
+         <p><strong data-i18n="aboutStrongTextModal">Aston Hotel, Alice Springs NT 0870, Australia</strong data-i18n="aboutStrongTextModal"> is a modern hotel. elegant 5 star hotel overlooking the sea. perfect for a romantic, charming.</p>
+      <p data-i18n="aboutTextModal">Aston Hotel, Alice Springs NT 0870, Australia is a modern hotel. elegant 5 star hotel overlooking the sea. perfect for a romantic, charming.</p>
+      <p><strong data-i18n="aboutStrongTextModal">Aston Hotel, Alice Springs NT 0870, Australia</strong data-i18n="aboutStrongTextModal"> is a modern hotel. elegant 5 star hotel overlooking the sea. perfect for a romantic, charming.</p>
+         <p><strong data-i18n="aboutStrongTextModal">Aston Hotel, Alice Springs NT 0870, Australia</strong data-i18n="aboutStrongTextModal"> is a modern hotel. elegant 5 star hotel overlooking the sea. perfect for a romantic, charming.</p>
+      <p data-i18n="aboutTextModal">Aston Hotel, Alice Springs NT 0870, Australia is a modern hotel. elegant 5 star hotel overlooking the sea. perfect for a romantic, charming.</p>
+      <p><strong data-i18n="aboutStrongTextModal">Aston Hotel, Alice Springs NT 0870, Australia</strong data-i18n="aboutStrongTextModal"> is a modern hotel. elegant 5 star hotel overlooking the sea. perfect for a romantic, charming.</p>
+         <p><strong data-i18n="aboutStrongTextModal">Aston Hotel, Alice Springs NT 0870, Australia</strong data-i18n="aboutStrongTextModal"> is a modern hotel. elegant 5 star hotel overlooking the sea. perfect for a romantic, charming.</p>
+      <p data-i18n="aboutTextModal">Aston Hotel, Alice Springs NT 0870, Australia is a modern hotel. elegant 5 star hotel overlooking the sea. perfect for a romantic, charming.</p>
+      <p><strong data-i18n="aboutStrongTextModal">Aston Hotel, Alice Springs NT 0870, Australia</strong data-i18n="aboutStrongTextModal"> is a modern hotel. elegant 5 star hotel overlooking the sea. perfect for a romantic, charming.</p>
+
     </div>
   </div>
 </div>
@@ -1322,11 +1332,11 @@ Image Caption
 <div id="privacyModal" class="fara-modal">
   <div class="fara-modal-content">
     <div class="fara-modal-header">
-      <h2>Privacy Policy</h2>
-      <span id="closePrivacy" class="fara-close-btn">Close</span>
+      <h2 data-i18n="privacyPolicyTitle">Privacy Policy</h2>
+      <span id="closePrivacy" class="fara-close-btn" data-i18n="closeBtn">Close</span>
     </div>
     <div class="fara-modal-body">
-      <h3>About</h3>
+      <h3 data-i18n="aboutTitleModal">About</h3>
       <p><strong>Aston Hotel, Alice Springs NT 0870, Australia is a modern hotel. elegant 5 star hotel overlooking the sea. perfect for a romantic, charming.</strong></p>
       <p>Aston Hotel, Alice Springs NT 0870, Australia is a modern hotel. elegant 5 star hotel overlooking the sea. perfect for a romantic, charming.</p>
       <p>Aston Hotel, Alice Springs NT 0870, Australia is a modern hotel. elegant 5 star hotel overlooking the sea. perfect for a romantic, charming.</p>
@@ -1350,11 +1360,13 @@ Image Caption
           </div>
           <div class="fara-bottom-item">
             <div class="text-center">
-              <a href="./hotel_booking_page.html" class="btn-btn">Reserve Now</a>
+<a href="./hotel_booking_page.html" class="btn-btn" data-i18n="reserveNowBtn">Reserve Now</a>
             </div>
           </div>
         </div>
       </div>
+      <script src="cordova.js"></script>
+
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" 
             integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" 
             crossorigin=""></script>
@@ -1505,7 +1517,308 @@ window.addEventListener("click", (e) => {
 </script>
 
 
+<script>
+/* =========================================================
+   SHARE FULL IMAGE MODAL CONTENT (عکس + کپشن)
+   استفاده از html2canvas برای گرفتن اسکرین‌شات
+========================================================= */
 
+async function shareModalImage() {
+  try {
+    console.log('🚀 Starting Full Modal Content Share...');
+
+    // ✅ پیدا کردن کانتینر اصلی (image-wrapper)
+    const imageWrapper = document.querySelector('.image-wrapper');
+    
+    if (!imageWrapper) {
+      console.error('❌ .image-wrapper not found');
+      alert('محتوایی برای اشتراک‌گذاری پیدا نشد');
+      return;
+    }
+
+    console.log('📦 Found image-wrapper, capturing...');
+
+    // ✅ تبدیل HTML به Canvas با html2canvas
+    const canvas = await html2canvas(imageWrapper, {
+      backgroundColor: '#000000', // رنگ پس‌زمینه (همان رنگ Modal شما)
+      scale: 2,                    // کیفیت بالاتر (2x)
+      useCORS: true,               // برای لود کردن تصاویر از دامنه‌های دیگر
+      logging: false,              // غیرفعال کردن لاگ‌های اضافی
+      allowTaint: true             // اجازه به تصاویر Cross-Origin
+    });
+
+    console.log('✅ Canvas created successfully');
+
+    // ✅ تبدیل Canvas به Base64
+    const imageBase64 = canvas.toDataURL('image/jpeg', 0.9);
+
+    console.log('📸 Image converted to Base64');
+    console.log('📏 Size:', imageBase64.length, 'characters');
+
+    // ==================== SHARE METHODS ====================
+
+    // ✅ روش 1: Cordova Social Sharing Plugin
+    if (window.plugins && window.plugins.socialsharing) {
+      console.log('📱 Using Cordova Social Sharing Plugin');
+      
+      return new Promise((resolve, reject) => {
+        window.plugins.socialsharing.share(
+          null,          // message (null چون تصویر داریم)
+          'اشتراک‌گذاری تصویر', // subject
+          imageBase64,   // image (Base64)
+          null,          // link
+          () => {
+            console.log('✅ Shared successfully via Cordova');
+            resolve();
+          },
+          (error) => {
+            console.error('❌ Cordova share failed:', error);
+            // ادامه به روش بعدی
+            reject(error);
+          }
+        );
+      }).catch(() => {
+        console.log('⏭️ Falling back to Web Share API...');
+        return shareViaWebAPI(imageBase64);
+      });
+    }
+
+    // ✅ روش 2: Web Share API
+    return shareViaWebAPI(imageBase64);
+
+  } catch (err) {
+    console.error('❌ Share failed:', err);
+    alert('خطا در اشتراک‌گذاری. لطفاً دوباره تلاش کنید.');
+  }
+}
+
+// ✅ تابع کمکی برای Web Share API
+async function shareViaWebAPI(imageBase64) {
+  if (!navigator.share) {
+    console.log('⏭️ Web Share API not supported, downloading...');
+    downloadImage(imageBase64);
+    return;
+  }
+
+  try {
+    console.log('🌐 Using Web Share API');
+
+    // تبدیل Base64 به Blob
+    const response = await fetch(imageBase64);
+    const blob = await response.blob();
+    const file = new File([blob], `image-${Date.now()}.jpg`, { 
+      type: 'image/jpeg' 
+    });
+
+    // چک کردن امکان اشتراک فایل
+    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+      await navigator.share({
+        title: 'تصویر رزرو',
+        files: [file]
+      });
+      console.log('✅ Shared via Web Share API');
+    } else {
+      console.log('⏭️ File sharing not supported, downloading...');
+      downloadImage(imageBase64);
+    }
+  } catch (shareError) {
+    // اگر کاربر Cancel کرد یا خطایی رخ داد
+    if (shareError.name === 'AbortError') {
+      console.log('ℹ️ User cancelled share');
+    } else {
+      console.error('❌ Web Share API failed:', shareError);
+      console.log('⏭️ Falling back to download...');
+      downloadImage(imageBase64);
+    }
+  }
+}
+
+// ✅ روش 3: Fallback - دانلود بی‌صدا
+function downloadImage(imageBase64) {
+  console.log('💾 Downloading image...');
+  
+  const link = document.createElement('a');
+  link.href = imageBase64;
+  link.download = `booking-image-${Date.now()}.jpg`;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  
+  console.log('✅ Image downloaded successfully');
+}
+
+// ==================== EVENT LISTENER SETUP ====================
+
+document.addEventListener('DOMContentLoaded', () => {
+  console.log('📄 DOM Loaded - Setting up Share Icon...');
+
+  const shareIcon = document.querySelector('.top-right-icon');
+  
+  if (shareIcon) {
+    // تنظیمات CSS
+    shareIcon.style.cursor = 'pointer';
+    shareIcon.style.pointerEvents = 'auto';
+    shareIcon.style.zIndex = '9999';
+    
+    // اضافه کردن Event
+    shareIcon.addEventListener('click', (e) => {
+      console.log('🔵 Share Icon Clicked');
+      e.stopPropagation(); // جلوگیری از بسته شدن Modal
+      e.preventDefault();
+      shareModalImage();
+    });
+    
+    console.log('✅ Share Icon Event Listener Added');
+  } else {
+    console.warn('⚠️ .top-right-icon not found');
+  }
+});
+
+// ==================== CORDOVA DEVICE READY ====================
+
+if (window.cordova) {
+  document.addEventListener('deviceready', () => {
+    console.log('📱 Cordova Device Ready');
+    
+    if (window.plugins && window.plugins.socialsharing) {
+      console.log('✅ Social Sharing Plugin is installed');
+    } else {
+      console.warn('⚠️ Social Sharing Plugin NOT installed');
+      console.log('📌 Run: cordova plugin add cordova-plugin-x-socialsharing');
+    }
+  }, false);
+} else {
+('🌐 Running in browser (Cordova not detected)');
+}
+
+// ==================== EXPORT FOR TESTING ====================
+window.testModalShare = shareModalImage;
+console.log('✅ Modal Share System Loade');
+console.log('📌 Test manually in console: window.testModalShare(');
+</script>
+
+<script>
+  const translations = {
+  English: {
+    servicesTitle: "Services",
+    bedsLabel: "Beds",
+    availabilityLabel: "Availibility",
+    guestsLabel: "Guests",
+    aboutTitle: "About",
+    aboutText: "Aston Hotel, Alice Springs NT 0870, Australia is a modern hotel. elegant 5 star hotel overlooking the sea. perfect for a romantic, charming.",
+    photosTitle: "Photos",
+    contactTitle: "Contact",
+    directionLink: "Direction",
+    knowBeforeTitle: "know before you go ...",
+    knowBeforeItem1: "guests of the subject 15 minutes year be aware that the maximum place menu be hockey",
+    knowBeforeItem2: "guests of the subject 15 minutes year be aware that the maximum place menu be hockey",
+    knowBeforeItem3: "guests of the subject 15 minutes year be aware that the maximum place menu be hockey",
+    termsText: "Terms",
+    privacyText: "Privacy",
+    sampleText: "Sample",
+    termsAndConditionsTitle: "Terms & Condition",
+    privacyPolicyTitle: "Privacy Policy",
+    closeBtn: "Close",
+    aboutTitleModal: "About",
+    aboutStrongTextModal: "Aston Hotel, Alice Springs NT 0870, Australia",
+    aboutTextModal: "Aston Hotel, Alice Springs NT 0870, Australia is a modern hotel. elegant 5 star hotel overlooking the sea. perfect for a romantic, charming.",
+        reserveNowBtn: "Reserve Now"
+
+  },
+  Kurdish: {
+    servicesTitle: "خزمەتگوزاریەکان",
+    bedsLabel: "کەرتەکان",
+    availabilityLabel: "مەوجود",
+    guestsLabel: "مێهەمەکان",
+    aboutTitle: "لەبارەی",
+    aboutText: "مەزگەوتی ئاستن، ئالیس سپرینگز NT 0870، ئەسترالیا مەزگەوتێکی نوێ و نووسراوەیە. هۆتێلی ٥ ئەستەرە، خۆشەویستی ویژەی خۆشەویستیە کە بەر بەری دەریاییە.",
+    photosTitle: "وێنەکان",
+    contactTitle: "پەیوەندی کردن",
+    directionLink: "ڕێنمایی",
+    knowBeforeTitle: "بزانە پێش چوونە...",
+    knowBeforeItem1: "مەزگەوتەکان ١٥ خولەک زیاتر لە ساڵ ئەگەر ئامادە نابن، تیرۆر نەبێت",
+    knowBeforeItem2: "مەزگەوتەکان ١٥ خولەک زیاتر لە ساڵ ئەگەر ئامادە نابن، تیرۆر نەبێت",
+    knowBeforeItem3: "مەزگەوتەکان ١٥ خولەک زیاتر لە ساڵ ئەگەر ئامادە نابن، تیرۆر نەبێت",
+    termsText: "مەرجەکان",
+    privacyText: "پاراستنی سەرەتایی",
+    sampleText: "نموونە",
+    termsAndConditionsTitle: "مەرج و ڕێکخستنەکان",
+    privacyPolicyTitle: "سیاسەتی پاراستن",
+    closeBtn: "داخستن",
+    aboutTitleModal: "لەبارەی",
+    aboutStrongTextModal: "مەزگەوتی ئاستن، ئالیس سپرینگز NT 0870، ئەسترالیا",
+    aboutTextModal: "مەزگەوتی ئاستن، ئالیس سپرینگز NT 0870، ئەسترالیا مەزگەوتێکی نوێ و نووسراوەیە. هۆتێلی ٥ ئەستەرە، خۆشەویستی ویژەی خۆشەویستیە کە بەر بەری دەریاییە.",
+        reserveNowBtn: "ئێستا بگرە"
+
+  },
+  Arabic: {
+    servicesTitle: "الخدمات",
+    bedsLabel: "الأسرة",
+    availabilityLabel: "التوافر",
+    guestsLabel: "الضيوف",
+    aboutTitle: "حول",
+    aboutText: "فندق أستون، أليس سبرينغز NT 0870، أستراليا هو فندق عصري. فندق أنيق من فئة ٥ نجوم يطل على البحر. مثالي للرومانسيين والساحرين.",
+    photosTitle: "صور",
+    contactTitle: "اتصال",
+    directionLink: "الاتجاه",
+    knowBeforeTitle: "اعرف قبل الذهاب ...",
+    knowBeforeItem1: "الضيوف يجب أن يكونوا على علم بحد أقصى مكان القائمة الهوكي",
+    knowBeforeItem2: "الضيوف يجب أن يكونوا على علم بحد أقصى مكان القائمة الهوكي",
+    knowBeforeItem3: "الضيوف يجب أن يكونوا على علم بحد أقصى مكان القائمة الهوكي",
+    termsText: "الشروط",
+    privacyText: "الخصوصية",
+    sampleText: "عينة",
+    termsAndConditionsTitle: "الشروط والأحكام",
+    privacyPolicyTitle: "سياسة الخصوصية",
+    closeBtn: "إغلاق",
+    aboutTitleModal: "حول",
+    aboutStrongTextModal: "فندق أستون، أليس سبرينغز NT 0870، أستراليا",
+    aboutTextModal: "فندق أستون، أليس سبرينغز NT 0870، أستراليا هو فندق عصري. فندق أنيق من فئة ٥ نجوم يطل على البحر. مثالي للرومانسيين والساحرين.",
+          reserveNowBtn: "احجز الآن"
+
+
+  }
+};
+
+  function changeLanguage(lang) {
+    const t = translations[lang];
+
+    if (!t) {
+      console.error('Language not found:', lang);
+      return;
+    }
+
+    // ترجمه تمام المان‌هایی که data-i18n دارند
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if (t[key]) {
+        el.innerHTML = t[key];
+      }
+    });
+    
+    // ترجمه placeholderها
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        if (t[key]) {
+            el.setAttribute('placeholder', t[key]);
+        }
+    });
+
+    // تنظیم جهت صفحه (RTL/LTR)
+    document.documentElement.dir = (lang === 'Arabic' || lang === 'Kurdish') ? 'rtl' : 'ltr';
+
+
+    // ذخیره زبان انتخاب‌شده
+    localStorage.setItem('selectedLanguage', lang);
+  }
+
+  // بارگذاری زبان ذخیره‌شده د ابتدای صفحه
+  document.addEventListener('DOMContentLoaded', () => {
+    // اگر زبان ذخیره‌شده‌ای وجود داشت، آن را اعمال کند. در غیر این صورت، انگلیسی را پیش‌فرض می‌گیرد.
+    const savedLang = localStorage.getItem('selectedLanguage') || 'English';
+    changeLanguage(savedLang);
+  });
+</script>
 
 
 </body>

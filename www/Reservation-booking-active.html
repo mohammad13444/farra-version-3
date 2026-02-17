@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
   <link rel="stylesheet" href="./css/header.css">
 
 <title>Active Page</title>
@@ -64,25 +66,7 @@ body {
             margin-right: 24px;
         }
 
-        /* Header with Blur Effect */
-        .header {
-            position: relative;
-            display: flex;
-            align-items: center;
-      justify-content: space-between;
-            overflow: visible;
-
-
-
-               width: 100%;
-      background: transparent;
-      display: flex;
-      align-items: center;
-      padding: 16px 13px;
-      /* پدینگ داخلی 13px به 0 تغییر کرد چون پدینگ کانتینر 24px است */
-      border-radius: 16px;
-      padding-top: 24px;
-        }
+  
 
           /* ⚠️ توجه: آیکون‌های چپ و راست هدر باید خارج از پدینگ کانتینر قرار می‌گرفتند. 
            اما برای حفظ کد شما، پدینگ header به 0 تغییر کرد تا پدینگ 24px از body اعمال شود. */
@@ -99,171 +83,7 @@ body {
       color: #8877f3;
     }
 
-        .header-blur {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            background-color: #f5f5f525;
-            height: 100%;
-            pointer-events: none;
-            z-index: 0;
-            backdrop-filter: blur(3px);
-            -webkit-backdrop-filter: blur(3px);
-            mask-image: linear-gradient(
-                to bottom,
-                rgba(0,0,0,1)    0%,
-                rgba(0,0,0,0.95) 20%,
-                rgba(0,0,0,0.80) 40%,
-                rgba(0,0,0,0.55) 55%,
-                rgba(0,0,0,0.30) 70%,
-                rgba(0,0,0,0.15) 82%,
-                rgba(0,0,0,0.05) 92%,
-                rgba(0,0,0,0.00) 100%
-            );
-        }
-
-        .header > *:not(.header-blur) {
-            position: relative;
-            z-index: 1;
-        }
-
-        .logo {
-            font-size: 32px;
-            font-weight: 700;
-            color: #7B8CFF;
-            font-style: italic;
-            margin: 0 15px;
-            letter-spacing: -0.5px;
-        }
-
-        .sparkle {
-            color: #A8B5FF;
-            font-size: 24px;
-        }
-
-       /* اینپوت وسط و کشیده */
-/* =============================
-   🔍 SEARCH BOX — نسخه نهایی Farra
-   ============================= */
-
-.search-box {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  height: 48px;
-  width: 100%;
-  max-width: 500px;
-  border-radius: 50px;
-  border: 1px solid #C6C5FA; /* حالت default */
-  padding: 0 10px;
-  padding-left: 15px;
-  box-sizing: border-box;
-  background: #F8F7FC;
-  transition: all 0.25s ease;
-}
-
-/* ====== Input ====== */
-.search-box input {
-  flex: 1;
-  border: none;
-  outline: none;
-  background: transparent;
-  font-family: "Bonyade Koodak VF", sans-serif;
-  font-size: 16px;
-  color: #232323; /* رنگ متن در حالت معمول */
-  padding-left: 10px;
-  padding-right: 15px;
-  min-width: 0;
-
-
-  color: var(--Textbox-Default-Text, #A9A7F7);
-
-
-font-weight: 400;
-
-}
-
-/* ====== SVG Icons ====== */
-.search-box svg {
-  width: 20px;
-  height: 20px;
-  flex-shrink: 0;
-  display: inline-block;
-}
-
-.search-box svg path {
-  stroke: #C6C5FA; /* رنگ پیش‌فرض آیکن */
-  transition: stroke 0.25s ease;
-}
-
-/* ====== Hover ====== */
-.search-box:hover {
-  border-color: #9795F3;
-}
-
-/* ====== Focus ====== */
-.search-box:focus-within {
-  border: 2px solid #706DF2; /* بوردر ضخیم آبی در فوکوس */
-}
-
-.search-box:focus-within input {
-  color: #5C5C66; /* رنگ متن در فوکوس */
-      font-weight: 500;
-
-}
-
-.search-box:focus-within svg path {
-  stroke: #706DF2 !important; /* آبی در فوکوس */
-}
-
-/* placeholder در فوکوس */
-.search-box input::placeholder {
-  color: #A9A7F7;
-  transition: opacity 0.3s ease, color 0.3s ease;
-
-}
-
-.search-box:focus-within input::placeholder {
-  opacity: 0.5;
-  color: #706DF2;
-  
-}
-
-/* ====== Filled (وقتی مقدار داره و فوکوس نداره) ====== */
-.search-box.filled:not(:focus-within) {
-  border: 1px solid #706DF2; /* آبی ثابت */
-}
-
-.search-box.filled:not(:focus-within) input {
-  color: #706DF2;
-  font-weight: 500;
-}
-
-.search-box.filled:not(:focus-within) svg path {
-  stroke: #706DF2;
-}
-
-/* ====== Error / Success ====== */
-.search-box.error {
-  border: 2px solid #FF595B;
-}
-.search-box.success {
-  border: 2px solid #44CD54;
-}
-
-/* ====== آیکن‌ها ====== */
-.search-box .star img {
-  width: 24px;
-  height: 24px;
-  transition: transform 0.3s ease;
-}
-
-.search-box .star:hover img {
-  transform: scale(1.08);
-}
-
+    
 
 
 .active-page {
@@ -405,6 +225,39 @@ line-height: var(--Font-Headings-H6-Line-Heigth, 28px); /* 140% */
   object-fit: cover;
   flex-shrink: 0;
 }
+.booking-actions {
+  position: absolute;
+  right: 150px;
+  top: 50%;
+  transform: translateY(-50%) translateX(125%);
+  display: flex;
+  gap: 31px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .25s ease, right .25s ease;
+}
+
+.booking-card.active .booking-actions {
+  right: 16px;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.action-icon {
+  width: 24px;
+  height: 24px;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.action-icon:hover {
+  transform: scale(1.1);
+}
 
 .booking-card .info {
   display: flex;
@@ -461,41 +314,16 @@ border: 1px solid var(--Border-Error-Default, #FF595B);
   border: 2px solid #FF595B;
 }
 
-.booking-card.canceled img {
-  content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='70' height='72' viewBox='0 0 70 72' fill='none'%3E%3Crect width='70' height='72' rx='20' fill='%23E7E8FF'/%3E%3Cg transform='translate(25, 26)'%3E%3Cpath d='M18 6H2C1.46957 6 0.960859 6.21071 0.585786 6.58579C0.210714 6.96086 0 7.46957 0 8V16C0 16.5304 0.210714 17.0391 0.585786 17.4142C0.960859 17.7893 1.46957 18 2 18H18C18.5304 18 19.0391 17.7893 19.4142 17.4142C19.7893 17.0391 20 16.5304 20 16V8C20 7.46957 19.7893 6.96086 19.4142 6.58579C19.0391 6.21071 18.5304 6 18 6Z' stroke='%235C5C66' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M14 18V4C14 3.46957 13.7893 2.96086 13.4142 2.58579C13.0391 2.21071 12.5304 2 12 2H8C7.46957 2 6.96086 2.21071 6.58579 2.58579C6.21071 2.96086 6 3.46957 6 4V18' stroke='%235C5C66' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/g%3E%3C/svg%3E");
-  width: 70px;
-  height: 72px;
+
+
+
+
+.booking-card {
+  position: relative;
 }
 
-/* آیکون‌های کارت‌های کنسل شده */
-.booking-card.canceled::after {
-  display: block;
-  content: "";
-  position: absolute;
-  right: -80px;
-  top: 50%;
-  transform: translateY(-40%);
-  width: 100px;
-  height: 36px;
-  opacity: 0;
-  transition: opacity .25s ease;
-  background-repeat: no-repeat;
-  background-position: 0 center, 36px center;
-  background-size: 20px 20px;
-  cursor: pointer;
-  margin-left: -30%;
-  background-image:
-   url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M20.3288 14.9238V14.9336M14.5583 4.55884C14.5583 3.14591 13.4124 2 11.9994 2C10.5866 2 9.44063 3.14591 9.44063 4.55884C9.44063 5.97177 10.5866 7.11768 11.9994 7.11768C13.4124 7.11768 14.5583 5.97177 14.5583 4.55884ZM7.11767 17.3235C7.11767 15.9105 5.97177 14.7646 4.55883 14.7646C3.14591 14.7646 2 15.9105 2 17.3235C2 18.7364 3.14591 19.8822 4.55883 19.8822C5.97177 19.8822 7.11767 18.7364 7.11767 17.3235ZM22 17.3235C22 15.9105 20.8541 14.7646 19.4411 14.7646C18.0282 14.7646 16.8823 15.9105 16.8823 17.3235C16.8823 18.7364 18.0282 19.8822 19.4411 19.8822C20.8541 19.8822 22 18.7364 22 17.3235Z' stroke='%23706DF2' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath opacity='0.4' d='M14.2048 21.0974C15.5366 20.7547 16.7377 20.0985 17.7257 19.2109' stroke='%2345454D' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath opacity='0.4' d='M3.66888 10.7461C3.5078 11.412 3.41699 12.0984 3.41699 12.8044C3.41699 13.5309 3.5078 14.2475 3.6786 14.9232' stroke='%2345454D' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath opacity='0.4' d='M9.8005 21.1163C8.47079 20.7639 7.27515 20.1002 6.29248 19.2051' stroke='%2345454D' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath opacity='0.4' d='M5.60669 7.07392C6.62612 5.93341 7.94716 5.06642 9.44117 4.60156' stroke='%2345454D' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath opacity='0.4' d='M14.5586 4.60156C16.0418 5.06533 17.3531 5.92368 18.3628 7.04365' stroke='%2345454D' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath opacity='0.4' d='M20.3389 10.7461C20.4999 11.412 20.5907 12.0984 20.5907 12.8044C20.5907 13.5309 20.4999 14.2475 20.3291 14.9232' stroke='%2345454D' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M4 20L20 4M20 20L4 4' stroke='%23FF595B' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-      transform: translateY(-50%) translateX(calc(90px - 25px));
-        background-position: 0 center, 70px center; /* مثلاً از 36px به 46px تغییر یافته */
 
 
-}
-
-.booking-card.canceled.active::after {
-  opacity: 1;
-}
 
 /* بوردر 2px قرمز وقتی کارت کنسل شده فعال می‌شود */
 .booking-card.canceled.active {
@@ -510,35 +338,6 @@ border: 1px solid var(--Border-Error-Default, #FF595B);
   transform: translateX(-45%);
 }
 
-/* ===============================
-   Icons (Pure CSS)
-================================ */
-.booking-card::after {
-  content: "";
-  position: absolute;
-  right: -120px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 115px;
-  height: 36px;
-  opacity: 0;
-  transition: opacity .25s ease;
-  background-repeat: no-repeat;
-  background-position: 0 center, 46px center, 93px center;
-  background-size: 20px 20px;
-  cursor: pointer;
-  background-image:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M20.3288 14.9238V14.9336M14.5583 4.55884C14.5583 3.14591 13.4124 2 11.9994 2C10.5866 2 9.44063 3.14591 9.44063 4.55884C9.44063 5.97177 10.5866 7.11768 11.9994 7.11768C13.4124 7.11768 14.5583 5.97177 14.5583 4.55884ZM7.11767 17.3235C7.11767 15.9105 5.97177 14.7646 4.55883 14.7646C3.14591 14.7646 2 15.9105 2 17.3235C2 18.7364 3.14591 19.8822 4.55883 19.8822C5.97177 19.8822 7.11767 18.7364 7.11767 17.3235ZM22 17.3235C22 15.9105 20.8541 14.7646 19.4411 14.7646C18.0282 14.7646 16.8823 15.9105 16.8823 17.3235C16.8823 18.7364 18.0282 19.8822 19.4411 19.8822C20.8541 19.8822 22 18.7364 22 17.3235Z' stroke='%23706DF2' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath opacity='0.4' d='M14.2048 21.0974C15.5366 20.7547 16.7377 20.0985 17.7257 19.2109' stroke='%2345454D' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath opacity='0.4' d='M3.66888 10.7461C3.5078 11.412 3.41699 12.0984 3.41699 12.8044C3.41699 13.5309 3.5078 14.2475 3.6786 14.9232' stroke='%2345454D' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath opacity='0.4' d='M9.8005 21.1163C8.47079 20.7639 7.27515 20.1002 6.29248 19.2051' stroke='%2345454D' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath opacity='0.4' d='M5.60669 7.07392C6.62612 5.93341 7.94716 5.06642 9.44117 4.60156' stroke='%2345454D' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath opacity='0.4' d='M14.5586 4.60156C16.0418 5.06533 17.3531 5.92368 18.3628 7.04365' stroke='%2345454D' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath opacity='0.4' d='M20.3389 10.7461C20.4999 11.412 20.5907 12.0984 20.5907 12.8044C20.5907 13.5309 20.4999 14.2475 20.3291 14.9232' stroke='%2345454D' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M4 20L20 4M20 20L4 4' stroke='%23FF595B' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M22 5.62848L19.094 4.95605L18.4248 7.84577' stroke='%23706DF2' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M19.0593 5.1377C22.7847 8.99172 22.7587 15.1355 18.9652 18.9582C16.5891 21.3526 13.2917 22.2759 10.2053 21.7224' stroke='%23706DF2' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M2.0293 18.5529L4.95467 19.1367L5.53521 16.2275' stroke='%23706DF2' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M4.98345 18.9519C1.14347 15.2125 0.983478 9.07087 4.65912 5.13577C6.9618 2.66985 10.2299 1.64823 13.3315 2.10661' stroke='%23706DF2' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle opacity='0.4' cx='12' cy='12' r='3.22' stroke='%23706DF2' stroke-width='1.56'/%3E%3C/svg%3E");
-
-        transform: translateY(-50%) translateX(calc(90px - 70px));
-
-}
-
-.booking-card.active::after {
-  opacity: 1;
-}
 
 
 /* ===============================
@@ -844,14 +643,19 @@ backdrop-filter: blur(6px);
       transition: color 0.3s ease, transform 0.3s ease;
     }
 
-    .fara-bottom-item.active {
-      color: #645ef6;
-      transform: scale(1.1);
+   .fara-bottom-item.active {
+color: var(--Text-Primary-Default, #706DF2);
+
+/* English/Button/Small */
+font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+font-size: var(--Font-Button-Small-Text-Size, 16px);
+font-style: normal;
+font-weight: 500;
+line-height: normal;
     }
 
     .fara-bottom-item:hover {
       color: #7e74ff;
-      transform: scale(1.05);
     }
 
     .fara-bottom-icon {
@@ -861,11 +665,73 @@ backdrop-filter: blur(6px);
     line-height: 1;
 }
 
-    .fara-bottom-text {
-      font-size: 14px;
-      margin-top: 4px;
-    }
 
+  .fara-bottom-text {
+  font-size: 16px;
+  margin-top: 4px;
+  text-decoration: none !important; /* 👈 این خط رو اضافه کن */
+}
+
+/* جلوگیری کامل از خط خوردن */
+.fara-bottom-nav .fara-bottom-text {
+  text-decoration: none !important;
+  text-decoration-line: none !important;
+}
+
+.fara-bottom-item .fara-bottom-text {
+  text-decoration: none !important;
+}
+.fara-bottom-nav a {
+  opacity: 0.5; /* همه کم‌رنگ */
+  transition: opacity 0.3s ease;
+}
+
+.fara-bottom-nav a.active {
+  opacity: 1; /* فقط فعال پررنگ */
+}
+#nnn:active{
+  border: 4px solid #8e83e6;
+}
+.empty-box {
+  max-width: 280px;
+  margin: 60px auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.empty-box img {
+ 
+  margin-bottom: 16px;
+}
+
+.empty-box h3 {
+  margin-top: 8px;
+color: var(--Text-Primary-Default, #706DF2);
+text-align: center;
+
+/* English/Heading/H6 */
+font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+font-size: var(--Font-Headings-H6-Text-Size, 20px);
+font-style: normal;
+font-weight: 700;
+line-height: var(--Font-Headings-H6-Line-Heigth, 28px); /* 140% */
+  margin-bottom: 16px;
+  
+}
+
+.empty-box p {
+ color: var(--Text-Default-Body, #5C5C66);
+text-align: center;
+
+/* English/Body/Copy */
+font-family: var(--Fonts-En-Primary, "Bonyade Koodak VF");
+font-size: var(--Font-Copy-Body-Text-Size, 16px);
+font-style: normal;
+font-weight: 400;
+line-height: var(--Font-Copy-Body-Line-Heigth, 20px); /* 125% */
+}
 </style>
 </head>
 
@@ -873,16 +739,20 @@ backdrop-filter: blur(6px);
 
      <div class="home-container">
   
-
+  <br> 
+    <br> 
+    <br> 
+    <br> 
+    <br> 
     
 
 <div class="active-page" style="margin-top: 10%;">
 
   <!-- Tabs -->
   <div class="tabs">
-    <div class="tab active" data-tab="active">Active</div>
-    <div class="tab" data-tab="past">Past</div>
-    <div class="tab" data-tab="canceled">Canceled</div>
+    <div class="tab active" data-tab="active" data-i18n="tabActive">Active</div>
+    <div class="tab" data-tab="past" data-i18n="tabPast">Past</div>
+    <div class="tab" data-tab="canceled" data-i18n="tabCanceled">Canceled</div>
   </div>
 
   <!-- Active Tab Content -->
@@ -890,187 +760,257 @@ backdrop-filter: blur(6px);
 <div class="tab-content active" id="activeContent">
   <!-- This Week -->
   <div class="section">
-    <div class="section-title">
-      This Week
-      <span class="badge">2</span>
-    </div>
+      <div class="section-title">
+        <span data-i18n="thisWeek">This Week</span>
+        <span class="badge">2</span>
+      </div>
 
     <div class="day-group">
-      <div class="day-label">Today</div>
+        <div class="day-label" data-i18n="labelToday">Today</div>
+
+     <div class="booking-card" data-status="active" data-id="1" data-img="https://picsum.photos/200?1" data-title="Grand Luxury Hotel" data-location="Dubai • UAE" data-date="Feb 11, 2026 • 3 nights">
+  <img src="https://picsum.photos/200?1" alt="Hotel">
+  <div class="info">
+    <div class="title">Grand Luxury Hotel</div>
+    <div class="sub">Dubai • UAE</div>
+    <div class="meta">Feb 11, 2026 • 3 nights</div>
+  </div>
+
+  <!-- آیکون‌های Active -->
+ <div class="booking-actions">
+ 
+  
+
+     <button class="action-icon " data-action="repeat">
+   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <path d="M22 5.62751L19.094 4.95508L18.4248 7.84479" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M19.0593 5.13867C22.7847 8.99269 22.7587 15.1364 18.9652 18.9592C16.5891 21.3536 13.2917 22.2769 10.2053 21.7234" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M2.0293 18.5539L4.95467 19.1377L5.53521 16.2285" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M4.98345 18.9519C1.14347 15.2125 0.983478 9.07087 4.65912 5.13577C6.9618 2.66985 10.2299 1.64823 13.3315 2.10661" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle opacity="0.4" cx="12" cy="12" r="3.22" stroke="#706DF2" stroke-width="1.56"/>
+</svg>
+    </button>
+   <button class="action-icon cancel-icon" data-action="cancel">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <path d="M4 20L20 4M20 20L4 4" stroke="#FF595B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+    </button>
+    
+  <button class="action-icon share-icon" data-action="share">
+     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <path d="M20.3288 14.9238V14.9336M14.5583 4.55884C14.5583 3.14591 13.4124 2 11.9994 2C10.5866 2 9.44063 3.14591 9.44063 4.55884C9.44063 5.97177 10.5866 7.11768 11.9994 7.11768C13.4124 7.11768 14.5583 5.97177 14.5583 4.55884ZM7.11767 17.3235C7.11767 15.9105 5.97177 14.7646 4.55883 14.7646C3.14591 14.7646 2 15.9105 2 17.3235C2 18.7364 3.14591 19.8822 4.55883 19.8822C5.97177 19.8822 7.11767 18.7364 7.11767 17.3235ZM22 17.3235C22 15.9105 20.8541 14.7646 19.4411 14.7646C18.0282 14.7646 16.8823 15.9105 16.8823 17.3235C16.8823 18.7364 18.0282 19.8822 19.4411 19.8822C20.8541 19.8822 22 18.7364 22 17.3235Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M14.2048 21.0974C15.5366 20.7547 16.7377 20.0985 17.7257 19.2109" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M3.66888 10.7461C3.5078 11.412 3.41699 12.0984 3.41699 12.8044C3.41699 13.5309 3.5078 14.2475 3.6786 14.9232" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M9.8005 21.1163C8.47079 20.7639 7.27515 20.1002 6.29248 19.2051" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M5.60669 7.07392C6.62612 5.93341 7.94716 5.06642 9.44117 4.60156" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M14.5586 4.60156C16.0418 5.06533 17.3531 5.92368 18.3628 7.04365" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M20.3389 10.7461C20.4999 11.412 20.5907 12.0984 20.5907 12.8044C20.5907 13.5309 20.4999 14.2475 20.3291 14.9232" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+    </button>
+    
+  </div>
+</div>
+
 
       <div class="booking-card" data-status="active" data-id="1" data-img="https://picsum.photos/200?1" data-title="Grand Luxury Hotel" data-location="Dubai • UAE" data-date="Feb 11, 2026 • 3 nights">
-        <img src="https://picsum.photos/200?1" alt="Hotel">
-        <div class="info">
-          <div class="title">Grand Luxury Hotel</div>
-          <div class="sub">Dubai • UAE</div>
-          <div class="meta">Feb 11, 2026 • 3 nights</div>
-        </div>
-      </div>
+  <img src="https://picsum.photos/200?1" alt="Hotel">
+  <div class="info">
+    <div class="title">Grand Luxury Hotel</div>
+    <div class="sub">Dubai • UAE</div>
+    <div class="meta">Feb 11, 2026 • 3 nights</div>
+  </div>
 
-      <div class="booking-card" data-status="active" data-id="2" data-img="https://picsum.photos/200?2" data-title="Seaside Resort" data-location="Maldives • Asia" data-date="Feb 13, 2026 • 5 nights">
-        <img src="https://picsum.photos/200?2" alt="Hotel">
-        <div class="info">
-          <div class="title">Seaside Resort</div>
-          <div class="sub">Maldives • Asia</div>
-          <div class="meta">Feb 13, 2026 • 5 nights</div>
-        </div>
-      </div>
+  <!-- آیکون‌های Active -->
+ <div class="booking-actions">
+ 
+  
+
+     <button class="action-icon " data-action="repeat">
+   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <path d="M22 5.62751L19.094 4.95508L18.4248 7.84479" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M19.0593 5.13867C22.7847 8.99269 22.7587 15.1364 18.9652 18.9592C16.5891 21.3536 13.2917 22.2769 10.2053 21.7234" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M2.0293 18.5539L4.95467 19.1377L5.53521 16.2285" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M4.98345 18.9519C1.14347 15.2125 0.983478 9.07087 4.65912 5.13577C6.9618 2.66985 10.2299 1.64823 13.3315 2.10661" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle opacity="0.4" cx="12" cy="12" r="3.22" stroke="#706DF2" stroke-width="1.56"/>
+</svg>
+    </button>
+   <button class="action-icon cancel-icon" data-action="cancel">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <path d="M4 20L20 4M20 20L4 4" stroke="#FF595B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+    </button>
+    
+  <button class="action-icon share-icon" data-action="share">
+     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <path d="M20.3288 14.9238V14.9336M14.5583 4.55884C14.5583 3.14591 13.4124 2 11.9994 2C10.5866 2 9.44063 3.14591 9.44063 4.55884C9.44063 5.97177 10.5866 7.11768 11.9994 7.11768C13.4124 7.11768 14.5583 5.97177 14.5583 4.55884ZM7.11767 17.3235C7.11767 15.9105 5.97177 14.7646 4.55883 14.7646C3.14591 14.7646 2 15.9105 2 17.3235C2 18.7364 3.14591 19.8822 4.55883 19.8822C5.97177 19.8822 7.11767 18.7364 7.11767 17.3235ZM22 17.3235C22 15.9105 20.8541 14.7646 19.4411 14.7646C18.0282 14.7646 16.8823 15.9105 16.8823 17.3235C16.8823 18.7364 18.0282 19.8822 19.4411 19.8822C20.8541 19.8822 22 18.7364 22 17.3235Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M14.2048 21.0974C15.5366 20.7547 16.7377 20.0985 17.7257 19.2109" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M3.66888 10.7461C3.5078 11.412 3.41699 12.0984 3.41699 12.8044C3.41699 13.5309 3.5078 14.2475 3.6786 14.9232" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M9.8005 21.1163C8.47079 20.7639 7.27515 20.1002 6.29248 19.2051" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M5.60669 7.07392C6.62612 5.93341 7.94716 5.06642 9.44117 4.60156" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M14.5586 4.60156C16.0418 5.06533 17.3531 5.92368 18.3628 7.04365" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M20.3389 10.7461C20.4999 11.412 20.5907 12.0984 20.5907 12.8044C20.5907 13.5309 20.4999 14.2475 20.3291 14.9232" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+    </button>
+    
+  </div>
+</div>
+
     </div>
   </div>
 
   <!-- Next Week -->
   <div class="section">
-    <div class="section-title">Next Week</div>
+      <div class="section-title" data-i18n="nextWeek">Next Week</div>
 
     <div class="day-group">
       <div class="day-label">Feb 18</div>
 
-      <div class="booking-card" data-status="active" data-id="3" data-img="https://picsum.photos/200?3" data-title="Mountain View Inn" data-location="Switzerland • Europe" data-date="Feb 18, 2026 • 2 nights">
-        <img src="https://picsum.photos/200?3" alt="Hotel">
-        <div class="info">
-          <div class="title">Mountain View Inn</div>
-          <div class="sub">Switzerland • Europe</div>
-          <div class="meta">Feb 18, 2026 • 2 nights</div>
-        </div>
-      </div>
+      <div class="booking-card" data-status="active" data-id="1" data-img="https://picsum.photos/200?1" data-title="Grand Luxury Hotel" data-location="Dubai • UAE" data-date="Feb 11, 2026 • 3 nights">
+  <img src="https://picsum.photos/200?1" alt="Hotel">
+  <div class="info">
+    <div class="title">Grand Luxury Hotel</div>
+    <div class="sub">Dubai • UAE</div>
+    <div class="meta">Feb 11, 2026 • 3 nights</div>
+  </div>
+
+  <!-- آیکون‌های Active -->
+  <div class="booking-actions">
+ 
+  
+
+     <button class="action-icon " data-action="repeat">
+   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <path d="M22 5.62751L19.094 4.95508L18.4248 7.84479" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M19.0593 5.13867C22.7847 8.99269 22.7587 15.1364 18.9652 18.9592C16.5891 21.3536 13.2917 22.2769 10.2053 21.7234" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M2.0293 18.5539L4.95467 19.1377L5.53521 16.2285" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M4.98345 18.9519C1.14347 15.2125 0.983478 9.07087 4.65912 5.13577C6.9618 2.66985 10.2299 1.64823 13.3315 2.10661" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle opacity="0.4" cx="12" cy="12" r="3.22" stroke="#706DF2" stroke-width="1.56"/>
+</svg>
+    </button>
+   <button class="action-icon cancel-icon" data-action="cancel">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <path d="M4 20L20 4M20 20L4 4" stroke="#FF595B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+    </button>
+    
+  <button class="action-icon share-icon" data-action="share">
+     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <path d="M20.3288 14.9238V14.9336M14.5583 4.55884C14.5583 3.14591 13.4124 2 11.9994 2C10.5866 2 9.44063 3.14591 9.44063 4.55884C9.44063 5.97177 10.5866 7.11768 11.9994 7.11768C13.4124 7.11768 14.5583 5.97177 14.5583 4.55884ZM7.11767 17.3235C7.11767 15.9105 5.97177 14.7646 4.55883 14.7646C3.14591 14.7646 2 15.9105 2 17.3235C2 18.7364 3.14591 19.8822 4.55883 19.8822C5.97177 19.8822 7.11767 18.7364 7.11767 17.3235ZM22 17.3235C22 15.9105 20.8541 14.7646 19.4411 14.7646C18.0282 14.7646 16.8823 15.9105 16.8823 17.3235C16.8823 18.7364 18.0282 19.8822 19.4411 19.8822C20.8541 19.8822 22 18.7364 22 17.3235Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M14.2048 21.0974C15.5366 20.7547 16.7377 20.0985 17.7257 19.2109" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M3.66888 10.7461C3.5078 11.412 3.41699 12.0984 3.41699 12.8044C3.41699 13.5309 3.5078 14.2475 3.6786 14.9232" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M9.8005 21.1163C8.47079 20.7639 7.27515 20.1002 6.29248 19.2051" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M5.60669 7.07392C6.62612 5.93341 7.94716 5.06642 9.44117 4.60156" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M14.5586 4.60156C16.0418 5.06533 17.3531 5.92368 18.3628 7.04365" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M20.3389 10.7461C20.4999 11.412 20.5907 12.0984 20.5907 12.8044C20.5907 13.5309 20.4999 14.2475 20.3291 14.9232" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+    </button>
+    
+  </div>
+</div>
+
     </div>
   </div>
 
-  <!-- Next Month -->
-  <div class="section">
-    <div class="section-title">March 2026</div>
-
-    <div class="day-group">
-      <div class="day-label">Mar 5</div>
-
-      <div class="booking-card" data-status="active" data-id="4" data-img="https://picsum.photos/200?4" data-title="City Center Hotel" data-location="Paris • France" data-date="Mar 5, 2026 • 4 nights">
-        <img src="https://picsum.photos/200?4" alt="Hotel">
-        <div class="info">
-          <div class="title">City Center Hotel</div>
-          <div class="sub">Paris • France</div>
-          <div class="meta">Mar 5, 2026 • 4 nights</div>
-        </div>
-      </div>
-    </div>
-  </div>
+ 
 </div>
 
 <!-- Past Tab Content -->
 <div class="tab-content" id="pastContent">
   <div class="section">
-    <div class="section-title">Last Week</div>
+      <div class="section-title" data-i18n="lastWeek">Last Week</div>
     
     <div class="day-group">
-      <div class="day-label">Yesterday</div>
+        <div class="day-label" data-i18n="labelYesterday">Yesterday</div>
       
-      <div class="booking-card" data-status="past" data-id="past1" data-img="https://picsum.photos/200?past1" data-title="Beach Resort" data-location="Bali • Indonesia" data-date="Feb 10, 2026 • 2 nights">
-        <img src="https://picsum.photos/200?past1" alt="Hotel">
-        <div class="info">
-          <div class="title">Beach Resort</div>
-          <div class="sub">Bali • Indonesia</div>
-          <div class="meta">Feb 10, 2026 • 2 nights</div>
-        </div>
-      </div>
+      <div class="booking-card kir" style="background-color: transparent;
+            border: 1px solid var(--Textbox-Default-Border, #C6C5FA);
+" data-status="past" data-id="past1" data-img="https://picsum.photos/200?past1" data-title="Beach Resort" data-location="Bali • Indonesia" data-date="Feb 10, 2026 • 2 nights">
+  <img src="https://picsum.photos/200?past1" alt="Hotel">
+  <div class="info">
+    <div class="title">Beach Resort</div>
+    <div class="sub">Bali • Indonesia</div>
+    <div class="meta">Feb 10, 2026 • 2 nights</div>
+  </div>
+
+  <!-- آیکون‌های Past -->
+  <div class="booking-actions" style="left: 13%; position: absolute;">
+    <button class="action-icon share-icon" data-action="repeat">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <path d="M22 5.62751L19.094 4.95508L18.4248 7.84479" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M19.0593 5.13867C22.7847 8.99269 22.7587 15.1364 18.9652 18.9592C16.5891 21.3536 13.2917 22.2769 10.2053 21.7234" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M2.0293 18.5539L4.95467 19.1377L5.53521 16.2285" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M4.98345 18.9519C1.14347 15.2125 0.983478 9.07087 4.65912 5.13577C6.9618 2.66985 10.2299 1.64823 13.3315 2.10661" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle opacity="0.4" cx="12" cy="12" r="3.22" stroke="#706DF2" stroke-width="1.56"/>
+</svg>
+    </button>
+
+    <button class="action-icon repeat-icon" data-action="share">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <path d="M20.3288 14.9238V14.9336M14.5583 4.55884C14.5583 3.14591 13.4124 2 11.9994 2C10.5866 2 9.44063 3.14591 9.44063 4.55884C9.44063 5.97177 10.5866 7.11768 11.9994 7.11768C13.4124 7.11768 14.5583 5.97177 14.5583 4.55884ZM7.11767 17.3235C7.11767 15.9105 5.97177 14.7646 4.55883 14.7646C3.14591 14.7646 2 15.9105 2 17.3235C2 18.7364 3.14591 19.8822 4.55883 19.8822C5.97177 19.8822 7.11767 18.7364 7.11767 17.3235ZM22 17.3235C22 15.9105 20.8541 14.7646 19.4411 14.7646C18.0282 14.7646 16.8823 15.9105 16.8823 17.3235C16.8823 18.7364 18.0282 19.8822 19.4411 19.8822C20.8541 19.8822 22 18.7364 22 17.3235Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M14.2048 21.0974C15.5366 20.7547 16.7377 20.0985 17.7257 19.2109" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M3.66888 10.7461C3.5078 11.412 3.41699 12.0984 3.41699 12.8044C3.41699 13.5309 3.5078 14.2475 3.6786 14.9232" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M9.8005 21.1163C8.47079 20.7639 7.27515 20.1002 6.29248 19.2051" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M5.60669 7.07392C6.62612 5.93341 7.94716 5.06642 9.44117 4.60156" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M14.5586 4.60156C16.0418 5.06533 17.3531 5.92368 18.3628 7.04365" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M20.3389 10.7461C20.4999 11.412 20.5907 12.0984 20.5907 12.8044C20.5907 13.5309 20.4999 14.2475 20.3291 14.9232" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+    </button>
+  </div>
+</div>
+
     </div>
   </div>
 
   <div class="section">
-    <div class="section-title">Last Month</div>
+      <div class="section-title" data-i18n="lastMonth">Last Month</div>
     
     <div class="day-group">
       <div class="day-label">Jan 2026</div>
       
-      <div class="booking-card" data-status="past" data-id="past2" data-img="https://picsum.photos/200?past2" data-title="Desert Lodge" data-location="Morocco • Africa" data-date="Jan 25, 2026 • 3 nights">
-        <img src="https://picsum.photos/200?past2" alt="Hotel">
-        <div class="info">
-          <div class="title">Desert Lodge</div>
-          <div class="sub">Morocco • Africa</div>
-          <div class="meta">Jan 25, 2026 • 3 nights</div>
-        </div>
+      <div class="booking-card " style="background-color: transparent; border: 1px solid var(--Textbox-Default-Border, #C6C5FA);
+" data-status="past" data-id="past2" data-img="https://picsum.photos/200?past2" data-title="Desert Lodge" data-location="Morocco • Africa" data-date="Jan 25, 2026 • 3 nights">
+        <img src="https://picsum.photos/200?past1" alt="Hotel">
+  <div class="info">
+    <div class="title">Beach Resort</div>
+    <div class="sub">Bali • Indonesia</div>
+    <div class="meta">Feb 10, 2026 • 2 nights</div>
+  </div>
+
+  <!-- آیکون‌های Past -->
+   <!-- آیکون‌های Past -->
+  <div class="booking-actions" style="left: 13%; position: absolute;">
+    <button class="action-icon share-icon" data-action="repeat">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <path d="M22 5.62751L19.094 4.95508L18.4248 7.84479" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M19.0593 5.13867C22.7847 8.99269 22.7587 15.1364 18.9652 18.9592C16.5891 21.3536 13.2917 22.2769 10.2053 21.7234" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M2.0293 18.5539L4.95467 19.1377L5.53521 16.2285" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M4.98345 18.9519C1.14347 15.2125 0.983478 9.07087 4.65912 5.13577C6.9618 2.66985 10.2299 1.64823 13.3315 2.10661" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle opacity="0.4" cx="12" cy="12" r="3.22" stroke="#706DF2" stroke-width="1.56"/>
+</svg>
+    </button>
+
+    <button class="action-icon " data-action=" share">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <path d="M20.3288 14.9238V14.9336M14.5583 4.55884C14.5583 3.14591 13.4124 2 11.9994 2C10.5866 2 9.44063 3.14591 9.44063 4.55884C9.44063 5.97177 10.5866 7.11768 11.9994 7.11768C13.4124 7.11768 14.5583 5.97177 14.5583 4.55884ZM7.11767 17.3235C7.11767 15.9105 5.97177 14.7646 4.55883 14.7646C3.14591 14.7646 2 15.9105 2 17.3235C2 18.7364 3.14591 19.8822 4.55883 19.8822C5.97177 19.8822 7.11767 18.7364 7.11767 17.3235ZM22 17.3235C22 15.9105 20.8541 14.7646 19.4411 14.7646C18.0282 14.7646 16.8823 15.9105 16.8823 17.3235C16.8823 18.7364 18.0282 19.8822 19.4411 19.8822C20.8541 19.8822 22 18.7364 22 17.3235Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M14.2048 21.0974C15.5366 20.7547 16.7377 20.0985 17.7257 19.2109" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M3.66888 10.7461C3.5078 11.412 3.41699 12.0984 3.41699 12.8044C3.41699 13.5309 3.5078 14.2475 3.6786 14.9232" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M9.8005 21.1163C8.47079 20.7639 7.27515 20.1002 6.29248 19.2051" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M5.60669 7.07392C6.62612 5.93341 7.94716 5.06642 9.44117 4.60156" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M14.5586 4.60156C16.0418 5.06533 17.3531 5.92368 18.3628 7.04365" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M20.3389 10.7461C20.4999 11.412 20.5907 12.0984 20.5907 12.8044C20.5907 13.5309 20.4999 14.2475 20.3291 14.9232" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+    </button>
+  </div>
       </div>
     </div>
   </div>
 </div>
 
 <!-- Canceled Tab Content -->
-<div class="tab-content" id="canceledContent">
-  <div class="section">
-    <div class="section-title">Recently Canceled</div>
-    
-    <div class="day-group">
-      <div class="day-label">This Week</div>
-      
-      <div class="booking-card canceled" data-status="canceled" data-id="canceled1" data-img="https://picsum.photos/200?canceled1" data-title="Airport Hotel" data-location="London • UK" data-date="Feb 15, 2026 • 1 night">
-        <img src="https://picsum.photos/200?canceled1" alt="Hotel">
-        <div class="info">
-          <div class="title">Airport Hotel</div>
-          <div class="sub">London • UK</div>
-          <div class="meta">Feb 15, 2026 • 1 night</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Last Month</div>
-    
-    <div class="day-group">
-      <div class="day-label">Jan 2026</div>
-      
-      <div class="booking-card canceled" data-status="canceled" data-id="canceled2" data-img="https://picsum.photos/200?canceled2" data-title="Spa & Wellness Center" data-location="Iceland • Europe" data-date="Jan 20, 2026 • 2 nights">
-        <img src="https://picsum.photos/200?canceled2" alt="Hotel">
-        <div class="info">
-          <div class="title">Spa & Wellness Center</div>
-          <div class="sub">Iceland • Europe</div>
-          <div class="meta">Jan 20, 2026 • 2 nights</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
 
 
-  <!-- Past Tab Content -->
-   <!-- Past Tab Content -->
-  <div class="tab-content" id="pastContent">
-    <div class="section">
-      <div class="section-title">Past Week</div>
-      <div class="day-group">
-        <div class="day-label">Yesterday</div>
-        <div class="booking-card past" data-id="past1" data-img="https://picsum.photos/200?past1" data-title="Past Hotel 1" data-location="City • Pastland" data-date="2024-11-20 • 2 nights">
-          <img src="https://picsum.photos/200?past1">
-          <div class="info">
-            <div class="title">Past Hotel 1</div>
-            <div class="sub">City • Pastland</div>
-            <div class="meta">2024-11-20 • 2 nights</div>
-          </div>
-        </div>
-        <div class="booking-card past" data-id="past2" data-img="https://picsum.photos/200?past2" data-title="Past Hotel 2" data-location="Town • History" data-date="2024-11-15 • 3 nights">
-          <img src="https://picsum.photos/200?past2">
-          <div class="info">
-            <div class="title">Past Hotel 2</div>
-            <div class="sub">Town • History</div>
-            <div class="meta">2024-11-15 • 3 nights</div>
-          </div>
-        </div>
-      </div>
-    </div>
 
-    <div class="section">
-      <div class="section-title">Past Month</div>
-      <div class="day-group">
-        <div class="day-label">Last Month</div>
-        <div class="booking-card past" data-id="past3" data-img="https://picsum.photos/200?past3" data-title="Past Hotel 3" data-location="Village • Old Times" data-date="2024-10-01 • 1 night">
-          <img src="https://picsum.photos/200?past3">
-          <div class="info">
-            <div class="title">Past Hotel 3</div>
-            <div class="sub">Village • Old Times</div>
-            <div class="meta">2024-10-01 • 1 night</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  
    <!-- Canceled Tab Content -->
   <div class="tab-content" id="canceledContent">
     <!-- Canceled bookings will be added here dynamically -->
@@ -1079,36 +1019,36 @@ backdrop-filter: blur(6px);
     <div class="fara-bottom-container">
      <a href="./home.html" class="text-decoration-none">
        <div class="fara-bottom-item active">
-        <span class="fara-bottom-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="22" viewBox="0 0 24 22" fill="none">
+        <span class="fara-bottom-icon"><svg class="vvv" xmlns="http://www.w3.org/2000/svg" width="24" height="22" viewBox="0 0 24 22" fill="none">
   <path d="M22.3958 8.90219L13.1465 1.31338C12.2316 0.562208 10.9141 0.562208 9.99924 1.31338L0.75 8.90219" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
   <path d="M2.53735 7.43164L3.22338 18.473C3.46558 19.9168 4.71518 20.9733 6.17774 20.9733H16.9659C18.4296 20.9733 19.6793 19.9168 19.9215 18.473L20.6074 7.43164" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
   <path opacity="0.4" d="M14.8195 14.1768C13.8869 15.0064 12.7614 15.4896 11.5667 15.4896C10.3721 15.4896 9.25474 15.0064 8.32227 14.1768" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-</svg><span
-            class="fara-bottom-text">Home</span></span>
+</svg></span>
 
       </div>
      </a>
      <a href="./map.html" class="text-decoration-none">
        <div class="fara-bottom-item">
-        <span class="fara-bottom-icon"><svg xmlns="http://www.w3.org/2000/svg" width="23" height="22" viewBox="0 0 23 22" fill="none">
+        <span class="fara-bottom-icon"><svg class="vvv" xmlns="http://www.w3.org/2000/svg" width="23" height="22" viewBox="0 0 23 22" fill="none">
   <path opacity="0.4" d="M20.7462 8.48164L10.09 6.28865M10.09 6.28865L1.8739 4.58984M10.09 6.28865L7.54666 19.7974" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
   <path fill-rule="evenodd" clip-rule="evenodd" d="M0.75 10.75C0.75 3.24946 3.36905 0.75 11.2262 0.75C19.0834 0.75 21.7024 3.24946 21.7024 10.75C21.7024 18.2494 19.0834 20.75 11.2262 20.75C3.36905 20.75 0.75 18.2494 0.75 10.75Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 </svg></span>
       </div>
      </a>
-      <a href="./Reservation-booking-active.html" class="text-decoration-none">
+      <a href="./Reservation-booking-active.html" class="text-decoration-none active">
         <div class="fara-bottom-item">
         <span class="fara-bottom-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="20" viewBox="0 0 22 20" fill="none">
-  <path opacity="0.4" d="M12.1808 0.855469V3.65047" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-  <path opacity="0.4" d="M12.1808 15.5332V17.8703" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-  <path opacity="0.4" d="M12.1808 12.3756V6.80859" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-  <path fill-rule="evenodd" clip-rule="evenodd" d="M20.75 11.8557C17.9177 11.8557 17.9177 7.53807 20.75 7.53807C20.75 2.5355 20.75 0.75 10.75 0.75C0.75 0.75 0.75 2.5355 0.75 7.53807C3.58236 7.53807 3.58236 11.8557 0.75 11.8557C0.75 16.8593 0.75 18.6447 10.75 18.6447C20.75 18.6447 20.75 16.8593 20.75 11.8557Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
+          <svg class="vvv" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <path opacity="0.4" d="M13.4308 3.10547V5.90047" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M13.4308 17.7832V20.1203" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M13.4308 14.6256V9.05859" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M22 14.1057C19.1677 14.1057 19.1677 9.78807 22 9.78807C22 4.7855 22 3 12 3C2 3 2 4.7855 2 9.78807C4.83236 9.78807 4.83236 14.1057 2 14.1057C2 19.1093 2 20.8947 12 20.8947C22 20.8947 22 19.1093 22 14.1057Z" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg><span
+            class="fara-bottom-text" data-i18n="reservation">Booking</span>
         </span>
       </div>
       </a>
-      <a href="./profile.html">
+      <a href="./profile.html" class="text-decoration-none">
         <div class="fara-bottom-item">
         <span class="fara-bottom-icon">
           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="22" viewBox="0 0 18 22" fill="none">
@@ -1126,17 +1066,22 @@ backdrop-filter: blur(6px);
 <div class="modal-overlay" id="pastActionModalOverlay"></div>
 <div class="cancel-modal" id="pastActionModal">
   <div class="cancel-modal-header">
-   <h4>Cancel Booking</h4>
-    <svg class="cancel-modal-icon" xmlns="http://www.w3.org/2000/svg" width="39" height="39" viewBox="0 0 39 39" fill="none">
-      <path d="M19.4991 1.5C22.1241 10.1249 28.8737 16.8748 37.4983 19.5C28.8737 22.1252 22.1241 28.875 19.4991 37.5C16.8741 28.875 10.1245 22.1252 1.5 19.5C10.1245 16.8748 16.8741 10.1249 19.4991 1.5Z" stroke="#FF595B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
-    <div class="cancel-modal-title">Are you sure to cancel your booking?</div>
-    <div class="cancel-modal-subtitle">It will cut %25 of your money.</div>
-    <div class="cancel-modal-text">To know more about canceling policies read here.</div>
+    <h4 data-i18n="repeatBookingTitle">Repeat Booking</h4>
+   
+    <svg class="cancel-modal-icon" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none">
+  <path d="M22 5.62751L19.094 4.95508L18.4248 7.84479" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M19.0593 5.13867C22.7847 8.99269 22.7587 15.1364 18.9652 18.9592C16.5891 21.3536 13.2917 22.2769 10.2053 21.7234" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M2.0293 18.5539L4.95467 19.1377L5.53521 16.2285" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M4.98345 18.9519C1.14347 15.2125 0.983478 9.07087 4.65912 5.13577C6.9618 2.66985 10.2299 1.64823 13.3315 2.10661" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle opacity="0.4" cx="12" cy="12" r="3.22" stroke="#706DF2" stroke-width="1.56"/>
+</svg>
+    <div class="cancel-modal-title" data-i18n="repeatBookingConfirm">Are you sure to repeat your booking?</div>
+    <div class="cancel-modal-subtitle" data-i18n="repeatBookingSubtitle">It will cut %25 of your money.</div>
+    <div class="cancel-modal-text" data-i18n="cancelPolicyText">To know more about canceling policies read here.</div>
   </div>
-  <div class="cancel-modal-buttons">
-    <button class="modal-btn modal-btn-no" id="btnViewPastDetails">No</button>
-    <button class="modal-btn modal-btn-yes" id="btnSharePast">Yes</button>
+ <div class="cancel-modal-buttons">
+    <button class="modal-btn modal-btn-no" id="btnViewPastDetails" data-i18n="btnNo">No</button>
+    <button class="modal-btn modal-btn-yes" id="btnSharePast" data-i18n="btnYes">Yes</button>
   </div>
 </div>
 
@@ -1151,27 +1096,33 @@ backdrop-filter: blur(6px);
 <!-- Cancel Modal -->
 <div class="cancel-modal" id="cancelModal">
   <div class="cancel-modal-header">
-    <h4>Cancel Booking</h4>
-    <svg class="cancel-modal-icon" xmlns="http://www.w3.org/2000/svg" width="39" height="39" viewBox="0 0 39 39" fill="none">
-      <path d="M19.4991 1.5C22.1241 10.1249 28.8737 16.8748 37.4983 19.5C28.8737 22.1252 22.1241 28.875 19.4991 37.5C16.8741 28.875 10.1245 22.1252 1.5 19.5C10.1245 16.8748 16.8741 10.1249 19.4991 1.5Z" stroke="#FF595B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
-    <div class="cancel-modal-title">Are you sure to cancel your booking?</div>
-    <div class="cancel-modal-subtitle">It will cut %25 of your money.</div>
-    <div class="cancel-modal-text">To know more about canceling policies read here.</div>
+    <h4 data-i18n="cancelBookingTitle">Cancel Booking</h4>
+   
+    <svg class="cancel-modal-icon" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none">
+  <path d="M19.8691 9.27539L19.1891 18.5833C19.0486 20.5088 17.4454 22.0006 15.5135 22.0006H8.85414C6.92337 22.0006 5.31906 20.5088 5.17853 18.5823L4.49854 9.27539" stroke="#FF595B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M21.3673 5.78125H3" stroke="#FF595B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M16.3742 5.77941L15.8153 3.02811C15.6532 2.42162 15.1029 2.00001 14.4759 2.00001H9.8965C9.26624 1.99785 8.71382 2.41947 8.55057 3.02811L7.99707 5.77941" stroke="#FF595B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path opacity="0.4" d="M10.0741 11.7578V16.7675M13.8303 11.7578V16.7675" stroke="#FF595B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+    <div class="cancel-modal-title" data-i18n="cancelBookingConfirm">Are you sure to cancel your booking?</div>
+    <div class="cancel-modal-subtitle" data-i18n="cancelBookingSubtitle">It will cut %25 of your money.</div>
+    <div class="cancel-modal-text" data-i18n="cancelPolicyText">To know more about canceling policies read here.</div>
   </div>
-  <div class="cancel-modal-buttons">
-    <button class="modal-btn modal-btn-no" id="btnNo">No</button>
-    <button class="modal-btn modal-btn-yes" id="btnYes">Yes</button>
+   <div class="cancel-modal-buttons">
+    <button class="modal-btn modal-btn-no" id="btnNo" data-i18n="btnNo">No</button>
+    <button class="modal-btn modal-btn-yes" id="btnYes" data-i18n="btnYes">Yes</button>
   </div>
 </div>
 
 <!-- Notification -->
 <div class="notification" id="notification">
   <div class="notification-text">
-    <strong>Booking Canceled.</strong><br>
-    Booking number 34543534543 for tomorrow of hotel transylvanya canceled.
+    <strong data-i18n="notifCanceledTitle">Booking Canceled.</strong><br>
+    <span data-i18n="notifCanceledBody">Booking number 34543534543 for tomorrow of hotel transylvanya canceled.</span>
   </div>
 </div>
+<script src="cordova.js"></script>
+
     <script src="./js/header.js"></script>
 
 <script>
@@ -1258,24 +1209,28 @@ function moveCardToCanceled(card) {
   
   canceledBookings.push(cardData);
   card.classList.add('removing');
-  
+  showNotification();
+
   setTimeout(() => {
     card.remove();
     updateCanceledTab();
   }, 400);
 }
 
-// Update Canceled Tab content
 function updateCanceledTab() {
   const canceledContent = document.getElementById('canceledContent');
   if (!canceledContent) return;
 
   if (canceledBookings.length === 0) {
     canceledContent.innerHTML = `
-      <div class="section">
-        <div class="section-title">Canceled Bookings</div>
-        <p style="color: #8E8EA8; text-align: center; padding: 40px 0;">No canceled bookings</p>
-      </div>
+      <div class="empty-box">
+  <img src="./img/box.png" alt="No Rooms Found">
+ <h3 data-i18n="noCancelingTitle">No Canceling!</h3>
+<p data-i18n="noCancelingBody">
+  Oh, you have not booked any place. take a rest and have some fun. book a place now!
+</p>
+
+</div>
     `;
     return;
   }
@@ -1321,6 +1276,24 @@ function updateCanceledTab() {
               <div class="sub">${booking.location}</div>
               <div class="meta">${booking.date}</div>
             </div>
+            
+            <div class="booking-actions" style="left: 13%;>
+              <button class="action-icon repeat-icon" data-action="repeat">
+               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <path d="M22 5.62751L19.094 4.95508L18.4248 7.84479" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M19.0593 5.13867C22.7847 8.99269 22.7587 15.1364 18.9652 18.9592C16.5891 21.3536 13.2917 22.2769 10.2053 21.7234" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M2.0293 18.5539L4.95467 19.1377L5.53521 16.2285" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M4.98345 18.9519C1.14347 15.2125 0.983478 9.07087 4.65912 5.13577C6.9618 2.66985 10.2299 1.64823 13.3315 2.10661" stroke="#706DF2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle opacity="0.4" cx="12" cy="12" r="3.22" stroke="#706DF2" stroke-width="1.56"/>
+</svg>
+              </button>
+
+              <button class="action-icon cancel-icon" data-action="delete">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <path d="M4 20L20 4M20 20L4 4" stroke="#FF595B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+            </div>
           </div>
         `;
       });
@@ -1333,6 +1306,7 @@ function updateCanceledTab() {
   
   canceledContent.innerHTML = html;
 }
+
 
 // ==================== TAB SWITCHING ====================
 function switchTab(tabName) {
@@ -1395,83 +1369,74 @@ function handleCardClick(e) {
   const card = e.target.closest('.booking-card');
   if (!card) return;
 
+  const actionBtn = e.target.closest('button.action-icon');
+  const action = actionBtn?.dataset.action;
+
   const isCanceled = card.classList.contains('canceled');
   const isPast = card.closest('#pastContent') && !isCanceled;
-  const isActiveBooking = !isCanceled && !isPast; 
-
+  const isActiveBooking = !isCanceled && !isPast;
   const wasActive = card.classList.contains('active');
-  let modalTriggered = false;
 
-  // 🔥 اگر کارت فعال نیست، به صفحه جزئیات برو
+  /* ================= ICON CLICKS (ABSOLUTE PRIORITY) ================= */
+
+  // ✅ CANCEL → فقط آیکن ضربدر، فقط Active
+  if (action === 'cancel' && isActiveBooking) {
+    currentCardToCancel = card;
+    openModal(); // Cancel Modal
+    e.stopPropagation();
+    return;
+  }
+
+  // ✅ REPEAT → در هر جا
+  if (action === 'repeat') {
+    openPastActionModal(); // Repeat Modal
+    e.stopPropagation();
+    return;
+  }
+
+  // ✅ SHARE → جداسازی Active و Past
+  if (action === 'share') {
+    if (isActiveBooking) {
+      shareActiveBooking(card);  // 👈 از book-details-waiting.html
+    } else if (isPast) {
+      sharePastBooking(card);    // 👈 از book-details-visited.html
+    }
+    e.stopPropagation();
+    return;
+  }
+
+  // ✅ DELETE (Canceled only)
+  if (action === 'delete' && isCanceled) {
+    console.log('Delete canceled booking permanently');
+    e.stopPropagation();
+    return;
+  }
+
+  /* ================= CARD BEHAVIOR ================= */
+
+  // 🔥 اگر کارت active نیست → برو صفحه جزئیات
   if (!wasActive) {
-    const status = card.dataset.status || (isCanceled ? 'canceled' : (isPast ? 'past' : 'active'));
+    const status =
+      card.dataset.status ||
+      (isCanceled ? 'canceled' : isPast ? 'past' : 'active');
+
     redirectToDetails(status);
-    return; // خروج از تابع و جلوگیری از toggle
+    return;
   }
 
-  // Close other active cards in the same group
-  if (isActiveBooking) {
-    document.querySelectorAll('#activeContent .booking-card.active').forEach(c => {
-      if (c !== card) c.classList.remove('active');
-    });
-  } else if (isCanceled) {
-    document.querySelectorAll('#canceledContent .booking-card.canceled.active').forEach(c => {
-      if (c !== card) c.classList.remove('active');
-    });
-  } else if (isPast) {
-    document.querySelectorAll('#pastContent .booking-card.past.active').forEach(c => {
+  // بستن کارت‌های فعال دیگر در همان تب
+  const container = card.closest('.tab-content');
+  if (container) {
+    container.querySelectorAll('.booking-card.active').forEach(c => {
       if (c !== card) c.classList.remove('active');
     });
   }
 
-  // Check for clicks on icons (only when card is active)
- // Check for clicks on icons (only when card is active)
-if (wasActive) {
-  const rect = card.getBoundingClientRect();
-  const clickX = e.clientX - rect.left;
-
-  if (isActiveBooking) {
-    // Active card icons
-    if (clickX > rect.width - 144 && clickX < rect.width - 96) {
-      // 🔥 آیکون Share (اولین آیکون از چپ)
-      shareBookingDetails(card);
-      modalTriggered = true;
-    } else if (clickX > rect.width - 96 && clickX < rect.width - 48) {
-      // آیکون Cancel (دومین آیکون)
-      currentCardToCancel = card;
-      openModal();
-      modalTriggered = true;
-    } else if (clickX > rect.width - 48) {
-      // آیکون Reschedule (سومین آیکون)
-      console.log('Reschedule booking');
-      modalTriggered = true;
-    }
-  } else if (isPast) {
-    // Past card: action modal
-    if (isClickInIconArea(e, card)) {
-      openPastActionModal();
-      modalTriggered = true;
-    }
-  } else if (isCanceled) {
-    // Canceled card icons
-    if (clickX > rect.width - 96 && clickX < rect.width - 48) {
-      // 🔥 آیکون Reschedule
-      console.log('Reschedule canceled booking');
-      modalTriggered = true;
-    } else if (clickX > rect.width - 48) {
-      // 🔥 آیکون Delete
-      console.log('Delete canceled booking permanently');
-      modalTriggered = true;
-    }
-  }
+  // Toggle active
+  card.classList.toggle('active');
 }
 
 
-  // Toggle active state only if no modal was triggered
-  if (!modalTriggered) {
-    card.classList.toggle('active');
-  }
-}
 
 // ==================== EVENT LISTENERS ====================
 // Tab switching
@@ -1544,6 +1509,452 @@ if (btnSharePast) {
 updateCanceledTab();
 
 
+</script>
+<script>
+function updatePastCardBorders() {
+  document.querySelectorAll('#pastContent .booking-card').forEach(card => {
+    if (card.classList.contains('active')) {
+      card.style.border = '4px solid var(--Textbox-Default-Border, #C6C5FA)';
+    } else {
+      card.style.border = '1px solid var(--Textbox-Default-Border, #C6C5FA)';
+    }
+  });
+}
+
+// بعد از هر کلیک
+document.addEventListener('click', () => {
+  updatePastCardBorders();
+});
+
+// بعد از هر swipe
+document.addEventListener('touchend', () => {
+  updatePastCardBorders();
+});
+</script>
+<script>
+/* =========================================================
+   SHARE ACTIVE BOOKING - از book-details-waiting.html
+========================================================= */
+async function shareActiveBooking(card) {
+  let iframe = null;
+  
+  try {
+    console.log('🔵 Sharing ACTIVE booking...');
+    
+    // ایجاد iframe مخفی
+    iframe = document.createElement('iframe');
+    iframe.style.cssText = `
+      position: fixed;
+      top: -9999px;
+      left: -9999px;
+      width: 375px;
+      height: 812px;
+      border: none;
+    `;
+    document.body.appendChild(iframe);
+
+    // بارگذاری صفحه Active
+    iframe.src = 'book-details-waiting.html';
+    
+    await new Promise((resolve, reject) => {
+      iframe.onload = resolve;
+      iframe.onerror = () => reject(new Error('Failed to load iframe'));
+      setTimeout(() => reject(new Error('Timeout loading Active page')), 5000);
+    });
+
+    const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+    const bookingInfoBox = iframeDoc.querySelector('.booking-info-box');
+    
+    if (!bookingInfoBox) {
+      throw new Error('booking-info-box not found in book-details-waiting.html');
+    }
+
+    console.log('✅ Found booking-info-box in Active page');
+
+    // صبر برای لود کامل استایل‌ها و تصاویر
+    await new Promise(resolve => setTimeout(resolve, 500));
+
+    // گرفتن اسکرین‌شات
+    const canvas = await html2canvas(bookingInfoBox, {
+      backgroundColor: '#EFEFFE',
+      scale: 2,
+      useCORS: true,
+      logging: false,
+      allowTaint: true
+    });
+
+    const imageBase64 = canvas.toDataURL('image/jpeg', 0.9);
+
+    // حذف iframe
+    document.body.removeChild(iframe);
+    iframe = null;
+
+    // اشتراک‌گذاری
+    await shareImage(imageBase64, 'Active Booking Details');
+
+  } catch (err) {
+    console.error('❌ Share ACTIVE failed:', err);
+    alert('Failed to share Active booking. Please try again.');
+  } finally {
+    if (iframe?.parentNode) {
+      document.body.removeChild(iframe);
+    }
+  }
+}
+/* =========================================================
+   SHARE PAST BOOKING - از book-details-visited.html
+========================================================= */
+async function sharePastBooking(card) {
+  let iframe = null;
+  
+  try {
+    console.log('🟢 Sharing PAST booking...');
+    
+    // ایجاد iframe مخفی
+    iframe = document.createElement('iframe');
+    iframe.style.cssText = `
+      position: fixed;
+      top: -9999px;
+      left: -9999px;
+      width: 375px;
+      height: 812px;
+      border: none;
+    `;
+    document.body.appendChild(iframe);
+
+    // بارگذاری صفحه Past
+    iframe.src = 'book-details-visited.html';
+    
+    await new Promise((resolve, reject) => {
+      iframe.onload = resolve;
+      iframe.onerror = () => reject(new Error('Failed to load iframe'));
+      setTimeout(() => reject(new Error('Timeout loading Past page')), 5000);
+    });
+
+    const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+    const bookingInfoBox = iframeDoc.querySelector('.booking-info-box');
+    
+    if (!bookingInfoBox) {
+      throw new Error('booking-info-box not found in book-details-visited.html');
+    }
+
+    console.log('✅ Found booking-info-box in Past page');
+
+    // صبر برای لود کامل استایل‌ها و تصاویر
+    await new Promise(resolve => setTimeout(resolve, 500));
+
+    // گرفتن اسکرین‌شات
+    const canvas = await html2canvas(bookingInfoBox, {
+      backgroundColor: '#EFEFFE',
+      scale: 2,
+      useCORS: true,
+      logging: false,
+      allowTaint: true
+    });
+
+    const imageBase64 = canvas.toDataURL('image/jpeg', 0.9);
+
+    // حذف iframe
+    document.body.removeChild(iframe);
+    iframe = null;
+
+    // اشتراک‌گذاری
+    await shareImage(imageBase64, 'Past Booking Details');
+
+  } catch (err) {
+    console.error('❌ Share PAST failed:', err);
+    alert('Failed to share Past booking. Please try again.');
+  } finally {
+    if (iframe?.parentNode) {
+      document.body.removeChild(iframe);
+    }
+  }
+}
+/* =========================================================
+   HELPER: اشتراک‌گذاری تصویر
+========================================================= */
+/* =========================================================
+   HELPER: اشتراک‌گذاری تصویر (بدون Alert)
+========================================================= */
+async function shareImage(imageBase64, title) {
+  try {
+    console.log('🚀 Starting share process...');
+
+    // ✅ روش 1: Cordova Social Sharing Plugin
+    if (window.plugins?.socialsharing) {
+      console.log('📱 Using Cordova Social Sharing Plugin');
+      
+      return new Promise((resolve, reject) => {
+        window.plugins.socialsharing.share(
+          null,           // message
+          title,          // subject
+          imageBase64,    // image (base64)
+          null,           // url
+          () => {
+            console.log('✅ Shared successfully via Cordova');
+            resolve();
+          },
+          (error) => {
+            console.error('❌ Cordova share failed:', error);
+            reject(error);
+          }
+        );
+      });
+    }
+
+    // ✅ روش 2: Web Share API با Blob
+    if (navigator.share) {
+      console.log('🌐 Using Web Share API');
+      
+      try {
+        // تبدیل Base64 به Blob
+        const response = await fetch(imageBase64);
+        const blob = await response.blob();
+        const file = new File([blob], 'booking-details.jpg', { type: 'image/jpeg' });
+        
+        console.log('📦 File created:', file.size, 'bytes');
+
+        // بررسی پشتیبانی از اشتراک‌گذاری فایل
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+          await navigator.share({ 
+            title: title,
+            files: [file] 
+          });
+          console.log('✅ Shared successfully via Web Share API');
+          return;
+        } else {
+          console.warn('⚠️ Web Share API does not support files on this device');
+        }
+      } catch (shareError) {
+        console.error('❌ Web Share API failed:', shareError);
+        // ادامه به Fallback
+      }
+    }
+
+    // ✅ روش 3: Fallback - دانلود بی‌صدا (بدون Alert)
+    console.log('💾 Falling back to download');
+    const link = document.createElement('a');
+    link.href = imageBase64;
+    link.download = `booking-${Date.now()}.jpg`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    
+    console.log('✅ Image downloaded silently');
+    // ❌ حذف alert
+
+  } catch (err) {
+    console.error('❌ All share methods failed:', err);
+    
+    // فقط در صورت خطای کامل، یک پیام ساده نشان بده
+    alert('Unable to share. Please try again.');
+  }
+}
+
+
+</script>
+
+<script>
+  const translations = {
+
+    English: {
+      // ── Error Page (از قبل) ──
+      errorTitle:     "There was an Error!",
+      errorSubtitle1: "The payment process was facing a problem.",
+      errorSubtitle2: "In case any deduction from your account please wait 72 hours, then call your bank to solve the issue.",
+      supportLink:    "Call Support",
+
+      // ── Info Box Labels (از قبل) ──
+      labelDate:       "Date",
+      labelRefCode:    "Ref. Code",
+      labelBank:       "Bank",
+      labelPaidBy:     "Paid By",
+      labelCardNumber: "Card Number",
+      labelVia:        "Via",
+noCancelingTitle: "No Canceling!",
+noCancelingBody:  "Oh, you have not booked any place. take a rest and have some fun. book a place now!",
+      // ── Booking Page Tabs ──
+      tabActive:   "Active",
+      tabPast:     "Past",
+      tabCanceled: "Canceled",
+
+      // ── Section Titles ──
+      thisWeek:  "This Week",
+      nextWeek:  "Next Week",
+      lastWeek:  "Last Week",
+      lastMonth: "Last Month",
+
+      // ── Day Labels ──
+      labelToday:     "Today",
+      labelYesterday: "Yesterday",
+
+      // ── Bottom Nav ──
+      reservation: "Booking",
+
+      // ── Repeat Booking Modal ──
+      repeatBookingTitle:   "Repeat Booking",
+      repeatBookingConfirm: "Are you sure to repeat your booking?",
+      repeatBookingSubtitle:"It will cut %25 of your money.",
+
+      // ── Cancel Modal ──
+      cancelBookingTitle:   "Cancel Booking",
+      cancelBookingConfirm: "Are you sure to cancel your booking?",
+      cancelBookingSubtitle:"It will cut %25 of your money.",
+
+      // ── Shared ──
+      cancelPolicyText: "To know more about canceling policies read here.",
+      btnNo:  "No",
+      btnYes: "Yes",
+
+      // ── Notification ──
+      notifCanceledTitle: "Booking Canceled.",
+      notifCanceledBody:  "Booking number 34543534543 for tomorrow of hotel transylvanya canceled.",
+    },
+
+    Kurdish: {
+      // ── Error Page ──
+      errorTitle:     "هەڵەیەک ڕوویدا!",
+      errorSubtitle1: "پرۆسەی پارەدان کێشەیەکی تێدا هەبوو.",
+      errorSubtitle2: "ئەگەر هیچ بڕێک لە حسابەکەتدا کەمبووەوە، تکایە ٧٢ کاتژمێر چاوەڕێ بکە، پاشان پەیوەندی بە بانکەکەت بکە بۆ چارەسەرکردنی کێشەکە.",
+      supportLink:    "پەیوەندی بکە بە پشتگیری",
+noCancelingTitle: "هیچ هەڵوەشاندنەوەیەک نییە!",
+noCancelingBody:  "ئۆ، هیچ شوێنێکت ڕیزەرڤ نەکردووە. ئارام بە و کێفت خۆش بکە. ئێستا شوێنێک ڕیزەرڤ بکە!",
+      // ── Info Box Labels ──
+      labelDate:       "بەروار",
+      labelRefCode:    "کۆدی مەرجع",
+      labelBank:       "بانک",
+      labelPaidBy:     "پارەدراوە لەلایەن",
+      labelCardNumber: "ژمارەی کارت",
+      labelVia:        "لە ڕێگەی",
+
+      // ── Booking Page Tabs ──
+      tabActive:   "چالاک",
+      tabPast:     "ئێستا",
+      tabCanceled: "هەڵوەشێنراوە",
+
+      // ── Section Titles ──
+      thisWeek:  "ئەم هەفتەیە",
+      nextWeek:  "هەفتەی داهاتوو",
+      lastWeek:  "هەفتەی ڕابردوو",
+      lastMonth: "مانگی ڕابردوو",
+
+      // ── Day Labels ──
+      labelToday:     "ئەمڕۆ",
+      labelYesterday: "دوێنێ",
+
+      // ── Bottom Nav ──
+      reservation: "ڕیزەرڤەیشن",
+
+      // ── Repeat Booking Modal ──
+      repeatBookingTitle:   "دووبارەکردنەوەی ڕیزەرڤ",
+      repeatBookingConfirm: "دڵنیایت دەتەوێ ڕیزەرڤەکەت دووبارە بکەیتەوە؟",
+      repeatBookingSubtitle:"%٢٥ی پارەکەت کەم دەبێتەوە.",
+
+      // ── Cancel Modal ──
+      cancelBookingTitle:   "هەڵوەشاندنەوەی ڕیزەرڤ",
+      cancelBookingConfirm: "دڵنیایت دەتەوێ ڕیزەرڤەکەت هەڵبوەشێنیتەوە؟",
+      cancelBookingSubtitle:"%٢٥ی پارەکەت کەم دەبێتەوە.",
+
+      // ── Shared ──
+      cancelPolicyText: "بۆ زانیاری زیاتر دەربارەی یاسای هەڵوەشاندنەوە ئێرە بخوێنەرەوە.",
+      btnNo:  "نەخێر",
+      btnYes: "بەڵێ",
+
+      // ── Notification ──
+      notifCanceledTitle: "ڕیزەرڤ هەڵوەشاندرایەوە.",
+      notifCanceledBody:  "ڕیزەرڤی ژمارە ٣٤٥٤٣٥٣٤٥٤٣ بۆ سبەی هوتێلی ترانسیلڤانیا هەڵوەشاندرایەوە.",
+    },
+
+    Arabic: {
+      // ── Error Page ──
+      errorTitle:     "حدث خطأ!",
+      errorSubtitle1: "واجهت عملية الدفع مشكلة.",
+      errorSubtitle2: "في حال تم خصم أي مبلغ من حسابك، يرجى الانتظار 72 ساعة، ثم الاتصال بمصرفك لحل المشكلة.",
+      supportLink:    "اتصل بالدعم",
+noCancelingTitle: "لا إلغاءات!",
+noCancelingBody:  "أوه، لم تحجز أي مكان بعد. خذ قسطاً من الراحة واستمتع. احجز مكاناً الآن!",
+      // ── Info Box Labels ──
+      labelDate:       "التاريخ",
+      labelRefCode:    "رمز المرجع",
+      labelBank:       "البنك",
+      labelPaidBy:     "الدفع بواسطة",
+      labelCardNumber: "رقم البطاقة",
+      labelVia:        "عبر",
+
+      // ── Booking Page Tabs ──
+      tabActive:   "نشط",
+      tabPast:     "السابق",
+      tabCanceled: "ملغى",
+
+      // ── Section Titles ──
+      thisWeek:  "هذا الأسبوع",
+      nextWeek:  "الأسبوع القادم",
+      lastWeek:  "الأسبوع الماضي",
+      lastMonth: "الشهر الماضي",
+
+      // ── Day Labels ──
+      labelToday:     "اليوم",
+      labelYesterday: "أمس",
+
+      // ── Bottom Nav ──
+      reservation: "الحجز",
+
+      // ── Repeat Booking Modal ──
+      repeatBookingTitle:   "تكرار الحجز",
+      repeatBookingConfirm: "هل أنت متأكد من رغبتك في تكرار حجزك؟",
+      repeatBookingSubtitle:"سيتم خصم ٢٥٪ من أموالك.",
+
+      // ── Cancel Modal ──
+      cancelBookingTitle:   "إلغاء الحجز",
+      cancelBookingConfirm: "هل أنت متأكد من رغبتك في إلغاء حجزك؟",
+      cancelBookingSubtitle:"سيتم خصم ٢٥٪ من أموالك.",
+
+      // ── Shared ──
+      cancelPolicyText: "لمعرفة المزيد حول سياسات الإلغاء اقرأ هنا.",
+      btnNo:  "لا",
+      btnYes: "نعم",
+
+      // ── Notification ──
+      notifCanceledTitle: "تم إلغاء الحجز.",
+      notifCanceledBody:  "تم إلغاء الحجز رقم 34543534543 ليوم غد في فندق ترانسيلفانيا.",
+    },
+  };
+
+  function isInsideNoTranslate(el) {
+    return el.closest('.booking-card, .city-input, .city-options, .listing-card, .hotel-card, .fara-item-box');
+  }
+
+  function changeLanguage(lang) {
+    const t = translations[lang];
+    if (!t) {
+      console.error('Language not found:', lang);
+      return;
+    }
+
+    // ترجمه textContent
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      if (isInsideNoTranslate(el)) return;
+      const key = el.getAttribute('data-i18n');
+      if (t[key]) el.innerHTML = t[key];
+    });
+
+    // ترجمه placeholder
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+      if (isInsideNoTranslate(el)) return;
+      const key = el.getAttribute('data-i18n-placeholder');
+      if (t[key]) el.setAttribute('placeholder', t[key]);
+    });
+
+    // RTL/LTR
+ 
+
+    localStorage.setItem('selectedLanguage', lang);
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const savedLang = localStorage.getItem('selectedLanguage') || 'English';
+    changeLanguage(savedLang);
+  });
 </script>
 
 </body>

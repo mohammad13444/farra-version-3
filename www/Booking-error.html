@@ -470,10 +470,15 @@ line-height: var(--Font-Copy-Body-Lg-Line-Heigth, 24px); /* 120% */
   </div>
 
 
-  <div class="title">There was an Error!</div>
+  <div class="title" data-i18n="errorTitle">There was an Error!</div>
   <div class="subtitle">
-    <p style="padding-bottom: 10px;">The payment process was facing a problem.</p>
-    <p>in case any deduction from your account please wait 72 hours, then call your bank to solve the issue.</p>
+    <p style="padding-bottom: 10px;" data-i18n="errorSubtitle1">
+      The payment process was facing a problem.
+    </p>
+    <p data-i18n="errorSubtitle2">
+      in case any deduction from your account please wait 72 hours,
+      then call your bank to solve the issue.
+    </p>
   </div>
 
   <!-- Gradient Card -->
@@ -501,15 +506,15 @@ line-height: var(--Font-Copy-Body-Lg-Line-Heigth, 24px); /* 120% */
   <path opacity="0.4" d="M7.87158 17.0629H7.88058" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
   <path d="M16.2832 2V5.262" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
   <path d="M8.2749 2V5.262" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>    <div class="label" style="margin-left: 0px;">Date</div>
+</svg>    <div class="label" style="margin-left: 0px;"  data-i18n="labelDate">Date</div>
       <div class="value" style="margin-left:15px;">Thursday 24/05/2025</div>
     </div>
     <div class="row">
-      <div class="label" style="margin-left:31px;">Ref. Code</div>
+      <div class="label" style="margin-left:31px;" data-i18n="labelRefCode">Ref. Code</div>
       <div class="value" style="margin-left:20px;">2560521456</div>
     </div>
     <div class="row">
-      <div class="label" style="margin-left:31px;">Bank</div>
+      <div class="label" style="margin-left:31px;" data-i18n="labelBank">Bank</div>
       <div class="value">
           
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -528,25 +533,82 @@ line-height: var(--Font-Copy-Body-Lg-Line-Heigth, 24px); /* 120% */
   <path d="M6.3496 15.6122H9.31281" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
   <path d="M6.3496 15.6122H9.31281" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
   <path opacity="0.4" d="M19.9664 5.66722V11.6045M19.9664 5.66722L17.9352 7.70827M19.9664 5.66722L22 7.70827" stroke="#45454D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>    <div class="label" style="margin-left: 0px;">Paid By</div>
+</svg>    <div class="label" style="margin-left: 0px;" data-i18n="labelPaidBy">Paid By</div>
       <div class="value">Muhammed Bagher</div>
     </div>
     <div class="row">
-      <div class="label">Card Number</div>
+      <div class="label" data-i18n="labelCardNumber">Card Number</div>
       <div class="value">2156 **** 2334</div>
     </div>
     <div class="row">
-      <div class="label">Via</div>
+      <div class="label" data-i18n="labelVia">Via</div>
       <div class="value">FIB Gateway</div>
     </div>
 
    
 
-    <div class="share">Call Support</div>
+    <div class="share" data-i18n="supportLink">Call Support</div>
   </div>
 
   <!-- Support -->
- 
+ <script>
+  const translations = {
+    // ── کلیدهای جدید مخصوص Error Page ──
+
+English: {
+  // ... کلیدهای قبلی ...
+  errorTitle:    "There was an Error!",
+  errorSubtitle1:"The payment process was facing a problem.",
+  errorSubtitle2:"In case any deduction from your account please wait 72 hours, then call your bank to solve the issue.",
+  supportLink:   "Call Support",
+},
+
+Kurdish: {
+  // ... کلیدهای قبلی ...
+  errorTitle:    "هەڵەیەک ڕوویدا!",
+  errorSubtitle1:"پرۆسەی پارەدان کێشەیەکی تێدا هەبوو.",
+  errorSubtitle2:"ئەگەر هیچ بڕێک لە حسابەکەتدا کەمبووەوە، تکایە ٧٢ کاتژمێر چاوەڕێ بکە، پاشان پەیوەندی بە بانکەکەت بکە بۆ چارەسەرکردنی کێشەکە.",
+  supportLink:   "پەیوەندی بکە بە پشتگیری",
+},
+
+Arabic: {
+  // ... کلیدهای قبلی ...
+  errorTitle:    "حدث خطأ!",
+  errorSubtitle1:"واجهت عملية الدفع مشكلة.",
+  errorSubtitle2:"في حال تم خصم أي مبلغ من حسابك، يرجى الانتظار 72 ساعة، ثم الاتصال بمصرفك لحل المشكلة.",
+  supportLink:   "اتصل بالدعم",
+},
+};
+function changeLanguage(lang) {
+    const t = translations[lang];
+    
+    if (!t) {
+      console.error('Language not found:', lang);
+      return;
+    }
+
+    // ترجمه تمام المان‌هایی که data-i18n دارند (متون ثابت)
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if (t[key]) {
+        el.innerHTML = t[key];
+      }
+    });
+    
+    // **اضافه شدن:** تنظیم جهت صفحه (RTL/LTR)
+
+
+    // ذخیره زبان انتخاب‌شده
+    localStorage.setItem('selectedLanguage', lang);
+  }
+
+  // بارگذاری زبان ذخیره‌شده د ابتدای صفحه
+  document.addEventListener('DOMContentLoaded', () => {
+    // اگر زبان ذخیره‌شده‌ای وجود داشت، آن را اعمال کند. در غیر این صورت، انگلیسی را پیش‌فرض می‌گیرد.
+    const savedLang = localStorage.getItem('selectedLanguage') || 'English';
+    changeLanguage(savedLang);
+  });
+ </script>
 
 </div>
 </body>
