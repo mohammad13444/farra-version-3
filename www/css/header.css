@@ -21,8 +21,8 @@
    بخش ۲: Headers Fixed (هدر ثابت بالای صفحه)
    ═══════════════════════════════════════════════════════ */
 .headers-fixed {
-    position: fixed;
-    top: 0;
+    position: sticky;
+  top: 0;
     left: 0;
     right: 0;
     z-index: 100000;
